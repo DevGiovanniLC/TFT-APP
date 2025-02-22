@@ -1,7 +1,7 @@
 type Weight = {
   date: Date;
-  amount: number;
-  units: WeightUnits;
+  weight: number;
+  weight_units: WeightUnits;
 }
 
 enum WeightUnits {

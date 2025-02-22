@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonItem, IonLabel } from '@ionic/angular/standalone';
+import { AfterViewInit, ChangeDetectorRef, Component, effect, signal, WritableSignal } from '@angular/core';
+import { IonItem, IonLabel,IonButton } from '@ionic/angular/standalone';
 import Weight from 'src/models/Weight';
 import { WeightTrackerService } from 'src/services/WeightTracker.service';
 
@@ -7,18 +7,27 @@ import { WeightTrackerService } from 'src/services/WeightTracker.service';
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [IonItem, IonLabel],
+  imports: [IonButton],
 })
-export class Tab1Page {
+export class Tab1Page implements AfterViewInit {
 
-  weights: Weight[] = [];
+  weights: WritableSignal<Weight[]> = signal<Weight[]>([]);
 
-  constructor(private weightTrackerService: WeightTrackerService) {
-    this.getWeights();
+  constructor(private weightTrackerService: WeightTrackerService, private cdr: ChangeDetectorRef) {
+    effect(() => {
+      if (this.weightTrackerService.isAvailable()) {
+        this.getWeights();
+        this.cdr.detectChanges();
+      }
+    })
   }
 
-  async getWeights(){
-    this.weights =await this.weightTrackerService.getWeights();
+  ngAfterViewInit(): void {
+
+  }
+
+  async getWeights() {
+    this.weights.set(await this.weightTrackerService.getWeights());
   }
 
 

@@ -9,13 +9,12 @@ import { SplashScreen } from '@capacitor/splash-screen';
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
-  constructor(private db: DataProviderService) {
+  constructor(private dataProvider: DataProviderService) {
     this.initApp();
-    console.log("AppComponent");
   }
 
   async initApp() {
-    await this.db.initialize();
+    await this.dataProvider.initialize();
     SplashScreen.hide();
   }
 }

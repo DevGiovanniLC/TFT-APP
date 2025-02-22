@@ -1,28 +1,37 @@
-import { Injectable } from '@angular/core';
-import { DBConnection } from 'src/models/DBConnection';
+import { Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import { DataProvider } from 'src/interfaces/DataProvider';
+import  DBConnection from 'src/services/DBConnection';
+import JSONProvider from './JSONProvider';
 
 @Injectable({
   providedIn: 'root'
 })
 
-
 export class DataProviderService {
+  connectionStatus = signal(false);
 
-  private db: DataProvider;
+  private dataProvider!: DataProvider;
 
 
   constructor() {
-    this.db = new DBConnection();
+
   }
 
   async initialize() {
-    await this.db.initializeConnection();
+    //this.dataProvider = new DBConnection();
+    this.dataProvider = new JSONProvider();
+    await this.dataProvider.initializeConnection();
+    this.connectionStatus.set(true);
   }
 
   async getWeights(): Promise<any> {
-    return await this.db.getWeights();
+    return await this.dataProvider.getWeights();
   }
+
+  isConnected(): boolean {
+    return this.connectionStatus();
+  }
+
 
 
 }

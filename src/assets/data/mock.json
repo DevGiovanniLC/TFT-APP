@@ -1,0 +1,29 @@
+{
+  "weights": [
+    {
+      "date": "2022-01-01",
+      "weight": 100,
+      "weight_units": "kg"
+    },
+    {
+      "date": "2022-01-02",
+      "weight": 100,
+      "weight_units": "kg"
+    },
+    {
+      "date": "2022-01-03",
+      "weight": 100,
+      "weight_units": "kg"
+    },
+    {
+      "date": "2022-01-04",
+      "weight": 100,
+      "weight_units": "kg"
+    },
+    {
+      "date": "2022-01-05",
+      "weight": 100,
+      "weight_units": "kg"
+    }
+  ]
+}

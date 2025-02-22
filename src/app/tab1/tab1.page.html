@@ -1,8 +1,11 @@
-@for (item of this.weights; track item.date) {
-    <ion-item>
-        <ion-label>
-            <h2>{{item.amount}}</h2>
-            <p>{{item.units}}</p>
-        </ion-label>
-    </ion-item>
-}
+<div class="bg-black">
+  @for (item of this.weights(); track item.date) {
+    <li class="text-white">{{item.date}}, weight: {{item.weight}}, units: {{item.weight_units}}</li>
+  }@empty {
+    <li class="text-white">There are no items.</li>
+  }
+
+  <ion-button expand="block" color="primary" (click)="getWeights()">
+      Refresh
+  </ion-button>
+</div>

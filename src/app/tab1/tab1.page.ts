@@ -1,12 +1,25 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+import { IonItem, IonLabel } from '@ionic/angular/standalone';
+import Weight from 'src/models/Weight';
+import { WeightTrackerService } from 'src/services/WeightTracker.service';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent],
+  imports: [IonItem, IonLabel],
 })
 export class Tab1Page {
-  constructor() {}
+
+  weights: Weight[] = [];
+
+  constructor(private weightTrackerService: WeightTrackerService) {
+    this.getWeights();
+  }
+
+  async getWeights(){
+    this.weights =await this.weightTrackerService.getWeights();
+  }
+
+
 }

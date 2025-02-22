@@ -39,3 +39,19 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 /*@import '@ionic/angular/css/palettes/dark.system.css';*/
+
+:root{
+  --color-primary: #F8F9FA;
+  --color-secondary: #1E8260;
+  --color-tertiary:  #00BD7E;
+  --color-accent: #343A40;
+}
+
+html{
+  --ion-background-color: var(--color-primary);
+  --ion-text-color: var(--color-accent);
+  --ion-tab-bar-color: var(--color-accent);
+  --ion-tab-bar-color-selected: var(--color-secondary);
+  --ion-tab-bar-background-color: var(--color-tertiary);
+}
+

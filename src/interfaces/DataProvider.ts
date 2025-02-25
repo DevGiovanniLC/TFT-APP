@@ -1,6 +1,4 @@
-
-
 export interface DataProvider {
-  getWeights(): Promise<any>;
-  initializeConnection(): Promise<any>;
+    getWeights(): Promise<any>;
+    initializeConnection(): Promise<any>;
 }

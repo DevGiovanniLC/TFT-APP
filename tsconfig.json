@@ -5,7 +5,10 @@
     "paths": {
       "@core/*": ["src/app/core/*"],
       "@shared/*": ["src/app/shared/*"],
-      "@models/*": ["src/app/models/*"]
+      "@models/*": ["src/models/*"],
+      "@services/*": ["src/services/*"],
+      "@pages/*": ["src/app/pages/*"],
+      "@components/*": ["src/app/components/*"],
     },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",

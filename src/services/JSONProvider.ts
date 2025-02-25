@@ -1,18 +1,18 @@
-import { DataProvider } from "src/interfaces/DataProvider";
+import { DataProvider } from 'src/interfaces/DataProvider';
 import data from 'src/assets/data/mock.json';
 
 export default class JSONProvider implements DataProvider {
-  private data: any;
+    private data: any;
 
-  constructor() {
-    this.data = data;
-  }
+    constructor() {
+        this.data = data;
+    }
 
-  async getWeights(): Promise<any> {
-    return this.data.weights;
-  }
+    async getWeights(): Promise<any> {
+        return this.data.weights;
+    }
 
-  async initializeConnection() {
-    return true;
-  }
+    async initializeConnection() {
+        return true;
+    }
 }

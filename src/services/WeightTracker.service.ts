@@ -3,24 +3,21 @@ import Weight from 'src/models/Weight';
 import { DataProviderService } from './DataProvider.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
-
 export class WeightTrackerService {
+    private weights: Weight[] = [];
 
-  private weights: Weight[] = [];
+    constructor(private dataProvider: DataProviderService) {}
 
-  constructor(private dataProvider: DataProviderService) {}
-
-  async getWeights(): Promise<Weight[]> {
-    if (this.weights.length === 0) {
-      this.weights = await this.dataProvider.getWeights();
+    async getWeights(): Promise<Weight[]> {
+        if (this.weights.length === 0) {
+            this.weights = await this.dataProvider.getWeights();
+        }
+        return this.weights;
     }
-    return this.weights;
-  }
 
-  isAvailable(): boolean {
-    return this.dataProvider.isConnected()
-  }
-
+    isAvailable(): boolean {
+        return this.dataProvider.isConnected();
+    }
 }

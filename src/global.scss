@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
@@ -13,21 +14,20 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
-@import "@ionic/angular/css/core.css";
+@import '@ionic/angular/css/core.css';
 
 /* Basic CSS for apps built with Ionic */
-@import "@ionic/angular/css/normalize.css";
-@import "@ionic/angular/css/structure.css";
-@import "@ionic/angular/css/typography.css";
-@import "@ionic/angular/css/display.css";
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/display.css';
 
 /* Optional CSS utils that can be commented out */
-@import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
-@import "@ionic/angular/css/text-alignment.css";
-@import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
-
+@import '@ionic/angular/css/padding.css';
+@import '@ionic/angular/css/float-elements.css';
+@import '@ionic/angular/css/text-alignment.css';
+@import '@ionic/angular/css/text-transformation.css';
+@import '@ionic/angular/css/flex-utils.css';
 
 /**
  * Ionic Dark Mode
@@ -40,18 +40,17 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 /*@import '@ionic/angular/css/palettes/dark.system.css';*/
 
-:root{
-  --color-primary: #F8F9FA;
-  --color-secondary: #1E8260;
-  --color-tertiary:  #00BD7E;
-  --color-accent: #343A40;
+:root {
+    --color-primary: #f8f9fa;
+    --color-secondary: #1e8260;
+    --color-tertiary: #00bd7e;
+    --color-accent: #343a40;
 }
 
-html{
-  --ion-background-color: var(--color-primary);
-  --ion-text-color: var(--color-accent);
-  --ion-tab-bar-color: var(--color-accent);
-  --ion-tab-bar-color-selected: var(--color-secondary);
-  --ion-tab-bar-background-color: var(--color-tertiary);
+html {
+    --ion-background-color: var(--color-primary);
+    --ion-text-color: var(--color-accent);
+    --ion-tab-bar-color: var(--color-accent);
+    --ion-tab-bar-color-selected: var(--color-secondary);
+    --ion-tab-bar-background-color: var(--color-tertiary);
 }
-

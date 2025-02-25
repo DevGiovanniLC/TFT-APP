@@ -1,11 +1,7 @@
 export class User {
+    private constructor() {}
 
-  private constructor() {
-
-  }
-
-  static load(): User {
-    return new User();
-  }
-
+    static load(): User {
+        return new User();
+    }
 }

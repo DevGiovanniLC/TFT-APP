@@ -7,22 +7,22 @@
         },
         {
             "date": "2022-01-02",
-            "weight": 100,
+            "weight": 100.2,
             "weight_units": "kg"
         },
         {
             "date": "2022-01-03",
-            "weight": 100,
+            "weight": 99,
             "weight_units": "kg"
         },
         {
             "date": "2022-01-04",
-            "weight": 100,
+            "weight": 98.5,
             "weight_units": "kg"
         },
         {
             "date": "2022-01-05",
-            "weight": 100,
+            "weight": 95,
             "weight_units": "kg"
         }
     ]

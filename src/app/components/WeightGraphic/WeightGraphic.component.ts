@@ -1,44 +1,43 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, effect, Input, OnInit, Signal } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import 'chartjs-adapter-date-fns';
-import { tick } from '@angular/core/testing';
-import { max, min } from 'rxjs';
+import Weight from '@models/Weight';
+import { grid } from 'ionicons/icons';
 
 @Component({
     selector: 'app-weight-graphic',
     imports: [ChartModule],
     templateUrl: './WeightGraphic.component.html',
 })
-export class WeightGraphic implements OnInit {
+export class WeightGraphic {
+    @Input({ required: true }) weights!: Signal<Weight[]>
+
     data: any;
     options: any;
 
     constructor() {
-        this.configureGraphic();
+        effect(() => {
+            this.data = this.configureDataGraphic(this.weights());
+            this.options = this.configureOptionGraphic(this.data.datasets[0].data);
+        })
     }
 
-    ngOnInit(): void {}
-
-    configureGraphic() {
-        this.data = {
-            labels: [
-                '2025-02-01',
-                '2025-02-05',
-                '2025-02-10',
-                '2025-02-15',
-                '2025-02-20',
-            ],
+    private configureDataGraphic(weights: Weight[]) {
+        return {
+            labels: weights.map((w) => w.date),
             datasets: [
                 {
                     label: 'Weight (kg)',
-                    data: [70, 69.5, 69, 68.8, 68.5],
+                    data: weights.map((w) => w.weight),
                     fill: false,
                     borderColor: '#00BD7E',
                     tension: 0.4,
                 },
             ],
         };
-        const pesos = this.data.datasets[0].data;
+    }
+
+    private configureOptionGraphic(pesos: number[]) {
         const minPeso = Math.min(...pesos);
         const maxPeso = Math.max(...pesos);
 
@@ -46,8 +45,7 @@ export class WeightGraphic implements OnInit {
         const rango = maxPeso - minPeso;
         const margen = rango * 0.2 || 1; // Si el rango es 0, se asigna un margen mínimo
 
-        // Configurar las opciones del gráfico
-        this.options = {
+        return {
             responsive: true,
             maintainAspectRatio: true,
             pointBackgroundColor: '#00BD7E',
@@ -81,14 +79,11 @@ export class WeightGraphic implements OnInit {
                     // Se establece el rango "acercado" usando el mínimo y máximo con margen
                     min: minPeso - margen,
                     max: maxPeso + margen,
-                    ticks: {
-                        // Se puede ajustar el stepSize o dejar que Chart.js lo calcule automáticamente
-                        // stepSize: ((maxPeso + margen) - (minPeso - margen)) / 10
-                    },
                     title: {
                         display: false,
                         text: 'Weight (kg)',
                     },
+                    grid: {}
                 },
             },
         };

@@ -1,10 +1,5 @@
-import {
-    ChangeDetectorRef,
-    Component,
-    effect,
-    signal,
-    WritableSignal,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, effect, signal, WritableSignal } from '@angular/core';
+
 import { IonButton } from '@ionic/angular/standalone';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import Weight from '@models/Weight';
@@ -19,14 +14,10 @@ import { WeightGraphic } from '@components/WeightGraphic/WeightGraphic.component
 export class Tab1Page {
     weights: WritableSignal<Weight[]> = signal<Weight[]>([]);
 
-    constructor(
-        private weightTrackerService: WeightTrackerService,
-        private cdr: ChangeDetectorRef
-    ) {
+    constructor(private weightTrackerService: WeightTrackerService) {
         effect(() => {
             if (this.weightTrackerService.isAvailable()) {
                 this.getWeights();
-                this.cdr.detectChanges();
             }
         });
     }

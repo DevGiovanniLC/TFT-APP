@@ -14,7 +14,7 @@ export default class DBConnection implements DataProvider {
         readonly: false,
     };
 
-    constructor() { }
+    constructor() {}
 
     async initializeConnection(callback?: Function) {
         await this.checkJeep();

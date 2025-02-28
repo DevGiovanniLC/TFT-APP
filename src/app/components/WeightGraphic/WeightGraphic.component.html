@@ -1,3 +1,4 @@
 <div class="w-full">
-    <p-chart type="line" [data]="data" [options]="options"></p-chart>
+    <p-chart type="line" [data]="data()" [options]="options()"></p-chart>
 </div>
+<ion-button class="w-full" (click)="toggleViewGoal()">{{ text[viewGoal() ? 'hideGoal' : 'viewGoal'] }}</ion-button>

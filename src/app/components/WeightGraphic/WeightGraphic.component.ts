@@ -1,25 +1,42 @@
-import { AfterViewInit, Component, effect, Input, OnInit, Signal } from '@angular/core';
-import { ChartModule } from 'primeng/chart';
 import 'chartjs-adapter-date-fns';
+import { Component, effect, Signal, input, signal } from '@angular/core';
+import { ChartModule } from 'primeng/chart';
 import Weight from '@models/Weight';
-import { grid } from 'ionicons/icons';
+import annotationPlugin from 'chartjs-plugin-annotation';
+import { Chart } from 'chart.js';
+import { IonButton } from '@ionic/angular/standalone';
 
 @Component({
     selector: 'app-weight-graphic',
-    imports: [ChartModule],
+    imports: [ChartModule, IonButton],
     templateUrl: './WeightGraphic.component.html',
 })
 export class WeightGraphic {
-    @Input({ required: true }) weights!: Signal<Weight[]>
+    readonly weights = input.required<Signal<Weight[]>>();
+    annotationPlugin = annotationPlugin;
+    chartJs = Chart;
+    data = signal({});
+    options = signal({});
+    viewGoal = signal(true);
 
-    data: any;
-    options: any;
+    text = {
+        viewGoal: 'View Goal',
+        hideGoal: 'Only Tracked Progress',
+    };
 
     constructor() {
         effect(() => {
-            this.data = this.configureDataGraphic(this.weights());
-            this.options = this.configureOptionGraphic(this.data.datasets[0].data);
-        })
+            this.options.set(this.configureOptionGraphic(this.viewGoal(), this.weights()()));
+            this.data.set(this.configureDataGraphic(this.weights()()));
+        });
+    }
+
+    ngOnInit() {
+        this.chartJs.register(annotationPlugin);
+    }
+
+    toggleViewGoal() {
+        this.viewGoal.update((value) => !value);
     }
 
     private configureDataGraphic(weights: Weight[]) {
@@ -37,19 +54,71 @@ export class WeightGraphic {
         };
     }
 
-    private configureOptionGraphic(pesos: number[]) {
-        const minPeso = Math.min(...pesos);
-        const maxPeso = Math.max(...pesos);
+    private configurationAnnotationPlugin(viewGoal: boolean, goal: number, goalDate: Date): any {
+        return {
+            goalLabel: {
+                type: 'label',
+                yValue: goal + 2,
+                xValue: viewGoal ? goalDate : NaN,
+                content: ['Goal'],
+                padding: 0,
+                color: '#343A40',
+                font: {
+                    size: 11,
+                },
+            },
+            goalLine: {
+                type: 'line',
+                yMin: goal,
+                yMax: goal,
+                borderColor: '#343A40',
+                borderWidth: 2,
+                borderDash: [5, 5],
+            },
+            goalPoint: {
+                type: 'point',
+                xValue: goalDate,
+                yValue: goal,
+                backgroundColor: '#1E8260',
+                radius: 3,
+                borderWidth: 2,
+                borderColor: '#00BD7E',
+            },
+        };
+    }
 
-        // Calcular un margen (por ejemplo, 20% del rango) para dar un efecto "zoom"
-        const rango = maxPeso - minPeso;
-        const margen = rango * 0.2 || 1; // Si el rango es 0, se asigna un margen mínimo
+    private configureOptionGraphic(
+        viewGoal: boolean,
+        dataWeights: Weight[],
+        goal: number = 80,
+        goalDate: Date = new Date('2025-012-01')
+    ) {
+        if (dataWeights.length === 0 || isNaN(goalDate.getTime())) return [];
+
+        const minWeight = Math.min(...dataWeights.map((w) => w.weight));
+        const maxWeight = Math.max(...dataWeights.map((w) => w.weight));
+        const MaxRangeY = maxWeight - Math.min(minWeight, goal);
+        const marginY = MaxRangeY * 0.2 || 1; // Si el rango es 0, se asigna un margen mínimo
+
+        const validDates = dataWeights.map((w) => new Date(w.date));
+        const maxDate = Math.max(...validDates.map((w) => w.getTime()));
+        const minDate = Math.min(...validDates.map((w) => w.getTime()));
+        const rangeX = new Date(Math.max(maxDate, goalDate.getTime()));
+        let goalDateRange;
+        if (viewGoal) {
+            goalDateRange = new Date(rangeX.getTime() + 15 * 24 * 60 * 60 * 1000); // Sumar 15 días para que haya un padding en la gráfica
+        } else {
+            goalDateRange = new Date(maxDate + 15 * 24 * 60 * 60 * 1000); // Sumar 15 días para que haya un padding en la gráfica
+        }
 
         return {
             responsive: true,
             maintainAspectRatio: true,
             pointBackgroundColor: '#00BD7E',
             plugins: {
+                annotation: {
+                    annotations: this.configurationAnnotationPlugin(viewGoal, goal, goalDate),
+                },
                 legend: {
                     display: false,
                     onClick: () => {},
@@ -63,9 +132,10 @@ export class WeightGraphic {
             scales: {
                 x: {
                     type: 'time', // Eje de tiempo para las fechas
+                    min: minDate,
+                    max: goalDateRange, // Fecha máxima (ajústala según tu dataset)
                     time: {
                         unit: 'day',
-                        tooltipFormat: 'MMM dd, yyyy',
                         displayFormats: {
                             day: 'MMM dd',
                         },
@@ -74,16 +144,21 @@ export class WeightGraphic {
                         display: false,
                         text: 'Date',
                     },
+                    ticks: {
+                        color: '#343a40',
+                    },
                 },
                 y: {
-                    // Se establece el rango "acercado" usando el mínimo y máximo con margen
-                    min: minPeso - margen,
-                    max: maxPeso + margen,
+                    // Se establece el rango "acercado" usando el mínimo y máximo en base a la meta con margen y redondeo al entero mayor
+                    min: Math.ceil(Math.min(minWeight, goal) - marginY),
+                    max: Math.ceil(Math.max(maxWeight, goal) + marginY),
                     title: {
                         display: false,
                         text: 'Weight (kg)',
                     },
-                    grid: {}
+                    ticks: {
+                        color: '#343a40',
+                    },
                 },
             },
         };

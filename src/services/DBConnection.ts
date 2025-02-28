@@ -1,9 +1,5 @@
 import { DataProvider } from 'src/interfaces/DataProvider';
-import {
-    CapacitorSQLite,
-    SQLiteConnection,
-    SQLiteDBConnection,
-} from '@capacitor-community/sqlite';
+import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
 import { environment } from 'src/environments/environment';
 
 export default class DBConnection implements DataProvider {
@@ -18,7 +14,7 @@ export default class DBConnection implements DataProvider {
         readonly: false,
     };
 
-    constructor() {}
+    constructor() { }
 
     async initializeConnection(callback?: Function) {
         await this.checkJeep();
@@ -54,13 +50,13 @@ export default class DBConnection implements DataProvider {
 
     private async setBDStructure() {
         const schema = `
-      DROP TABLE IF EXISTS registers;
+        DROP TABLE IF EXISTS registers;
 
-      CREATE TABLE IF NOT EXISTS registers (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      date TEXT,
-      weight REAL,
-      weight_units TEXT
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        CREATE TABLE IF NOT EXISTS registers (
+        date TEXT,
+        weight REAL,
+        weight_units TEXT
     );`;
 
         return await this.db.execute(schema);
@@ -69,8 +65,8 @@ export default class DBConnection implements DataProvider {
     private async addDataExamples() {
         return await this.db.query(
             `
-      INSERT INTO registers (date, weight, weight_units) VALUES
-      (?, ?, ?), (?, ?, ?), (?, ?, ?), (?, ?, ?), (?, ?, ?);
+        INSERT INTO registers (date, weight, weight_units) VALUES
+        (?, ?, ?), (?, ?, ?), (?, ?, ?), (?, ?, ?), (?, ?, ?);
     `,
             [
                 '2022-01-01',

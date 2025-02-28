@@ -1,6 +1,6 @@
 import { DataProvider } from 'src/interfaces/DataProvider';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/envs/environment';
 
 export default class DBConnection implements DataProvider {
     private sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite);
@@ -35,7 +35,7 @@ export default class DBConnection implements DataProvider {
     }
 
     async getWeights(): Promise<any> {
-        const registers = await this.db.query('SELECT * FROM registers');
+        const registers = await this.db.query('SELECT * FROM registers ORDER BY date ASC');
         return registers.values;
     }
 

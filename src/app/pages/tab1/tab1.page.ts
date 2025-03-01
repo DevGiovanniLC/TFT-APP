@@ -4,11 +4,12 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 import {Weight} from '@models/Weight';
 import { WeightGraphic } from '@components/WeightGraphic/WeightGraphic.component';
 import { WeightUnits } from '@models/Weight';
+import { WeightDisplay } from '@components/WeightDisplay/WeightDisplay.component';
 
 @Component({
     selector: 'app-tab1',
     templateUrl: 'tab1.page.html',
-    imports: [WeightGraphic],
+    imports: [WeightGraphic, WeightDisplay],
 })
 export class Tab1Page {
     weights: WritableSignal<Weight[]> = signal<Weight[]>([]);

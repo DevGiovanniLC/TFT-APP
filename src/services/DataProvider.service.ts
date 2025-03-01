@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { DataProvider } from 'src/interfaces/DataProvider';
 import DBConnection from '@services/data-providers/DBConnection';
-import JSONProvider from './data-providers/JSONProvider';
+import JSONProvider from './JSONProvider';
 
 @Injectable({
     providedIn: 'root',

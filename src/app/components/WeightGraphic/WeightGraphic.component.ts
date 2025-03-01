@@ -8,7 +8,7 @@ import { IonButton } from '@ionic/angular/standalone';
 
 @Component({
     selector: 'app-weight-graphic',
-    imports: [ChartModule, IonButton],
+    imports: [ChartModule],
     templateUrl: './WeightGraphic.component.html',
 })
 export class WeightGraphic {
@@ -121,13 +121,9 @@ export class WeightGraphic {
                     annotations: this.configurationAnnotationPlugin(viewGoal, goal, goalDate),
                 },
                 legend: {
-                    display: false,
+                    display: true,
                     onClick: () => {},
                     position: 'top',
-                },
-                title: {
-                    display: false,
-                    text: 'Evolución del Peso (Vista Ampliada)',
                 },
             },
             scales: {
@@ -155,7 +151,7 @@ export class WeightGraphic {
                     min: Math.ceil(Math.min(minWeight, goal) - marginY),
                     max: Math.ceil(Math.max(maxWeight, goal) + marginY),
                     title: {
-                        display: true,
+                        display: false,
                         text: 'Weights (kg)',
                     },
                     ticks: {

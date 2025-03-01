@@ -1,9 +1,3 @@
-<body>
-    @for (item of this.weights(); track item.date) {
-    <li>{{item.date}}, weight: {{item.weight}}, units: {{item.weight_units}}</li>
-    }@empty {
-    <li>There are no items.</li>
-    }
-    <ion-button color="primary" (click)="getWeights()"> Refresh </ion-button>
+<body class="pt-20">
     <app-weight-graphic [weights]="weights" />
 </body>

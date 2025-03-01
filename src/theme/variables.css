@@ -8,3 +8,12 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 /*@import "@ionic/angular/css/palettes/dark.system.css";*/
+
+:root {
+    margin: 0;
+    padding: 0;
+}
+
+.standarButton {
+    @apply bg-[--color-secondary] active:bg-[--color-tertiary] focus:outline-none text-[--color-primary] font-light py-3 px-5 rounded-xl;
+}

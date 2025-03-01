@@ -10,7 +10,7 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 })
 export class WeightDisplay {
     readonly weights = input.required<Signal<Weight[]>>();
-    readonly  goal = input.required<Signal<Weight>>();
+    readonly goal = input.required<Signal<Weight>>();
 
     paceWeek = signal(0);
     paceMonth = signal(0);
@@ -23,9 +23,22 @@ export class WeightDisplay {
             const goalDate = new Date(goal.date);
 
             if (!goal || !actualWeight) return;
-            this.paceWeek.set(this.CalculationFunctionsService.PaceWeekWeightLoss(actualWeight.weight, goal.weight, actualWeightDate, goalDate));
-            this.paceMonth.set(this.CalculationFunctionsService.PaceMonthWeightLoss(actualWeight.weight, goal.weight, actualWeightDate, goalDate));
+            this.paceWeek.set(
+                this.CalculationFunctionsService.PaceWeekWeightLoss(
+                    actualWeight.weight,
+                    goal.weight,
+                    actualWeightDate,
+                    goalDate
+                )
+            );
+            this.paceMonth.set(
+                this.CalculationFunctionsService.PaceMonthWeightLoss(
+                    actualWeight.weight,
+                    goal.weight,
+                    actualWeightDate,
+                    goalDate
+                )
+            );
         });
     }
-
 }

@@ -1,4 +1,4 @@
-import { Weight } from "@models/Weight";
+import { Weight } from '@models/Weight';
 
 export interface DataProvider {
     getWeights(): Promise<Weight[]>;

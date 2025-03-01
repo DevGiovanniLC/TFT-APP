@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
     providedIn: 'root',
 })
 export class CalculationFunctionsService {
-    constructor() { }
+    constructor() {}
 
     weekDifference(startDate: Date, endDate: Date) {
         if (!startDate || !endDate) return 0;
@@ -29,5 +29,4 @@ export class CalculationFunctionsService {
         const pace = (weight - weightGoal) / this.monthDifference(startDate, endDate);
         return pace.toFixed(2);
     }
-
 }

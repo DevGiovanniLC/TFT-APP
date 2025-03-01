@@ -8,7 +8,7 @@ import { DataProviderService } from './DataProvider.service';
 export class WeightTrackerService {
     private weights: Weight[] = [];
 
-    constructor(private dataProvider: DataProviderService) { }
+    constructor(private dataProvider: DataProviderService) {}
 
     async getWeights(): Promise<Weight[]> {
         if (this.weights.length === 0) {
@@ -16,7 +16,7 @@ export class WeightTrackerService {
         }
 
         // Convierte las fechas a Date
-        this.weights = this.weights.map(weight => {
+        this.weights = this.weights.map((weight) => {
             weight.date = new Date(weight.date);
             return weight;
         });

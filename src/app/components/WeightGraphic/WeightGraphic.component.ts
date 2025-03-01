@@ -1,7 +1,7 @@
 import 'chartjs-adapter-date-fns';
 import { Component, effect, Signal, input, signal } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
-import {Weight} from '@models/Weight';
+import { Weight } from '@models/Weight';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { Chart } from 'chart.js';
 
@@ -12,7 +12,7 @@ import { Chart } from 'chart.js';
 })
 export class WeightGraphic {
     readonly weights = input.required<Signal<Weight[]>>();
-    readonly  goal = input.required<Signal<Weight>>();
+    readonly goal = input.required<Signal<Weight>>();
 
     data = signal({});
     options = signal({});
@@ -28,7 +28,9 @@ export class WeightGraphic {
         effect(() => {
             const goalValue = this.goal()();
             const weights = this.weights()();
-            this.options.set(this.configureOptionGraphic(this.viewGoal(), weights, goalValue.weight, new Date(goalValue.date)));
+            this.options.set(
+                this.configureOptionGraphic(this.viewGoal(), weights, goalValue.weight, new Date(goalValue.date))
+            );
             this.data.set(this.configureDataGraphic(this.weights()()));
         });
     }
@@ -89,17 +91,8 @@ export class WeightGraphic {
         };
     }
 
-    private configureOptionGraphic(
-        viewGoal: boolean,
-        dataWeights: Weight[],
-        goal: number,
-        goalDate: Date
-    ) {
-        if (
-            dataWeights.length === 0 ||
-            isNaN(goalDate.getTime()) ||
-            isNaN(goal)
-        ) return [];
+    private configureOptionGraphic(viewGoal: boolean, dataWeights: Weight[], goal: number, goalDate: Date) {
+        if (dataWeights.length === 0 || isNaN(goalDate.getTime()) || isNaN(goal)) return [];
 
         const minWeight = Math.min(...dataWeights.map((w) => w.weight));
         const maxWeight = Math.max(...dataWeights.map((w) => w.weight));

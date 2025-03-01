@@ -15,6 +15,9 @@ export default class DBConnection implements DataProvider {
     };
 
     constructor() {}
+    getGoal(): Promise<any> {
+        throw new Error('Method not implemented.');
+    }
 
     async initializeConnection(callback?: Function) {
         await this.checkJeep();

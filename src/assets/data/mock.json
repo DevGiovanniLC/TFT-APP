@@ -25,5 +25,10 @@
             "weight": 97,
             "weight_units": "kg"
         }
-    ]
+    ],"goal":{
+        "date": "2025-12-01",
+        "weight": 80
+,        "weight_units": "kg"
+    }
+
 }

@@ -1,10 +1,9 @@
 import 'chartjs-adapter-date-fns';
 import { Component, effect, Signal, input, signal } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
-import Weight from '@models/Weight';
+import {Weight} from '@models/Weight';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { Chart } from 'chart.js';
-import { IonButton } from '@ionic/angular/standalone';
 
 @Component({
     selector: 'app-weight-graphic',
@@ -13,10 +12,11 @@ import { IonButton } from '@ionic/angular/standalone';
 })
 export class WeightGraphic {
     readonly weights = input.required<Signal<Weight[]>>();
-    annotationPlugin = annotationPlugin;
-    chartJs = Chart;
+    readonly  goal = input.required<Signal<Weight>>();
+
     data = signal({});
     options = signal({});
+
     viewGoal = signal(true);
 
     text = {
@@ -26,13 +26,15 @@ export class WeightGraphic {
 
     constructor() {
         effect(() => {
-            this.options.set(this.configureOptionGraphic(this.viewGoal(), this.weights()()));
+            const goalValue = this.goal()();
+            const weights = this.weights()();
+            this.options.set(this.configureOptionGraphic(this.viewGoal(), weights, goalValue.weight, new Date(goalValue.date)));
             this.data.set(this.configureDataGraphic(this.weights()()));
         });
     }
 
     ngOnInit() {
-        this.chartJs.register(annotationPlugin);
+        Chart.register(annotationPlugin);
     }
 
     toggleViewGoal() {
@@ -90,10 +92,14 @@ export class WeightGraphic {
     private configureOptionGraphic(
         viewGoal: boolean,
         dataWeights: Weight[],
-        goal: number = 80,
-        goalDate: Date = new Date('2025-012-01')
+        goal: number,
+        goalDate: Date
     ) {
-        if (dataWeights.length === 0 || isNaN(goalDate.getTime())) return [];
+        if (
+            dataWeights.length === 0 ||
+            isNaN(goalDate.getTime()) ||
+            isNaN(goal)
+        ) return [];
 
         const minWeight = Math.min(...dataWeights.map((w) => w.weight));
         const maxWeight = Math.max(...dataWeights.map((w) => w.weight));

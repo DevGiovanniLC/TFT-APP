@@ -105,6 +105,7 @@ export class WeightGraphic {
         const minDate = Math.min(...validDates.map((w) => w.getTime()));
         const rangeX = new Date(Math.max(maxDate, goalDate.getTime()));
         let goalDateRange;
+
         if (viewGoal) {
             goalDateRange = new Date(rangeX.getTime() + 15 * 24 * 60 * 60 * 1000); // Sumar 15 días para que haya un padding en la gráfica
         } else {
@@ -146,6 +147,7 @@ export class WeightGraphic {
                     },
                     ticks: {
                         color: '#343a40',
+                        maxTicksLimit: 6,
                     },
                 },
                 y: {
@@ -153,8 +155,8 @@ export class WeightGraphic {
                     min: Math.ceil(Math.min(minWeight, goal) - marginY),
                     max: Math.ceil(Math.max(maxWeight, goal) + marginY),
                     title: {
-                        display: false,
-                        text: 'Weight (kg)',
+                        display: true,
+                        text: 'Weights (kg)',
                     },
                     ticks: {
                         color: '#343a40',

@@ -1,5 +1,5 @@
-import { Component, effect, signal, WritableSignal } from '@angular/core';
-import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonButton } from '@ionic/angular/standalone';
+import { ChangeDetectionStrategy, Component, effect, signal, WritableSignal } from '@angular/core';
+import { IonContent } from '@ionic/angular/standalone';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { Weight } from '@models/Weight';
 import { WeightGraphic } from '@components/WeightGraphic/WeightGraphic.component';
@@ -11,9 +11,10 @@ import { WeightDisplay } from '@components/WeightDisplay/WeightDisplay.component
     templateUrl: 'tab1.page.html',
     standalone: true,
     imports: [
-        IonTabBar, IonTabButton, IonIcon, IonTabs, IonButton,
+        IonContent,
         WeightGraphic, WeightDisplay
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Tab1Page {
     weights: WritableSignal<Weight[]> = signal<Weight[]>([]);

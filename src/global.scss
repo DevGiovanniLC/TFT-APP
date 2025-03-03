@@ -53,11 +53,11 @@
     --ion-background-color: var(--color-primary);
     --ion-text-color: var(--color-accent);
     --ion-tab-bar-color: var(--color-accent);
-    --ion-tab-bar-color-selected: var(--color-secondary);
+    --ion-tab-bar-color-selected: var(--color-primary);
     --ion-tab-bar-background-color: var(--color-tertiary);
+    --ion-tab-bar-background-color-selected: var(--color-secondary);
 
 
     margin: 0;
     padding: 0;
 }
-

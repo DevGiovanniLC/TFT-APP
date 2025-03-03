@@ -1,6 +1,6 @@
 import 'chartjs-adapter-date-fns';
-import { Component, effect, Signal, input, signal } from '@angular/core';
-import { IonButton, IonCard } from '@ionic/angular/standalone';
+import { Component, effect, Signal, input, signal, ChangeDetectionStrategy } from '@angular/core';
+import { IonButton } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
 import { Weight } from '@models/Weight';
 import annotationPlugin from 'chartjs-plugin-annotation';
@@ -8,8 +8,9 @@ import { Chart } from 'chart.js';
 
 @Component({
     selector: 'app-weight-graphic',
-    imports: [ChartModule, IonButton, IonCard],
+    imports: [ChartModule, IonButton],
     templateUrl: './WeightGraphic.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WeightGraphic {
     readonly weights = input.required<Signal<Weight[]>>();
@@ -116,13 +117,20 @@ export class WeightGraphic {
             responsive: true,
             maintainAspectRatio: true,
             pointBackgroundColor: '#00BD7E',
+            elements: {
+                point: {
+                    radius: 5,
+                    hitRadius: 8,
+                    hoverRadius: 8,
+                }
+            },
             plugins: {
                 annotation: {
                     annotations: this.configurationAnnotationPlugin(viewGoal, goal, goalDate),
                 },
                 legend: {
                     display: true,
-                    onClick: () => {},
+                    onClick: () => { },
                     position: 'top',
                 },
             },

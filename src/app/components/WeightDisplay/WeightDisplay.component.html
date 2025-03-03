@@ -1,1 +1,17 @@
-<p>Pace Weight Loss : months:{{ paceMonth() }} Kg weeks: {{ paceWeek() }} Kg</p>
+<div class="flex-col space-y-5" >
+    <ion-card-header class="flex justify-center items-center flex-col">
+        <ion-card-title>Rate of weight loss</ion-card-title>
+        <ion-card-subtitle>to reach the goal</ion-card-subtitle>
+    </ion-card-header>
+    <div class="flex justify-center items-center space-x-5">
+        <ion-card class="bg-[var(--color-tertiary)] rounded-xl p-5 text-center space-y-2 w-40 shadow-xl">
+            <ion-card-subtitle class="text-[var(--color-accent)] font-sans font-extrabold">Months</ion-card-subtitle>
+            <ion-card-title>{{ paceMonth() }} Kg</ion-card-title>
+        </ion-card>
+
+        <ion-card class="bg-[var(--color-tertiary)] rounded-xl p-5 text-center space-y-2 w-40 shadow-xl">
+            <ion-card-subtitle class="text-[var(--color-accent)] font-sans font-extrabold">Weeks</ion-card-subtitle>
+            <ion-card-title>{{ paceWeek() }} Kg</ion-card-title>
+        </ion-card>
+    </div>
+</div>

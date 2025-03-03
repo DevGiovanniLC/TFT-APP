@@ -1,4 +1,4 @@
-<ion-card class="max-w-1/2 flex justify-center items-center flex-col space-y-5 py-4">
+<div class="w-full flex justify-center items-center flex-col space-y-5 py-4">
     <p-chart class="w-full" type="line" [data]="data()" [options]="options()"></p-chart>
-    <ion-button  (click)="toggleViewGoal()">{{ text[viewGoal() ? 'hideGoal' : 'viewGoal'] }}</ion-button>
-</ion-card>
+    <ion-button class="button-shadow"  (click)="toggleViewGoal()">{{ text[viewGoal() ? 'hideGoal' : 'viewGoal'] }}</ion-button>
+</div>

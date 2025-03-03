@@ -1,4 +1,9 @@
-<body class="pt-20">
-    <app-weight-graphic [weights]="weights" [goal]="goal" />
-    <app-weight-display [weights]="weights" [goal]="goal" />
-</body>
+
+<ion-tab-bar class="bg-[var(--color-tertiary)] max-h-6 flex end-0" slot="top">
+    <ion-tab-button class="bg-transparent" tab="tab1" href="/tabs/tab1">
+        <ion-icon aria-hidden="true" name="triangle"></ion-icon>
+    </ion-tab-button>
+</ion-tab-bar>
+
+<app-weight-graphic [weights]="weights" [goal]="goal" />
+<app-weight-display [weights]="weights" [goal]="goal" />

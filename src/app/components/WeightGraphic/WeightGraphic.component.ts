@@ -1,5 +1,6 @@
 import 'chartjs-adapter-date-fns';
 import { Component, effect, Signal, input, signal } from '@angular/core';
+import { IonButton, IonCard } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
 import { Weight } from '@models/Weight';
 import annotationPlugin from 'chartjs-plugin-annotation';
@@ -7,7 +8,7 @@ import { Chart } from 'chart.js';
 
 @Component({
     selector: 'app-weight-graphic',
-    imports: [ChartModule],
+    imports: [ChartModule, IonButton, IonCard],
     templateUrl: './WeightGraphic.component.html',
 })
 export class WeightGraphic {
@@ -26,10 +27,10 @@ export class WeightGraphic {
 
     constructor() {
         effect(() => {
-            const goalValue = this.goal()();
-            const weights = this.weights()();
+            const goal = this.goal();
+            const weights = this.weights();
             this.options.set(
-                this.configureOptionGraphic(this.viewGoal(), weights, goalValue.weight, new Date(goalValue.date))
+                this.configureOptionGraphic(this.viewGoal(), weights(), goal().weight, new Date(goal().date))
             );
             this.data.set(this.configureDataGraphic(this.weights()()));
         });

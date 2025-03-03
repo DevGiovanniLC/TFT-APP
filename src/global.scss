@@ -45,12 +45,19 @@
     --color-secondary: #1e8260;
     --color-tertiary: #00bd7e;
     --color-accent: #343a40;
+    --ion-color-primary: var(--color-tertiary);
 }
 
-html {
+* {
+    --ion-primary-color: var(--color-tertiary);
     --ion-background-color: var(--color-primary);
     --ion-text-color: var(--color-accent);
     --ion-tab-bar-color: var(--color-accent);
     --ion-tab-bar-color-selected: var(--color-secondary);
     --ion-tab-bar-background-color: var(--color-tertiary);
+
+
+    margin: 0;
+    padding: 0;
 }
+

@@ -5,6 +5,7 @@ import { Weight } from '@models/Weight';
 import { WeightGraphic } from '@components/WeightGraphic/WeightGraphic.component';
 import { WeightUnits } from '@models/Weight';
 import { WeightDisplay } from '@components/WeightDisplay/WeightDisplay.component';
+import { MainDisplayComponent } from '@components/MainDisplay/MainDisplay.component';
 
 @Component({
     selector: 'app-tab1',
@@ -12,7 +13,7 @@ import { WeightDisplay } from '@components/WeightDisplay/WeightDisplay.component
     standalone: true,
     imports: [
         IonContent,
-        WeightGraphic, WeightDisplay
+        WeightGraphic, WeightDisplay, MainDisplayComponent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

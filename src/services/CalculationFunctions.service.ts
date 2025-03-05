@@ -20,6 +20,13 @@ export class CalculationFunctionsService {
         return differenceMonths;
     }
 
+    dayDifference(startDate: Date, endDate: Date) {
+        if (!startDate || !endDate) return 0;
+        const differenceMilliseconds = endDate?.getTime() - startDate?.getTime();
+        const differenceDays = differenceMilliseconds / (1000 * 3600 * 24);
+        return differenceDays;
+    }
+
     PaceWeekWeightLoss(weight: number, weightGoal: number, startDate: Date, endDate: Date): any {
         const pace = (weight - weightGoal) / this.weekDifference(startDate, endDate);
         return pace.toFixed(2);
@@ -28,5 +35,10 @@ export class CalculationFunctionsService {
     PaceMonthWeightLoss(weight: number, weightGoal: number, startDate: Date, endDate: Date): any {
         const pace = (weight - weightGoal) / this.monthDifference(startDate, endDate);
         return pace.toFixed(2);
+    }
+
+    weightProgression(firstWeight: number, lastWeight: number, goalWeight: number ): number{
+        const progression = (lastWeight - firstWeight) / (goalWeight - firstWeight) *100;
+        return Number(progression.toFixed(2));
     }
 }

@@ -1,0 +1,9 @@
+<div class="card flex items-center justify-center flex-col space-y-8 ">
+    <div class="flex justify-center  items-center flex-col space-y-2">
+        <h1 class="text-center">Actual Weight</h1>
+        <p-chart #chart id="actualWeightChart" type="doughnut" [data]="data" [options]="options" class="w-60"/>
+    </div>
+    <ion-button class="button-shadow w-36">
+        Register Weight
+    </ion-button>
+</div>

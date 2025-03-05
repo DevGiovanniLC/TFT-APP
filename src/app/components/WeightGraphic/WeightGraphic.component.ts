@@ -1,14 +1,14 @@
 import 'chartjs-adapter-date-fns';
 import { Component, effect, Signal, input, signal, ChangeDetectionStrategy } from '@angular/core';
-import { IonButton } from '@ionic/angular/standalone';
+import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
-import { Weight } from '@models/Weight';
+import { Weight, WeightUnits } from '@models/Weight';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { Chart } from 'chart.js';
 
 @Component({
     selector: 'app-weight-graphic',
-    imports: [ChartModule, IonButton],
+    imports: [ChartModule, IonSelect, IonSelectOption],
     templateUrl: './WeightGraphic.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -41,8 +41,12 @@ export class WeightGraphic {
         Chart.register(annotationPlugin);
     }
 
-    toggleViewGoal() {
-        this.viewGoal.update((value) => !value);
+    graphicMode(value: string) {
+        if (value === 'viewGoal') {
+            this.viewGoal.set(true);
+        }else{
+            this.viewGoal.set(false);
+        }
     }
 
     private configureDataGraphic(weights: Weight[]) {
@@ -129,10 +133,11 @@ export class WeightGraphic {
                     annotations: this.configurationAnnotationPlugin(viewGoal, goal, goalDate),
                 },
                 legend: {
-                    display: true,
+                    display: false,
                     onClick: () => { },
                     position: 'top',
                 },
+                centerText: false
             },
             scales: {
                 x: {
@@ -150,6 +155,7 @@ export class WeightGraphic {
                         text: 'Date',
                     },
                     ticks: {
+                        padding:15,
                         color: '#343a40',
                         maxTicksLimit: 6,
                     },
@@ -163,6 +169,12 @@ export class WeightGraphic {
                         text: 'Weights (kg)',
                     },
                     ticks: {
+                        callback: function(value: number) {
+                            return `${value} ${dataWeights[0].weight_units}` ; // Agrega "kg" como sufijo a los valores del eje Y
+                        },
+                        font: {
+                            size: 10 // Ajusta el tamaño de la fuente (puedes probar con otros valores)
+                        },
                         color: '#343a40',
                     },
                 },

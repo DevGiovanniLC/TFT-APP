@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, effect, input, Signal, signal } from '@angular/core';
 import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from '@ionic/angular/standalone';
-import { Weight } from '@models/Weight';
+import { Weight, WeightUnits } from '@models/Weight';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 
 @Component({
     selector: 'app-weight-display',
-    imports: [IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent],
+    imports: [IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle],
     templateUrl: './WeightDisplay.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -15,6 +15,7 @@ export class WeightDisplay {
 
     paceWeek = signal(0);
     paceMonth = signal(0);
+    weightUnits = signal(WeightUnits.KG);
 
     constructor(private CalculationFunctionsService: CalculationFunctionsService) {
         effect(() => {
@@ -41,6 +42,8 @@ export class WeightDisplay {
                     goalDate
                 )
             );
+
+            this.weightUnits.set(actualWeight?.weight_units);
         });
     }
 }

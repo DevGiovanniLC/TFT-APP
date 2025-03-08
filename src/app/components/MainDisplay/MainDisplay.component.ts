@@ -84,11 +84,11 @@ export class MainDisplayComponent implements OnInit {
 
 
                 if (this.svgImageStart.complete) {
-                    ctx.drawImage(this.svgImageStart, startX - 12, startY - 10, 30, 30);
+                    ctx.drawImage(this.svgImageStart, startX - 12, startY - 8, 25, 25);
                 }
 
                 if (this.svgImageProgress.complete) {
-                    ctx.drawImage(this.svgImageProgress, progressX - 15, progressY - 18, 28, 28);
+                    ctx.drawImage(this.svgImageProgress, progressX - 10, progressY - 18, 25, 25);
                 }
             }
         };
@@ -113,9 +113,13 @@ export class MainDisplayComponent implements OnInit {
                 const centerY = height / 2 + chartArea.top;
 
 
+                ctx.font = 'bold 11px sans-serif';
+                ctx.fillStyle = '#343a40';
+                ctx.fillText(`Progression ${Number(this.progression()).toFixed(0)} %`, centerX, centerY - 40);
+
                 ctx.font = 'bold 30px sans-serif';
                 ctx.fillStyle = '#343a40';
-                ctx.fillText(`${this.actualWeight()} ${this.weightUnits()}`, centerX, centerY);
+                ctx.fillText(`${this.actualWeight()} ${this.weightUnits()}`, centerX, centerY+5);
 
                 ctx.font = '11px sans-serif ';
                 ctx.fillStyle = '#1e8260';
@@ -163,7 +167,7 @@ export class MainDisplayComponent implements OnInit {
             labels: ['Progress'],
             datasets: [
                 {
-                    data: [this.progression(), 90 - this.progression()],
+                    data: [this.progression(), 100  - this.progression()],
                     backgroundColor: [documentStyle.getPropertyValue('--color-tertiary'), documentStyle.getPropertyValue('--color-accent')],
                 }
             ]

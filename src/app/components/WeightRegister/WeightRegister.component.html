@@ -1,0 +1,25 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+        </ion-buttons>
+        <ion-title>Register your weight</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+
+</ion-header>
+<ion-content >
+    <ion-picker >
+        <ion-picker-column [value]="actualWeight()" >
+            @for (item of generateRange(5, 400); track $index) {
+                <ion-picker-column-option [value]="item" >
+                    {{item}}
+                </ion-picker-column-option>
+            }
+            <div slot="suffix">Kg</div>
+        </ion-picker-column>
+    </ion-picker>
+</ion-content>

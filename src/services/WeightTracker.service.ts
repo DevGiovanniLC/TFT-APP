@@ -27,6 +27,10 @@ export class WeightTrackerService {
         return this.weights;
     }
 
+    async getActualWeight(): Promise<number> {
+        return await this.getWeights().then((weights) => weights[0].weight);
+    }
+
     async getGoal(): Promise<Weight> {
         return await this.dataProvider.getGoal();
     }

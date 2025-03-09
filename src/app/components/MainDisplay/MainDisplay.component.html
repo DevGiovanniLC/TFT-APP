@@ -3,7 +3,7 @@
         <h1 class="text-center font-sans font-semibold">Actual Weight</h1>
         <p-chart #chart id="actualWeightChart" type="doughnut" [data]="data" [options]="options" class="w-60"/>
     </div>
-    <ion-button class="button-shadow w-36">
+    <ion-button class="button-shadow w-36" (click)="openModal()">
         Register Weight
     </ion-button>
 </div>

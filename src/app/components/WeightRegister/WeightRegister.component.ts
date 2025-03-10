@@ -45,7 +45,7 @@ export class WeightRegisterComponent {
     }
 
     confirm() {
-        return this.modalCtrl.dismiss(this.name, 'confirm');
+        return this.modalCtrl.dismiss(this.actualWeight(), 'confirm');
     }
 
     generateRange(start: number, end: number): number[] {

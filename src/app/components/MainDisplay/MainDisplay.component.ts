@@ -16,8 +16,8 @@ import Chart from 'chart.js/auto';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainDisplayComponent implements OnInit {
-    readonly weights = input.required<Signal<Weight[]>>();
-    readonly goal = input.required<Signal<Weight>>();
+    readonly weights = input.required<Weight[]>();
+    readonly goal = input.required<Weight>();
 
     chart = viewChild<any>('chart');
 
@@ -30,7 +30,7 @@ export class MainDisplayComponent implements OnInit {
     dateWeight = signal(new Date());
     firstWeight = signal(0)
     progression = computed(() => {
-        return this.calculationFunctionsService.weightProgression(this.firstWeight(), this.actualWeight(), this.goal()().weight);
+        return this.calculationFunctionsService.weightProgression(this.firstWeight(), this.actualWeight(), this.goal().weight);
     })
 
 
@@ -40,10 +40,10 @@ export class MainDisplayComponent implements OnInit {
 
     constructor(private calculationFunctionsService: CalculationFunctionsService,  private modalCtrl: ModalController, private cdr: ChangeDetectorRef) {
         effect(() => {
-            this.actualWeight.set(this.weights()()[0]?.weight);
-            this.firstWeight.set(this.weights()()[this.weights()().length - 1]?.weight);
-            this.weightUnits.set(this.weights()()[0]?.weight_units);
-            this.dateWeight.set(new Date(this.weights()()[0]?.date));
+            this.actualWeight.set(this.weights()[0]?.weight);
+            this.firstWeight.set(this.weights()[this.weights().length - 1]?.weight);
+            this.weightUnits.set(this.weights()[0]?.weight_units);
+            this.dateWeight.set(new Date(this.weights()[0]?.date));
         })
 
         effect(() => {

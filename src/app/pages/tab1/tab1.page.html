@@ -2,8 +2,8 @@
 
 <ion-content>
     <div class="flex flex-col space-y-14 py-10 px-3 content-container" >
-        <app-main-display [weights]="weights" [goal]="goal" />
-        <app-weight-graphic [weights]="weights" [goal]="goal" />
+        <app-main-display [weights]="weights()" [goal]="goal()" />
+        <app-weight-graphic [weights]="weights()" [goal]="goal()" />
         <!-- <app-weight-display [weights]="weights" [goal]="goal" /> -->
     </div>
 </ion-content>

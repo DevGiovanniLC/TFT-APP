@@ -1,8 +1,8 @@
 import 'chartjs-adapter-date-fns';
-import { Component, effect, Signal, input, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
-import { Weight, WeightUnits } from '@models/Weight';
+import { Weight } from '@models/Weight';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { Chart } from 'chart.js';
 
@@ -13,8 +13,8 @@ import { Chart } from 'chart.js';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WeightGraphic {
-    readonly weights = input.required<Signal<Weight[]>>();
-    readonly goal = input.required<Signal<Weight>>();
+    readonly weights = input.required<Weight[]>();
+    readonly goal = input.required<Weight>();
 
     data = signal({});
     options = signal({});
@@ -28,12 +28,10 @@ export class WeightGraphic {
 
     constructor() {
         effect(() => {
-            const goal = this.goal();
-            const weights = this.weights();
             this.options.set(
-                this.configureOptionGraphic(this.viewGoal(), weights(), goal().weight, new Date(goal().date))
+                this.configureOptionGraphic(this.viewGoal(), this.weights(), this.goal().weight, new Date(this.goal().date))
             );
-            this.data.set(this.configureDataGraphic(this.weights()()));
+            this.data.set(this.configureDataGraphic(this.weights()));
         });
     }
 

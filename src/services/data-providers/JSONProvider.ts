@@ -9,6 +9,11 @@ export default class JSONProvider implements DataProvider {
         this.data = data;
     }
 
+    setNewWeight(value: Weight): boolean {
+        // Push the new weight to the weights array
+        return this.data.weights.push(value);
+    }
+
     getGoal(): Promise<Weight> {
         return this.data.goal;
     }

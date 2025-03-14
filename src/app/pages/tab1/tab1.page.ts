@@ -5,7 +5,7 @@ import { Weight } from '@models/Weight';
 import { WeightGraphic } from '@components/WeightGraphic/WeightGraphic.component';
 import { WeightUnits } from '@models/Weight';
 import { WeightDisplay } from '@components/WeightDisplay/WeightDisplay.component';
-import { MainDisplayComponent } from '@components/MainDisplay/MainDisplay.component';
+import { MainDisplay } from '@components/MainDisplay/MainDisplay.component';
 
 @Component({
     selector: 'app-tab1',
@@ -13,11 +13,12 @@ import { MainDisplayComponent } from '@components/MainDisplay/MainDisplay.compon
     standalone: true,
     imports: [
         IonContent,
-        WeightGraphic, WeightDisplay, MainDisplayComponent
+        WeightGraphic, MainDisplay
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Tab1Page {
+
     weights: WritableSignal<Weight[]> = signal<Weight[]>([]);
     goal: WritableSignal<Weight> = signal<Weight>({ date: new Date(), weight: 0, weight_units: WeightUnits.KG });
 
@@ -36,5 +37,9 @@ export class Tab1Page {
 
     async getGoal() {
         this.goal.set(await this.weightTrackerService.getGoal());
+    }
+
+    addWeight($event: Weight) {
+        this.weightTrackerService.setNewWeight($event)
     }
 }

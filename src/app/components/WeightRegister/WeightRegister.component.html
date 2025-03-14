@@ -13,13 +13,18 @@
 </ion-header>
 <ion-content >
     <ion-picker >
-        <ion-picker-column [value]="actualWeight()" >
-            @for (item of generateRange(5, 400); track $index) {
+        <ion-picker-column
+        [value]="lastWeight()"
+        (ionChange)="updateActualWeight($event.detail.value)"
+        >
+
+            @for (item of weightOptions; track $index) {
                 <ion-picker-column-option [value]="item" >
                     {{item}}
                 </ion-picker-column-option>
             }
-            <div slot="suffix">Kg</div>
+            <div slot="suffix">{{lastWeightUnit()}}</div>
         </ion-picker-column>
     </ion-picker>
+    <ion-datetime locale="en-US"  (ionChange)="updateActualDate($event.detail.value)" [preferWheel]="true" presentation="date" color="primary"/>
 </ion-content>

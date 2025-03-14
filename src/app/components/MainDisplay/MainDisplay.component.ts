@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, effect, input, OnInit, signal, Signal, viewChild } from '@angular/core';
-import { Weight, WeightUnits } from '@models/Weight';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, effect, input, OnInit, output, Signal, signal, viewChild, WritableSignal } from '@angular/core';
+import { Weight, WeightUnits, emptyWeight } from '@models/Weight';
 import { IonButton, ModalController } from "@ionic/angular/standalone";
 import { ChartModule } from 'primeng/chart';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 import { WeightRegisterComponent } from '@components/WeightRegister/WeightRegister.component';
-import Chart from 'chart.js/auto';
 
 @Component({
     selector: 'app-main-display',
@@ -15,23 +14,24 @@ import Chart from 'chart.js/auto';
     templateUrl: './MainDisplay.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainDisplayComponent implements OnInit {
+export class MainDisplay implements OnInit {
     readonly weights = input.required<Weight[]>();
     readonly goal = input.required<Weight>();
+    weightAdded = output<Weight>();
 
     chart = viewChild<any>('chart');
 
     svgImageStart: HTMLImageElement = new Image();
     svgImageProgress: HTMLImageElement = new Image();
 
+    firstWeight: WritableSignal<Weight> = signal(emptyWeight);
+    lastWeight: WritableSignal<Weight> = signal(emptyWeight);
 
-    actualWeight = signal(0);
-    weightUnits = signal(WeightUnits.KG);
-    dateWeight = signal(new Date());
-    firstWeight = signal(0)
-    progression = computed(() => {
-        return this.calculationFunctionsService.weightProgression(this.firstWeight(), this.actualWeight(), this.goal().weight);
+    progression: Signal<number> = computed(() => {
+        return this.calculationFunctionsService.weightProgression(this.firstWeight()?.weight, this.lastWeight()?.weight, this.goal()?.weight);
     })
+
+    plugins: any[] = [];
 
 
     data: any;
@@ -40,15 +40,14 @@ export class MainDisplayComponent implements OnInit {
 
     constructor(private calculationFunctionsService: CalculationFunctionsService,  private modalCtrl: ModalController, private cdr: ChangeDetectorRef) {
         effect(() => {
-            this.actualWeight.set(this.weights()[0]?.weight);
-            this.firstWeight.set(this.weights()[this.weights().length - 1]?.weight);
-            this.weightUnits.set(this.weights()[0]?.weight_units);
-            this.dateWeight.set(new Date(this.weights()[0]?.date));
+            if (this.weights().length <= 0) return;
+            this.lastWeight = signal(this.weights()[this.weights().length - 1]);
+            this.firstWeight = signal(this.weights()[0]);
+
         })
 
         effect(() => {
-            this.progression();
-            this.initChart();
+            this.initChart(this.progression());
             cdr.detectChanges();
         })
     }
@@ -58,88 +57,96 @@ export class MainDisplayComponent implements OnInit {
             component: WeightRegisterComponent,
         });
         modal.present();
+
+        const { data, role } = await modal.onDidDismiss();
+
+        if (role === 'confirm') {
+            this.weightAdded.emit(data)
+        }
+
     }
 
-        ngOnInit(): void {
+    ngOnInit(): void {
 
-            const customSVGsPlugin = {
-                id: 'customSVG',
-                afterDraw: (chartInstance: any) => {
+        const customSVGsPlugin = {
+            id: 'customSVG',
+            afterDraw: (chartInstance: any) => {
 
-                    const ctx = chartInstance.ctx;
+                const ctx = chartInstance.ctx;
 
-                    const meta = chartInstance.getDatasetMeta(0);
-                    if (!meta || !meta.data || meta.data.length === 0) {
-                        return;
-                    }
-
-                    const segment = meta.data[0];
-
-                    const centerX = segment.x;
-                    const centerY = segment.y;
-                    const outerRadius = segment.outerRadius;
-
-                    const startAngle = segment.startAngle;
-                    const startX = centerX + outerRadius * Math.cos(startAngle);
-                    const startY = centerY + outerRadius * Math.sin(startAngle);
-
-                    const endAngle = segment.endAngle;
-                    const progressX = centerX + outerRadius * Math.cos(endAngle);
-                    const progressY = centerY + outerRadius * Math.sin(endAngle);
-
-
-                    if (this.svgImageStart.complete) {
-                        ctx.drawImage(this.svgImageStart, startX - 12, startY - 8, 25, 25);
-                    }
-
-                    if (this.svgImageProgress.complete) {
-                        ctx.drawImage(this.svgImageProgress, progressX - 10, progressY - 18, 25, 25);
-                    }
+                const meta = chartInstance.getDatasetMeta(0);
+                if (!meta || !meta.data || meta.data.length === 0) {
+                    return;
                 }
-            };
+
+                const segment = meta.data[0];
+
+                const centerX = segment.x;
+                const centerY = segment.y;
+                const outerRadius = segment.outerRadius;
+
+                const startAngle = segment.startAngle;
+                const startX = centerX + outerRadius * Math.cos(startAngle);
+                const startY = centerY + outerRadius * Math.sin(startAngle);
+
+                const endAngle = segment.endAngle;
+                const progressX = centerX + outerRadius * Math.cos(endAngle);
+                const progressY = centerY + outerRadius * Math.sin(endAngle);
 
 
-
-            const centerTextPlugin = {
-                id: 'centerText',
-                afterDraw: (chart: any) => {
-                    const { ctx, chartArea } = chart;
-                    if (!chartArea) return; // Evita errores si el gráfico no está listo
-
-                    const { width, height } = chartArea;
-                    ctx.save();
-
-                    // Definir estilos
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillStyle = 'var(--color-accent)';
-
-                    const centerX = width / 2 + chartArea.left;
-                    const centerY = height / 2 + chartArea.top;
-
-
-                    ctx.font = 'bold 11px sans-serif';
-                    ctx.fillStyle = '#343a40';
-                    ctx.fillText(`Progression ${Number(this.progression()).toFixed(0)} %`, centerX, centerY - 40);
-
-                    ctx.font = 'bold 30px sans-serif';
-                    ctx.fillStyle = '#343a40';
-                    ctx.fillText(`${this.actualWeight()} ${this.weightUnits()}`, centerX, centerY + 5);
-
-                    ctx.font = '11px sans-serif ';
-                    ctx.fillStyle = '#1e8260';
-                    ctx.fillText(`${this.differenceTime(this.dateWeight(), new Date())}`, centerX, centerY + 40);
-
-                    ctx.restore();
+                if (this.svgImageStart.complete) {
+                    ctx.drawImage(this.svgImageStart, startX - 12, startY - 8, 25, 25);
                 }
-            };
+
+                if (this.svgImageProgress.complete) {
+                    ctx.drawImage(this.svgImageProgress, progressX - 10, progressY - 18, 25, 25);
+                }
+            }
+        };
 
 
-            Chart.register(customSVGsPlugin);
-            Chart.register(centerTextPlugin);
-            this.svgImageStart.src = 'assets/icons/goal.svg';
-            this.svgImageProgress.src = 'assets/icons/runner.svg';
-        }
+
+        const centerTextPlugin = {
+            id: 'centerText',
+            afterDraw: (chart: any) => {
+                const { ctx, chartArea} = chart;
+                if (!chartArea) return;
+
+                const { width, height } = chartArea;
+                ctx.save();
+
+                // Definir estilos
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = 'var(--color-accent)';
+
+                const centerX = width / 2 + chartArea.left;
+                const centerY = height / 2 + chartArea.top;
+
+
+                ctx.font = 'bold 11px sans-serif';
+                ctx.fillStyle = '#343a40';
+                ctx.fillText(`Progression ${Number(this.progression()).toFixed(0)} %`, centerX, centerY - 40);
+
+                ctx.font = 'bold 30px sans-serif';
+                ctx.fillStyle = '#343a40';
+                ctx.fillText(`${this.lastWeight()?.weight} ${this.lastWeight()?.weight_units}`, centerX, centerY + 5);
+
+                ctx.font = '11px sans-serif ';
+                ctx.fillStyle = '#1e8260';
+                ctx.fillText(`${this.differenceTime(this.lastWeight()?.date, new Date())}`, centerX, centerY + 40);
+
+                ctx.restore();
+            }
+        };
+
+
+        this.svgImageStart.src = 'assets/icons/goal.svg';
+        this.svgImageProgress.src = 'assets/icons/runner.svg';
+
+        this.plugins.push(customSVGsPlugin);
+        this.plugins.push(centerTextPlugin);
+    }
 
 
 
@@ -165,14 +172,14 @@ export class MainDisplayComponent implements OnInit {
 
     }
 
-    private initChart() {
+    private initChart(progression: number) {
         const documentStyle = getComputedStyle(document.documentElement);
 
         this.data = {
             labels: ['Progress'],
             datasets: [
                 {
-                    data: [this.progression(), 100 - this.progression()],
+                    data: [progression, 100 - progression],
                     backgroundColor: [documentStyle.getPropertyValue('--color-tertiary'), documentStyle.getPropertyValue('--color-accent')],
                 }
             ]

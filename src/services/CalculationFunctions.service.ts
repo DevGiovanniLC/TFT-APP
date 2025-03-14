@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
     providedIn: 'root',
 })
 export class CalculationFunctionsService {
-    constructor() {}
 
     weekDifference(startDate: Date, endDate: Date) {
         if (!startDate || !endDate) return 0;
@@ -38,7 +37,12 @@ export class CalculationFunctionsService {
     }
 
     weightProgression(firstWeight: number, lastWeight: number, goalWeight: number ): number{
+        if (!firstWeight || !lastWeight || !goalWeight) return 100;
         const progression = (lastWeight - firstWeight) / (goalWeight - firstWeight) *100;
         return Number(progression.toFixed(2));
+    }
+
+    formatDate(date: Date): Date {
+        return new Date(date.toISOString().split('T')[0]);
     }
 }

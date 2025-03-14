@@ -1,6 +1,7 @@
 import { DataProvider } from 'src/interfaces/DataProvider';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
 import { environment } from 'src/envs/environment';
+import { Weight } from '@models/Weight';
 
 export default class DBConnection implements DataProvider {
     private sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite);
@@ -15,6 +16,11 @@ export default class DBConnection implements DataProvider {
     };
 
     constructor() {}
+
+    setNewWeight(value: Weight): boolean {
+        throw new Error('Method not implemented.');
+    }
+
     getGoal(): Promise<any> {
         throw new Error('Method not implemented.');
     }
@@ -72,21 +78,21 @@ export default class DBConnection implements DataProvider {
         (?, ?, ?), (?, ?, ?), (?, ?, ?), (?, ?, ?), (?, ?, ?);
     `,
             [
-                '2022-01-01',
+                '2025-01-01',
                 100,
-                'kfss',
-                '2022-01-02',
+                'Kg',
+                '2025-01-02',
                 100,
-                'kgsfd',
-                '2022-01-03',
+                'Kg',
+                '2025-01-03',
                 100,
-                'kgfsdf',
-                '2022-01-04',
+                'Kg',
+                '2025-02-04',
                 100,
-                'kgfsdfs',
-                '2022-01-05',
+                'Kg',
+                '2025-03-05',
                 100,
-                'ksdfdsfdsg',
+                'Kg',
             ]
         );
     }

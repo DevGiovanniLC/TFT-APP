@@ -5,6 +5,8 @@ import { ChartModule } from 'primeng/chart';
 import { Weight } from '@models/Weight';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { Chart } from 'chart.js';
+import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { infinite } from 'ionicons/icons';
 
 @Component({
     selector: 'app-weight-graphic',
@@ -26,10 +28,10 @@ export class WeightGraphic {
         hideGoal: 'Only Tracked Progress',
     };
 
-    constructor() {
+    constructor(private calculationFunctionsService: CalculationFunctionsService) {
         effect(() => {
             this.options.set(
-                this.configureOptionGraphic(this.viewGoal(), this.weights(), this.goal().weight, new Date(this.goal().date))
+                this.configureOptionGraphic(this.viewGoal(), this.weights(), this.goal())
             );
             this.data.set(this.configureDataGraphic(this.weights()));
         });
@@ -49,7 +51,7 @@ export class WeightGraphic {
 
     private configureDataGraphic(weights: Weight[]) {
         return {
-            labels: weights.map((w) => w.date),
+            labels: weights.map((w) => this.calculationFunctionsService.formatDate(w.date).getTime()),
             datasets: [
                 {
                     label: 'Weight (kg)',
@@ -95,25 +97,37 @@ export class WeightGraphic {
         };
     }
 
-    private configureOptionGraphic(viewGoal: boolean, dataWeights: Weight[], goal: number, goalDate: Date) {
-        if (dataWeights.length === 0 || isNaN(goalDate.getTime()) || isNaN(goal)) return [];
+    private configureOptionGraphic(viewGoal: boolean, dataWeights: Weight[], goal: Weight) {
+        if (dataWeights.length === 0) return [];
+
+        const goalWeight = goal && typeof goal === 'object' ? goal.weight : -infinite;
+        const goalDate = goal && typeof goal === 'object' ? goal.date : null;
 
         const minWeight = Math.min(...dataWeights.map((w) => w.weight));
         const maxWeight = Math.max(...dataWeights.map((w) => w.weight));
-        const MaxRangeY = maxWeight - Math.min(minWeight, goal);
-        const marginY = MaxRangeY * 0.2 || 1; // Si el rango es 0, se asigna un margen mínimo
+        const maxRangeY = goalWeight ? maxWeight - Math.min(minWeight, goalWeight) : maxWeight - minWeight;
+        const marginY = maxRangeY * 0.2 || 1; // Si el rango es 0, se asigna un margen mínimo
 
         const validDates = dataWeights.map((w) => new Date(w.date));
         const maxDate = Math.max(...validDates.map((w) => w.getTime()));
         const minDate = Math.min(...validDates.map((w) => w.getTime()));
-        const rangeX = new Date(Math.max(maxDate, goalDate.getTime()));
+        const rangeX = goalDate ? new Date(Math.max(maxDate, goalDate.getTime())) : new Date(maxDate);
         let goalDateRange;
 
-        if (viewGoal) {
-            goalDateRange = new Date(rangeX.getTime() + 15 * 24 * 60 * 60 * 1000); // Sumar 15 días para que haya un padding en la gráfica
+        if (viewGoal && goal?.weight > 0) {
+            goalDateRange = new Date(rangeX.getTime() + 15 * 24 * 60 * 60 * 1000);
         } else {
-            goalDateRange = new Date(maxDate + 15 * 24 * 60 * 60 * 1000); // Sumar 15 días para que haya un padding en la gráfica
+            goalDateRange = new Date(maxDate + 15 * 24 * 60 * 60 * 1000);
         }
+
+        let pluginAnnotation
+
+        if (viewGoal && goal?.weight > 0) {
+            pluginAnnotation = this.configurationAnnotationPlugin(viewGoal, goal.weight, goal.date);
+        }else {
+            pluginAnnotation = [];
+        }
+
 
         return {
             responsive: true,
@@ -128,7 +142,7 @@ export class WeightGraphic {
             },
             plugins: {
                 annotation: {
-                    annotations: this.configurationAnnotationPlugin(viewGoal, goal, goalDate),
+                    annotations: pluginAnnotation,
                 },
                 legend: {
                     display: false,
@@ -160,8 +174,8 @@ export class WeightGraphic {
                 },
                 y: {
                     // Se establece el rango "acercado" usando el mínimo y máximo en base a la meta con margen y redondeo al entero mayor
-                    min: Math.ceil(Math.min(minWeight, goal) - marginY),
-                    max: Math.ceil(Math.max(maxWeight, goal) + marginY),
+                    min: goalWeight ? Math.ceil(Math.min(minWeight, goalWeight) - marginY) : Math.ceil(minWeight - marginY),
+                    max: goalWeight ? Math.ceil(Math.max(maxWeight, goalWeight) + marginY) : Math.ceil(maxWeight + marginY),
                     title: {
                         display: false,
                         text: 'Weights (kg)',

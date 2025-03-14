@@ -1,9 +1,11 @@
 <div class="w-full flex justify-center items-center flex-col space-y-2 py-1">
-    <div class="flex justify-end w-full px-5">
-        <ion-select class="w-fit" aria-label="Chart Mode" placeholder="Chart Mode" value="viewGoal" (ionChange)="graphicMode($event.target.value)">
-            <ion-select-option value="viewGoal">View Goal</ion-select-option>
-            <ion-select-option value="hideGoal">Tracked Progress</ion-select-option>
-        </ion-select>
-    </div>
+    @if(!!goal()) {
+        <div class="flex justify-end w-full px-5">
+            <ion-select class="w-fit" aria-label="Chart Mode" placeholder="Chart Mode" value="viewGoal" (ionChange)="graphicMode($event.target.value)">
+                <ion-select-option value="viewGoal">View Goal</ion-select-option>
+                <ion-select-option value="hideGoal">Tracked Progress</ion-select-option>
+            </ion-select>
+        </div>
+        }
     <p-chart class="w-full max-w-2xl" type="line" [data]="data()" [options]="options()"></p-chart>
 </div>

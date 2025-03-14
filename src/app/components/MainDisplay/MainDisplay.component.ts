@@ -43,10 +43,7 @@ export class MainDisplay implements OnInit {
             if (this.weights().length <= 0) return;
             this.lastWeight = signal(this.weights()[this.weights().length - 1]);
             this.firstWeight = signal(this.weights()[0]);
-
-        })
-
-        effect(() => {
+            cdr.detectChanges();
             this.initChart(this.progression());
             cdr.detectChanges();
         })

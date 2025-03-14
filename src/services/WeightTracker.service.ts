@@ -11,17 +11,15 @@ export class WeightTrackerService {
     constructor(private dataProvider: DataProviderService) {}
 
     async getWeights(): Promise<Weight[]> {
-        if (this.weights.length === 0) {
-            this.weights.set(await this.dataProvider.getWeights());
-        }
+
+        this.weights.set(await this.dataProvider.getWeights());
 
         // Convierte las fechas a Date y ordena la lista
-        this.weights.set(this.weights().map((weight) => {
+        this.weights.update((weights) => weights.map((weight) => {
                 weight.date = new Date(weight.date);
                 return weight;
             }).sort((a, b) => a.date.getTime() - b.date.getTime())
         );
-
 
         return this.weights();
     }

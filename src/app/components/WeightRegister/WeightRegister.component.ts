@@ -15,7 +15,6 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 
 @Component({
     selector: 'app-weight-register',
-    styleUrls: ['./WeightRegister.component.css'],
     imports:
         [
             IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar,

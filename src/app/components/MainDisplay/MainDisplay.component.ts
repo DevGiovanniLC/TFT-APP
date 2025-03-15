@@ -53,8 +53,8 @@ export class MainDisplay implements OnInit {
         const modal = await this.modalCtrl.create({
             component: WeightRegisterComponent,
             cssClass: 'small-modal',
-            breakpoints: [0, 0.45, 0.5],
-            initialBreakpoint: 0.45,
+            breakpoints: [0, 0.5, 0.75],
+            initialBreakpoint: 0.75,
         });
         modal.present();
 

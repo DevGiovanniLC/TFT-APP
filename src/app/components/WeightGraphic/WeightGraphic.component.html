@@ -1,4 +1,4 @@
-<div class="w-full flex justify-center items-center flex-col space-y-2 py-1">
+<div class="w-full flex justify-center items-center flex-col space-y-2 py-1 opacity-0 animate-fade-in">
     @if(!!goal()) {
         <div class="flex justify-end w-full px-5">
             <ion-select class="w-fit" aria-label="Chart Mode" placeholder="Chart Mode" value="viewGoal" (ionChange)="graphicMode($event.target.value)">

@@ -18,7 +18,7 @@ export class DataProviderService {
 
     async initialize() {
         //this.dataProvider = new DBConnection();
-        this.dataProvider = new LocalStorageProvider();
+        this.dataProvider = new JSONProvider();
         await this.dataProvider.initializeConnection();
         this.connectionStatus.set(true);
     }

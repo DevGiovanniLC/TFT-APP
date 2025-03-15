@@ -38,7 +38,7 @@ export class MainDisplay implements OnInit {
     options: any;
 
 
-    constructor(private calculationFunctionsService: CalculationFunctionsService,  private modalCtrl: ModalController, private cdr: ChangeDetectorRef) {
+    constructor(private calculationFunctionsService: CalculationFunctionsService, private modalCtrl: ModalController, private cdr: ChangeDetectorRef) {
         effect(() => {
             if (this.weights().length <= 0) return;
             this.lastWeight = signal(this.weights()[this.weights().length - 1]);
@@ -52,6 +52,9 @@ export class MainDisplay implements OnInit {
     async openModal() {
         const modal = await this.modalCtrl.create({
             component: WeightRegisterComponent,
+            cssClass: 'small-modal',
+            breakpoints: [0, 0.45, 0.5],
+            initialBreakpoint: 0.45,
         });
         modal.present();
 
@@ -106,7 +109,7 @@ export class MainDisplay implements OnInit {
         const centerTextPlugin = {
             id: 'centerText',
             afterDraw: (chart: any) => {
-                const { ctx, chartArea} = chart;
+                const { ctx, chartArea } = chart;
                 if (!chartArea) return;
 
                 const { width, height } = chartArea;
@@ -197,6 +200,26 @@ export class MainDisplay implements OnInit {
                     mode: 'nearest', // O 'index', dependiendo de tu preferencia
                     intersect: false, // Cambiar a `true` si quieres que solo funcione cuando el mouse esté directamente sobre los puntos
                 },
+            }, animation: {
+                duration: 0,
+                animateScale: false, // Desactivar animación de escala
+                animateRotate: false, // Desactivar animación de rotación
+                animations: {
+                    colors: {
+                        type: 'color',
+                        properties: ['backgroundColor'],
+                        from: 'transparent',
+                        to: 'backgroundColor'
+                    },
+                    opacity: {
+                        type: 'number',
+                        easing: 'easeInOutQuad',
+                        duration: 5000,
+                        from: 0,
+                        to: 1,
+                        loop: false
+                    }
+                }
             }
         };
     }

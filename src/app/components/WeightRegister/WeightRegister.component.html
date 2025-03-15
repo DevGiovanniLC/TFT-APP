@@ -1,30 +1,43 @@
 <ion-header>
     <ion-toolbar>
         <ion-buttons slot="start">
-            <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+            <ion-button class="w-24"  color="medium" (click)="cancel()">{{step() === 0 ? 'Cancel' : 'Back'}}</ion-button>
         </ion-buttons>
-        <ion-title class="text-center">Register your weight</ion-title>
+        <ion-title class="text-center font-sans font-semibold text-sm">Weights Register</ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="confirm()" [strong]="true" color="primary">Confirm</ion-button>
+            <ion-button class="w-24" (click)="confirm()" [strong]="true" color="primary">{{step() === 0 ? 'Next' : 'Confirm'}}</ion-button>
         </ion-buttons>
     </ion-toolbar>
 
 
 </ion-header>
 <ion-content >
-    <ion-picker >
-        <ion-picker-column
-        [value]="lastWeight()"
-        (ionChange)="updateActualWeight($event.detail.value)"
-        >
+    @if (step() === 0) {
+        <header class="ion-text-center">
+            <h1 class="text-center font-sans font-semibold">Register your weight</h1>
+        </header>
+        <ion-picker class="w-full ">
+            <ion-picker-column
+            [value]="lastWeight()"
+            (ionChange)="updateActualWeight($event.detail.value)"
+            >
 
-            @for (item of weightOptions; track $index) {
-                <ion-picker-column-option [value]="item" >
-                    {{item}}
-                </ion-picker-column-option>
-            }
-            <div slot="suffix">{{lastWeightUnit()}}</div>
-        </ion-picker-column>
-    </ion-picker>
-    <ion-datetime locale="en-US"  (ionChange)="updateActualDate($event.detail.value)" [preferWheel]="true" presentation="date" color="primary"/>
+                @for (item of weightOptions; track $index) {
+                    <ion-picker-column-option [value]="item" >
+                        {{item}}
+                    </ion-picker-column-option>
+                }
+                <div slot="suffix">{{lastWeightUnit()}}</div>
+            </ion-picker-column>
+        </ion-picker>
+    }
+
+    @if (step() === 1) {
+        <div class="flex flex-col gap-y-4 justify-center items-center">
+            <header>
+                <h1 class="text-center font-sans font-semibold">Pick the date</h1>
+            </header>
+            <ion-datetime locale="en-US"  (ionChange)="updateActualDate($event.detail.value)" [preferWheel]="true" presentation="date" color="primary"/>
+        </div>
+    }
 </ion-content>

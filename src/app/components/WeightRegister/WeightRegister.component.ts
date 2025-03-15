@@ -27,6 +27,7 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 
 })
 export class WeightRegisterComponent {
+    step = signal(0);
     lastWeight = signal(70)
     lastWeightUnit = signal(WeightUnits.KG)
     actualDate = signal(new Date())
@@ -49,10 +50,19 @@ export class WeightRegisterComponent {
 
 
     cancel() {
+        if (this.step() === 1) {
+            this.step.set(0);
+            return;
+        }
         return this.modalCtrl.dismiss(null, 'cancel');
     }
 
     confirm() {
+        if (this.step() === 0) {
+            this.step.set(1);
+            return;
+        }
+
         const newWeight: Weight = {
             weight: this.lastWeight(),
             weight_units: this.lastWeightUnit(),

@@ -16,32 +16,33 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="bg-transparent">
+<ion-content scrollY="false" class="bg-inherit">
     @if (step() === 0) {
-        <header class="ion-text-center">
-            <h1 class="text-center font-sans font-semibold text-lg">Register your weight</h1>
+    <div class="h-full bg-white flex flex-col items-center">
+        <header class="ion-text-center bg-inherit">
+            <h1 class="font-sans font-semibold text-lg">Register your weight</h1>
         </header>
-        <div class="flex flex-col items-center justify-center gap-y-4">
-            <ion-picker class="w-full bg-transparent">
-                <ion-picker-column [value]="lastWeight()" (ionChange)="updateActualWeight($event.detail.value)">
-                    @for (item of weightOptions; track $index) {
-                        <ion-picker-column-option [value]="item" class="bg-transparent">
-                            {{ item }}
-                        </ion-picker-column-option>
-                    }
-                    <div slot="suffix">{{ lastWeightUnit() }}</div>
-                </ion-picker-column>
-            </ion-picker>
-        </div>
+        <ion-picker class="w-full bg-transparent">
+            <ion-picker-column class="bg-transparent flex space-x-4" [value]="lastWeight()"
+                (ionChange)="updateActualWeight($event.detail.value)">
+                @for (item of weightOptions; track $index) {
+                <ion-picker-column-option [value]="item" class="bg-transparent text-2xl m-5">
+                    {{ item }}
+                </ion-picker-column-option>
+                }
+                <div class="text-2xl" slot="suffix">{{ lastWeightUnit() }}</div>
+            </ion-picker-column>
+        </ion-picker>
+    </div>
     }
 
     @if (step() === 1) {
-        <div class="flex flex-col gap-y-4 justify-center items-center">
-            <header>
-                <h1 class="text-center font-sans font-semibold text-lg">Pick the date</h1>
-            </header>
-            <ion-datetime class="bg-transparent w-full" locale="en-US" (ionChange)="updateActualDate($event.detail.value)"
-                presentation="date" />
-        </div>
+    <div class="flex flex-col gap-y-4 items-center h-full bg-white">
+        <header>
+            <h1 class="text-center font-sans font-semibold text-lg">Pick the date</h1>
+        </header>
+        <ion-datetime class="bg-transparent w-full text-lg" locale="en-US"
+            (ionChange)="updateActualDate($event.detail.value)" presentation="date" />
+    </div>
     }
 </ion-content>

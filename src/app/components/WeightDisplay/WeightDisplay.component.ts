@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, effect, input, Signal, signal } from '@angular/core';
 import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from '@ionic/angular/standalone';
-import { Weight, WeightUnits } from '@models/Weight';
+import { Weight, WeightUnits } from '@models/types/Weight';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 
 @Component({

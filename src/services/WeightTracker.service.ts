@@ -1,5 +1,5 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { emptyWeight, Weight } from 'src/models/Weight';
+import { emptyWeight, Weight } from '@models/types/Weight';
 import { DataProviderService } from './data-providers/DataProvider.service';
 
 @Injectable({

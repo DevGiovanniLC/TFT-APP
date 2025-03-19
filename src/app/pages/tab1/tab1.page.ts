@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, effect, signal, WritableSignal } from '@angular/core';
 import { IonContent } from '@ionic/angular/standalone';
 import { WeightTrackerService } from '@services/WeightTracker.service';
-import { Weight } from '@models/Weight';
+import { Weight } from '@models/types/Weight';
 import { WeightGraphic } from '@components/WeightGraphic/WeightGraphic.component';
-import { WeightUnits } from '@models/Weight';
+import { WeightUnits } from '@models/types/Weight';
 import { WeightDisplay } from '@components/WeightDisplay/WeightDisplay.component';
 import { MainDisplay } from '@components/MainDisplay/MainDisplay.component';
 

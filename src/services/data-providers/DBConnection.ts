@@ -1,7 +1,7 @@
 import { DataProvider } from 'src/interfaces/DataProvider';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
 import { environment } from 'src/envs/environment';
-import { Weight } from '@models/Weight';
+import { Weight } from '@models/types/Weight';
 
 export default class DBConnection implements DataProvider {
     private sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite);

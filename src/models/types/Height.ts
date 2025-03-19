@@ -1,10 +1,10 @@
-type Height = {
+export type Height = {
     date: Date;
     amount: number;
     unit: HeightUnits;
 };
 
-enum HeightUnits {
+export enum HeightUnits {
     CM = 'cm',
     FT = 'ft',
 }

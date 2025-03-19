@@ -1,5 +1,5 @@
 import { DataProvider } from 'src/interfaces/DataProvider';
-import { Weight } from '@models/Weight';
+import { Weight } from '@models/types/Weight';
 
 export default class LocalStorageProvider implements DataProvider {
     private readonly WEIGHTS_KEY = 'weight_data_weights';

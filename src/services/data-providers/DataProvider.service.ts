@@ -4,7 +4,7 @@ import DBConnection from '@services/data-providers/DBConnection';
 import JSONProvider from './JSONProvider';
 
 import LocalStorageProvider from './LocalStorageProvider';
-import { Weight} from '@models/Weight';
+import { Weight} from '@models/types/Weight';
 
 @Injectable({
     providedIn: 'root',

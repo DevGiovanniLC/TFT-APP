@@ -1,6 +1,6 @@
 import { DataProvider } from 'src/interfaces/DataProvider';
 import data from 'src/assets/data/mock.json';
-import { Weight } from '@models/Weight';
+import { Weight } from '@models/types/Weight';
 
 export default class JSONProvider implements DataProvider {
     private data: any;

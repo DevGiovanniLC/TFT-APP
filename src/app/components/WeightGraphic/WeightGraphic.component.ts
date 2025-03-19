@@ -2,7 +2,7 @@ import 'chartjs-adapter-date-fns';
 import { Component, effect, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
-import { Weight } from '@models/Weight';
+import { Weight } from '@models/types/Weight';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { Chart } from 'chart.js';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';

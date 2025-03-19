@@ -6,6 +6,7 @@ import { CalculationFunctionsService } from '@services/CalculationFunctions.serv
 import { WeightRegisterComponent } from '@components/WeightRegister/WeightRegister.component';
 import { centerTextPlugin, customSVGsPluginForDoughnutChart } from 'src/app/plugins/chartjs/ChartPlugins';
 import { DoghnoutChart } from '@models/charts/DoghnoutChart';
+import { Title } from 'chart.js';
 
 @Component({
     selector: 'app-main-display',
@@ -66,6 +67,13 @@ export class MainDisplay implements OnInit {
             cssClass: 'small-modal',
             breakpoints: [0, 0.45, 0.75],
             initialBreakpoint: 0.75,
+            componentProps: {
+                text:{
+                    title: 'Register Weight',
+                    weightStepTitle: 'Select the weight',
+                    dateStepTitle: 'Pick the date'
+                }
+            }
         });
         modal.present();
 

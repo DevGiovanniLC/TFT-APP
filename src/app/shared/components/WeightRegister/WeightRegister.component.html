@@ -6,7 +6,7 @@
             </ion-button>
         </ion-buttons>
         <ion-title class="text-center font-sans font-semibold text-sm">
-            Weights Register
+            {{ text.title }}
         </ion-title>
         <ion-buttons slot="end">
             <ion-button class="w-24" (click)="confirm()" [strong]="true" color="primary">
@@ -19,8 +19,8 @@
 <ion-content scrollY="false" class="bg-inherit">
     @if (step() === 0) {
     <div class="h-full bg-white flex flex-col items-center">
-        <header class="ion-text-center bg-inherit">
-            <h1 class="font-sans font-semibold text-lg">Register your weight</h1>
+        <header class="ion-text-center bg-inherit my-2">
+            <h1 class="font-sans font-semibold text-lg">{{text.weightStepTitle}}</h1>
         </header>
         <ion-picker class="w-full bg-transparent">
             <ion-picker-column class="bg-transparent flex space-x-4" [value]="lastWeight()"
@@ -38,8 +38,8 @@
 
     @if (step() === 1) {
     <div class="flex flex-col gap-y-4 items-center h-full bg-white">
-        <header>
-            <h1 class="text-center font-sans font-semibold text-lg">Pick the date</h1>
+        <header class="my-2">
+            <h1 class="text-center font-sans font-semibold text-lg">{{text.dateStepTitle}}</h1>
         </header>
         <ion-datetime class="bg-transparent w-full text-lg" locale="en-US"
             (ionChange)="updateActualDate($event.detail.value)" presentation="date" />

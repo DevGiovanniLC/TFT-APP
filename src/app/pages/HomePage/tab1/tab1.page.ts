@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, effect, signal, WritableSignal } fr
 import { IonContent } from '@ionic/angular/standalone';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { Weight } from '@models/types/Weight';
-import { WeightGraphic } from '@components/WeightGraphic/WeightGraphic.component';
+import { WeightGraphic } from '@pages/HomePage/components/WeightGraphic/WeightGraphic.component';
 import { WeightUnits } from '@models/types/Weight';
 import { WeightDisplay } from '@components/WeightDisplay/WeightDisplay.component';
-import { MainDisplay } from '@components/MainDisplay/MainDisplay.component';
+import { MainDisplay } from '@pages/HomePage/components/MainDisplay/MainDisplay.component';
 
 @Component({
     selector: 'app-tab1',

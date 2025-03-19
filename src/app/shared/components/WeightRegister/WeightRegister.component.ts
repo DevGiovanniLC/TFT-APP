@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, effect, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, model, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
     IonDatetime,
     IonContent, IonTitle, IonHeader,
     IonToolbar,
-    ModalController,
+    ModalController, NavParams,
     IonButton, IonButtons,
     IonPicker, IonPickerColumn, IonPickerColumnOption
 } from '@ionic/angular/standalone';
@@ -32,8 +32,12 @@ export class WeightRegisterComponent {
     actualDate = signal(new Date())
     weightOptions = this.generateRange(5, 300);
 
+    readonly text: any;
+    private modalCtrl = inject(ModalController);
 
-    constructor(private modalCtrl: ModalController, private weightTracker: WeightTrackerService, private calculationFunctionsService: CalculationFunctionsService) {
+
+    constructor(private weightTracker: WeightTrackerService, private calculationFunctionsService: CalculationFunctionsService) {
+
         effect(() => {
             this.getActualWeight();
         });

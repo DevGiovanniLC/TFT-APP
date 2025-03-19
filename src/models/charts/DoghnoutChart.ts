@@ -1,8 +1,6 @@
 import { Signal } from "@angular/core";
-import { Weight } from "@models/types/Weight";
-import { centerTextPlugin, customSVGsPluginForDoughnutChart } from "src/app/plugins/chartjs/ChartPlugins";
 
-export const DoghnoutChart = (progression: Signal<number>, lastWeight: Signal<Weight>) => {
+export const DoghnoutChart = (progression: Signal<number>) => {
     const documentStyle = getComputedStyle(document.documentElement);
 
     return {

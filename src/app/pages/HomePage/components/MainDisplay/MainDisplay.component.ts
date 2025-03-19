@@ -42,7 +42,7 @@ export class MainDisplay implements OnInit {
             this.lastWeight.set(this.weights()[this.weights().length - 1]);
             this.firstWeight.set(this.weights()[0]);
 
-            this.doghnoutChart = DoghnoutChart(this.progression, this.lastWeight);
+            this.doghnoutChart = DoghnoutChart(this.progression);
             this.data = this.doghnoutChart.data
             this.options = this.doghnoutChart.options
             cdr.detectChanges();

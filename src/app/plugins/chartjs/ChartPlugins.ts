@@ -1,4 +1,4 @@
-import { inject, Injector, Signal } from "@angular/core";
+import { Injector, Signal } from "@angular/core";
 import { Weight } from "@models/types/Weight";
 import { CalculationFunctionsService } from "@services/CalculationFunctions.service";
 
@@ -82,6 +82,15 @@ export const centerTextPlugin = (progression: Signal<Number>, lastWeight: Signal
         }
     };
 }
+
+
+
+
+
+
+
+
+
 
 function differenceTime(dateStart: Date, dateEnd: Date) {
     const days = calculationFunctionsService.dayDifference(dateStart, dateEnd);

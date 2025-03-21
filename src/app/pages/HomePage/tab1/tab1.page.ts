@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, effect, signal, WritableSignal } from '@angular/core';
-import { IonContent } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { Weight } from '@models/types/Weight';
 import { WeightGraphic } from '@pages/HomePage/components/WeightGraphic/WeightGraphic.component';
 import { WeightUnits } from '@models/types/Weight';
-import { WeightDisplay } from '@components/WeightDisplay/WeightDisplay.component';
 import { MainDisplay } from '@pages/HomePage/components/MainDisplay/MainDisplay.component';
 
 @Component({
@@ -12,7 +11,7 @@ import { MainDisplay } from '@pages/HomePage/components/MainDisplay/MainDisplay.
     templateUrl: 'tab1.page.html',
     standalone: true,
     imports: [
-        IonContent,
+        IonContent, IonHeader, IonToolbar, IonTitle,
         WeightGraphic, MainDisplay
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,

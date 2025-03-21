@@ -37,7 +37,7 @@ export class CalculationFunctionsService {
     }
 
     weightProgression(firstWeight: number, lastWeight: number, goalWeight: number ): number{
-        if (!firstWeight || !lastWeight || !goalWeight) return 100;
+        if (!firstWeight || !lastWeight || !goalWeight) return NaN;
         const progression = (lastWeight - firstWeight) / (goalWeight - firstWeight) *100;
         return Number(progression.toFixed(2));
     }

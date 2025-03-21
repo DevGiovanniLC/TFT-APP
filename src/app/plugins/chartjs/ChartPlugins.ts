@@ -2,7 +2,7 @@ import { Injector, Signal } from "@angular/core";
 import { Weight } from "@models/types/Weight";
 import { CalculationFunctionsService } from "@services/CalculationFunctions.service";
 
-const injector = Injector.create({providers:[CalculationFunctionsService]});
+const injector = Injector.create({ providers: [CalculationFunctionsService] });
 const calculationFunctionsService = injector.get(CalculationFunctionsService);
 
 export const customSVGsPluginForDoughnutChart = (svgImageStart: HTMLImageElement, svgImageProgress: HTMLImageElement) => {
@@ -47,7 +47,7 @@ export const customSVGsPluginForDoughnutChart = (svgImageStart: HTMLImageElement
 
 
 
-export const centerTextPlugin = (progression: Signal<Number>, lastWeight: Signal<Weight>) => {
+export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal<Weight>) => {
     return {
         id: 'centerText',
         afterDraw: (chart: any) => {
@@ -65,14 +65,39 @@ export const centerTextPlugin = (progression: Signal<Number>, lastWeight: Signal
             const centerX = width / 2 + chartArea.left;
             const centerY = height / 2 + chartArea.top;
 
+            let offset = Number.isNaN(progression()) ? -10 : 0;
+
 
             ctx.font = 'bold 12px sans-serif';
             ctx.fillStyle = '#343a40';
-            ctx.fillText(`Progression ${Number(progression()).toFixed(0)} %`, centerX, centerY - 35);
+            ctx.fillText(`Progression ${Number(progression()).toFixed(0)} %`, centerX, centerY - 40);
+
+            if (progression() > 100) ctx.fillText(`Completed✅`, centerX, centerY - 35);
+            else if (progression() > 90) {
+                ctx.fillText(``, centerX, centerY - 26);
+                ctx.fillText(`Just a little bit more 👍`, centerX, centerY - 25);
+            }
+            else if (progression() > 80) {
+                ctx.fillText(`Just a bit more 👍`, centerX, centerY - 25);
+            }
+            else if (progression() > 50) {
+                ctx.fillText(`Greatfully done 🎉`, centerX, centerY - 25);
+            }
+            else if (progression() > 20) {
+                ctx.fillText(`Good job 😁`, centerX, centerY - 25);
+            }
+            else if (progression() > 5) {
+                ctx.fillText(`Keep going 💪`, centerX, centerY - 25);
+            }
+            else if (progression() < -1) {
+                ctx.fillStyle = '#C7B85A';
+                ctx.fillText(`You can do better`, centerX, centerY - 25);
+            }
+            else offset = -15;
 
             ctx.font = 'bold 30px sans-serif';
             ctx.fillStyle = '#343a40';
-            ctx.fillText(`${lastWeight()?.weight} ${lastWeight()?.weight_units}`, centerX, centerY + 5);
+            ctx.fillText(`${lastWeight()?.weight} ${lastWeight()?.weight_units}`, centerX, centerY + offset + 10);
 
             ctx.font = '13px sans-serif ';
             ctx.fillStyle = '#1e8260';

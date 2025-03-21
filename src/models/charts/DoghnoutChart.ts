@@ -3,12 +3,18 @@ import { Signal } from "@angular/core";
 export const DoghnoutChart = (progression: Signal<number>) => {
     const documentStyle = getComputedStyle(document.documentElement);
 
+    let dataSet = [progression(), 100 - progression()];
+    if (Number.isNaN(progression())) dataSet = [100, 0];
+    if (progression() < 0) dataSet = [0, 100];
+    if (progression() > 100) dataSet = [100, 0];
+
     return {
         data: {
             labels: ['Progress'],
             datasets: [
                 {
-                    data: [progression(), 100 - progression()],
+
+                    data: dataSet,
                     backgroundColor: [documentStyle.getPropertyValue('--color-tertiary'), documentStyle.getPropertyValue('--color-accent')],
                 }
             ]

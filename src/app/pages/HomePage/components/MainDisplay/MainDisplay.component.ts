@@ -17,16 +17,14 @@ import { Title } from 'chart.js';
     templateUrl: './MainDisplay.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainDisplay implements OnInit {
+export class MainDisplay {
     readonly weights = input.required<Weight[]>();
     readonly goal = input.required<Weight>();
     weightAdded = output<Weight>();
 
 
-
     firstWeight: WritableSignal<Weight> = signal(emptyWeight);
     lastWeight: WritableSignal<Weight> = signal(emptyWeight);
-
     progression: Signal<number> = computed(() => {
         return this.calculationFunctionsService.weightProgression(this.firstWeight()?.weight, this.lastWeight()?.weight, this.goal()?.weight);
     })
@@ -35,6 +33,8 @@ export class MainDisplay implements OnInit {
     data: any;
     options: any;
     plugins: any[] = [];
+
+    isButtonActive = signal(false);
 
     constructor(private calculationFunctionsService: CalculationFunctionsService, private modalCtrl: ModalController, private cdr: ChangeDetectorRef) {
         const svgImageStart: HTMLImageElement = new Image();
@@ -57,13 +57,8 @@ export class MainDisplay implements OnInit {
 
     }
 
-    ngOnInit(): void {
-
-
-
-    }
-
     async openModal() {
+        this.isButtonActive.set(true);
         const modal = await this.modalCtrl.create({
             component: WeightRegisterComponent,
             cssClass: 'small-modal',
@@ -84,7 +79,7 @@ export class MainDisplay implements OnInit {
         if (role === 'confirm') {
             this.weightAdded.emit(data)
         }
-
+        this.isButtonActive.set(false);
     }
 
 }

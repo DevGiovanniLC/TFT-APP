@@ -70,8 +70,9 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
 
             ctx.font = 'bold 12px sans-serif';
             ctx.fillStyle = '#343a40';
-            ctx.fillText(`Progression ${Number(progression()).toFixed(0)} %`, centerX, centerY - 40);
 
+
+            if (progression()<100) ctx.fillText(`Progression ${Number(progression()).toFixed(0)} %`, centerX, centerY - 40);
             if (progression() > 100) ctx.fillText(`Completed✅`, centerX, centerY - 35);
             else if (progression() > 90) {
                 ctx.fillText(``, centerX, centerY - 26);
@@ -94,6 +95,7 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
                 ctx.fillText(`You can do better`, centerX, centerY - 25);
             }
             else offset = -15;
+
 
             ctx.font = 'bold 30px sans-serif';
             ctx.fillStyle = '#343a40';

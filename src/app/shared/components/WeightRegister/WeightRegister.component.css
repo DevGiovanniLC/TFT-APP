@@ -1,0 +1,7 @@
+ion-picker-column {
+    pointer-events: none;
+}
+
+ion-picker-column-option {
+    pointer-events: auto;
+}

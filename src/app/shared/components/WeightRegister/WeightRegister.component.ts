@@ -22,6 +22,7 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
             FormsModule
         ],
     templateUrl: './WeightRegister.component.html',
+    styleUrls: ['./WeightRegister.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 
 })

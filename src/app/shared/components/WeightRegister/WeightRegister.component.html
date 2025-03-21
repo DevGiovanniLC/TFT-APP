@@ -22,11 +22,12 @@
         <header class="ion-text-center bg-inherit my-2">
             <h1 class="font-sans font-semibold text-lg">{{text.weightStepTitle}}</h1>
         </header>
-        <ion-picker class="w-full bg-transparent">
-            <ion-picker-column class="bg-transparent flex space-x-4" [value]="lastWeight()"
-                (ionChange)="updateActualWeight($event.detail.value)">
+        <ion-picker class="w-full bg-transparent select-none selection:bg-transparent">
+            <ion-picker-column class="bg-transparent flex space-x-4 select-none selection:bg-transparent" [value]="lastWeight()"
+                (ionChange)="updateActualWeight($event.detail.value)"
+            >
                 @for (item of weightOptions; track $index) {
-                <ion-picker-column-option [value]="item" class="bg-transparent text-2xl m-5">
+                <ion-picker-column-option [value]="item" class="bg-transparent text-2xl m-5 select-none selection:bg-transparent">
                     {{ item }}
                 </ion-picker-column-option>
                 }

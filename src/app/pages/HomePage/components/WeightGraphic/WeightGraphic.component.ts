@@ -1,10 +1,10 @@
 import 'chartjs-adapter-date-fns';
-import { Component, effect, input, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, effect, input, signal, ChangeDetectionStrategy, WritableSignal } from '@angular/core';
 import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
 import { Weight } from '@models/types/Weight';
 import annotationPlugin from 'chartjs-plugin-annotation';
-import { configurationAnnotationPlugin, WeightChart } from '@models/charts/WeightChart';
+import { WeightChart } from '@models/charts/WeightChart';
 import { Chart } from 'chart.js';
 
 @Component({
@@ -20,8 +20,8 @@ export class WeightGraphic {
     data: any;
     options: any;
 
-
-    viewGoal = signal(true);
+    chartMode = signal('total');
+    isEmpty = signal(false);
 
     constructor() {
         Chart.register(annotationPlugin);
@@ -33,18 +33,26 @@ export class WeightGraphic {
     }
 
     async updateWeightChart() {
-        this.weightChart = WeightChart(this.viewGoal, this.weights, this.goal);
+        let weights: WritableSignal<Weight[]> = signal(this.weights());
+
+        if (this.chartMode() == 'week'){
+            weights.set(this.weights().filter((w) => w.date.getTime() > new Date().getTime() - 7 * 24 * 60 * 60 * 1000))
+        }
+        else if (this.chartMode() == 'month'){
+            weights.set(this.weights().filter((w) => w.date.getTime() > new Date().getTime() - 30 * 24 * 60 * 60 * 1000))
+        }
+
+        if (weights().length == 0) this.isEmpty.set(true);
+        else this.isEmpty.set(false);
+
+        this.weightChart = WeightChart(this.chartMode, weights, this.goal);
 
         this.data = this.weightChart.data;
         this.options = this.weightChart.options;
     }
 
-    graphicMode(value: string) {
-        if (value === 'viewGoal') {
-            this.viewGoal.set(true);
-        } else {
-            this.viewGoal.set(false);
-        }
+    setChartMode(value: string) {
+        this.chartMode.set(value);
     }
 
 }

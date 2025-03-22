@@ -1,6 +1,6 @@
 import { Signal } from "@angular/core";
 
-export const DoghnoutChart = (progression: Signal<number>) => {
+export const DoughnutChart = (progression: Signal<number>) => {
     const documentStyle = getComputedStyle(document.documentElement);
 
     let dataSet = [progression(), 100 - progression()];
@@ -13,7 +13,6 @@ export const DoghnoutChart = (progression: Signal<number>) => {
             labels: ['Progress'],
             datasets: [
                 {
-
                     data: dataSet,
                     backgroundColor: [documentStyle.getPropertyValue('--color-tertiary'), documentStyle.getPropertyValue('--color-accent')],
                 }
@@ -23,6 +22,25 @@ export const DoghnoutChart = (progression: Signal<number>) => {
         options: {
             cutout: '93%',
             radius: 90,
+            animation: {
+                // Desactivar la animación de desplazamiento
+                animateScale: false,
+                x: {
+                    duration: 0,
+                },
+                y:{
+                    duration: 0,
+                },
+
+                // Mantener otras animaciones
+                animateRotate: true,
+
+                // Duración de la animación (en milisegundos)
+                duration: 1000,
+
+                // Función de temporización (easing) - puedes ajustarla a tu gusto
+                easing: 'easeOutQuart',
+            },
             plugins: {
                 legend: {
                     display: false,
@@ -35,29 +53,7 @@ export const DoghnoutChart = (progression: Signal<number>) => {
                     mode: 'nearest', // O 'index', dependiendo de tu preferencia
                     intersect: false, // Cambiar a `true` si quieres que solo funcione cuando el mouse esté directamente sobre los puntos
                 },
-            }, animation: {
-                duration: 0,
-                animateScale: false, // Desactivar animación de escala
-                animateRotate: false, // Desactivar animación de rotación
-                animations: {
-                    colors: {
-                        type: 'color',
-                        properties: ['backgroundColor'],
-                        from: 'transparent',
-                        to: 'backgroundColor'
-                    },
-                    opacity: {
-                        type: 'number',
-                        easing: 'easeInOutQuad',
-                        duration: 5000,
-                        from: 0,
-                        to: 1,
-                        loop: false
-                    }
-                }
             }
         },
     }
-
-
 }

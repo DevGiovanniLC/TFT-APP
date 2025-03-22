@@ -5,7 +5,7 @@ import { ChartModule } from 'primeng/chart';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 import { WeightRegisterComponent } from '@components/WeightRegister/WeightRegister.component';
 import { centerTextPlugin, customSVGsPluginForDoughnutChart } from 'src/app/plugins/chartjs/ChartPlugins';
-import { DoghnoutChart } from '@models/charts/DoghnoutChart';
+import { DoughnutChart } from '@models/charts/DoghnoutChart';
 import { Title } from 'chart.js';
 
 @Component({
@@ -48,7 +48,7 @@ export class MainDisplay {
         this.lastWeight.set(this.weights()[this.weights().length - 1]);
         this.firstWeight.set(this.weights()[0]);
 
-        this.doghnoutChart = DoghnoutChart(this.progression);
+        this.doghnoutChart = DoughnutChart(this.progression);
         this.data = this.doghnoutChart.data
         this.options = this.doghnoutChart.options
         cdr.detectChanges();

@@ -99,7 +99,7 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
                 ctx.fillStyle = '#C7B85A';
                 ctx.fillText(`You can do better`, centerX, centerY - 25);
             }
-            else offset = -15;
+            else offset = -10;
 
 
             ctx.font = 'bold 30px sans-serif';

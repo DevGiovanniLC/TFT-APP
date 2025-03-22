@@ -1,19 +1,18 @@
-import { animation } from "@angular/animations";
 import { Injector, Signal } from "@angular/core";
 import { Weight } from "@models/types/Weight";
 import { CalculationFunctionsService } from "@services/CalculationFunctions.service";
-import { infinite } from "ionicons/icons";
+import { delay } from "rxjs";
 
 const injector = Injector.create({ providers: [CalculationFunctionsService] });
 const calculationFunctionsService = injector.get(CalculationFunctionsService);
 
 
-export const WeightChart = (viewGoal: Signal<boolean>, weights: Signal<Weight[]>, goal: Signal<Weight>) => {
+export const WeightChart = (chartMode: Signal<String>, weights: Signal<Weight[]>, goal: Signal<Weight>) => {
     if (weights().length === 0) return [];
 
     const dataWeights = weights();
 
-    const goalWeight = goal && typeof goal() === 'object' ? goal().weight : -infinite;
+    const goalWeight = goal && typeof goal() === 'object' ? goal().weight : Number.POSITIVE_INFINITY;
     const goalDate = goal && typeof goal() === 'object' ? goal().date : null;
 
     const minWeight = Math.min(...dataWeights.map((w) => w.weight));
@@ -23,14 +22,21 @@ export const WeightChart = (viewGoal: Signal<boolean>, weights: Signal<Weight[]>
 
     const validDates = dataWeights.map((w) => new Date(w.date));
     const maxDate = Math.max(...validDates.map((w) => w.getTime()));
-    const minDate = Math.min(...validDates.map((w) => w.getTime()));
+    const minDate = Math.min(...validDates.map((w) => w.getTime())) - 1* 24 * 60 * 60 * 1000;
     const rangeX = goalDate ? new Date(Math.max(maxDate, goalDate.getTime())) : new Date(maxDate);
-    let goalDateRange;
+    let goalDateMaxRange;
 
-    if (viewGoal() && goal()?.weight > 0) {
-        goalDateRange = new Date(rangeX.getTime() + 15 * 24 * 60 * 60 * 1000);
-    } else {
-        goalDateRange = new Date(maxDate + 15 * 24 * 60 * 60 * 1000);
+    if (chartMode() === 'viewGoal' && goal()?.weight > 0) {
+        goalDateMaxRange = new Date(rangeX.getTime() + 15 * 24 * 60 * 60 * 1000); // Agrega 15 días a la fecha máxima
+    }
+    else if (chartMode() === 'total') {
+        goalDateMaxRange = new Date(maxDate + 15 * 24 * 60 * 60 * 1000); // Agrega 15 días a la fecha máxima
+    }
+    else if (chartMode() === 'week') {
+        goalDateMaxRange = new Date(maxDate +  1* 24 * 60 * 60 * 1000); // Agrega 7 días a la fecha máxima
+    }
+    else if (chartMode() === 'month') {
+        goalDateMaxRange = new Date(maxDate +  1* 24 * 60 * 60 * 1000); // Agrega 30 días a la fecha máxima
     }
 
 
@@ -60,7 +66,7 @@ export const WeightChart = (viewGoal: Signal<boolean>, weights: Signal<Weight[]>
             },
             plugins: {
                 annotation: {
-                    annotations: configurationAnnotationPlugin(viewGoal(), goal()?.weight, goal()?.date),
+                    annotations: configurationAnnotationPlugin(chartMode(), goal()?.weight, goal()?.date),
                 },
                 legend: {
                     display: false,
@@ -68,15 +74,15 @@ export const WeightChart = (viewGoal: Signal<boolean>, weights: Signal<Weight[]>
                     position: 'top',
                 },
                 centerText: false
-            },
-            animation: {
-                duration: 0,
+            },animation: {
+                duration: 1300,
+                delay: 100,
             },
             scales: {
                 x: {
                     type: 'time', // Eje de tiempo para las fechas
                     min: minDate,
-                    max: goalDateRange, // Fecha máxima (ajústala según tu dataset)
+                    max: goalDateMaxRange, // Fecha máxima (ajústala según tu dataset)
                     time: {
                         unit: 'day',
                         displayFormats: {
@@ -118,13 +124,13 @@ export const WeightChart = (viewGoal: Signal<boolean>, weights: Signal<Weight[]>
 
 
 
-export function configurationAnnotationPlugin(viewGoal: boolean, goalWeight: number, goalDate: Date): any {
+export function configurationAnnotationPlugin(chartMode: String, goalWeight: number, goalDate: Date): any {
     if (!goalWeight) return [];
     return {
         goalLabel: {
             type: 'label',
             yValue: goalWeight + 2,
-            xValue: viewGoal ? goalDate : NaN,
+            xValue: chartMode === 'viewGoal' ? goalDate : NaN,
             content: ['Goal'],
             padding: 0,
             color: '#343A40',

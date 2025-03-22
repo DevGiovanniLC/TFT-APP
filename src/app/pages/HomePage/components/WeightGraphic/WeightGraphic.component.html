@@ -1,11 +1,24 @@
 <div class="w-full flex justify-center items-center flex-col space-y-2">
     @if(!!goal()) {
-        <div class="flex justify-end w-full px-5">
-            <ion-select class="w-fit" aria-label="Chart Mode" placeholder="Chart Mode" value="viewGoal" (ionChange)="graphicMode($event.target.value)">
-                <ion-select-option value="viewGoal">View Goal</ion-select-option>
-                <ion-select-option value="hideGoal">Tracked Progress</ion-select-option>
-            </ion-select>
-        </div>
-        }
+    <div class="flex justify-end w-full px-5">
+        <ion-select class="w-fit" aria-label="Chart Mode" placeholder="Chart Mode" value="total"
+            (ionChange)="setChartMode($event.target.value)">
+            <ion-select-option value="total">Total</ion-select-option>
+            <ion-select-option value="viewGoal">View Goal</ion-select-option>
+            <ion-select-option value="week">Last Week</ion-select-option>
+            <ion-select-option value="month">Last Month</ion-select-option>
+        </ion-select>
+    </div>
+    }
+
+    @if (isEmpty()) {
+    <div
+        class="flex justify-center items-center flex-col space-y-1 text-center font-sans text-xl font-bold text-gray-700 p-4  pb-8 bg-emerald-100 rounded-lg shadow-sm border">
+        <h1 >No weight registered</h1>
+        <h2>in this {{chartMode()}} period</h2>
+    </div>
+    }
+    @else {
     <p-chart class="w-full max-w-2xl" type="line" [data]="data" [options]="options"></p-chart>
+    }
 </div>

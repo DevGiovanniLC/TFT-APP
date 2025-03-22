@@ -37,24 +37,24 @@ export class MainDisplay {
     isButtonActive = signal(false);
 
     constructor(private calculationFunctionsService: CalculationFunctionsService, private modalCtrl: ModalController, private cdr: ChangeDetectorRef) {
-        const svgImageStart: HTMLImageElement = new Image();
-        const svgImageProgress: HTMLImageElement = new Image();
-        svgImageStart.src = 'assets/icons/goal.svg';
-        svgImageProgress.src = 'assets/icons/runner.svg';
         effect(() => {
-            if (this.weights().length <= 0) return;
-            this.lastWeight.set(this.weights()[this.weights().length - 1]);
-            this.firstWeight.set(this.weights()[0]);
-
-            this.doghnoutChart = DoghnoutChart(this.progression);
-            this.data = this.doghnoutChart.data
-            this.options = this.doghnoutChart.options
-            cdr.detectChanges();
-            this.plugins.push(centerTextPlugin(this.progression, this.lastWeight))
-            if (!Number.isNaN(this.progression())) return
-            this.plugins = [customSVGsPluginForDoughnutChart(svgImageStart, svgImageProgress), centerTextPlugin(this.progression, this.lastWeight)]
+            this.updateChart(cdr);
         })
 
+    }
+
+    async updateChart(cdr: ChangeDetectorRef) {
+        if (this.weights().length <= 0) return;
+        this.lastWeight.set(this.weights()[this.weights().length - 1]);
+        this.firstWeight.set(this.weights()[0]);
+
+        this.doghnoutChart = DoghnoutChart(this.progression);
+        this.data = this.doghnoutChart.data
+        this.options = this.doghnoutChart.options
+        cdr.detectChanges();
+        this.plugins.push(centerTextPlugin(this.progression, this.lastWeight))
+        if (!Number.isNaN(this.progression())) return
+        this.plugins = [customSVGsPluginForDoughnutChart(), centerTextPlugin(this.progression, this.lastWeight)]
     }
 
     async openModal() {

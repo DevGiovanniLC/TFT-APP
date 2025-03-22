@@ -1,3 +1,4 @@
+import { animation } from "@angular/animations";
 import { Injector, Signal } from "@angular/core";
 import { Weight } from "@models/types/Weight";
 import { CalculationFunctionsService } from "@services/CalculationFunctions.service";
@@ -67,6 +68,9 @@ export const WeightChart = (viewGoal: Signal<boolean>, weights: Signal<Weight[]>
                     position: 'top',
                 },
                 centerText: false
+            },
+            animation: {
+                duration: 0,
             },
             scales: {
                 x: {

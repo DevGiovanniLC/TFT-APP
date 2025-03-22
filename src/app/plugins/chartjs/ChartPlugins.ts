@@ -5,7 +5,12 @@ import { CalculationFunctionsService } from "@services/CalculationFunctions.serv
 const injector = Injector.create({ providers: [CalculationFunctionsService] });
 const calculationFunctionsService = injector.get(CalculationFunctionsService);
 
-export const customSVGsPluginForDoughnutChart = (svgImageStart: HTMLImageElement, svgImageProgress: HTMLImageElement) => {
+export const customSVGsPluginForDoughnutChart = () => {
+    const svgImageStart: HTMLImageElement = new Image();
+    const svgImageProgress: HTMLImageElement = new Image();
+    svgImageStart.src = 'assets/icons/goal.svg';
+    svgImageProgress.src = 'assets/icons/runner.svg';
+
     return {
         id: 'customSVG',
         afterDraw: (chartInstance: any) => {
@@ -72,7 +77,7 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
             ctx.fillStyle = '#343a40';
 
 
-            if (progression()<100) ctx.fillText(`Progression ${Number(progression()).toFixed(0)} %`, centerX, centerY - 40);
+            if (progression() < 100) ctx.fillText(`Progression ${Number(progression()).toFixed(0)} %`, centerX, centerY - 40);
             if (progression() > 100) ctx.fillText(`Completed✅`, centerX, centerY - 35);
             else if (progression() > 90) {
                 ctx.fillText(``, centerX, centerY - 26);

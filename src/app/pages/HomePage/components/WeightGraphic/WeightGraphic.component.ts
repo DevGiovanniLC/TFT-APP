@@ -27,12 +27,16 @@ export class WeightGraphic {
         Chart.register(annotationPlugin);
 
         effect(() => {
-            this.weightChart = WeightChart(this.viewGoal, this.weights, this.goal);
-
-            this.data = this.weightChart.data;
-            this.options = this.weightChart.options;
+            this.updateWeightChart();
         });
 
+    }
+
+    async updateWeightChart() {
+        this.weightChart = WeightChart(this.viewGoal, this.weights, this.goal);
+
+        this.data = this.weightChart.data;
+        this.options = this.weightChart.options;
     }
 
     graphicMode(value: string) {
@@ -42,6 +46,5 @@ export class WeightGraphic {
             this.viewGoal.set(false);
         }
     }
-
 
 }

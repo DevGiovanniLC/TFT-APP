@@ -13,7 +13,8 @@ module.exports = {
                 }
             },
             animation: {
-                'fade-in': 'fadeIn 0.5s ease-in-out forwards'
+                'fade-in': 'fadeIn 0.5s ease-in-out forwards',
+                'lazy-fade-in': 'fadeIn 3s ease-in-out forwards'
             }
         },
     },

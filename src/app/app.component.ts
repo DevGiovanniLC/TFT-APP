@@ -14,10 +14,10 @@ export class AppComponent {
     }
 
     async initApp() {
-        await SplashScreen.show({
-            showDuration: 2000, // Opcional: duración en ms
-            autoHide: true      // Ocultar automáticamente después de showDuration
-        });
+        // await SplashScreen.show({
+        //     showDuration: 2000, // Opcional: duración en ms
+        //     autoHide: true      // Ocultar automáticamente después de showDuration
+        // });
         await this.dataProvider.initialize();
         SplashScreen.hide();
     }

@@ -15,13 +15,6 @@ export default class DBConnection implements DataProvider {
         readonly: false
     }
 
-    constructor() { }
-    getGoal(): Promise<Weight> {
-        throw new Error("Method not implemented.");
-    }
-    setNewWeight(value: Weight): boolean {
-        throw new Error("Method not implemented.");
-    }
 
     async initializeConnection(callback?: Function) {
         await this.checkJeep();
@@ -35,19 +28,55 @@ export default class DBConnection implements DataProvider {
         )
 
         await this.db.open()
-            .catch(err => alert(err));
+        .catch(err => alert(err));
 
-        await this.setBDStructure()
-            .catch(err => alert(err));
+        // await this.deleteDBStructure()
+        // .catch(err => alert(err));
 
-        await this.addDataExamples()
-            .catch(err => alert(err));
+        // await this.setBDStructure()
+        // .catch(err => alert(err));
+
+        // await this.addUser()
+        // .catch(err => alert(err));
+
+        // await this.addWeights()
+        // .catch(err => alert(err));
     }
+
+
 
     async getWeights(): Promise<any> {
         const registers = await this.db.query('SELECT * FROM registers');
         return registers.values;
     }
+
+    async getGoal(): Promise<Weight> {
+        const user = await this.db.query(`
+            SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)
+        `);
+
+        if (user?.values?.length === 0) throw new Error('No goal found');
+        if (user?.values == undefined) throw new Error('No goal found');
+
+        return {
+            date: user.values[0].goal_date,
+            weight: user.values[0].goal_weight,
+            weight_units: user.values[0].goal_units
+        }
+    }
+
+    setNewWeight(value: Weight): boolean {
+        this.db.query(`
+            INSERT INTO registers (date, weight, weight_units) VALUES
+            (?, ?, ?)
+            `, [
+            value.date,
+            value.weight,
+            value.weight_units
+        ]);
+        return true;
+    }
+
 
 
     private async checkJeep() {
@@ -59,33 +88,70 @@ export default class DBConnection implements DataProvider {
         }
     }
 
+
+    private async deleteDBStructure() {
+        const schema =
+            `
+            DROP TABLE IF EXISTS registers;
+            DROP TABLE IF EXISTS user;
+            `
+
+        return await this.db.execute(schema)
+    }
+
     private async setBDStructure() {
         const schema =
             `
-                DROP TABLE IF EXISTS registers;
 
-                CREATE TABLE IF NOT EXISTS registers (
+            CREATE TABLE IF NOT EXISTS registers (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 date TEXT,
                 weight REAL,
                 weight_units TEXT
-            );`
+            );
+
+            CREATE TABLE IF NOT EXISTS user (
+                UniqueID INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL,
+                age INTEGER CHECK(age > 0),
+                height REAL CHECK(height > 0),
+                goal_weight REAL CHECK(goal_weight > 0),
+                goal_units TEXT CHECK(goal_units IN ('kg', 'lbs')),
+                goal_date TEXT -- Formato ISO 8601 (YYYY-MM-DD)
+            );
+        `
 
         return await this.db.execute(schema)
 
     }
 
-    private async addDataExamples() {
+    private async addWeights() {
         return await this.db.query(`
         INSERT INTO registers (date, weight, weight_units) VALUES
         (?, ?, ?), (?, ?, ?), (?, ?, ?), (?, ?, ?), (?, ?, ?);
         `, [
-                '2025-01-10', 100, 'kg',
-                '2025-02-02', 98, 'kg',
-                '2025-03-03', 98, 'kg',
-                '2025-04-04', 96, 'kg',
-                '2025-04-05', 95, 'kg'
-            ]);
+            '2025-01-04', 96, 'kg',
+            '2025-01-10', 100, 'kg',
+            '2025-02-02', 98, 'kg',
+            '2025-02-03', 98, 'kg',
+            '2025-03-05', 95, 'kg'
+        ]);
+    }
+
+    private async addUser() {
+        return await this.db.query(`
+        INSERT INTO user (name, email, age, height, goal_weight, goal_units, goal_date) VALUES
+        (?, ?, ?, ?, ?, ?, ?)
+        `, [
+            'John Doe',
+            'johndoe@gmail.com',
+            25,
+            180,
+            80,
+            'kg',
+            '2025-12-31'
+        ]);
     }
 
     private async closeConnection() {

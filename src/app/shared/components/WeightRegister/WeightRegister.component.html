@@ -18,32 +18,52 @@
 
 <ion-content scrollY="false" class="bg-inherit">
     @if (step() === 0) {
-    <div class="h-full bg-white flex flex-col items-center">
-        <header class="ion-text-center bg-inherit my-2">
-            <h1 class="font-sans font-semibold text-lg">{{text.weightStepTitle}}</h1>
+    <div class="h-full bg-gradient-to-tr from-emerald-100 to-emerald-300 flex flex-col items-center">
+        <header class="ion-text-center bg-inherit mt-10 mb-5">
+            <h1 class="font-sans font-semibold text-2xl">{{text.weightStepTitle}}</h1>
         </header>
-        <ion-picker class="w-full bg-transparent select-none selection:bg-transparent">
-            <ion-picker-column class="bg-transparent flex space-x-4 select-none selection:bg-transparent" [value]="lastWeight()"
-                (ionChange)="updateActualWeight($event.detail.value)"
-            >
-                @for (item of weightOptions; track $index) {
-                <ion-picker-column-option [value]="item" class="bg-transparent text-2xl m-5 select-none selection:bg-transparent">
-                    {{ item }}
-                </ion-picker-column-option>
-                }
-                <div class="text-2xl" slot="suffix">{{ lastWeightUnit() }}</div>
-            </ion-picker-column>
-        </ion-picker>
+        <form class=" w-4/5 bg-white rounded-lg shadow-2xl border-t-8 border-emerald-500 p-4">
+            <div class="h-full bg-white flex flex-col items-center">
+                <ion-picker class="w-full bg-transparent select-none selection:bg-transparent">
+                    <ion-picker-column class="bg-transparent flex select-none selection:bg-transparent " [value]="lastWeight()"
+                        (ionChange)="updateActualWeight($event.detail.value)"
+                    >
+                        @for (item of weightOptions; track $index) {
+                            <ion-picker-column-option [value]="item" class="bg-transparent text-2xl text-center  my-4 py-1 px-3 select-none selection:bg-transparent">
+                                {{ item }}
+                            </ion-picker-column-option>
+                        }
+                        <div class="text-2xl" slot="suffix">.</div>
+                    </ion-picker-column>
+
+                    <ion-picker-column class="bg-transparent flex select-none selection:bg-transparent" [value]="lastWeightDecimal()"
+                    (ionChange)="updateActualWeightDecimal($event.detail.value)"
+                    >
+                    <div class="text-2xl" slot="suffix">{{ lastWeightUnit() }}</div>
+                    @for (item of weightOptionsDecimal; track $index) {
+                        <ion-picker-column-option [value]="item" class="bg-transparent text-2xl text-center my-3 py-1 px-3 select-none selection:bg-transparent ">
+                            {{ item }}
+                        </ion-picker-column-option>
+                    }
+                    </ion-picker-column>
+
+                </ion-picker>
+            </div>
+        </form>
     </div>
     }
 
     @if (step() === 1) {
-    <div class="flex flex-col gap-y-4 items-center h-full bg-white">
-        <header class="my-2">
-            <h1 class="text-center font-sans font-semibold text-lg">{{text.dateStepTitle}}</h1>
+    <div class="flex flex-col items-center h-full bg-gradient-to-tr from-emerald-100 to-emerald-300 f">
+        <header class="ion-text-center bg-inherit mt-10 mb-5">
+            <h1 class="font-sans font-semibold text-2xl">{{text.dateStepTitle}}</h1>
         </header>
-        <ion-datetime class="bg-transparent w-full text-lg" locale="en-US"
-            (ionChange)="updateActualDate($event.detail.value)" presentation="date" />
+        <div class=" w-4/5 bg-white p-1 rounded-lg shadow-2xl border-t-8 border-emerald-500">
+            <ion-datetime
+                class="bg-transparent w-full text-lg" locale="en-US"
+                (ionChange)="updateActualDate($event.detail.value)" presentation="date"
+            />
+        </div>
     </div>
     }
 </ion-content>

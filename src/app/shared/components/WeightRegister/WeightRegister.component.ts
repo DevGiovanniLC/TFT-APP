@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, model, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, model, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
     IonDatetime,
@@ -26,12 +26,17 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
-export class WeightRegisterComponent {
+export class WeightRegisterComponent implements OnInit {
     step = signal(0);
+
     lastWeight = signal(70)
+    lastWeightDecimal = signal(0)
     lastWeightUnit = signal(WeightUnits.KG)
+
     actualDate = signal(new Date())
-    weightOptions = this.generateRange(5, 300);
+
+    weightOptions!: Number[];
+    weightOptionsDecimal!: number[];
 
     readonly text: any;
     private modalCtrl = inject(ModalController);
@@ -44,11 +49,16 @@ export class WeightRegisterComponent {
         });
     }
 
+    ngOnInit(): void {
+        this.weightOptions = this.generateRange(5, 300);
+        this.weightOptionsDecimal = this.generateRange(0, 9);
+    }
+
     async getActualWeight() {
         if (!this.weightTracker.isAvailable()) return;
         if (!(await this.weightTracker.getActualWeight())?.weight) return;
 
-        this.lastWeight.set((await this.weightTracker.getActualWeight())?.weight);
+        this.lastWeight.set(Math.floor((await this.weightTracker.getActualWeight())?.weight));
         this.lastWeightUnit.set((await this.weightTracker.getActualWeight())?.weight_units);
     }
 
@@ -68,7 +78,7 @@ export class WeightRegisterComponent {
         }
 
         const newWeight: Weight = {
-            weight: this.lastWeight(),
+            weight: this.lastWeight() + (this.lastWeightDecimal() / 10),
             weight_units: this.lastWeightUnit(),
             date: new Date(this.calculationFunctionsService.formatDate(this.actualDate()))
         };
@@ -80,6 +90,12 @@ export class WeightRegisterComponent {
         if (typeof value !== 'number') return;
 
         this.lastWeight.set(value);
+    }
+
+    updateActualWeightDecimal(value: any) {
+        if (typeof value !== 'number') return;
+
+        this.lastWeightDecimal.set(value);
     }
 
     updateActualDate(value: any) {

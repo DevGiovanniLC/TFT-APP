@@ -12,8 +12,8 @@ export const WeightChart = (chartMode: Signal<String>, weights: Signal<Weight[]>
 
     const dataWeights = weights();
 
-    const goalWeight = goal && typeof goal() === 'object' ? goal().weight : Number.POSITIVE_INFINITY;
-    const goalDate = goal && typeof goal() === 'object' ? goal().date : null;
+    const goalWeight = goal && typeof goal() === 'object' ? goal()?.weight : Number.POSITIVE_INFINITY;
+    const goalDate = goal && typeof goal() === 'object' ? goal()?.date : null;
 
     const minWeight = Math.min(...dataWeights.map((w) => w.weight));
     const maxWeight = Math.max(...dataWeights.map((w) => w.weight));
@@ -101,8 +101,8 @@ export const WeightChart = (chartMode: Signal<String>, weights: Signal<Weight[]>
                 },
                 y: {
                     // Se establece el rango "acercado" usando el mínimo y máximo en base a la meta con margen y redondeo al entero mayor
-                    min: goalWeight ? Math.ceil(Math.min(minWeight, goalWeight) - marginY) : Math.ceil(minWeight - marginY),
-                    max: goalWeight ? Math.ceil(Math.max(maxWeight, goalWeight) + marginY) : Math.ceil(maxWeight + marginY),
+                    min: goalWeight ? Math.round(Math.min(minWeight, goalWeight) - marginY) : Math.round(minWeight - marginY),
+                    max: goalWeight ? Math.round(Math.max(maxWeight, goalWeight) + marginY) : Math.round(maxWeight + marginY),
                     title: {
                         display: false,
                         text: 'Weights (kg)',

@@ -1,19 +1,16 @@
-import { ChangeDetectionStrategy, Component, effect, inject, model, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
     IonDatetime,
     IonContent, IonTitle, IonHeader,
     IonToolbar,
-    ModalController, NavParams,
-    IonButton, IonButtons,
-    IonPicker, IonPickerColumn, IonPickerColumnOption
-} from '@ionic/angular/standalone';
+    ModalController,
+    IonButton, IonButtons} from '@ionic/angular/standalone';
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { WeightFormComponent } from '@shared/components/WeightForm/WeightForm.component';
-import { WeightDisplay } from "../../../tab3/WeightDisplay/WeightDisplay.component";
 
 @Component({
     selector: 'app-weight-register',

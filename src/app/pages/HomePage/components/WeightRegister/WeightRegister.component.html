@@ -24,30 +24,7 @@
         </header>
         <form class=" w-4/5 bg-white rounded-lg shadow-2xl border-t-8 border-emerald-500 p-4">
             <div class="h-full bg-white flex flex-col items-center">
-                <ion-picker class="w-full bg-transparent select-none selection:bg-transparent">
-                    <ion-picker-column class="bg-transparent flex select-none selection:bg-transparent " [value]="lastWeight()"
-                        (ionChange)="updateActualWeight($event.detail.value)"
-                    >
-                        @for (item of weightOptions; track $index) {
-                            <ion-picker-column-option [value]="item" class="bg-transparent text-2xl text-center  my-4 py-1 px-3 select-none selection:bg-transparent">
-                                {{ item }}
-                            </ion-picker-column-option>
-                        }
-                        <div class="text-2xl" slot="suffix">.</div>
-                    </ion-picker-column>
-
-                    <ion-picker-column class="bg-transparent flex select-none selection:bg-transparent" [value]="lastWeightDecimal()"
-                    (ionChange)="updateActualWeightDecimal($event.detail.value)"
-                    >
-                    <div class="text-2xl" slot="suffix">{{ lastWeightUnit() }}</div>
-                    @for (item of weightOptionsDecimal; track $index) {
-                        <ion-picker-column-option [value]="item" class="bg-transparent text-2xl text-center my-3 py-1 px-3 select-none selection:bg-transparent ">
-                            {{ item }}
-                        </ion-picker-column-option>
-                    }
-                    </ion-picker-column>
-
-                </ion-picker>
+                <app-weight-form [inputWeightValue]="lastWeight()" [inputWeightUnit]="lastWeightUnit()" (outputWeightValue)="updateActualWeight($event)"></app-weight-form>
             </div>
         </form>
     </div>

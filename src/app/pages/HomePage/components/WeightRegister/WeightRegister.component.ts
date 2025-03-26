@@ -12,31 +12,29 @@ import { Weight, WeightUnits } from '@models/types/Weight';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 
 import { WeightTrackerService } from '@services/WeightTracker.service';
+import { WeightFormComponent } from '@shared/components/WeightForm/WeightForm.component';
+import { WeightDisplay } from "../../../tab3/WeightDisplay/WeightDisplay.component";
 
 @Component({
     selector: 'app-weight-register',
-    imports:
-        [
-            IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar,
-            IonPicker, IonPickerColumn, IonPickerColumnOption, IonDatetime,
-            FormsModule
-        ],
+    imports: [
+    IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar,
+    IonDatetime,
+    FormsModule, WeightFormComponent,
+],
     templateUrl: './WeightRegister.component.html',
     styleUrls: ['./WeightRegister.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
-export class WeightRegisterComponent implements OnInit {
+export class WeightRegisterComponent {
     step = signal(0);
 
     lastWeight = signal(70)
-    lastWeightDecimal = signal(0)
     lastWeightUnit = signal(WeightUnits.KG)
 
+    actualWeight = signal(70)
     actualDate = signal(new Date())
-
-    weightOptions!: Number[];
-    weightOptionsDecimal!: number[];
 
     readonly text: any;
     private modalCtrl = inject(ModalController);
@@ -49,15 +47,11 @@ export class WeightRegisterComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void {
-        this.weightOptions = this.generateRange(5, 300);
-        this.weightOptionsDecimal = this.generateRange(0, 9);
-    }
 
     async getActualWeight() {
         if (!this.weightTracker.isAvailable()) return;
         if (!(await this.weightTracker.getActualWeight())?.weight) return;
-
+        //alert(Math.floor((await this.weightTracker.getActualWeight())?.weight))
         this.lastWeight.set(Math.floor((await this.weightTracker.getActualWeight())?.weight));
         this.lastWeightUnit.set((await this.weightTracker.getActualWeight())?.weight_units);
     }
@@ -78,7 +72,7 @@ export class WeightRegisterComponent implements OnInit {
         }
 
         const newWeight: Weight = {
-            weight: this.lastWeight() + (this.lastWeightDecimal() / 10),
+            weight: this.actualWeight(),
             weight_units: this.lastWeightUnit(),
             date: new Date(this.calculationFunctionsService.formatDate(this.actualDate()))
         };
@@ -86,17 +80,12 @@ export class WeightRegisterComponent implements OnInit {
         return this.modalCtrl.dismiss(newWeight, 'confirm');
     }
 
-    updateActualWeight(value: any) {
+    updateActualWeight(value: number) {
         if (typeof value !== 'number') return;
 
-        this.lastWeight.set(value);
+        this.actualWeight.set(value);
     }
 
-    updateActualWeightDecimal(value: any) {
-        if (typeof value !== 'number') return;
-
-        this.lastWeightDecimal.set(value);
-    }
 
     updateActualDate(value: any) {
         if (typeof value !== 'string') return;
@@ -104,9 +93,7 @@ export class WeightRegisterComponent implements OnInit {
         this.actualDate.set(new Date(value));
     }
 
-    generateRange(start: number, end: number): number[] {
-        return Array(end - start + 1).fill(0).map((_, idx) => start + idx);
-    }
+
 }
 
 

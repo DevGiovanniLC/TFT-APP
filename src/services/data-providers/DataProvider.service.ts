@@ -1,10 +1,10 @@
 import { Injectable, signal } from '@angular/core';
 import { DataProvider } from 'src/interfaces/DataProvider';
 import DBConnection from '@services/data-providers/DBConnection';
-import JSONProvider from './JSONProvider';
 
 import LocalStorageProvider from './LocalStorageProvider';
 import { Weight} from '@models/types/Weight';
+import { User } from '@models/types/User';
 
 @Injectable({
     providedIn: 'root',
@@ -17,8 +17,8 @@ export class DataProviderService {
     constructor() {}
 
     async initialize() {
-        this.dataProvider = new DBConnection();
-        //this.dataProvider = new JSONProvider();
+        //this.dataProvider = new DBConnection();
+        this.dataProvider = new LocalStorageProvider();
         await this.dataProvider.initializeConnection();
         this.connectionStatus.set(true);
     }
@@ -31,8 +31,12 @@ export class DataProviderService {
         return await this.dataProvider.getGoal();
     }
 
+    async getUser(): Promise<User> {
+        return await this.dataProvider.getUser();
+    }
+
     setNewWeight(value: Weight){
-        return this.dataProvider.setNewWeight(value)
+        return this.dataProvider.addWeight(value)
     }
 
     isConnected(): boolean {

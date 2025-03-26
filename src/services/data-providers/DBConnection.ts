@@ -2,8 +2,11 @@ import { DataProvider } from "src/interfaces/DataProvider";
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from "@capacitor-community/sqlite";
 import { environment } from "src/envs/environment";
 import { Weight } from "@models/types/Weight";
+import { User } from "@models/types/User";
 
 export default class DBConnection implements DataProvider {
+
+
     private sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite);
     private db!: SQLiteDBConnection;
 
@@ -43,7 +46,15 @@ export default class DBConnection implements DataProvider {
         // .catch(err => alert(err));
     }
 
+    async getUser(): Promise<User> {
+        const user = await this.db.query(`
+            SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)
+        `);
 
+        if (user?.values == undefined) throw new Error('No goal found');
+
+        return user.values[0];
+    }
 
     async getWeights(): Promise<any> {
         const registers = await this.db.query('SELECT * FROM registers');
@@ -65,7 +76,24 @@ export default class DBConnection implements DataProvider {
         }
     }
 
-    setNewWeight(value: Weight): boolean {
+    setUser(value: User): boolean {
+        this.db.query(`
+            INSERT INTO user (name, email, age, height, goal_weight, goal_units, goal_date) VALUES
+            (?, ?, ?, ?, ?, ?, ?)
+            `, [
+            value.name,
+            value.email,
+            value.age,
+            value.height,
+            value.goal_weight,
+            value.goal_units,
+            value.goal_date
+        ]);
+
+        return true;
+    }
+
+    addWeight(value: Weight): boolean {
         this.db.query(`
             INSERT INTO registers (date, weight, weight_units) VALUES
             (?, ?, ?)

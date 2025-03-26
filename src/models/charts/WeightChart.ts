@@ -115,6 +115,7 @@ export const WeightChart = (chartMode: Signal<String>, weights: Signal<Weight[]>
                             size: 10 // Ajusta el tamaño de la fuente (puedes probar con otros valores)
                         },
                         color: '#343a40',
+                        maxTicksLimit: 8,
                     },
                 },
             },

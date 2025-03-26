@@ -1,17 +1,36 @@
 import { DataProvider } from 'src/interfaces/DataProvider';
-import { Weight } from '@models/types/Weight';
+import { Weight, WeightUnits } from '@models/types/Weight';
+import { User } from '@models/types/User';
+import data from 'src/assets/data/mock.json';
 
 export default class LocalStorageProvider implements DataProvider {
     private readonly WEIGHTS_KEY = 'weight_data_weights';
     private readonly GOAL_KEY = 'weight_data_goal';
+    private readonly USER_KEY: string = 'user_data';
+
 
     constructor() {
         // Initialize storage with empty arrays if not exists
-        if (!localStorage.getItem(this.WEIGHTS_KEY)) {
-            localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify([]));
-        }
+        // this.addExampleData();
     }
-    setNewWeight(value: Weight): boolean {
+
+    addExampleData() {
+        localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(data.weights));
+        localStorage.setItem(this.GOAL_KEY, JSON.stringify(data.goal));
+    }
+
+    getUser(): Promise<User> {
+        const userString = localStorage.getItem(this.USER_KEY);
+        let user = userString ? JSON.parse(userString) : null;
+        return Promise.resolve(user);
+    }
+
+    setUser(value: User): boolean {
+        localStorage.setItem(this.USER_KEY, JSON.stringify(value));
+        return true;
+    }
+
+    addWeight(value: Weight): boolean {
         try {
             // Normalizar la fecha en formato "yyyy-MM-dd"
             const formattedDate = this.formatDate(value.date);

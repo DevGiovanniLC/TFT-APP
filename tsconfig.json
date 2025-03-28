@@ -21,6 +21,9 @@
             "@components/*": [
                 "src/app/shared/components/*"
             ],
+            "@pipes/*": [
+                "src/pipes/*"
+            ]
         },
         "baseUrl": "./",
         "outDir": "./dist/out-tsc",

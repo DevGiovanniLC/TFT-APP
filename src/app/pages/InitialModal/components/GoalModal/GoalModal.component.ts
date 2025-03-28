@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import {
@@ -25,6 +25,10 @@ import { WeightFormComponent } from '@shared/components/WeightForm/WeightForm.co
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoalModalComponent {
+
+    @ViewChild('modalContainer') contentRef!: IonContent;
+    @ViewChild('dateTitle') titleRef!: ElementRef<HTMLElement>;
+
     isWithDate = signal(false)
 
     lastWeight = signal(70)
@@ -33,10 +37,9 @@ export class GoalModalComponent {
     actualWeight = signal(70)
     actualDate = signal(new Date())
 
-    readonly text: any;
     private modalCtrl = inject(ModalController);
 
-    constructor(private calculationFunctionsService: CalculationFunctionsService) {}
+    constructor(private calculationFunctionsService: CalculationFunctionsService, private cdr: ChangeDetectorRef) { }
 
     cancel() {
         return this.modalCtrl.dismiss(null, 'cancel');
@@ -65,4 +68,22 @@ export class GoalModalComponent {
         this.actualDate.set(new Date(value));
     }
 
+    toggleDate() {
+        this.isWithDate.set(!this.isWithDate())
+        this.titleRef.nativeElement.classList.toggle('hidden')
+        this.scrollToTitle()
+    }
+
+    private async scrollToTitle() {
+        const content = this.contentRef
+        const title = this.titleRef?.nativeElement
+
+        if (content && title) {
+            const y = title.offsetTop;
+            content.scrollToPoint(0, y, 1500);
+        }
+    }
+
 }
+
+

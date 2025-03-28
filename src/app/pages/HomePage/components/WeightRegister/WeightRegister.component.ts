@@ -48,7 +48,6 @@ export class WeightRegisterComponent {
     async getActualWeight() {
         if (!this.weightTracker.isAvailable()) return;
         if (!(await this.weightTracker.getActualWeight())?.weight) return;
-        //alert(Math.floor((await this.weightTracker.getActualWeight())?.weight))
         this.lastWeight.set(Math.floor((await this.weightTracker.getActualWeight())?.weight));
         this.lastWeightUnit.set((await this.weightTracker.getActualWeight())?.weight_units);
     }

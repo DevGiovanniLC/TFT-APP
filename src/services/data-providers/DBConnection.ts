@@ -1,4 +1,4 @@
-import { DataProvider } from "src/interfaces/DataProvider";
+import { DataProvider } from "@services/data-providers/interfaces/DataProvider";
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from "@capacitor-community/sqlite";
 import { environment } from "src/envs/environment";
 import { Weight } from "@models/types/Weight";

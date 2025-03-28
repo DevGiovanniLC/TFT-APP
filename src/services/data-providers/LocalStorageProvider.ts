@@ -1,11 +1,10 @@
-import { DataProvider } from 'src/interfaces/DataProvider';
+import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { User } from '@models/types/User';
 import data from 'src/assets/data/mock.json';
 
 export default class LocalStorageProvider implements DataProvider {
     private readonly WEIGHTS_KEY = 'weight_data_weights';
-    private readonly GOAL_KEY = 'weight_data_goal';
     private readonly USER_KEY: string = 'user_data';
 
 
@@ -16,7 +15,6 @@ export default class LocalStorageProvider implements DataProvider {
 
     addExampleData() {
         localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(data.weights));
-        localStorage.setItem(this.GOAL_KEY, JSON.stringify(data.goal));
     }
 
     getUser(): Promise<User> {
@@ -66,19 +64,16 @@ export default class LocalStorageProvider implements DataProvider {
     }
 
     getGoal(): Promise<Weight> {
-        const goalString = localStorage.getItem(this.GOAL_KEY);
-        const goal = goalString ? JSON.parse(goalString) : null;
-        return Promise.resolve(goal);
-    }
+        const userString = localStorage.getItem(this.USER_KEY);
+        let user = userString ? JSON.parse(userString) : null;
 
-    setGoal(goal: Weight): boolean {
-        try {
-            localStorage.setItem(this.GOAL_KEY, JSON.stringify(goal));
-            return true;
-        } catch (error) {
-            console.error('Error saving goal:', error);
-            return false;
+        const goal = {
+            weight: user?.goal_weight,
+            weight_units: user?.goal_units,
+            date: user?.goal_date
         }
+
+        return Promise.resolve(goal);
     }
 
     async getWeights(): Promise<Weight[]> {

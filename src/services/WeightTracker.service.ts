@@ -34,7 +34,7 @@ export class WeightTrackerService {
         return goal;
     }
 
-    setNewWeight(value: Weight){
+    addWeight(value: Weight){
         this.weights.update((weights) => [...weights, value]);
         return this.dataProvider.setNewWeight(value)
     }

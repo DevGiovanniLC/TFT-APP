@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { DataProvider } from 'src/interfaces/DataProvider';
+import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
 import DBConnection from '@services/data-providers/DBConnection';
 
 import LocalStorageProvider from './LocalStorageProvider';
@@ -10,6 +10,7 @@ import { User } from '@models/types/User';
     providedIn: 'root',
 })
 export class DataProviderService {
+
     connectionStatus = signal(false);
 
     private dataProvider!: DataProvider;
@@ -33,6 +34,10 @@ export class DataProviderService {
 
     async getUser(): Promise<User> {
         return await this.dataProvider.getUser();
+    }
+
+    setUser(user: User) {
+        return this.dataProvider.setUser(user);
     }
 
     setNewWeight(value: Weight){

@@ -12,4 +12,8 @@ export class ConfigService {
         return this.dataProvider.getUser();
     }
 
+    setUser(user: any) {
+        return this.dataProvider.setUser(user);
+    }
+
 }

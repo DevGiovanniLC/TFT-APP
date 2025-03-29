@@ -21,7 +21,8 @@
 
         <header class="ion-text-center bg-inherit mt-8 mb-3">
             <h1 class="font-sans font-semibold text-2xl m-0">Set your weight goal</h1>
-            <h2 class="font-serif text-pretty font-light text-xs m-1">Define your target to stay focused and track your progress</h2>
+            <h2 class="font-serif text-pretty font-light text-xs m-1">Define your target to stay focused and track your
+                progress</h2>
         </header>
 
         <form class="flex flex-col items-center w-4/5 bg-white rounded-lg shadow-2xl border-t-8 border-emerald-500 p-4">
@@ -31,21 +32,25 @@
             <div class="flex space-x-3 p-5 justify-center items-center align-middle">
                 <ion-toggle [value]="isWithDate()" (ionChange)="toggleDate()">Set a date</ion-toggle>
             </div>
+            @if (isWithDate()) {
+                <ion-datetime-button datetime="datetime"/>
+
+                <ion-modal
+                    [keepContentsMounted]="true"
+                    breakpoints="[0, 1]"
+                    initialBreakpoint="1"
+                >
+                    <ng-template>
+                        <ion-datetime
+                        id="datetime"
+                        presentation="date"
+                        locale="en-US"
+                        hour-cycle="h23"
+                        (ionChange)="updateActualDate($event.detail.value)">
+                        ></ion-datetime>
+                    </ng-template>
+                </ion-modal>
+            }
         </form>
-
-        <header #dateTitle class="ion-text-center bg-inherit mt-5 hidden" >
-            <h1 class="font-sans font-semibold text-2xl m-0">Choose a target date</h1>
-            <h2 class="font-serif text-pretty font-light text-xs m-1">Set a deadline to stay focused on your goal</h2>
-        </header>
-        @if (isWithDate()) {
-            <div class=" w-4/5 bg-white p-1 rounded-lg shadow-2xl border-t-8 border-emerald-500 my-5 h-full">
-
-                <ion-datetime class="bg-transparent w-full text-lg" locale="en-US"
-                    (ionChange)="updateActualDate($event.detail.value)" presentation="date" />
-            </div>
-        }
-
-
-
     </div>
 </ion-content>

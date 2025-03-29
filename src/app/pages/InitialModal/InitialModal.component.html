@@ -23,9 +23,9 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content scrollY="false">
     <div
-        class=" h-full flex flex-col items-center text-center px-6 py-10 space-y-5 bg-gradient-to-tr from-emerald-100 to-emerald-300 w-full relative overflow-hidden">
+        class="h-full flex flex-col items-center text-center px-6 py-10 space-y-5 bg-gradient-to-tr from-emerald-100 to-emerald-300 w-full">
         @switch (step) {
         @case (0) {
         <h1 class="text-xl font-bold text-primary text-pretty text-center">
@@ -56,7 +56,7 @@
         </h1>
         <p class="text-lg text-gray-700 text-pretty">Stay consistent and monitor your progress!</p>
 
-        <form class="w-4/5 bg-white rounded-lg shadow-2xl border-t-8 border-emerald-500 p-10">
+        <form class="w-4/5 bg-white rounded-lg shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10">
             <div class="h-full bg-white flex flex-col items-center">
                 <p class="text-lg text-gray-700 m-0 p-0">Register your weight</p>
                 <app-weight-form [inputWeightValue]="actualWeight()" [inputWeightUnit]="lastWeightUnit"
@@ -99,7 +99,7 @@
                 <p>You already have a weight goal✅</p>
                 <p>Weight goal: {{ goalWeight?.weight }} {{ goalWeight?.weight_units }}</p>
                 @if (validateGoalDate()) {
-                    <p>Date: {{ goalWeight?.date | simpleDate }}</p>
+                    <p>Date: {{ goalWeight?.date | simpleDate: 'MM/dd/yyyy' }}</p>
                 }
             }
         </div>
@@ -147,7 +147,7 @@
                 <label for="gender" class="text-sm font-medium text-teal-600">Gender (Optional)</label>
                 <ion-select id="gender" name="gender" placeholder="Select your gender"
                     [(ngModel)]="gender"
-                    class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm"
+                    class="px-4 py-1 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm"
                 >
                     <ion-select-option value="female">Female</ion-select-option>
                     <ion-select-option value="male">Male</ion-select-option>

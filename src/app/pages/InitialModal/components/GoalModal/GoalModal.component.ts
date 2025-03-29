@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import {
+    IonModal,
     IonDatetime,
     IonContent, IonTitle, IonHeader,
     IonToolbar,
     ModalController,
-    IonButton, IonButtons,
+    IonButton, IonButtons, IonDatetimeButton,
     IonToggle
 } from '@ionic/angular/standalone';
 import { Weight, WeightUnits } from '@models/types/Weight';
@@ -18,8 +19,8 @@ import { WeightFormComponent } from '@shared/components/WeightForm/WeightForm.co
     selector: 'app-goal-modal',
     imports: [
         IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar,
-        IonDatetime,
-        FormsModule, WeightFormComponent, IonToggle
+        FormsModule, WeightFormComponent, IonToggle,
+        IonDatetimeButton, IonModal, IonDatetime
     ],
     templateUrl: './GoalModal.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,

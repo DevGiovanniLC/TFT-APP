@@ -3,14 +3,13 @@ import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
 import DBConnection from '@services/data-providers/DBConnection';
 
 import LocalStorageProvider from './LocalStorageProvider';
-import { Weight} from '@models/types/Weight';
+import { Weight } from '@models/types/Weight';
 import { User } from '@models/types/User';
 
 @Injectable({
     providedIn: 'root',
 })
 export class DataProviderService {
-
     connectionStatus = signal(false);
 
     private dataProvider!: DataProvider;
@@ -40,8 +39,8 @@ export class DataProviderService {
         return this.dataProvider.setUser(user);
     }
 
-    addWeight(value: Weight){
-        return this.dataProvider.addWeight(value)
+    addWeight(value: Weight) {
+        return this.dataProvider.addWeight(value);
     }
 
     isConnected(): boolean {

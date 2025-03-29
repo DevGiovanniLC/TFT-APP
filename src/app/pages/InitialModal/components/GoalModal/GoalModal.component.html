@@ -1,52 +1,49 @@
 <ion-header class="h-16 bg-transparent">
     <ion-toolbar class="mt-4 bg-transparent">
         <ion-buttons slot="start">
-            <ion-button class="w-24" color="medium" (click)="cancel()">
-                Cancel
-            </ion-button>
+            <ion-button class="w-24" color="medium" (click)="cancel()"> Cancel </ion-button>
         </ion-buttons>
-        <ion-title class="text-center font-sans font-semibold text-sm">
-            Set Your Goal
-        </ion-title>
+        <ion-title class="text-center font-sans font-semibold text-sm"> Set Your Goal </ion-title>
         <ion-buttons slot="end">
-            <ion-button class="w-24" (click)="confirm()" [strong]="true" color="primary">
-                Confirm
-            </ion-button>
+            <ion-button class="w-24" (click)="confirm()" [strong]="true" color="primary"> Confirm </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content #modalContainer class="bg-inherit">
     <div class="h-fit min-h-full bg-gradient-to-tr from-emerald-100 to-emerald-300 flex flex-col items-center">
-
         <header class="ion-text-center bg-inherit mt-8 mb-3">
             <h1 class="font-sans font-semibold text-2xl m-0">Set your weight goal</h1>
-            <h2 class="font-serif text-pretty font-light text-xs m-1">Define your target to stay focused and track your
-                progress</h2>
+            <h2 class="font-serif text-pretty font-light text-xs m-1">
+                Define your target to stay focused and track your progress
+            </h2>
         </header>
-        <form class="w-11/12 bg-white rounded-lg shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10">
-            <app-weight-form [inputWeightValue]="lastWeight()" [inputWeightUnit]="lastWeightUnit()"
-                (outputWeightValue)="updateActualWeight($event)"></app-weight-form>
+        <form
+            class="w-11/12 bg-white rounded-lg shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10"
+        >
+            <app-weight-form
+                [inputWeightValue]="lastWeight()"
+                [inputWeightUnit]="lastWeightUnit()"
+                (outputWeightValue)="updateActualWeight($event)"
+            ></app-weight-form>
 
             <div class="flex space-x-3 p-5 justify-center items-center align-middle">
                 <ion-toggle [value]="isWithDate()" (ionChange)="toggleDate()">Set a date</ion-toggle>
             </div>
             @if (isWithDate()) {
-                <ion-datetime-button datetime="datetime"/>
+                <ion-datetime-button datetime="datetime" />
 
-                <ion-modal
-                    [keepContentsMounted]="true"
-                    [breakpoints]="[0, 1]"
-                    initialBreakpoint="1"
-                >
+                <ion-modal [keepContentsMounted]="true" [breakpoints]="[0, 1]" initialBreakpoint="1">
                     <ng-template>
                         <ion-datetime
-                        id="datetime"
-                        presentation="date"
-                        locale="en-US"
-                        hour-cycle="h23"
-                        (ionChange)="updateActualDate($event.detail.value)">
-                        ></ion-datetime>
+                            id="datetime"
+                            presentation="date"
+                            locale="en-US"
+                            hour-cycle="h23"
+                            (ionChange)="updateActualDate($event.detail.value)"
+                        >
+                            ></ion-datetime
+                        >
                     </ng-template>
                 </ion-modal>
             }

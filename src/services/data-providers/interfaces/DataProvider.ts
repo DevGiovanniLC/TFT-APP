@@ -9,5 +9,5 @@ export interface DataProvider {
     setUser(value: User): boolean;
     addWeight(value: Weight): boolean;
 
-    initializeConnection(): Promise<any>;
+    initializeConnection(): Promise<boolean>;
 }

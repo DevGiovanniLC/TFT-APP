@@ -1,6 +1,7 @@
-import { Injector, Signal } from "@angular/core";
-import { Weight } from "@models/types/Weight";
-import { CalculationFunctionsService } from "@services/CalculationFunctions.service";
+import { Injector, Signal } from '@angular/core';
+import { Weight } from '@models/types/Weight';
+import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { Chart } from 'chart.js';
 
 const injector = Injector.create({ providers: [CalculationFunctionsService] });
 const calculationFunctionsService = injector.get(CalculationFunctionsService);
@@ -14,7 +15,6 @@ export const customSVGsPluginForDoughnutChart = () => {
     return {
         id: 'customSVG',
         afterDraw: (chartInstance: any) => {
-
             const ctx = chartInstance.ctx;
 
             const meta = chartInstance.getDatasetMeta(0);
@@ -36,7 +36,6 @@ export const customSVGsPluginForDoughnutChart = () => {
             const progressX = centerX + outerRadius * Math.cos(endAngle);
             const progressY = centerY + outerRadius * Math.sin(endAngle);
 
-
             if (svgImageStart.complete) {
                 ctx.drawImage(svgImageStart, startX - 12, startY - 8, 25, 25);
             }
@@ -44,18 +43,14 @@ export const customSVGsPluginForDoughnutChart = () => {
             if (svgImageProgress.complete) {
                 ctx.drawImage(svgImageProgress, progressX - 10, progressY - 18, 25, 25);
             }
-        }
-    }
-
-}
-
-
-
+        },
+    };
+};
 
 export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal<Weight>) => {
     return {
         id: 'centerText',
-        afterDraw: (chart: any) => {
+        afterDraw: (chart: Chart) => {
             const { ctx, chartArea } = chart;
             if (!chartArea) return;
 
@@ -72,35 +67,27 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
 
             let offset = Number.isNaN(progression()) ? -10 : 0;
 
-
             ctx.font = 'bold 12px sans-serif';
             ctx.fillStyle = '#343a40';
 
-
-            if (progression() < 100) ctx.fillText(`Progression ${Number(progression()).toFixed(0)} %`, centerX, centerY - 40);
+            if (progression() < 100)
+                ctx.fillText(`Progression ${Number(progression()).toFixed(0)} %`, centerX, centerY - 40);
             if (progression() > 100) ctx.fillText(`Completed✅`, centerX, centerY - 35);
             else if (progression() > 90) {
                 ctx.fillText(``, centerX, centerY - 26);
                 ctx.fillText(`Just a little bit more 👍`, centerX, centerY - 25);
-            }
-            else if (progression() > 80) {
+            } else if (progression() > 80) {
                 ctx.fillText(`Just a bit more 👍`, centerX, centerY - 25);
-            }
-            else if (progression() > 50) {
+            } else if (progression() > 50) {
                 ctx.fillText(`Greatfully done 🎉`, centerX, centerY - 25);
-            }
-            else if (progression() > 20) {
+            } else if (progression() > 20) {
                 ctx.fillText(`Good job 😁`, centerX, centerY - 25);
-            }
-            else if (progression() > 5) {
+            } else if (progression() > 5) {
                 ctx.fillText(`Keep going 💪`, centerX, centerY - 25);
-            }
-            else if (progression() < -1) {
+            } else if (progression() < -1) {
                 ctx.fillStyle = '#C7B85A';
                 ctx.fillText(`You can do better`, centerX, centerY - 25);
-            }
-            else offset = -10;
-
+            } else offset = -10;
 
             ctx.font = 'bold 30px sans-serif';
             ctx.fillStyle = '#343a40';
@@ -111,18 +98,9 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
             ctx.fillText(`${differenceTime(lastWeight()?.date, new Date())}`, centerX, centerY + 50);
 
             ctx.restore();
-        }
+        },
     };
-}
-
-
-
-
-
-
-
-
-
+};
 
 function differenceTime(dateStart: Date, dateEnd: Date) {
     const days = calculationFunctionsService.dayDifference(new Date(dateStart), new Date(dateEnd));
@@ -143,5 +121,4 @@ function differenceTime(dateStart: Date, dateEnd: Date) {
     }
 
     return result;
-
 }

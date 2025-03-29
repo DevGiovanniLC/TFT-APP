@@ -1,13 +1,7 @@
-import { Injector, Signal } from "@angular/core";
-import { Weight } from "@models/types/Weight";
-import { CalculationFunctionsService } from "@services/CalculationFunctions.service";
-import { delay } from "rxjs";
+import { Signal } from '@angular/core';
+import { Weight } from '@models/types/Weight';
 
-const injector = Injector.create({ providers: [CalculationFunctionsService] });
-const calculationFunctionsService = injector.get(CalculationFunctionsService);
-
-
-export const WeightChart = (chartMode: Signal<String>, weights: Signal<Weight[]>, goal: Signal<Weight>) => {
+export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>, goal: Signal<Weight>) => {
     if (weights().length === 0) return [];
 
     const dataWeights = weights();
@@ -22,27 +16,23 @@ export const WeightChart = (chartMode: Signal<String>, weights: Signal<Weight[]>
 
     const validDates = dataWeights.map((w) => new Date(w.date));
     const maxDate = Math.max(...validDates.map((w) => w.getTime()));
-    const minDate = Math.min(...validDates.map((w) => w.getTime())) - 1* 24 * 60 * 60 * 1000;
+    const minDate = Math.min(...validDates.map((w) => w.getTime())) - 1 * 24 * 60 * 60 * 1000;
     const rangeX = goalDate ? new Date(Math.max(maxDate, goalDate.getTime())) : new Date(maxDate);
     let goalDateMaxRange;
 
     if (chartMode() === 'viewGoal' && goal()?.weight > 0) {
         goalDateMaxRange = new Date(rangeX.getTime() + 15 * 24 * 60 * 60 * 1000); // Agrega 15 días a la fecha máxima
-    }
-    else if (chartMode() === 'total') {
+    } else if (chartMode() === 'total') {
         goalDateMaxRange = new Date(maxDate + 15 * 24 * 60 * 60 * 1000); // Agrega 15 días a la fecha máxima
+    } else if (chartMode() === 'week') {
+        goalDateMaxRange = new Date(maxDate + 1 * 24 * 60 * 60 * 1000); // Agrega 7 días a la fecha máxima
+    } else if (chartMode() === 'month') {
+        goalDateMaxRange = new Date(maxDate + 1 * 24 * 60 * 60 * 1000); // Agrega 30 días a la fecha máxima
     }
-    else if (chartMode() === 'week') {
-        goalDateMaxRange = new Date(maxDate +  1* 24 * 60 * 60 * 1000); // Agrega 7 días a la fecha máxima
-    }
-    else if (chartMode() === 'month') {
-        goalDateMaxRange = new Date(maxDate +  1* 24 * 60 * 60 * 1000); // Agrega 30 días a la fecha máxima
-    }
-
 
     return {
         data: {
-            labels: dataWeights.map((w) => new Date(w.date).getTime() ),
+            labels: dataWeights.map((w) => new Date(w.date).getTime()),
             datasets: [
                 {
                     label: 'Weight (kg)',
@@ -62,7 +52,7 @@ export const WeightChart = (chartMode: Signal<String>, weights: Signal<Weight[]>
                     radius: 5,
                     hitRadius: 8,
                     hoverRadius: 8,
-                }
+                },
             },
             plugins: {
                 annotation: {
@@ -70,11 +60,12 @@ export const WeightChart = (chartMode: Signal<String>, weights: Signal<Weight[]>
                 },
                 legend: {
                     display: false,
-                    onClick: () => { },
+                    onClick: () => {},
                     position: 'top',
                 },
-                centerText: false
-            },animation: {
+                centerText: false,
+            },
+            animation: {
                 duration: 1300,
                 delay: 100,
             },
@@ -101,8 +92,12 @@ export const WeightChart = (chartMode: Signal<String>, weights: Signal<Weight[]>
                 },
                 y: {
                     // Se establece el rango "acercado" usando el mínimo y máximo en base a la meta con margen y redondeo al entero mayor
-                    min: goalWeight ? Math.round(Math.min(minWeight, goalWeight) - marginY) : Math.round(minWeight - marginY),
-                    max: goalWeight ? Math.round(Math.max(maxWeight, goalWeight) + marginY) : Math.round(maxWeight + marginY),
+                    min: goalWeight
+                        ? Math.round(Math.min(minWeight, goalWeight) - marginY)
+                        : Math.round(minWeight - marginY),
+                    max: goalWeight
+                        ? Math.round(Math.max(maxWeight, goalWeight) + marginY)
+                        : Math.round(maxWeight + marginY),
                     title: {
                         display: false,
                         text: 'Weights (kg)',
@@ -112,7 +107,7 @@ export const WeightChart = (chartMode: Signal<String>, weights: Signal<Weight[]>
                             return `${value} ${dataWeights[0].weight_units}`; // Agrega "kg" como sufijo a los valores del eje Y
                         },
                         font: {
-                            size: 10 // Ajusta el tamaño de la fuente (puedes probar con otros valores)
+                            size: 10, // Ajusta el tamaño de la fuente (puedes probar con otros valores)
                         },
                         color: '#343a40',
                         maxTicksLimit: 8,
@@ -120,12 +115,10 @@ export const WeightChart = (chartMode: Signal<String>, weights: Signal<Weight[]>
                 },
             },
         },
-    }
-}
+    };
+};
 
-
-
-export function configurationAnnotationPlugin(chartMode: String, goalWeight: number, goalDate: Date): any {
+export function configurationAnnotationPlugin(chartMode: string, goalWeight: number, goalDate: Date): any {
     if (!goalWeight) return [];
     return {
         goalLabel: {

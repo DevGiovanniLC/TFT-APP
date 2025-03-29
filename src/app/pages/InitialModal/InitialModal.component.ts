@@ -1,8 +1,15 @@
-import { ChangeDetectionStrategy, Component, computed, effect, Pipe, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import {
-    IonContent, IonTitle, IonHeader,
-    IonToolbar, ModalController,
-    IonButton, IonButtons, IonSelect, IonSelectOption} from '@ionic/angular/standalone';
+    IonContent,
+    IonTitle,
+    IonHeader,
+    IonToolbar,
+    ModalController,
+    IonButton,
+    IonButtons,
+    IonSelect,
+    IonSelectOption,
+} from '@ionic/angular/standalone';
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { WeightFormComponent } from '@shared/components/WeightForm/WeightForm.component';
 import { GoalModalComponent } from './components/GoalModal/GoalModal.component';
@@ -12,29 +19,34 @@ import { SimpleDatePipe } from '@pipes/SimpleDate.pipe';
 
 @Component({
     selector: 'app-initial-modal',
-    imports:
-        [
-    IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar,
-    IonSelect, IonSelectOption,
-    WeightFormComponent, SimpleDatePipe,
-    FormsModule,
-],
+    imports: [
+        IonButton,
+        IonButtons,
+        IonContent,
+        IonHeader,
+        IonTitle,
+        IonToolbar,
+        IonSelect,
+        IonSelectOption,
+        WeightFormComponent,
+        SimpleDatePipe,
+        FormsModule,
+    ],
     templateUrl: './InitialModal.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InitialModalComponent {
     step = 0;
-    name!: string
-    age!: number
-    height!: number
-    gender: Gender = Gender.OTHER
+    name!: string;
+    age!: number;
+    height!: number;
+    gender: Gender = Gender.OTHER;
 
-    actualWeight = signal(70)
-    lastWeightUnit = WeightUnits.KG
+    actualWeight = signal(70);
+    lastWeightUnit = WeightUnits.KG;
 
-
-    goalWeight!: Weight | null
-    isGoal = signal(false)
+    goalWeight!: Weight | null;
+    isGoal = signal(false);
 
     constructor(private modalCtrl: ModalController) {}
 
@@ -45,8 +57,8 @@ export class InitialModalComponent {
             const actualWeight = {
                 weight: this.actualWeight(),
                 weight_units: this.lastWeightUnit,
-                date: new Date()
-            }
+                date: new Date(),
+            };
 
             const structuredData = {
                 actual_weight: actualWeight,
@@ -55,7 +67,7 @@ export class InitialModalComponent {
                 height: this.height,
                 age: this.age,
                 gender: this.gender,
-            }
+            };
 
             this.modalCtrl.dismiss(structuredData, 'confirm');
         }
@@ -66,7 +78,6 @@ export class InitialModalComponent {
     }
 
     async openModal() {
-
         const modal = await this.modalCtrl.create({
             component: GoalModalComponent,
             cssClass: 'small-modal',
@@ -74,9 +85,9 @@ export class InitialModalComponent {
                 text: {
                     title: 'Register Weight',
                     weightStepTitle: 'Select the weight',
-                    dateStepTitle: 'Pick the date'
-                }
-            }
+                    dateStepTitle: 'Pick the date',
+                },
+            },
         });
         modal.present();
 
@@ -86,10 +97,9 @@ export class InitialModalComponent {
             this.goalWeight = data as Weight;
             this.isGoal.set(true);
         }
-
     }
 
-    validateGoalDate(){
+    validateGoalDate() {
         if (this.isGoal() && !isNaN(this.goalWeight?.date?.getTime() || NaN)) return true;
         return false;
     }
@@ -98,7 +108,7 @@ export class InitialModalComponent {
         const input = event.target as HTMLInputElement;
         let value = Number(input.value);
 
-        if (value < 0){
+        if (value < 0) {
             value = NaN;
         }
 
@@ -119,7 +129,7 @@ export class InitialModalComponent {
         const input = event.target as HTMLInputElement;
         let value = Number(input.value);
 
-        if (value < 0){
+        if (value < 0) {
             value = NaN;
         }
 
@@ -136,5 +146,3 @@ export class InitialModalComponent {
         this.actualWeight.set(value);
     }
 }
-
-

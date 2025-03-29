@@ -11,22 +11,20 @@ import { ConfigService } from '@services/Config.service';
     selector: 'app-tab1',
     templateUrl: 'tab1.page.html',
     standalone: true,
-    imports: [
-        IonContent, IonHeader, IonToolbar, IonTitle,
-        WeightGraphic, MainDisplay
-    ],
+    imports: [IonContent, IonHeader, IonToolbar, IonTitle, WeightGraphic, MainDisplay],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Tab1Page {
-
     weights: WritableSignal<Weight[]> = signal<Weight[]>([]);
     goal: WritableSignal<Weight> = signal<Weight>({ date: new Date(NaN), weight: 0, weight_units: WeightUnits.KG });
 
-    constructor(private weightTrackerService: WeightTrackerService, private config: ConfigService) {
+    constructor(
+        private weightTrackerService: WeightTrackerService,
+        private config: ConfigService
+    ) {
         effect(() => {
-
             if (this.weightTrackerService.isAvailable()) {
-                this.config.subscribe()()
+                this.config.subscribe()();
                 this.getWeights();
                 this.getGoal();
             }
@@ -42,7 +40,7 @@ export class Tab1Page {
     }
 
     addWeight($event: Weight) {
-        this.weightTrackerService.addWeight($event as Weight)
+        this.weightTrackerService.addWeight($event as Weight);
         this.getWeights();
         this.getGoal();
     }

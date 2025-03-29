@@ -1,5 +1,5 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { emptyWeight, Weight } from '@models/types/Weight';
+import { Weight } from '@models/types/Weight';
 import { DataProviderService } from './data-providers/DataProvider.service';
 
 @Injectable({
@@ -11,16 +11,16 @@ export class WeightTrackerService {
     constructor(private dataProvider: DataProviderService) {}
 
     async getWeights(): Promise<Weight[]> {
-
         this.weights.set(await this.dataProvider.getWeights());
 
-        this.weights.update((weights) => weights.map(
-            (w) => {
-                w.date = new Date(w.date);
-                return w;
-            }
-        )
-        .sort((a, b) => a.date.getTime() - b.date.getTime()));
+        this.weights.update((weights) =>
+            weights
+                .map((w) => {
+                    w.date = new Date(w.date);
+                    return w;
+                })
+                .sort((a, b) => a.date.getTime() - b.date.getTime())
+        );
 
         return this.weights();
     }
@@ -31,13 +31,13 @@ export class WeightTrackerService {
 
     async getGoal(): Promise<Weight> {
         const goal = await this.dataProvider.getGoal();
-        if (!!goal) goal.date = new Date(goal?.date);
+        if (goal) goal.date = new Date(goal?.date);
         return goal;
     }
 
-    addWeight(value: Weight){
+    addWeight(value: Weight) {
         this.weights.update((weights) => [...weights, value]);
-        return this.dataProvider.addWeight(value)
+        return this.dataProvider.addWeight(value);
     }
 
     isAvailable(): boolean {

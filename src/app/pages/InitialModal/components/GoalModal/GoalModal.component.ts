@@ -1,42 +1,54 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import {
     IonModal,
     IonDatetime,
-    IonContent, IonTitle, IonHeader,
+    IonContent,
+    IonTitle,
+    IonHeader,
     IonToolbar,
     ModalController,
-    IonButton, IonButtons, IonDatetimeButton,
-    IonToggle
+    IonButton,
+    IonButtons,
+    IonDatetimeButton,
+    IonToggle,
 } from '@ionic/angular/standalone';
-import { Weight, WeightUnits } from '@models/types/Weight';
-import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 
+import { Weight, WeightUnits } from '@models/types/Weight';
 import { WeightFormComponent } from '@shared/components/WeightForm/WeightForm.component';
 
 @Component({
     selector: 'app-goal-modal',
     imports: [
-        IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar,
-        FormsModule, WeightFormComponent, IonToggle,
-        IonDatetimeButton, IonModal, IonDatetime
+        IonButton,
+        IonButtons,
+        IonContent,
+        IonHeader,
+        IonTitle,
+        IonToolbar,
+        FormsModule,
+        WeightFormComponent,
+        IonToggle,
+        IonDatetimeButton,
+        IonModal,
+        IonDatetime,
     ],
     templateUrl: './GoalModal.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoalModalComponent {
-    isWithDate = signal(false)
+    isWithDate = signal(false);
 
-    lastWeight = signal(70)
-    lastWeightUnit = signal(WeightUnits.KG)
+    lastWeight = signal(70);
+    lastWeightUnit = signal(WeightUnits.KG);
 
-    actualWeight = signal(70)
-    actualDate = signal(new Date())
+    actualWeight = signal(70);
+    actualDate = signal(new Date());
 
     private modalCtrl = inject(ModalController);
 
-    constructor() { }
+    constructor() {}
 
     cancel() {
         return this.modalCtrl.dismiss(null, 'cancel');
@@ -46,7 +58,7 @@ export class GoalModalComponent {
         const newWeight: Weight = {
             weight: this.actualWeight(),
             weight_units: this.lastWeightUnit(),
-            date: this.isWithDate() ? this.actualDate() : new Date(NaN)
+            date: this.isWithDate() ? this.actualDate() : new Date(NaN),
         };
 
         return this.modalCtrl.dismiss(newWeight, 'confirm');
@@ -58,7 +70,6 @@ export class GoalModalComponent {
         this.actualWeight.set(value);
     }
 
-
     updateActualDate(value: any) {
         if (typeof value !== 'string') return;
 
@@ -66,10 +77,6 @@ export class GoalModalComponent {
     }
 
     toggleDate() {
-        this.isWithDate.set(!this.isWithDate())
+        this.isWithDate.set(!this.isWithDate());
     }
-
-
 }
-
-

@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
     providedIn: 'root',
 })
 export class CalculationFunctionsService {
-
     weekDifference(startDate: Date, endDate: Date) {
         if (!startDate || !endDate) return 0;
         const differenceMilliseconds = endDate?.getTime() - startDate?.getTime();
@@ -26,19 +25,19 @@ export class CalculationFunctionsService {
         return differenceDays;
     }
 
-    PaceWeekWeightLoss(weight: number, weightGoal: number, startDate: Date, endDate: Date): any {
+    PaceWeekWeightLoss(weight: number, weightGoal: number, startDate: Date, endDate: Date) {
         const pace = (weight - weightGoal) / this.weekDifference(startDate, endDate);
         return pace.toFixed(2);
     }
 
-    PaceMonthWeightLoss(weight: number, weightGoal: number, startDate: Date, endDate: Date): any {
+    PaceMonthWeightLoss(weight: number, weightGoal: number, startDate: Date, endDate: Date) {
         const pace = (weight - weightGoal) / this.monthDifference(startDate, endDate);
         return pace.toFixed(2);
     }
 
-    weightProgression(firstWeight: number, lastWeight: number, goalWeight: number ): number{
+    weightProgression(firstWeight: number, lastWeight: number, goalWeight: number): number {
         if (!firstWeight || !lastWeight || !goalWeight) return NaN;
-        const progression = (lastWeight - firstWeight) / (goalWeight - firstWeight) *100;
+        const progression = ((lastWeight - firstWeight) / (goalWeight - firstWeight)) * 100;
         return Number(progression.toFixed(2));
     }
 }

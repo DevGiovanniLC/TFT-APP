@@ -7,10 +7,7 @@ export default class LocalStorageProvider implements DataProvider {
     private readonly WEIGHTS_KEY = 'weight_data_weights';
     private readonly USER_KEY: string = 'user_data';
 
-
-    constructor() {
-
-    }
+    constructor() {}
 
     addExampleData() {
         localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(data.weights));
@@ -18,7 +15,7 @@ export default class LocalStorageProvider implements DataProvider {
 
     getUser(): Promise<User> {
         const userString = localStorage.getItem(this.USER_KEY);
-        let user = userString ? JSON.parse(userString) : null;
+        const user = userString ? JSON.parse(userString) : null;
         return Promise.resolve(user);
     }
 
@@ -29,16 +26,16 @@ export default class LocalStorageProvider implements DataProvider {
 
     addWeight(value: Weight): boolean {
         try {
-            const formattedDate = value.date as Date
+            const formattedDate = value.date as Date;
 
             const weights = this.getWeightsSync();
 
-            const existingIndex = weights.findIndex(w => w.date === formattedDate);
+            const existingIndex = weights.findIndex((w) => w.date === formattedDate);
 
             if (existingIndex !== -1) {
                 weights[existingIndex] = value;
             } else {
-                weights.push({ ...value, date: new Date(formattedDate)}); // Asegurar formato
+                weights.push({ ...value, date: new Date(formattedDate) }); // Asegurar formato
             }
 
             localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(weights));
@@ -52,13 +49,13 @@ export default class LocalStorageProvider implements DataProvider {
 
     getGoal(): Promise<Weight> {
         const userString = localStorage.getItem(this.USER_KEY);
-        let user = userString ? JSON.parse(userString) : null;
+        const user = userString ? JSON.parse(userString) : null;
 
         const goal = {
             weight: user?.goal_weight,
             weight_units: user?.goal_units,
-            date: user?.goal_date
-        }
+            date: user?.goal_date,
+        };
 
         return Promise.resolve(goal);
     }

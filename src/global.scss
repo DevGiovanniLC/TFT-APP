@@ -57,7 +57,6 @@
     --ion-tab-bar-background-color: var(--color-tertiary);
     --ion-tab-bar-background-color-selected: var(--color-secondary);
 
-
     margin: 0;
     padding: 0;
 }
@@ -71,5 +70,3 @@
 ion-datetime::part(wheel-item) {
     margin: 24px 0em !important;
 }
-
-

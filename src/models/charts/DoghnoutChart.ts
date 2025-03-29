@@ -1,4 +1,4 @@
-import { Signal } from "@angular/core";
+import { Signal } from '@angular/core';
 
 export const DoughnutChart = (progression: Signal<number>) => {
     const documentStyle = getComputedStyle(document.documentElement);
@@ -14,9 +14,12 @@ export const DoughnutChart = (progression: Signal<number>) => {
             datasets: [
                 {
                     data: dataSet,
-                    backgroundColor: [documentStyle.getPropertyValue('--color-tertiary'), documentStyle.getPropertyValue('--color-accent')],
-                }
-            ]
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--color-tertiary'),
+                        documentStyle.getPropertyValue('--color-accent'),
+                    ],
+                },
+            ],
         },
 
         options: {
@@ -28,7 +31,7 @@ export const DoughnutChart = (progression: Signal<number>) => {
                 x: {
                     duration: 0,
                 },
-                y:{
+                y: {
                     duration: 0,
                 },
 
@@ -53,7 +56,7 @@ export const DoughnutChart = (progression: Signal<number>) => {
                     mode: 'nearest', // O 'index', dependiendo de tu preferencia
                     intersect: false, // Cambiar a `true` si quieres que solo funcione cuando el mouse esté directamente sobre los puntos
                 },
-            }
+            },
         },
-    }
-}
+    };
+};

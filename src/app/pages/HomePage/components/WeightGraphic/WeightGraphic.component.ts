@@ -5,7 +5,7 @@ import { ChartModule } from 'primeng/chart';
 import { Weight } from '@models/types/Weight';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { WeightChart } from '@models/charts/WeightChart';
-import { Chart } from 'chart.js';
+import { Chart, DatasetChartOptions } from 'chart.js';
 
 @Component({
     selector: 'app-weight-graphic',
@@ -18,8 +18,8 @@ export class WeightGraphic {
     readonly goal = input.required<Weight>();
 
     weightChart: any;
-    data: any;
-    options: any;
+    data!: DatasetChartOptions;
+    options!: DatasetChartOptions;
 
     chartMode = signal('total');
     isEmpty = signal(false);
@@ -30,17 +30,19 @@ export class WeightGraphic {
         effect(() => {
             this.updateWeightChart();
         });
-
     }
 
     async updateWeightChart() {
-        let weights: WritableSignal<Weight[]> = signal(this.weights());
+        const weights: WritableSignal<Weight[]> = signal(this.weights());
 
-        if (this.chartMode() == 'week'){
-            weights.set(this.weights().filter((w) => w.date.getTime() > new Date().getTime() - 7 * 24 * 60 * 60 * 1000))
-        }
-        else if (this.chartMode() == 'month'){
-            weights.set(this.weights().filter((w) => w.date.getTime() > new Date().getTime() - 30 * 24 * 60 * 60 * 1000))
+        if (this.chartMode() == 'week') {
+            weights.set(
+                this.weights().filter((w) => w.date.getTime() > new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
+            );
+        } else if (this.chartMode() == 'month') {
+            weights.set(
+                this.weights().filter((w) => w.date.getTime() > new Date().getTime() - 30 * 24 * 60 * 60 * 1000)
+            );
         }
 
         if (weights().length == 0) this.isEmpty.set(true);
@@ -52,7 +54,7 @@ export class WeightGraphic {
         this.options = this.weightChart.options;
     }
 
-    validateGoalDate(){
+    validateGoalDate() {
         if (!isNaN(this.goal().date?.getTime() || NaN)) return true;
         return false;
     }
@@ -60,5 +62,4 @@ export class WeightGraphic {
     setChartMode(value: string) {
         this.chartMode.set(value);
     }
-
 }

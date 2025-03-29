@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { DataProviderService } from '@services/data-providers/DataProvider.service';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { ConfigService } from '@services/Config.service';
-import { ModalController } from "@ionic/angular/standalone";
+import { ModalController } from '@ionic/angular/standalone';
 import { InitialModalComponent } from '@pages/InitialModal/InitialModal.component';
 import { Weight } from '@models/types/Weight';
 import { WeightTrackerService } from '@services/WeightTracker.service';
@@ -19,15 +19,14 @@ export class AppComponent {
         private dataProvider: DataProviderService,
         private config: ConfigService,
         private modalCtrl: ModalController,
-        private weightTracker: WeightTrackerService,
+        private weightTracker: WeightTrackerService
     ) {
-        this.initApp()
-            .then(async () => {
-                const user = await config.getUser();
-                if (!user) {
-                    this.openModal();
-                }
-            })
+        this.initApp().then(async () => {
+            const user = await config.getUser();
+            if (!user) {
+                this.openModal();
+            }
+        });
     }
 
     async openModal() {
@@ -38,9 +37,9 @@ export class AppComponent {
                 text: {
                     title: 'Register Weight',
                     weightStepTitle: 'Select the weight',
-                    dateStepTitle: 'Pick the date'
-                }
-            }
+                    dateStepTitle: 'Pick the date',
+                },
+            },
         });
         modal.present();
 
@@ -57,8 +56,8 @@ export class AppComponent {
                 gender: data.gender,
                 goal_weight: goal?.weight,
                 goal_units: goal?.weight_units,
-                goal_date: goal?.date
-            }
+                goal_date: goal?.date,
+            };
 
             this.config.setUser(user);
             this.weightTracker.addWeight(actualWeight);

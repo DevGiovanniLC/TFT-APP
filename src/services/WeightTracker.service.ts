@@ -14,7 +14,13 @@ export class WeightTrackerService {
 
         this.weights.set(await this.dataProvider.getWeights());
 
-        this.weights.update((weights) => weights.sort((a, b) => new Date(a.date).getTime() -  new Date(b.date).getTime()));
+        this.weights.update((weights) => weights.map(
+            (w) => {
+                w.date = new Date(w.date);
+                return w;
+            }
+        )
+        .sort((a, b) => a.date.getTime() - b.date.getTime()));
 
         return this.weights();
     }

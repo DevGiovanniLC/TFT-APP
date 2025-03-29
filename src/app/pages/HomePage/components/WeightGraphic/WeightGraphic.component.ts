@@ -16,7 +16,7 @@ import { Chart } from 'chart.js';
 export class WeightGraphic {
     readonly weights = input.required<Weight[]>();
     readonly goal = input.required<Weight>();
-    dateUTC = new Date(0);
+
     weightChart: any;
     data: any;
     options: any;

@@ -25,7 +25,6 @@ export class DataProviderService {
     }
 
     async getWeights(): Promise<Weight[]> {
-
         return await this.dataProvider.getWeights();
     }
 

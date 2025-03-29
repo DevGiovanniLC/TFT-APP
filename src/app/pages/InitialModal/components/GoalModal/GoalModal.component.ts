@@ -36,7 +36,7 @@ export class GoalModalComponent {
 
     private modalCtrl = inject(ModalController);
 
-    constructor(private calculationFunctionsService: CalculationFunctionsService, private cdr: ChangeDetectorRef) { }
+    constructor() { }
 
     cancel() {
         return this.modalCtrl.dismiss(null, 'cancel');

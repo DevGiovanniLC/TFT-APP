@@ -1,5 +1,5 @@
-<ion-header class="bg-transparent">
-    <ion-toolbar class="bg-transparent">
+<ion-header class="h-16 flex  bg-transparent">
+    <ion-toolbar class="mt-4 bg-transparent">
         @if (step !== 0) {
         <ion-buttons slot="start">
             <ion-button class="w-24" color="medium" (click)="backStep()">
@@ -14,7 +14,7 @@
         </ion-buttons>
         }
         <ion-title class="text-center font-sans font-semibold text-sm">
-            Untitled
+            Vita Weight
         </ion-title>
         <ion-buttons slot="end">
             <ion-button class="w-24" (click)="nextStep()" [strong]="true" color="primary">
@@ -107,10 +107,10 @@
 
         @case (3) {
         <h1 class="text-xl font-extrabold m-0 h-5">
-            Personal Information (Optional)
+            Personal Information
         </h1>
         <p class="text-lg h-2">Please fill in your information. </p>
-        <p class="text-lg h-2 text-teal-500">All fields are optional.</p>
+        <p class="text-lg h-4 text-teal-500">All fields are optional.</p>
 
         <form id="form"
             class="w-full max-w-lg bg-white p-8 rounded-lg shadow-2xl space-y-6 border-t-8 border-emerald-500">

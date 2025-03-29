@@ -30,7 +30,7 @@ export class WeightFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.weightOptions = this.generateRange(5.0, 300.0);
+        this.weightOptions = this.generateRange(30, 300);
         this.weightOptionsDecimal = this.generateRange(0, 9);
     }
 
@@ -49,6 +49,12 @@ export class WeightFormComponent implements OnInit {
     }
 
     generateRange(start: number, end: number): number[] {
-        return Array(end - start + 1).fill(0).map((_, idx) => start + idx);
+        const length = end - start + 1;
+        const range = new Array(length);
+        for (let i = 0; i < length; i++) {
+            range[i] = start + i;
+        }
+        return range;
     }
+
 }

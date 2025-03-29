@@ -25,6 +25,7 @@ export class DataProviderService {
     }
 
     async getWeights(): Promise<Weight[]> {
+
         return await this.dataProvider.getWeights();
     }
 
@@ -40,7 +41,7 @@ export class DataProviderService {
         return this.dataProvider.setUser(user);
     }
 
-    setNewWeight(value: Weight){
+    addWeight(value: Weight){
         return this.dataProvider.addWeight(value)
     }
 

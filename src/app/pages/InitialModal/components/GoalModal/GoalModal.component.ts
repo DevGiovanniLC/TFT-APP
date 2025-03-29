@@ -26,10 +26,6 @@ import { WeightFormComponent } from '@shared/components/WeightForm/WeightForm.co
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoalModalComponent {
-
-    @ViewChild('modalContainer') contentRef!: IonContent;
-    @ViewChild('dateTitle') titleRef!: ElementRef<HTMLElement>;
-
     isWithDate = signal(false)
 
     lastWeight = signal(70)
@@ -50,7 +46,7 @@ export class GoalModalComponent {
         const newWeight: Weight = {
             weight: this.actualWeight(),
             weight_units: this.lastWeightUnit(),
-            date: this.isWithDate() ? new Date(this.calculationFunctionsService.formatDate(this.actualDate())) : new Date(NaN)
+            date: this.isWithDate() ? this.actualDate() : new Date(NaN)
         };
 
         return this.modalCtrl.dismiss(newWeight, 'confirm');
@@ -71,19 +67,8 @@ export class GoalModalComponent {
 
     toggleDate() {
         this.isWithDate.set(!this.isWithDate())
-        this.titleRef.nativeElement.classList.toggle('hidden')
-        this.scrollToTitle()
     }
 
-    private async scrollToTitle() {
-        const content = this.contentRef
-        const title = this.titleRef?.nativeElement
-
-        if (content && title) {
-            const y = title.offsetTop;
-            content.scrollToPoint(0, y, 1500);
-        }
-    }
 
 }
 

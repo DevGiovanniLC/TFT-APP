@@ -125,7 +125,7 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
 
 
 function differenceTime(dateStart: Date, dateEnd: Date) {
-    const days = calculationFunctionsService.dayDifference(dateStart, dateEnd);
+    const days = calculationFunctionsService.dayDifference(new Date(dateStart), new Date(dateEnd));
 
     const cases = new Map<(val: number) => boolean, () => string>([
         [(v) => v > 365, () => `${Math.floor(days / 365)} years ago`],

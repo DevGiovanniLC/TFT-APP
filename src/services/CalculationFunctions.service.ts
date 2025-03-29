@@ -41,8 +41,4 @@ export class CalculationFunctionsService {
         const progression = (lastWeight - firstWeight) / (goalWeight - firstWeight) *100;
         return Number(progression.toFixed(2));
     }
-
-    formatDate(date: Date): Date {
-        return new Date(date.toISOString().split('T')[0]);
-    }
 }

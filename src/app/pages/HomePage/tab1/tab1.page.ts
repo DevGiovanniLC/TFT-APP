@@ -42,7 +42,7 @@ export class Tab1Page {
     }
 
     addWeight($event: Weight) {
-        this.weightTrackerService.addWeight($event)
+        this.weightTrackerService.addWeight($event as Weight)
         this.getWeights();
         this.getGoal();
     }

@@ -42,7 +42,7 @@ export const WeightChart = (chartMode: Signal<String>, weights: Signal<Weight[]>
 
     return {
         data: {
-            labels: dataWeights.map((w) => calculationFunctionsService.formatDate(w.date).getTime()),
+            labels: dataWeights.map((w) => new Date(w.date).getTime() ),
             datasets: [
                 {
                     label: 'Weight (kg)',

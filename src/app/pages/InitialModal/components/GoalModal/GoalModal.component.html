@@ -24,8 +24,7 @@
             <h2 class="font-serif text-pretty font-light text-xs m-1">Define your target to stay focused and track your
                 progress</h2>
         </header>
-
-        <form class="flex flex-col items-center w-4/5 bg-white rounded-lg shadow-2xl border-t-8 border-emerald-500 p-4">
+        <form class="w-11/12 bg-white rounded-lg shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10">
             <app-weight-form [inputWeightValue]="lastWeight()" [inputWeightUnit]="lastWeightUnit()"
                 (outputWeightValue)="updateActualWeight($event)"></app-weight-form>
 
@@ -37,7 +36,7 @@
 
                 <ion-modal
                     [keepContentsMounted]="true"
-                    breakpoints="[0, 1]"
+                    [breakpoints]="[0, 1]"
                     initialBreakpoint="1"
                 >
                     <ng-template>

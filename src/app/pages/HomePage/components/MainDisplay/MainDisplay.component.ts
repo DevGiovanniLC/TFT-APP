@@ -63,8 +63,6 @@ export class MainDisplay {
         const modal = await this.modalCtrl.create({
             component: WeightRegisterComponent,
             cssClass: 'small-modal',
-            breakpoints: [0, 0.45, 0.75],
-            initialBreakpoint: 0.75,
             componentProps: {
                 text:{
                     title: 'Register Weight',
@@ -78,7 +76,7 @@ export class MainDisplay {
         const { data, role } = await modal.onDidDismiss();
 
         if (role === 'confirm') {
-            this.weightAdded.emit(data)
+            this.weightAdded.emit(data as Weight)
         }
         this.isButtonActive.set(false);
     }

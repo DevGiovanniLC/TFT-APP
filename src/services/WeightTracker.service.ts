@@ -14,12 +14,7 @@ export class WeightTrackerService {
 
         this.weights.set(await this.dataProvider.getWeights());
 
-        // Convierte las fechas a Date y ordena la lista
-        this.weights.update((weights) => weights.map((weight) => {
-                weight.date = new Date(weight.date);
-                return weight;
-            }).sort((a, b) => a.date.getTime() - b.date.getTime())
-        );
+        this.weights.update((weights) => weights.sort((a, b) => new Date(a.date).getTime() -  new Date(b.date).getTime()));
 
         return this.weights();
     }
@@ -36,7 +31,7 @@ export class WeightTrackerService {
 
     addWeight(value: Weight){
         this.weights.update((weights) => [...weights, value]);
-        return this.dataProvider.setNewWeight(value)
+        return this.dataProvider.addWeight(value)
     }
 
     isAvailable(): boolean {

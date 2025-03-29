@@ -9,8 +9,7 @@ export default class LocalStorageProvider implements DataProvider {
 
 
     constructor() {
-        // Initialize storage with empty arrays if not exists
-        // this.addExampleData();
+
     }
 
     addExampleData() {
@@ -30,24 +29,18 @@ export default class LocalStorageProvider implements DataProvider {
 
     addWeight(value: Weight): boolean {
         try {
-            // Normalizar la fecha en formato "yyyy-MM-dd"
-            const formattedDate = this.formatDate(value.date);
+            const formattedDate = value.date as Date
 
-            // Obtener los pesos actuales
             const weights = this.getWeightsSync();
 
-            // Buscar si ya existe un peso con la misma fecha
-            const existingIndex = weights.findIndex(w => this.formatDate(w.date) === formattedDate);
+            const existingIndex = weights.findIndex(w => w.date === formattedDate);
 
             if (existingIndex !== -1) {
-                // Si ya existe, actualizarlo
                 weights[existingIndex] = value;
             } else {
-                // Si no existe, agregarlo
                 weights.push({ ...value, date: new Date(formattedDate)}); // Asegurar formato
             }
 
-            // Guardar en localStorage
             localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(weights));
 
             return true;
@@ -55,12 +48,6 @@ export default class LocalStorageProvider implements DataProvider {
             console.error('Error saving weight:', error);
             return false;
         }
-    }
-
-    // Método auxiliar para formatear la fecha correctamente
-    private formatDate(date: string | Date): string {
-        if (typeof date === 'string') return date; // Si ya es string, retornarlo tal cual
-        return date.toISOString().split('T')[0]; // Convertir Date a "yyyy-MM-dd"
     }
 
     getGoal(): Promise<Weight> {
@@ -77,7 +64,7 @@ export default class LocalStorageProvider implements DataProvider {
     }
 
     async getWeights(): Promise<Weight[]> {
-        return Promise.resolve(this.getWeightsSync());
+        return Promise.resolve(this.getWeightsSync() as Weight[]);
     }
 
     private getWeightsSync(): Weight[] {

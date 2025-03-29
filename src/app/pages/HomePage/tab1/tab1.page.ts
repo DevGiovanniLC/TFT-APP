@@ -5,6 +5,7 @@ import { Weight } from '@models/types/Weight';
 import { WeightGraphic } from '@pages/HomePage/components/WeightGraphic/WeightGraphic.component';
 import { WeightUnits } from '@models/types/Weight';
 import { MainDisplay } from '@pages/HomePage/components/MainDisplay/MainDisplay.component';
+import { ConfigService } from '@services/Config.service';
 
 @Component({
     selector: 'app-tab1',
@@ -19,11 +20,13 @@ import { MainDisplay } from '@pages/HomePage/components/MainDisplay/MainDisplay.
 export class Tab1Page {
 
     weights: WritableSignal<Weight[]> = signal<Weight[]>([]);
-    goal: WritableSignal<Weight> = signal<Weight>({ date: new Date(), weight: 0, weight_units: WeightUnits.KG });
+    goal: WritableSignal<Weight> = signal<Weight>({ date: new Date(NaN), weight: 0, weight_units: WeightUnits.KG });
 
-    constructor(private weightTrackerService: WeightTrackerService) {
+    constructor(private weightTrackerService: WeightTrackerService, private config: ConfigService) {
         effect(() => {
+
             if (this.weightTrackerService.isAvailable()) {
+                this.config.subscribe()()
                 this.getWeights();
                 this.getGoal();
             }

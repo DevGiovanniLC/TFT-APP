@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Pipe, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, Pipe, signal } from '@angular/core';
 import {
     IonContent, IonTitle, IonHeader,
     IonToolbar, ModalController,
@@ -27,13 +27,14 @@ export class InitialModalComponent {
     name!: string
     age!: number
     height!: number
+    gender: Gender = Gender.OTHER
+
     actualWeight = signal(70)
     lastWeightUnit = WeightUnits.KG
-    gender: Gender = Gender.OTHER
+
 
     goalWeight!: Weight | null
     isGoal = signal(false)
-    dateUTC = new Date(0)
 
     constructor(private modalCtrl: ModalController) {}
 
@@ -86,6 +87,11 @@ export class InitialModalComponent {
             this.isGoal.set(true);
         }
 
+    }
+
+    validateGoalDate(){
+        if (this.isGoal() && !isNaN(this.goalWeight?.date?.getTime() || NaN)) return true;
+        return false;
     }
 
     validateHeight(event: Event): void {

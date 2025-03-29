@@ -1,5 +1,5 @@
 import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
-import { Weight, WeightUnits } from '@models/types/Weight';
+import { Weight } from '@models/types/Weight';
 import { User } from '@models/types/User';
 import data from 'src/assets/data/mock.json';
 

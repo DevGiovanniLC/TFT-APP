@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, effect, input, Input, OnInit, output, signal } from '@angular/core';
-import {IonPicker, IonPickerColumn, IonPickerColumnOption} from '@ionic/angular/standalone';
+import { IonPicker, IonPickerColumn, IonPickerColumnOption } from '@ionic/angular/standalone';
 import { WeightUnits } from '@models/types/Weight';
 
 @Component({
@@ -9,7 +9,7 @@ import { WeightUnits } from '@models/types/Weight';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class WeightFormComponent implements OnInit{
+export class WeightFormComponent implements OnInit {
     inputWeightValue = input.required<number>();
     inputWeightUnit = input(WeightUnits.KG)
 
@@ -21,9 +21,11 @@ export class WeightFormComponent implements OnInit{
     weightOptions!: number[];
     weightOptionsDecimal!: number[];
 
-    constructor(){
-        effect( () => {
-            this.lastWeight.set(this.inputWeightValue())
+    constructor() {
+
+        effect(() => {
+            this.lastWeight.set(Math.floor(this.inputWeightValue()))
+            this.lastWeightDecimal.set(Math.round((this.inputWeightValue() % 1) * 10))
         })
     }
 

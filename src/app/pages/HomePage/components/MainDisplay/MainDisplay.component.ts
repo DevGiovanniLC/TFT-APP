@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, effect, input, OnInit, output, Signal, signal, viewChild, WritableSignal } from '@angular/core';
-import { Weight, WeightUnits, emptyWeight } from '@models/types/Weight';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, effect, input, output, Signal, signal, WritableSignal } from '@angular/core';
+import { Weight, emptyWeight } from '@models/types/Weight';
 import { IonButton, ModalController } from "@ionic/angular/standalone";
 import { ChartModule } from 'primeng/chart';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 import { WeightRegisterComponent } from '@pages/HomePage/components/WeightRegister/WeightRegister.component';
 import { centerTextPlugin, customSVGsPluginForDoughnutChart } from 'src/app/plugins/chartjs/ChartPlugins';
 import { DoughnutChart } from '@models/charts/DoghnoutChart';
-import { Title } from 'chart.js';
 
 @Component({
     selector: 'app-main-display',
@@ -32,12 +31,14 @@ export class MainDisplay {
     doghnoutChart: any;
     data: any;
     options: any;
-    plugins: any[] = [];
+    plugins: any = [];
 
     isButtonActive = signal(false);
 
     constructor(private calculationFunctionsService: CalculationFunctionsService, private modalCtrl: ModalController, private cdr: ChangeDetectorRef) {
         effect(() => {
+            this.goal()
+            this.weights()
             this.updateChart(cdr);
         })
 
@@ -51,10 +52,10 @@ export class MainDisplay {
         this.doghnoutChart = DoughnutChart(this.progression);
         this.data = this.doghnoutChart.data
         this.options = this.doghnoutChart.options
-        cdr.detectChanges();
         this.plugins.push(centerTextPlugin(this.progression, this.lastWeight))
         if (!Number.isNaN(this.progression())) return
         this.plugins = [customSVGsPluginForDoughnutChart(), centerTextPlugin(this.progression, this.lastWeight)]
+        cdr.detectChanges();
     }
 
     async openModal() {

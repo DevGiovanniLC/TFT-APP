@@ -49,7 +49,7 @@ export class GoalModalComponent {
         const newWeight: Weight = {
             weight: this.actualWeight(),
             weight_units: this.lastWeightUnit(),
-            date: this.isWithDate() ? new Date(this.calculationFunctionsService.formatDate(this.actualDate())) : new Date(0)
+            date: this.isWithDate() ? new Date(this.calculationFunctionsService.formatDate(this.actualDate())) : new Date(NaN)
         };
 
         return this.modalCtrl.dismiss(newWeight, 'confirm');

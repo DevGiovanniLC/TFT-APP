@@ -33,11 +33,11 @@ export default class DBConnection implements DataProvider {
         await this.db.open()
         .catch(err => alert(err));
 
-        // await this.deleteDBStructure()
-        // .catch(err => alert(err));
+        await this.deleteDBStructure()
+        .catch(err => alert(err));
 
-        // await this.setBDStructure()
-        // .catch(err => alert(err));
+        await this.setBDStructure()
+        .catch(err => alert(err));
 
         // await this.addUser()
         // .catch(err => alert(err));
@@ -64,7 +64,7 @@ export default class DBConnection implements DataProvider {
     async getGoal(): Promise<Weight> {
         const user = await this.db.query(`
             SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)
-        `);
+        `).catch(err => alert(err));
 
         if (user?.values?.length === 0) throw new Error('No goal found');
         if (user?.values == undefined) throw new Error('No goal found');
@@ -88,7 +88,7 @@ export default class DBConnection implements DataProvider {
             value.goal_weight,
             value.goal_units,
             value.goal_date
-        ]);
+        ]).catch(err => alert(err));
 
         return true;
     }
@@ -101,7 +101,7 @@ export default class DBConnection implements DataProvider {
             value.date,
             value.weight,
             value.weight_units
-        ]);
+        ]).catch(err => alert(err));
         return true;
     }
 
@@ -130,7 +130,6 @@ export default class DBConnection implements DataProvider {
     private async setBDStructure() {
         const schema =
             `
-
             CREATE TABLE IF NOT EXISTS registers (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 date TEXT,
@@ -140,13 +139,13 @@ export default class DBConnection implements DataProvider {
 
             CREATE TABLE IF NOT EXISTS user (
                 UniqueID INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                age INTEGER CHECK(age > 0),
-                height REAL CHECK(height > 0),
-                goal_weight REAL CHECK(goal_weight > 0),
-                goal_units TEXT CHECK(goal_units IN ('kg', 'lbs')),
-                goal_date TEXT -- Formato ISO 8601 (YYYY-MM-DD)
+                name TEXT,
+                email TEXT UNIQUE,
+                age INTEGER,
+                height REAL,
+                goal_weight,
+                goal_units TEXT,
+                goal_date TEXT
             );
         `
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { DataProviderService } from '@services/data-providers/DataProvider.service';
 import { SplashScreen } from '@capacitor/splash-screen';
@@ -15,7 +15,12 @@ import { User } from '@models/types/User';
     imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
-    constructor(private dataProvider: DataProviderService, private config: ConfigService, private modalCtrl: ModalController, private weightTracker: WeightTrackerService) {
+    constructor(
+        private dataProvider: DataProviderService,
+        private config: ConfigService,
+        private modalCtrl: ModalController,
+        private weightTracker: WeightTrackerService,
+    ) {
         this.initApp()
             .then(async () => {
                 const user = await config.getUser();
@@ -50,9 +55,9 @@ export class AppComponent {
                 age: data.age,
                 height: data.height,
                 gender: data.gender,
-                goal_weight: goal.weight,
-                goal_units: goal.weight_units,
-                goal_date: goal.date
+                goal_weight: goal?.weight,
+                goal_units: goal?.weight_units,
+                goal_date: goal?.date
             }
 
             this.config.setUser(user);
@@ -61,10 +66,6 @@ export class AppComponent {
     }
 
     async initApp() {
-        // await SplashScreen.show({
-        //     showDuration: 2000, // Opcional: duración en ms
-        //     autoHide: true      // Ocultar automáticamente después de showDuration
-        // });
         await this.dataProvider.initialize();
         SplashScreen.hide();
     }

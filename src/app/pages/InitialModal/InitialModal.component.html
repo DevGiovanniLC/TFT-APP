@@ -59,7 +59,7 @@
         <form class="w-4/5 bg-white rounded-lg shadow-2xl border-t-8 border-emerald-500 p-10">
             <div class="h-full bg-white flex flex-col items-center">
                 <p class="text-lg text-gray-700 m-0 p-0">Register your weight</p>
-                <app-weight-form [inputWeightValue]="70" [inputWeightUnit]="lastWeightUnit"
+                <app-weight-form [inputWeightValue]="actualWeight()" [inputWeightUnit]="lastWeightUnit"
                     (outputWeightValue)="updateActualWeight($event)"></app-weight-form>
             </div>
         </form>
@@ -98,7 +98,7 @@
             }@else {
                 <p>You already have a weight goal✅</p>
                 <p>Weight goal: {{ goalWeight?.weight }} {{ goalWeight?.weight_units }}</p>
-                @if (goalWeight?.date?.getTime() !== dateUTC.getTime()) {
+                @if (validateGoalDate()) {
                     <p>Date: {{ goalWeight?.date | simpleDate }}</p>
                 }
             }

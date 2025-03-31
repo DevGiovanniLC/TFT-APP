@@ -1,8 +1,6 @@
 <div class="card flex items-center justify-center flex-col space-y-1 my-2">
     <div class="flex justify-center items-center flex-col min-h-72">
-        <h1 class="text-center font-semibold text-3xl">
-            Actual Weight
-        </h1>
+        <h1 class="text-center font-semibold text-3xl">Actual Weight</h1>
         <p-chart
             #chart
             id="actualWeightChart"
@@ -15,7 +13,7 @@
     </div>
     <ion-button
         class="button-shadow w-40 h-12"
-        style="--border-radius: 15px; "
+        style="--border-radius: 15px"
         (click)="openModal()"
         [disabled]="isButtonActive()"
     >

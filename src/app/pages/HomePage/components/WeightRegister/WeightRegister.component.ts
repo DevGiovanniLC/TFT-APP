@@ -49,8 +49,7 @@ export class WeightRegisterComponent {
 
     private modalCtrl = inject(ModalController);
 
-    constructor(
-        private weightTracker: WeightTrackerService) {
+    constructor(private weightTracker: WeightTrackerService) {
         effect(() => {
             this.getActualWeight();
         });

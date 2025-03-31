@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
 import DBConnection from '@services/data-providers/DBConnection';
+import { environment } from 'src/envs/environment';
 
 import LocalStorageProvider from './LocalStorageProvider';
 import { Weight } from '@models/types/Weight';
@@ -17,8 +18,13 @@ export class DataProviderService {
     constructor() {}
 
     async initialize() {
-        this.dataProvider = new DBConnection();
-        //this.dataProvider = new LocalStorageProvider();
+
+        if (environment.production) {
+            this.dataProvider = new DBConnection();
+        }else{
+            this.dataProvider = new LocalStorageProvider();
+        }
+
         await this.dataProvider.initializeConnection();
         this.connectionStatus.set(true);
     }

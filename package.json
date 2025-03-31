@@ -7,9 +7,8 @@
   "scripts": {
     "test": "ng test",
     "dev": "ionic serve",
-    "build": "ionic build --prod",
-    "android": "ionic cap sync && ionic cap copy && ionic cap open android",
-    "android-prod": "npm run lint && npm run format && ionic cap sync && ionic cap open android",
+    "build": "ionic build",
+    "android": "npx cap sync && ionic cap copy && ionic cap open android",
     "lint": "ng lint",
     "lint-fix": "npx eslint src --ext .ts --fix",
     "format": "prettier --write \"src/**/*.{ts,html,css,scss,json}\""

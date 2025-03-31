@@ -43,6 +43,8 @@ export const customSVGsPluginForDoughnutChart = () => {
             if (svgImageProgress.complete) {
                 ctx.drawImage(svgImageProgress, progressX - 10, progressY - 18, 25, 25);
             }
+
+            ctx.restore();
         },
     };
 };
@@ -98,6 +100,7 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
             ctx.font = '13px system-ui';
             ctx.fillStyle = '#1e8260';
             ctx.fillText(`${differenceTime(lastWeight()?.date, new Date())}`, centerX, centerY + 50);
+
 
             ctx.restore();
         },

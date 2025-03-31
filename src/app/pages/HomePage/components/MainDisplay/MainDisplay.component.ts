@@ -78,13 +78,6 @@ export class MainDisplay {
         const modal = await this.modalCtrl.create({
             component: WeightRegisterComponent,
             cssClass: 'small-modal',
-            componentProps: {
-                text: {
-                    title: 'Register Weight',
-                    weightStepTitle: 'Select the weight',
-                    dateStepTitle: 'Pick the date',
-                },
-            },
         });
         modal.present();
 

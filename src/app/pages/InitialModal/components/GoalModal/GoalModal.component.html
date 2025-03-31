@@ -12,14 +12,14 @@
 
 <ion-content #modalContainer class="bg-inherit">
     <div class="h-fit min-h-full bg-gradient-to-tr from-emerald-100 to-emerald-300 flex flex-col items-center">
-        <header class="ion-text-center bg-inherit mt-8 mb-3">
-            <h1 class="font-sans font-semibold text-2xl m-0">Set your weight goal</h1>
-            <h2 class="font-serif text-pretty font-light text-xs m-1">
+        <header class="text-center mt-8 mb-4 flex flex-col">
+            <h1 class="text-3xl font-bold font-sans text-gray-800">Set your weight goal</h1>
+            <h2 class="text-gray-700 text-lg text-pretty">
                 Define your target to stay focused and track your progress
             </h2>
         </header>
         <form
-            class="w-11/12 bg-white rounded-lg shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10"
+            class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10"
         >
             <app-weight-form
                 [inputWeightValue]="lastWeight()"

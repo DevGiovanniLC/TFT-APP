@@ -11,7 +11,12 @@
             class="w-60 min-h-60"
         />
     </div>
-    <ion-button class="button-shadow w-36" (click)="openModal()" [disabled]="isButtonActive()">
+    <ion-button
+        class="button-shadow w-40 h-12"
+        style="--border-radius: 15px; "
+        (click)="openModal()"
+        [disabled]="isButtonActive()"
+    >
         Register Weight
     </ion-button>
 </div>

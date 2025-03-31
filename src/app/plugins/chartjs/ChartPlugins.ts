@@ -114,9 +114,11 @@ function differenceTime(dateStart: Date, dateEnd: Date) {
         [(v) => v > 365, () => `${Math.floor(days / 365)} years ago`],
         [(v) => v > 30, () => `${Math.floor(days / 30)} months ago`],
         [(v) => v > 7, () => `${Math.floor(days / 7)} weeks ago`],
+        [(v) => v > 2, () => `${Math.floor(days)} days ago`],
+        [(v) => v > 1, () => `Yesterday`],
     ]);
 
-    let result = `${Math.floor(days)} days ago`;
+    let result = `Today`;
 
     for (const [condition, action] of cases) {
         if (condition(days)) {

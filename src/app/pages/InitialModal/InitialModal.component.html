@@ -20,14 +20,14 @@
 
 <ion-content scrollY="false">
     <div
-        class="h-full flex flex-col items-center text-center px-6 py-10 space-y-5 bg-gradient-to-tr from-emerald-100 to-emerald-300 w-full"
+        class="h-full flex flex-col items-center text-center px-6 py-5 space-y-5 bg-gradient-to-tr from-emerald-100 to-emerald-300 w-full"
     >
         @switch (step) {
             @case (0) {
                 <h1 class="text-3xl font-bold font-sans text-gray-800 text-pretty">
                     Your journey to a healthier you starts now! 🚀
                 </h1>
-                <ul class="mt-6 space-y-3 text-left bg-teal-100 p-6 rounded-3xl shadow-xl bg-opacity-30">
+                <ul class="mt-6 space-y-3 text-left bg-teal-100 p-6 rounded-3xl shadow-xl bg-opacity-30 font-system">
                     <li class="flex items-center gap-2">
                         💡 <span class="text-lg font-medium">Track your progress</span>
                     </li>
@@ -52,7 +52,6 @@
                     class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10"
                 >
                     <div class="h-full bg-white flex flex-col items-center">
-                        <p class="text-lg text-gray-700 m-0 p-0">Register your weight</p>
                         <app-weight-form
                             [inputWeightValue]="actualWeight()"
                             [inputWeightUnit]="lastWeightUnit"
@@ -67,7 +66,7 @@
                     Define your personal goals to stay motivated and focused on your fitness journey. Here are some
                     ideas:
                 </p>
-                <ul class="space-y-3 text-left bg-teal-100 p-5 rounded-2xl shadow-xl bg-opacity-30">
+                <ul class="space-y-3 text-left bg-teal-100 p-5 rounded-2xl shadow-xl bg-opacity-30 font-system">
                     <li class="flex items-center gap-2">
                         🎯 <span class="text-lg font-medium">Lose weight and stay fit</span>
                     </li>
@@ -100,16 +99,16 @@
             }
 
             @case (3) {
-                <h1 class="text-3xl font-bold font-sans text-gray-800">Personal Information</h1>
+                <h1 class="h-4 text-3xl font-bold font-sans text-gray-800">Personal Information</h1>
                 <p class="text-gray-700 text-lg text-pretty h-2">Please fill in your information.</p>
                 <p class="text-lg h-4 text-teal-500">All fields are optional.</p>
 
                 <form
                     id="form"
-                    class="w-full max-w-lg bg-white p-8 rounded-lg shadow-2xl space-y-6 border-t-8 border-emerald-500"
+                    class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10 space-y-2"
                 >
                     <!-- Name -->
-                    <div class="flex flex-col space-y-3">
+                    <div class="flex flex-col space-y-2">
                         <label for="name" class="text-sm font-medium text-teal-600">Name (Optional)</label>
                         <input
                             id="name"
@@ -122,7 +121,7 @@
                     </div>
 
                     <!-- Age -->
-                    <div class="flex flex-col space-y-3">
+                    <div class="flex flex-col">
                         <label for="age" class="text-sm font-medium text-teal-600">Age (Optional)</label>
                         <input
                             id="age"
@@ -136,7 +135,7 @@
                     </div>
 
                     <!-- Height -->
-                    <div class="flex flex-col space-y-3">
+                    <div class="flex flex-col">
                         <label for="height" class="text-sm font-medium text-teal-600">Height (Optional)</label>
                         <input
                             id="height"
@@ -150,7 +149,7 @@
                     </div>
 
                     <!-- Gender -->
-                    <div class="flex flex-col space-y-3">
+                    <div class="flex flex-col">
                         <label for="gender" class="text-sm font-medium text-teal-600">Gender (Optional)</label>
                         <ion-select
                             id="gender"

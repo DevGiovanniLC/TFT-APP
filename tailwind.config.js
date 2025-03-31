@@ -6,6 +6,10 @@ module.exports = {
     content: ['./src/**/*.{html,ts}'],
     theme: {
         extend: {
+            fontFamily: {
+                system: ['system-ui', 'sans-serif'],
+                poppins: ['Poppins', 'sans-serif']
+            },
             keyframes: {
                 fadeIn: {
                     '0%': { opacity: '0' },

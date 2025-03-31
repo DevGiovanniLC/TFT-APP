@@ -67,33 +67,35 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
 
             let offset = Number.isNaN(progression()) ? -10 : 0;
 
-            ctx.font = 'bold 12px sans-serif';
+            ctx.font = '13px system-ui';
             ctx.fillStyle = '#343a40';
+            const  textOffset = 20
 
             if (progression() < 100)
                 ctx.fillText(`Progression ${Number(progression()).toFixed(0)} %`, centerX, centerY - 40);
             if (progression() > 100) ctx.fillText(`Completed✅`, centerX, centerY - 35);
             else if (progression() > 90) {
                 ctx.fillText(``, centerX, centerY - 26);
-                ctx.fillText(`Just a little bit more 👍`, centerX, centerY - 25);
+                ctx.fillText(`Just a little bit more 👍`, centerX, centerY - textOffset);
             } else if (progression() > 80) {
-                ctx.fillText(`Just a bit more 👍`, centerX, centerY - 25);
+                ctx.fillText(`Just a bit more 👍`, centerX, centerY - textOffset);
             } else if (progression() > 50) {
-                ctx.fillText(`Greatfully done 🎉`, centerX, centerY - 25);
+                ctx.fillStyle = '#1E8260';
+                ctx.fillText(`Greatfully done 🎉`, centerX, centerY - textOffset);
             } else if (progression() > 20) {
-                ctx.fillText(`Good job 😁`, centerX, centerY - 25);
+                ctx.fillText(`Good job 😁`, centerX, centerY - textOffset);
             } else if (progression() > 5) {
-                ctx.fillText(`Keep going 💪`, centerX, centerY - 25);
+                ctx.fillText(`Keep going 💪`, centerX, centerY - textOffset);
             } else if (progression() < -1) {
                 ctx.fillStyle = '#C7B85A';
-                ctx.fillText(`You can do better`, centerX, centerY - 25);
+                ctx.fillText(`You can do better`, centerX, centerY - textOffset);
             } else offset = -10;
 
             ctx.font = 'bold 30px sans-serif';
             ctx.fillStyle = '#343a40';
             ctx.fillText(`${lastWeight()?.weight} ${lastWeight()?.weight_units}`, centerX, centerY + offset + 10);
 
-            ctx.font = '13px sans-serif ';
+            ctx.font = '13px system-ui';
             ctx.fillStyle = '#1e8260';
             ctx.fillText(`${differenceTime(lastWeight()?.date, new Date())}`, centerX, centerY + 50);
 

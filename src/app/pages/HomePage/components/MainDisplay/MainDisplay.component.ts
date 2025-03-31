@@ -67,9 +67,13 @@ export class MainDisplay {
         this.doghnoutChart = DoughnutChart(this.progression);
         this.data = this.doghnoutChart.data;
         this.options = this.doghnoutChart.options;
+
         this.plugins.push(centerTextPlugin(this.progression, this.lastWeight));
-        if (!Number.isNaN(this.progression())) return;
-        this.plugins = [customSVGsPluginForDoughnutChart(), centerTextPlugin(this.progression, this.lastWeight)];
+
+        if (Number.isNaN(this.progression())) return;
+
+        this.plugins.push(customSVGsPluginForDoughnutChart());
+
         cdr.detectChanges();
     }
 

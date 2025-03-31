@@ -26,15 +26,15 @@ export const customSVGsPluginForDoughnutChart = () => {
 
             const centerX = segment.x;
             const centerY = segment.y;
-            const outerRadius = segment.outerRadius;
+            const innerRadius = segment.innerRadius+2;
 
             const startAngle = segment.startAngle;
-            const startX = centerX + outerRadius * Math.cos(startAngle);
-            const startY = centerY + outerRadius * Math.sin(startAngle);
+            const startX = centerX + innerRadius * Math.cos(startAngle);
+            const startY = centerY + innerRadius * Math.sin(startAngle);
 
             const endAngle = segment.endAngle;
-            const progressX = centerX + outerRadius * Math.cos(endAngle);
-            const progressY = centerY + outerRadius * Math.sin(endAngle);
+            const progressX = centerX + innerRadius * Math.cos(endAngle);
+            const progressY = centerY + innerRadius * Math.sin(endAngle);
 
             if (svgImageStart.complete) {
                 ctx.drawImage(svgImageStart, startX - 12, startY - 8, 25, 25);
@@ -43,6 +43,8 @@ export const customSVGsPluginForDoughnutChart = () => {
             if (svgImageProgress.complete) {
                 ctx.drawImage(svgImageProgress, progressX - 10, progressY - 18, 25, 25);
             }
+
+            ctx.restore();
         },
     };
 };
@@ -98,6 +100,7 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
             ctx.font = '13px system-ui';
             ctx.fillStyle = '#1e8260';
             ctx.fillText(`${differenceTime(lastWeight()?.date, new Date())}`, centerX, centerY + 50);
+
 
             ctx.restore();
         },

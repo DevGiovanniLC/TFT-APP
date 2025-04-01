@@ -25,7 +25,6 @@ import { WeightFormComponent } from '@components/WeightForm/WeightForm.component
         IonButtons,
         IonContent,
         IonHeader,
-        IonTitle,
         IonToolbar,
         IonDatetime,
         IonButtons,

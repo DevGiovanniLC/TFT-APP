@@ -16,7 +16,7 @@ import {
 } from '@ionic/angular/standalone';
 
 import { Weight, WeightUnits } from '@models/types/Weight';
-import { WeightFormComponent } from '@shared/components/WeightForm/WeightForm.component';
+import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
 
 @Component({
     selector: 'app-goal-modal',

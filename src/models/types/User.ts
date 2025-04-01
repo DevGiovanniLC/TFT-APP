@@ -6,11 +6,11 @@ export type User = {
     height: number;
     gender: Gender;
 
-    email: string;
+    email: string | undefined;
 
-    goal_weight: number;
-    goal_units: WeightUnits;
-    goal_date: Date;
+    goal_weight: number | undefined;
+    goal_units: WeightUnits | undefined;
+    goal_date: Date | undefined;
 };
 
 export enum Gender {

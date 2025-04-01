@@ -6,9 +6,6 @@
             "@core/*": [
                 "src/app/core/*"
             ],
-            "@shared/*": [
-                "src/app/shared/*"
-            ],
             "@models/*": [
                 "src/models/*"
             ],
@@ -19,10 +16,13 @@
                 "src/app/pages/*"
             ],
             "@components/*": [
-                "src/app/shared/components/*"
+                "src/components/*"
             ],
             "@pipes/*": [
                 "src/pipes/*"
+            ],
+            "@plugins/*": [
+                "src/plugins/*"
             ]
         },
         "baseUrl": "./",

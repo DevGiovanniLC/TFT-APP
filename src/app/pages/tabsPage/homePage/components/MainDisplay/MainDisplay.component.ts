@@ -14,8 +14,8 @@ import { Weight, emptyWeight } from '@models/types/Weight';
 import { IonButton, ModalController } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
-import { WeightRegisterComponent } from '@pages/HomePage/components/WeightRegister/WeightRegister.component';
-import { centerTextPlugin, customSVGsPluginForDoughnutChart } from 'src/app/plugins/chartjs/ChartPlugins';
+import { WeightRegisterComponent } from '@pages/tabsPage/HomePage/components/WeightRegister/WeightRegister.component';
+import { centerTextPlugin, customSVGsPluginForDoughnutChart } from '@plugins/chartjs/ChartPlugins';
 import { DoughnutChart } from '@models/charts/DoghnoutChart';
 import { DatasetChartOptions } from 'chart.js';
 

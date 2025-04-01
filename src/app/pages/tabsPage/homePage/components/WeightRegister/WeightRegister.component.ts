@@ -16,7 +16,7 @@ import { Weight, WeightUnits } from '@models/types/Weight';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 
 import { WeightTrackerService } from '@services/WeightTracker.service';
-import { WeightFormComponent } from '@shared/components/WeightForm/WeightForm.component';
+import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
 
 @Component({
     selector: 'app-weight-register',

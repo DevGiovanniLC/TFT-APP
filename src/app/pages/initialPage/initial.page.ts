@@ -5,17 +5,20 @@ import {
     IonHeader,
     IonToolbar,
     ModalController,
-    IonButton,
     IonButtons,
+    IonButton,
     IonSelect,
     IonSelectOption,
+    NavController
 } from '@ionic/angular/standalone';
 import { Weight, WeightUnits } from '@models/types/Weight';
-import { WeightFormComponent } from '@shared/components/WeightForm/WeightForm.component';
+import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
 import { GoalModalComponent } from './components/GoalModal/GoalModal.component';
-import { Gender } from '@models/types/User';
+import { Gender, User } from '@models/types/User';
 import { FormsModule } from '@angular/forms';
 import { SimpleDatePipe } from '@pipes/SimpleDate.pipe';
+import { ConfigService } from '@services/Config.service';
+import { WeightTrackerService } from '@services/WeightTracker.service';
 
 @Component({
     selector: 'app-initial-modal',
@@ -32,11 +35,13 @@ import { SimpleDatePipe } from '@pipes/SimpleDate.pipe';
         SimpleDatePipe,
         FormsModule,
     ],
-    templateUrl: './InitialModal.component.html',
+    templateUrl: './Initial.page.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InitialModalComponent {
+export class InitialPage {
     step = 0;
+    FINAL_STEP = 4;
+
     name!: string;
     age!: number;
     height!: number;
@@ -48,32 +53,47 @@ export class InitialModalComponent {
     goalWeight!: Weight | null;
     isGoal = signal(false);
 
-    constructor(private modalCtrl: ModalController) {}
+
+
+    constructor(
+        private modalCtrl: ModalController,
+        private config: ConfigService,
+        private weightTracker: WeightTrackerService,
+        private navCtrl: NavController,
+    ) {}
 
     nextStep() {
         this.step += 1;
 
-        if (this.step === 4) {
-            const actualWeight = {
+
+        if (this.step === this.FINAL_STEP) {
+            const actualWeight: Weight = {
                 weight: this.actualWeight(),
                 weight_units: this.lastWeightUnit,
                 date: new Date(),
             };
 
-            const structuredData = {
-                actual_weight: actualWeight,
-                goal: this.goalWeight,
+            const structuredData: User = {
                 name: this.name,
-                height: this.height,
+                email: undefined,
                 age: this.age,
+                height: this.height,
                 gender: this.gender,
+                goal_weight: this.goalWeight?.weight,
+                goal_units: this.goalWeight?.weight_units,
+                goal_date: this.goalWeight?.date,
             };
 
-            this.modalCtrl.dismiss(structuredData, 'confirm');
+            this.config.setUser(structuredData);
+            this.weightTracker.addWeight(actualWeight);
+            this.navCtrl.navigateRoot('/tabs/tab1');
+
+
         }
     }
 
     backStep() {
+        if (this.step === 0) return;
         this.step -= 1;
     }
 

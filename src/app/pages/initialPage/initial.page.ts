@@ -37,15 +37,16 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InitialPage {
+    readonly FINAL_STEP = 4;
+
     step = 0;
-    FINAL_STEP = 4;
 
     name!: string;
     age!: number;
     height!: number;
     gender: Gender = Gender.OTHER;
 
-    actualWeight = signal(70);
+    actualWeight = signal(80);
     lastWeightUnit = WeightUnits.KG;
 
     goalWeight!: Weight | null;
@@ -59,6 +60,8 @@ export class InitialPage {
         private weightTracker: WeightTrackerService,
         private navCtrl: NavController,
     ) {}
+
+
 
     nextStep() {
         this.step += 1;

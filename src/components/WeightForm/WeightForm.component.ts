@@ -8,7 +8,7 @@ import { WeightUnits } from '@models/types/Weight';
     templateUrl: './WeightForm.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WeightFormComponent implements OnInit {
+export class WeightFormComponent {
     inputWeightValue = input.required<number>();
     inputWeightUnit = input(WeightUnits.KG);
 
@@ -17,19 +17,14 @@ export class WeightFormComponent implements OnInit {
     lastWeight = signal(70);
     lastWeightDecimal = signal(0);
 
-    weightOptions!: number[];
-    weightOptionsDecimal!: number[];
+    readonly weightOptions =  this.generateRange(30, 250);
+    readonly weightOptionsDecimal = this.generateRange(0, 9);
 
     constructor() {
         effect(() => {
             this.lastWeight.set(Math.floor(this.inputWeightValue()));
             this.lastWeightDecimal.set(Math.round((this.inputWeightValue() % 1) * 10));
         });
-    }
-
-    ngOnInit(): void {
-        this.weightOptions = this.generateRange(30, 300);
-        this.weightOptionsDecimal = this.generateRange(0, 9);
     }
 
     updateActualWeight(value: any) {

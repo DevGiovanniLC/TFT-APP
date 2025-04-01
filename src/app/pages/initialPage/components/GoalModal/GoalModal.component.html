@@ -3,7 +3,10 @@
         <ion-buttons slot="start">
             <ion-button class="w-24 p-3" color="medium" (click)="cancel()"> Cancel </ion-button>
         </ion-buttons>
-        <ion-title class="text-center font-sans font-semibold text-sm"> Set Your Goal </ion-title>
+        <div class="flex flex-row justify-center items-center mb-4 mr-3">
+            <img src="assets/icon/icon-app.png" alt="icon app" class="w-10 h-10" />
+            <h1 class="text-center font-sans font-semibold text-lg m-0"> Vita Weight </h1>
+        </div>
         <ion-buttons slot="end">
             <ion-button class="w-24 p-3" (click)="confirm()" [strong]="true" color="primary"> Confirm </ion-button>
         </ion-buttons>

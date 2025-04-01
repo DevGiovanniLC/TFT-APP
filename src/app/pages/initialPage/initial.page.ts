@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import {
     IonContent,
-    IonTitle,
     IonHeader,
     IonToolbar,
     ModalController,
@@ -27,7 +26,6 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
         IonButtons,
         IonContent,
         IonHeader,
-        IonTitle,
         IonToolbar,
         IonSelect,
         IonSelectOption,

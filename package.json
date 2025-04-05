@@ -12,7 +12,9 @@
         "android": "npx cap sync && ionic cap copy && ionic cap open android",
         "lint": "ng lint",
         "lint-fix": "npx eslint src --ext .ts --fix",
-        "format": "prettier --write \"src/**/*.{ts,html,css,scss,json}\""
+        "format": "prettier --write \"src/**/*.{ts,html,css,scss,json}\"",
+        "sonar": "node scripts/run-sonar.js"
+
     },
     "private": true,
     "dependencies": {
@@ -61,6 +63,7 @@
         "allure-jest": "^3.2.1",
         "angular-eslint": "19.0.2",
         "autoprefixer": "^10.4.7",
+        "dotenv": "^16.4.7",
         "eslint": "^9.16.0",
         "eslint-plugin-import": "^2.29.1",
         "eslint-plugin-jsdoc": "^48.2.1",

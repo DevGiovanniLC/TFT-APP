@@ -17,7 +17,7 @@ module.exports = {
     },
     coverageDirectory: "./coverage",
     collectCoverageFrom: [
-        "src/app/**/*.ts",
+        "src/services/**/*.service.ts",
         "!<rootDir>/node_modules/",
         "!<rootDir>/test/",
     ],

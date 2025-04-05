@@ -30,7 +30,7 @@ describe('DataProviderService', () => {
         service = new DataProviderService();
     });
 
-    describe('en entorno de desarrollo', () => {
+    describe('En entorno de desarrollo', () => {
         beforeEach(async () => {
             (environment as any).production = false;
             (LocalStorageProvider as any).mockImplementation(() => dataProviderMock);
@@ -71,7 +71,7 @@ describe('DataProviderService', () => {
         });
     });
 
-    describe('en entorno de producción', () => {
+    describe('En entorno de producción', () => {
         beforeEach(async () => {
             (environment as any).production = true;
             (DBConnection as any).mockImplementation(() => dataProviderMock);

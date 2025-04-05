@@ -1,4 +1,5 @@
 module.exports = {
+    testEnvironment: "allure-jest/jsdom",
     preset: "jest-preset-angular",
     roots: ["<rootDir>/src"],
     setupFilesAfterEnv: ["<rootDir>/src/setup-jest.ts"],
@@ -20,4 +21,6 @@ module.exports = {
         "!<rootDir>/node_modules/",
         "!<rootDir>/test/",
     ],
+
 };
+

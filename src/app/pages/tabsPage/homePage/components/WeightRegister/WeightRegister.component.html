@@ -5,6 +5,7 @@
             class="w-20 h-10"
             style="--border-radius: 15px"
             (click)="cancel()"
+            (keypress)="cancel()"
             > Cancel </ion-button>
         </ion-buttons>
         <div class="flex flex-row justify-center items-center mb-2">
@@ -18,6 +19,7 @@
             style="--border-radius: 15px"
             strong="true"
             (click)="confirm()"
+            (keypress)="confirm()"
             > Confirm </ion-button>
         </ion-buttons>
     </ion-toolbar>

@@ -6,6 +6,7 @@
                     class="w-20 h-10"
                     style="--border-radius: 15px"
                     (click)="backStep()"
+                    (keypress)="backStep()"
                 >Back</ion-button>
             </ion-buttons>
         } @else {
@@ -28,6 +29,7 @@
             color="primary"
             strong="true"
                 (click)="nextStep()"
+                (keypress)="nextStep()"
             >{{ step < 3 ? 'Next' : 'Confirm' }}</ion-button>
         </ion-buttons>
     </ion-toolbar>
@@ -57,7 +59,7 @@
                         🎉 <span class="text-lg font-medium">Celebrate your milestones</span>
                     </li>
                 </ul>
-                <img src="assets/images/initial-image-cartoon.png" class="flex-grow h-1/6 max-h-80 drop-shadow-2xl" />
+                <img alt="Cartoon Woman with a mobile phone" src="assets/images/initial-image-cartoon.png" class="flex-grow h-1/6 max-h-80 drop-shadow-2xl" />
             }
             @case (1) {
                 <h1 class="text-3xl font-bold font-sans text-gray-800">Track Your Weight</h1>
@@ -100,7 +102,7 @@
                 </ul>
                 <div class="p-3 flex flex-col items-center space-y-3">
                     @if (!isGoal()) {
-                        <ion-button class="w-40" color="primary" (click)="openModal()"> Set weight Goal </ion-button>
+                        <ion-button class="w-40" color="primary" (click)="openModal()" (keypress)="openModal()"> Set weight Goal </ion-button>
                         <p class="text-pretty text-center text-xs h-1 text-teal-500">It's optional, but recommended</p>
                         <!-- <p class="text-pretty text-center text-xs h-1"> you can update your goal at any time.</p> -->
                     } @else {

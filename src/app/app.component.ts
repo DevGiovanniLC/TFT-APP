@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { IonApp, IonRouterOutlet,NavController } from '@ionic/angular/standalone';
 import { DataProviderService } from '@services/data-providers/DataProvider.service';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { ConfigService } from '@services/Config.service';
-import { NavController } from '@ionic/angular/standalone';
 
 @Component({
     selector: 'app-root',
@@ -16,16 +15,16 @@ export class AppComponent {
         private navCtrl: NavController,
         private config: ConfigService
     ) {
-        this.initApp().then(async () => {
-            const user = await config.getUser();
+        this.initApp()
+    }
+
+    initApp() {
+        this.dataProvider.initialize().then(async () => {
+            const user = await this.config.getUser();
             if (!user) {
                 this.navCtrl.navigateRoot('/initial');
             }
+            SplashScreen.hide();
         });
-    }
-
-    async initApp() {
-        await this.dataProvider.initialize();
-        SplashScreen.hide();
     }
 }

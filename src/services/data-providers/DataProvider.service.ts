@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
 import DBConnection from '@services/data-providers/DBConnection';
-import { environment } from 'src/envs/environment';
+import { environment } from '@envs/environment';
 
 import LocalStorageProvider from './LocalStorageProvider';
 import { Weight } from '@models/types/Weight';

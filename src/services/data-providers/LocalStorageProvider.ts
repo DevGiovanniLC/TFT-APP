@@ -1,7 +1,7 @@
 import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
 import { Weight } from '@models/types/Weight';
 import { User } from '@models/types/User';
-import data from 'src/assets/data/mock.json';
+import data from '@assets/data/mock.json';
 
 export default class LocalStorageProvider implements DataProvider {
     private readonly WEIGHTS_KEY = 'weight_data_weights';

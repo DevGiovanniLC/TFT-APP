@@ -1,10 +1,10 @@
 import { WeightUnits } from './Weight';
 
 export type User = {
-    name: string;
-    age: number;
-    height: number;
-    gender: Gender;
+    name: string |undefined;
+    age: number |undefined;
+    height: number | undefined;
+    gender: Gender | undefined;
 
     email: string | undefined;
 

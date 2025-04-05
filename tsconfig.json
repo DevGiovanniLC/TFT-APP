@@ -3,6 +3,9 @@
     "compileOnSave": false,
     "compilerOptions": {
         "paths": {
+            "@shared/*": [
+                "src/components/*"
+                ],
             "@core/*": [
                 "src/app/core/*"
             ],
@@ -23,6 +26,12 @@
             ],
             "@plugins/*": [
                 "src/plugins/*"
+            ],
+            "@envs/*": [
+                "src/environments/*"
+            ],
+            "@assets/*": [
+                "src/assets/*"
             ]
         },
         "baseUrl": "./",

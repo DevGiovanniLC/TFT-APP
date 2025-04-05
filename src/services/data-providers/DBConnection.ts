@@ -1,6 +1,5 @@
 import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
-import { environment } from 'src/envs/environment';
 import { Weight } from '@models/types/Weight';
 import { User } from '@models/types/User';
 
@@ -9,7 +8,7 @@ export default class DBConnection implements DataProvider {
     private db!: SQLiteDBConnection;
 
     private readonly BDConf = {
-        name: environment.dataBaseName,
+        name: 'app.db',
         encrypted: false,
         mode: 'no-encryption',
         version: 1,
@@ -17,7 +16,6 @@ export default class DBConnection implements DataProvider {
     };
 
     async initializeConnection() {
-        await this.checkJeep();
 
         this.db = await this.sqlite.createConnection(
             this.BDConf.name,
@@ -29,7 +27,7 @@ export default class DBConnection implements DataProvider {
 
         await this.db.open().catch((err) => alert(err));
 
-        await this.deleteDBStructure().catch((err) => alert(err));
+        // await this.deleteDBStructure().catch((err) => alert(err));
 
         await this.setBDStructure().catch((err) => alert(err));
 
@@ -38,6 +36,7 @@ export default class DBConnection implements DataProvider {
 
         // await this.addWeights()
         // .catch(err => alert(err));
+
         return true;
     }
 
@@ -102,15 +101,6 @@ export default class DBConnection implements DataProvider {
         return true;
     }
 
-    private async checkJeep() {
-        await customElements.whenDefined('jeep-sqlite');
-        const jeepSqliteEl = document.querySelector('jeep-sqlite');
-
-        if (jeepSqliteEl) {
-            await jeepSqliteEl.componentOnReady();
-        }
-    }
-
     private async deleteDBStructure() {
         const schema = `
             DROP TABLE IF EXISTS registers;
@@ -145,29 +135,27 @@ export default class DBConnection implements DataProvider {
     }
 
     private async addWeights() {
-        return await this.db.query(
-            `
-        INSERT INTO registers (date, weight, weight_units) VALUES
-        (?, ?, ?), (?, ?, ?), (?, ?, ?), (?, ?, ?), (?, ?, ?);
-        `,
-            [
-                '2025-01-04',
-                96,
-                'kg',
-                '2025-01-10',
-                100,
-                'kg',
-                '2025-02-02',
-                98,
-                'kg',
-                '2025-02-03',
-                98,
-                'kg',
-                '2025-03-05',
-                95,
-                'kg',
-            ]
-        );
+        const data = [
+            ['2025-01-04', 96.0],
+            ['2025-01-11', 95.6],
+            ['2025-01-18', 95.3],
+            ['2025-01-25', 95.1],
+            ['2025-02-01', 94.8],
+            ['2025-02-08', 94.5],
+            ['2025-02-15', 94.2],
+            ['2025-02-22', 94.0],
+            ['2025-03-01', 93.8],
+            ['2025-03-08', 93.5],
+            ['2025-03-15', 93.2],
+            ['2025-03-22', 93.0],
+        ];
+
+        for (const [date, weight] of data) {
+            await this.db.query(
+                `INSERT INTO registers (date, weight, weight_units) VALUES (?, ?, ?)`,
+                [date, weight, 'kg']
+            );
+        }
     }
 
     private async addUser() {

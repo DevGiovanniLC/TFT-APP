@@ -36,12 +36,12 @@ describe('CalculationFunctionsService', () => {
     describe('Ritmo de pérdida de peso', () => {
         it('Debería calcular correctamente el ritmo semanal de pérdida de peso', () => {
             const pace = service.PaceWeekWeightLoss(80, 70, startDate, endDate);
-            expect(pace).toBe('5.00'); // 10kg en 2 semanas = 5kg/semana
+            expect(pace).toBe(5.00); // 10kg en 2 semanas = 5kg/semana
         });
 
         it('Debería calcular correctamente el ritmo mensual de pérdida de peso', () => {
             const pace = service.PaceMonthWeightLoss(80, 70, startDate, endDate);
-            expect(pace).toBe('21.43'); // 10kg en ~0.47 meses ≈ 21.43kg/mes
+            expect(pace).toBe(21.43); // 10kg en ~0.47 meses ≈ 21.43kg/mes
         });
     });
 

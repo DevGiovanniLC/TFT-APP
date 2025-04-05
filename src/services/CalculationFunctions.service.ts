@@ -27,12 +27,12 @@ export class CalculationFunctionsService {
 
     PaceWeekWeightLoss(weight: number, weightGoal: number, startDate: Date, endDate: Date) {
         const pace = (weight - weightGoal) / this.weekDifference(startDate, endDate);
-        return pace.toFixed(2);
+        return Number(pace.toFixed(2));
     }
 
     PaceMonthWeightLoss(weight: number, weightGoal: number, startDate: Date, endDate: Date) {
         const pace = (weight - weightGoal) / this.monthDifference(startDate, endDate);
-        return pace.toFixed(2);
+        return Number(pace.toFixed(2));
     }
 
     weightProgression(firstWeight: number, lastWeight: number, goalWeight: number): number {

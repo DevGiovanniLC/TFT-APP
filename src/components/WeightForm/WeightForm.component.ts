@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, input, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, output, signal } from '@angular/core';
 import { IonPicker, IonPickerColumn, IonPickerColumnOption } from '@ionic/angular/standalone';
 import { WeightUnits } from '@models/types/Weight';
 

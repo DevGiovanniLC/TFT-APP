@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, effect, input, Signal, signal } from '@angular/core';
-import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from '@ionic/angular/standalone';
+import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle } from '@ionic/angular/standalone';
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 
@@ -17,7 +17,7 @@ export class WeightDisplay {
     paceMonth = signal(0);
     weightUnits = signal(WeightUnits.KG);
 
-    constructor(private CalculationFunctionsService: CalculationFunctionsService) {
+    constructor(private readonly CalculationFunctionsService: CalculationFunctionsService) {
         effect(() => {
             const goal = this.goal();
             const WeightList = this.weights();

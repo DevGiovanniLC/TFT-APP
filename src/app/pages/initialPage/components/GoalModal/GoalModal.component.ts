@@ -44,7 +44,7 @@ export class GoalModalComponent {
     actualWeight = signal(70);
     actualDate = signal(new Date());
 
-    private modalCtrl = inject(ModalController);
+    private readonly modalCtrl = inject(ModalController);
 
     constructor() {}
 

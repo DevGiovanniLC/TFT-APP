@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import {
     IonDatetime,
     IonContent,
-    IonTitle,
     IonHeader,
     IonToolbar,
     ModalController,
@@ -12,8 +11,8 @@ import {
     IonButton,
     IonButtons,
 } from '@ionic/angular/standalone';
+
 import { Weight, WeightUnits } from '@models/types/Weight';
-import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
@@ -46,9 +45,9 @@ export class WeightRegisterComponent {
     actualWeight = signal(70);
     actualDate = signal(new Date());
 
-    private modalCtrl = inject(ModalController);
+    private readonly modalCtrl = inject(ModalController);
 
-    constructor(private weightTracker: WeightTrackerService) {
+    constructor(private readonly weightTracker: WeightTrackerService) {
         effect(() => {
             this.getActualWeight();
         });

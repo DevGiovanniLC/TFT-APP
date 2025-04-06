@@ -4,7 +4,7 @@ import { Weight } from '@models/types/Weight';
 import { User } from '@models/types/User';
 
 export default class DBConnection implements DataProvider {
-    private sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite);
+    private readonly sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite);
     private db!: SQLiteDBConnection;
 
     private readonly BDConf = {

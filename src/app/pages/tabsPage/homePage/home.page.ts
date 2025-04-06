@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, effect, signal, WritableSignal } from '@angular/core';
 import { IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
 import { WeightTrackerService } from '@services/WeightTracker.service';
-import { Weight } from '@models/types/Weight';
+import { Weight, WeightUnits } from '@models/types/Weight';
 import { WeightGraphic } from '@pages/tabsPage/homePage/components/WeightGraphic/WeightGraphic.component';
-import { WeightUnits } from '@models/types/Weight';
 import { MainDisplay } from '@pages/tabsPage/homePage/components/MainDisplay/MainDisplay.component';
 import { ConfigService } from '@services/Config.service';
 
@@ -19,8 +18,8 @@ export class HomePage {
     goal: WritableSignal<Weight> = signal<Weight>({ date: new Date(NaN), weight: 0, weight_units: WeightUnits.KG });
 
     constructor(
-        private weightTrackerService: WeightTrackerService,
-        private config: ConfigService
+        private readonly weightTrackerService: WeightTrackerService,
+        private readonly config: ConfigService
     ) {
         effect(() => {
             if (this.weightTrackerService.isAvailable()) {
@@ -40,7 +39,7 @@ export class HomePage {
     }
 
     addWeight($event: Weight) {
-        this.weightTrackerService.addWeight($event as Weight);
+        this.weightTrackerService.addWeight($event);
         this.getWeights();
         this.getGoal();
     }

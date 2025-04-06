@@ -11,9 +11,9 @@ import { ConfigService } from '@services/Config.service';
 })
 export class AppComponent {
     constructor(
-        private dataProvider: DataProviderService,
-        private navCtrl: NavController,
-        private config: ConfigService
+        private readonly dataProvider: DataProviderService,
+        private readonly navCtrl: NavController,
+        private readonly config: ConfigService
     ) {
         this.initApp()
     }

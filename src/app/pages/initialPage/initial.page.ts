@@ -55,10 +55,10 @@ export class InitialPage {
 
 
     constructor(
-        private modalCtrl: ModalController,
-        private config: ConfigService,
-        private weightTracker: WeightTrackerService,
-        private navCtrl: NavController,
+        private readonly modalCtrl: ModalController,
+        private readonly config: ConfigService,
+        private readonly weightTracker: WeightTrackerService,
+        private readonly navCtrl: NavController,
     ) {}
 
 
@@ -121,7 +121,7 @@ export class InitialPage {
     }
 
     validateGoalDate() {
-        if (this.isGoal() && !isNaN(this.goalWeight?.date?.getTime() || NaN)) return true;
+        if (this.isGoal() && !isNaN(this.goalWeight?.date?.getTime() ?? NaN)) return true;
         return false;
     }
 

@@ -8,7 +8,7 @@ import { User } from '@models/types/User';
 export class ConfigService {
     isUser;
 
-    constructor(private dataProvider: DataProviderService) {
+    constructor(private readonly dataProvider: DataProviderService) {
         this.isUser = signal(false);
     }
 

@@ -18,7 +18,7 @@ export const customSVGsPluginForDoughnutChart = () => {
             const ctx = chartInstance.ctx;
 
             const meta = chartInstance.getDatasetMeta(0);
-            if (!meta || !meta.data || meta.data.length === 0) {
+            if (!meta?.data || meta.data.length === 0) {
                 return;
             }
 

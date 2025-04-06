@@ -5,9 +5,7 @@ import data from '@assets/data/mock.json';
 
 export default class LocalStorageProvider implements DataProvider {
     private readonly WEIGHTS_KEY = 'weight_data_weights';
-    private readonly USER_KEY: string = 'user_data';
-
-    constructor() {}
+    private readonly USER_KEY = 'user_data';
 
     addExampleData() {
         localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(data.weights));
@@ -26,7 +24,7 @@ export default class LocalStorageProvider implements DataProvider {
 
     addWeight(value: Weight): boolean {
         try {
-            const formattedDate = value.date as Date;
+            const formattedDate = value.date;
 
             const weights = this.getWeightsSync();
 
@@ -61,7 +59,7 @@ export default class LocalStorageProvider implements DataProvider {
     }
 
     async getWeights(): Promise<Weight[]> {
-        return Promise.resolve(this.getWeightsSync() as Weight[]);
+        return Promise.resolve(this.getWeightsSync());
     }
 
     private getWeightsSync(): Weight[] {

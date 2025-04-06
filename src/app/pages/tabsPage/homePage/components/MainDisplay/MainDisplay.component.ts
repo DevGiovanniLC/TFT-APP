@@ -48,14 +48,14 @@ export class MainDisplay {
     isButtonActive = signal(false);
 
     constructor(
-        private calculationFunctionsService: CalculationFunctionsService,
-        private modalCtrl: ModalController,
-        private cdr: ChangeDetectorRef
+        private readonly calculationFunctionsService: CalculationFunctionsService,
+        private readonly modalCtrl: ModalController,
+        private readonly cdr: ChangeDetectorRef
     ) {
         effect(() => {
             this.goal();
             this.weights();
-            this.updateChart(cdr);
+            this.updateChart(this.cdr);
         });
     }
 

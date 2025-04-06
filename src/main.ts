@@ -9,8 +9,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 
-window.addEventListener('DOMContentLoaded', async () => {
-    await defineCustomElements(window);
+window.addEventListener('DOMContentLoaded', () => {
+    defineCustomElements(window);
 });
 
 bootstrapApplication(AppComponent, {

@@ -6,9 +6,9 @@ import { DataProviderService } from './data-providers/DataProvider.service';
     providedIn: 'root',
 })
 export class WeightTrackerService {
-    private weights: WritableSignal<Weight[]> = signal<Weight[]>([]);
+    private readonly weights: WritableSignal<Weight[]> = signal<Weight[]>([]);
 
-    constructor(private dataProvider: DataProviderService) {}
+    constructor(private readonly dataProvider: DataProviderService) {}
 
     async getWeights(): Promise<Weight[]> {
         this.weights.set(await this.dataProvider.getWeights());

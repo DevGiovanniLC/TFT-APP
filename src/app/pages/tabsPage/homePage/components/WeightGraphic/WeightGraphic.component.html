@@ -2,6 +2,7 @@
     @if (!!goal()) {
         <div class="flex justify-end w-full px-5">
             <ion-select
+                id="chartMode"
                 class="w-fit"
                 aria-label="Chart Mode"
                 placeholder="Chart Mode"
@@ -26,6 +27,11 @@
             <h2>in this {{ chartMode() }} period</h2>
         </div>
     } @else {
-        <p-chart class="w-full max-w-2xl" type="line" [data]="data" [options]="options"></p-chart>
+        <p-chart
+        id="lineChart"
+        class="w-full max-w-2xl"
+        type="line"
+        [data]="data"
+        [options]="options"/>
     }
 </div>

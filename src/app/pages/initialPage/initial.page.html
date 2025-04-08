@@ -3,6 +3,7 @@
         @if (step !== 0) {
             <ion-buttons slot="start"  class="mx-1">
                 <ion-button
+                    id="backBtn"
                     class="w-20 h-10"
                     style="--border-radius: 15px"
                     (click)="backStep()"
@@ -12,6 +13,7 @@
         } @else {
             <ion-buttons slot="start"  class="mx-1">
                 <ion-button
+                    id="BackBtnDisabled"
                     class="w-20 h-10"
                     style="--border-radius: 15px"
                     disabled="true"
@@ -24,6 +26,7 @@
         </div>
         <ion-buttons slot="end" class="mx-1">
             <ion-button
+            id="nextBtn"
             class="w-24 h-10"
             style="--border-radius: 15px"
             color="primary"

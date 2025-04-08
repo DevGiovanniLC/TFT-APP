@@ -3,7 +3,7 @@
         <h1 class="text-center font-semibold text-3xl">Actual Weight</h1>
         <p-chart
             #chart
-            id="actualWeightChart"
+            id="doughnutChart"
             type="doughnut"
             [data]="data"
             [options]="options"
@@ -12,6 +12,7 @@
         />
     </div>
     <ion-button
+        id="registerBtn"
         class="button-shadow w-40 h-12"
         style="--border-radius: 15px"
         (click)="openModal()"

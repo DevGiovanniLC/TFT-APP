@@ -1,10 +1,12 @@
 import { Injector, Signal } from '@angular/core';
 import { Weight } from '@models/types/Weight';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { TimeService } from '@services/Time.service';
 import { Chart } from 'chart.js';
 
-const injector = Injector.create({ providers: [CalculationFunctionsService] });
+const injector = Injector.create({ providers: [CalculationFunctionsService, TimeService] });
 const calculationFunctionsService = injector.get(CalculationFunctionsService);
+const timeService = injector.get(TimeService);
 
 export const customSVGsPluginForDoughnutChart = () => {
     const svgImageStart: HTMLImageElement = new Image();
@@ -99,7 +101,7 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
 
             ctx.font = '13px system-ui';
             ctx.fillStyle = '#1e8260';
-            ctx.fillText(`${differenceTime(lastWeight()?.date, new Date())}`, centerX, centerY + 50);
+            ctx.fillText(`${differenceTime(lastWeight()?.date, timeService.now())}`, centerX, centerY + 50);
 
             ctx.restore();
         },

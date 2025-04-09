@@ -16,6 +16,7 @@ import {
 
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
+import { TimeService } from '@services/Time.service';
 
 @Component({
     selector: 'app-goal-modal',
@@ -42,11 +43,11 @@ export class GoalModalComponent {
     lastWeightUnit = signal(WeightUnits.KG);
 
     actualWeight = signal(70);
-    actualDate = signal(new Date());
+    actualDate = signal(this.timeService.now());
 
     private readonly modalCtrl = inject(ModalController);
 
-    constructor() {}
+    constructor(private readonly timeService: TimeService) {}
 
     cancel() {
         return this.modalCtrl.dismiss(null, 'cancel');

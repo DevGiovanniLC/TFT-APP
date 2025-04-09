@@ -6,6 +6,7 @@ import { Weight } from '@models/types/Weight';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { WeightChart } from '@models/charts/WeightChart';
 import { Chart, DatasetChartOptions } from 'chart.js';
+import { TimeService } from '@services/Time.service';
 
 @Component({
     selector: 'app-weight-graphic',
@@ -24,7 +25,7 @@ export class WeightGraphic {
     chartMode = signal('total');
     isEmpty = signal(false);
 
-    constructor() {
+    constructor(private readonly timeService: TimeService) {
         Chart.register(annotationPlugin);
 
         effect(() => {
@@ -37,11 +38,11 @@ export class WeightGraphic {
 
         if (this.chartMode() == 'week') {
             weights.set(
-                this.weights().filter((w) => w.date.getTime() > new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
+                this.weights().filter((w) => w.date.getTime() > this.timeService.now().getTime() - 7 * 24 * 60 * 60 * 1000)
             );
         } else if (this.chartMode() == 'month') {
             weights.set(
-                this.weights().filter((w) => w.date.getTime() > new Date().getTime() - 30 * 24 * 60 * 60 * 1000)
+                this.weights().filter((w) => w.date.getTime() > this.timeService.now().getTime() - 30 * 24 * 60 * 60 * 1000)
             );
         }
 

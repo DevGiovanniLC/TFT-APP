@@ -105,7 +105,7 @@
                 </ul>
                 <div class="p-3 flex flex-col items-center space-y-3">
                     @if (!isGoal()) {
-                        <ion-button class="w-40" color="primary" (click)="openModal()" (keypress)="openModal()"> Set weight Goal </ion-button>
+                        <ion-button id="goalBtn" class="w-40" color="primary" (click)="openModal()" (keypress)="openModal()"> Set weight Goal </ion-button>
                         <p class="text-pretty text-center text-xs h-1 text-teal-500">It's optional, but recommended</p>
                     } @else {
                         <p>You already have a weight goal✅</p>

@@ -16,6 +16,7 @@ import { Weight, WeightUnits } from '@models/types/Weight';
 
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
+import { TimeService } from '@services/Time.service';
 
 @Component({
     selector: 'app-weight-register',
@@ -43,11 +44,11 @@ export class WeightRegisterComponent {
     lastWeightUnit = signal(WeightUnits.KG);
 
     actualWeight = signal(70);
-    actualDate = signal(new Date());
+    actualDate = signal(this.timeService.now());
 
     private readonly modalCtrl = inject(ModalController);
 
-    constructor(private readonly weightTracker: WeightTrackerService) {
+    constructor(private readonly weightTracker: WeightTrackerService, private readonly timeService: TimeService) {
         effect(() => {
             this.getActualWeight();
         });

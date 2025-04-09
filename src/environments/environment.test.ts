@@ -1,5 +1,5 @@
 export const environment = {
-    production: true,
-    testing: false,
+    production: false,
+    testing: true,
     dataBaseName: 'app.db',
 };

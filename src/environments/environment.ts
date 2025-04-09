@@ -4,6 +4,7 @@
 
 export const environment = {
     production: false,
+    testing: false,
     dataBaseName: 'app.db',
 };
 

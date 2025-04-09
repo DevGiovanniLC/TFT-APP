@@ -18,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { SimpleDatePipe } from '@pipes/SimpleDate.pipe';
 import { ConfigService } from '@services/Config.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
+import { TimeService } from '@services/Time.service';
 
 @Component({
     selector: 'app-initial-modal',
@@ -59,6 +60,7 @@ export class InitialPage {
         private readonly config: ConfigService,
         private readonly weightTracker: WeightTrackerService,
         private readonly navCtrl: NavController,
+        private readonly timeService: TimeService,
     ) {}
 
 
@@ -71,7 +73,7 @@ export class InitialPage {
             const actualWeight: Weight = {
                 weight: this.actualWeight(),
                 weight_units: this.lastWeightUnit,
-                date: new Date(),
+                date: this.timeService.now(),
             };
 
             const structuredData: User = {

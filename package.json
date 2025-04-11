@@ -5,17 +5,19 @@
     "version": "0.0.0",
     "homepage": "",
     "scripts": {
-        "test:cy": "cypress open  --e2e --browser chrome --env ENV=test",
-        "dev:test": "ionic serve --port 8080 --configuration=test",
-        "test": "jest",
-        "coverage": "jest --coverage",
-        "dev": "ionic serve --port 8080",
         "build": "ionic build",
         "android": "npx cap sync && ionic cap copy && ionic cap open android",
+        "dev": "ionic serve --port 8080",
+        "dev:test": "ionic serve --port 8080 --configuration=test",
+        "test": "npm run test:jest && npm run test:cy:run",
+        "test:jest": "jest",
+        "test:cy": "cypress open  --e2e --browser chrome --env ENV=test",
+        "test:cy:run": "npx cypress run --browser chrome --env ENV=test",
+        "coverage": "jest --coverage",
+        "sonar": "node scripts/run-sonar.js",
         "lint": "ng lint",
-        "lint-fix": "npx eslint src --ext .ts --fix",
-        "format": "prettier --write \"src/**/*.{ts,html,css,scss,json}\"",
-        "sonar": "node scripts/run-sonar.js"
+        "lint:fix": "npx eslint src --ext .ts --fix",
+        "format": "prettier --write \"src/**/*.{ts,html,css,scss,json}\""
     },
     "private": true,
     "dependencies": {

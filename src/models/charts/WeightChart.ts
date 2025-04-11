@@ -44,7 +44,7 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
             ],
         },
         options: {
-            responsive: true,
+            responsive: false,
             maintainAspectRatio: true,
             pointBackgroundColor: '#00BD7E',
             elements: {

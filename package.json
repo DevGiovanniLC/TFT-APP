@@ -5,7 +5,7 @@
     "version": "0.0.0",
     "homepage": "",
     "scripts": {
-        "test:cy": "cypress open  --e2e --browser electron --env ENV=test",
+        "test:cy": "cypress open  --e2e --browser chrome --env ENV=test",
         "dev:test": "ionic serve --port 8080 --configuration=test",
         "test": "jest",
         "coverage": "jest --coverage",

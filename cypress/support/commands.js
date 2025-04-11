@@ -36,7 +36,7 @@ Cypress.Commands.add('compareCanvasImage', (actual, expected, diff, threshold = 
     })
 });
 
-Cypress.Commands.add('waitForCanvasToBeStable', (selector, cycles = 5, interval = 300) => {
+Cypress.Commands.add('waitForCanvasToBeStable', (selector, cycles = 10, interval = 300) => {
     cy.get(selector).should('be.visible').and(($canvas) => {
         const canvas = $canvas[0];
         const getHash = () => {

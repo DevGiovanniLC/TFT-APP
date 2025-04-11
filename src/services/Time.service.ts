@@ -8,7 +8,7 @@ import { environment } from '@envs/environment';
 export class TimeService {
     now(): Date {
         return environment.testing ?
-            new Date('2020-05-06T17:54:12.535Z')
+            new Date('2025-05-30T17:54:12.535Z')
             : new Date();
     }
 }

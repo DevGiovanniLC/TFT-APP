@@ -6,13 +6,14 @@ import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
 
 export default defineConfig({
-    viewportWidth: 375,
-    viewportHeight: 667,
+    viewportWidth: 450,
+    viewportHeight: 800,
     defaultCommandTimeout: 5000,
 
 
     e2e: {
-        baseUrl: 'http://localhost:8100',
+        baseUrl: 'http://localhost:8080',
+
         setupNodeEvents(on, config) {
             on('task', {
                 saveImage({ base64, fileName }) {

@@ -1,5 +1,9 @@
 module.exports = {
     testEnvironment: "allure-jest/jsdom",
+    testPathIgnorePatterns: [
+        '/node_modules/',
+        'src/environments/environment.test.ts'
+    ],
     preset: "jest-preset-angular",
     roots: ["<rootDir>/src"],
     setupFilesAfterEnv: ["<rootDir>/src/setup-jest.ts"],
@@ -18,7 +22,6 @@ module.exports = {
     coverageDirectory: "./coverage",
     collectCoverageFrom: [
         "src/services/**/*.service.ts",
-        "!<rootDir>/node_modules/",
         "!<rootDir>/test/",
     ],
 

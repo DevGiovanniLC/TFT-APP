@@ -53,9 +53,7 @@ describe('TimeService', () => {
 
         const first = service.now();
         const delay = 10; // milliseconds
-        const second = new Promise<Date>((resolve) =>
-            setTimeout(() => resolve(service.now()), delay)
-        );
+        const second = new Promise<Date>((resolve) => setTimeout(() => resolve(service.now()), delay));
 
         return second.then((later) => {
             expect(later.getTime()).toBeGreaterThanOrEqual(first.getTime());

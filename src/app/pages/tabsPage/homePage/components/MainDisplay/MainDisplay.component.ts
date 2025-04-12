@@ -76,13 +76,10 @@ export class MainDisplay {
         this.data = this.doughnutChart.data;
         this.options = this.doughnutChart.options;
 
-        this.plugins.push(centerTextPlugin(this.progression, this.lastWeight))
-
-
-
+        this.plugins.push(centerTextPlugin(this.progression, this.lastWeight));
 
         if (Number.isNaN(this.progression())) return;
-        this.plugins.push(customSVGsPluginForDoughnutChart())
+        this.plugins.push(customSVGsPluginForDoughnutChart());
 
         this.cdr.detectChanges();
     }

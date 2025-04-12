@@ -16,7 +16,6 @@ export default class DBConnection implements DataProvider {
     };
 
     async initializeConnection() {
-
         this.db = await this.sqlite.createConnection(
             this.BDConf.name,
             this.BDConf.encrypted,
@@ -151,10 +150,11 @@ export default class DBConnection implements DataProvider {
         ];
 
         for (const [date, weight] of data) {
-            await this.db.query(
-                `INSERT INTO registers (date, weight, weight_units) VALUES (?, ?, ?)`,
-                [date, weight, 'kg']
-            );
+            await this.db.query(`INSERT INTO registers (date, weight, weight_units) VALUES (?, ?, ?)`, [
+                date,
+                weight,
+                'kg',
+            ]);
         }
     }
 

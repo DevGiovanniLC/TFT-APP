@@ -17,7 +17,7 @@ export class WeightFormComponent {
     lastWeight = signal(70);
     lastWeightDecimal = signal(0);
 
-    readonly weightOptions =  this.generateRange(30, 250);
+    readonly weightOptions = this.generateRange(30, 250);
     readonly weightOptionsDecimal = this.generateRange(0, 9);
 
     constructor() {

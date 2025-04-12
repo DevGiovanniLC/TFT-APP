@@ -18,10 +18,9 @@ export class DataProviderService {
     constructor() {}
 
     async initialize() {
-
         if (environment.production) {
             this.dataProvider = new DBConnection();
-        }else{
+        } else {
             this.dataProvider = new LocalStorageProvider();
         }
 

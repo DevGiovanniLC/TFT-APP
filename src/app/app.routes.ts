@@ -8,5 +8,5 @@ export const routes: Routes = [
     {
         path: 'initial',
         loadComponent: () => import('./pages/initialPage/initial.page').then((m) => m.InitialPage),
-    }
+    },
 ];

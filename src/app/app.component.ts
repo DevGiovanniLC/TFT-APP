@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet,NavController } from '@ionic/angular/standalone';
+import { IonApp, IonRouterOutlet, NavController } from '@ionic/angular/standalone';
 import { DataProviderService } from '@services/data-providers/DataProvider.service';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { ConfigService } from '@services/Config.service';
@@ -15,7 +15,7 @@ export class AppComponent {
         private readonly navCtrl: NavController,
         private readonly config: ConfigService
     ) {
-        this.initApp()
+        this.initApp();
     }
 
     initApp() {

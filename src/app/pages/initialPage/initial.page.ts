@@ -8,7 +8,7 @@ import {
     IonButton,
     IonSelect,
     IonSelectOption,
-    NavController
+    NavController,
 } from '@ionic/angular/standalone';
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
@@ -53,21 +53,16 @@ export class InitialPage {
     goalWeight!: Weight | null;
     isGoal = signal(false);
 
-
-
     constructor(
         private readonly modalCtrl: ModalController,
         private readonly config: ConfigService,
         private readonly weightTracker: WeightTrackerService,
         private readonly navCtrl: NavController,
-        private readonly timeService: TimeService,
+        private readonly timeService: TimeService
     ) {}
-
-
 
     nextStep() {
         this.step += 1;
-
 
         if (this.step === this.FINAL_STEP) {
             const actualWeight: Weight = {
@@ -90,8 +85,6 @@ export class InitialPage {
             this.config.setUser(structuredData);
             this.weightTracker.addWeight(actualWeight);
             this.navCtrl.navigateRoot('/tabs/tab1');
-
-
         }
     }
 

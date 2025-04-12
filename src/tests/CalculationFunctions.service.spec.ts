@@ -36,7 +36,7 @@ describe('CalculationFunctionsService', () => {
     describe('Weight loss pace calculations', () => {
         it('should correctly calculate weekly weight loss pace', () => {
             const pace = service.PaceWeekWeightLoss(80, 70, startDate, endDate);
-            expect(pace).toBe(5.00); // 10kg in 2 weeks = 5kg/week
+            expect(pace).toBe(5.0); // 10kg in 2 weeks = 5kg/week
         });
 
         it('should correctly calculate monthly weight loss pace', () => {

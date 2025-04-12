@@ -39,14 +39,17 @@ export class WeightGraphic {
 
         const weights: WritableSignal<Weight[]> = signal(this.weights());
 
-
         if (this.chartMode() == 'week') {
             weights.set(
-                this.weights().filter((w) => w.date.getTime() > this.timeService.now().getTime() - 7 * 24 * 60 * 60 * 1000)
+                this.weights().filter(
+                    (w) => w.date.getTime() > this.timeService.now().getTime() - 7 * 24 * 60 * 60 * 1000
+                )
             );
         } else if (this.chartMode() == 'month') {
             weights.set(
-                this.weights().filter((w) => w.date.getTime() > this.timeService.now().getTime() - 30 * 24 * 60 * 60 * 1000)
+                this.weights().filter(
+                    (w) => w.date.getTime() > this.timeService.now().getTime() - 30 * 24 * 60 * 60 * 1000
+                )
             );
         }
 

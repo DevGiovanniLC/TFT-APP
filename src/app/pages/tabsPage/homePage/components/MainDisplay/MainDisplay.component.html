@@ -1,5 +1,5 @@
-<div class="card flex items-center justify-center flex-col space-y-1 my-2">
-    <div class="flex justify-center items-center flex-col min-h-72">
+<div class="card flex items-center justify-center flex-col space-y-4 my-2">
+    <div class="flex justify-center items-center flex-col space-y-2">
         <h1 class="text-center font-semibold text-3xl">Actual Weight</h1>
         <p-chart
             #chart
@@ -8,7 +8,7 @@
             [data]="data"
             [options]="options"
             [plugins]="plugins"
-            class="w-full min-h-60"
+            class="w-56"
         />
     </div>
     <ion-button

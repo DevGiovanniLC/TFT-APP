@@ -1,9 +1,11 @@
 import { defineConfig } from "cypress";
+import allureWriter from "@shelex/cypress-allure-plugin/writer";
+
 import { writeFileSync, readFileSync, unlinkSync, existsSync, mkdirSync, writeFile } from 'fs';
 import { join } from 'path';
-
 import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
+
 
 export default defineConfig({
     viewportWidth: 450,
@@ -15,9 +17,12 @@ export default defineConfig({
         baseUrl: 'http://localhost:8080',
 
         setupNodeEvents(on, config) {
+
+            allureWriter(on, config);
+
             on('task', {
                 saveImage({ base64, fileName }) {
-                    const dirPath = join(__dirname, 'cypress', 'screenshots');
+                    const dirPath = join(__dirname, 'cypress','fixtures','screenshots');
                     const filePath = join(dirPath, fileName);
 
                     mkdirSync(dirPath, { recursive: true });
@@ -29,7 +34,6 @@ export default defineConfig({
                                 console.error('❌ Error al guardar imagen:', err);
                                 return reject(err);
                             }
-                            console.log('✅ Imagen guardada en:', filePath);
                             resolve(true);
                         });
                     });
@@ -41,8 +45,6 @@ export default defineConfig({
                     const actualPath = join(__dirname, actual);
                     const expectedPath = join(__dirname, expected);
                     const diffPath = join(__dirname, diff);
-                    console.log('actualPath', actualPath);
-                    console.log('expectedPath', expectedPath);
                     if (!existsSync(actualPath) || !existsSync(expectedPath)) {
                         throw new Error('Una de las imágenes no existe');
                     }
@@ -64,7 +66,6 @@ export default defineConfig({
                     );
 
                     unlinkSync(actualPath); // 🗑️ eliminar la imagen actual
-
                     if (numDiffPixels > 0) {
                         writeFileSync(diffPath, PNG.sync.write(diffImg));
                         throw new Error('🔴[ERROR] The canvas are of different');

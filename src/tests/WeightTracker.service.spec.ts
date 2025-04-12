@@ -25,33 +25,30 @@ describe('WeightTrackerService', () => {
         service = new WeightTrackerService(dataProviderMock);
     });
 
-    it('Debería obtener y ordenar los pesos por fecha', async () => {
+    it('should retrieve and sort weights by descending date', async () => {
         const weights = await service.getWeights();
-        expect(dataProviderMock.getWeights).toHaveBeenCalled();
-
-        expect(weights.length).toBe(3);
-
-        expect(weights[0].date instanceof Date).toBe(true);
 
         expect(weights[0].weight).toBe(70);
         expect(weights[1].weight).toBe(68);
+        expect(weights[2].weight).toBe(66);
     });
 
-    it('Debería devolver el peso más reciente', async () => {
+    it('should return the most recent weight', async () => {
         const actual = await service.getActualWeight();
         expect(actual.weight).toBe(66);
+        expect(actual.date.toISOString()).toBe('2023-03-01T00:00:00.000Z');
     });
 
-    it('Debería devolver el objetivo con la fecha como objeto Date', async () => {
+    it('should return the goal with date as a valid Date object', async () => {
         const goal = await service.getGoal();
         expect(goal.weight).toBe(65);
         expect(goal.date instanceof Date).toBe(true);
     });
 
-    it('Debería agregar un nuevo peso y llamar al proveedor de datos', async () => {
+    it('should add a new weight successfully', async () => {
         const newWeight: Weight = {
-            weight: 65,
-            date: new Date('2023-03-10'),
+            weight: 64.5,
+            date: new Date('2023-03-15'),
             weight_units: WeightUnits.KG,
         };
 
@@ -60,8 +57,48 @@ describe('WeightTrackerService', () => {
         expect(dataProviderMock.addWeight).toHaveBeenCalledWith(newWeight);
     });
 
-    it('Debería indicar si el servicio está disponible', () => {
+    it('should add a weight in pounds (WeightUnits.LB)', async () => {
+        const newWeight: Weight = {
+            weight: 140,
+            date: new Date('2023-03-20'),
+            weight_units: WeightUnits.LB,
+        };
+
+        await service.addWeight(newWeight);
+
+        expect(dataProviderMock.addWeight).toHaveBeenCalledWith(newWeight);
+    });
+
+    it('should return true if service is available', () => {
         expect(service.isAvailable()).toBe(true);
         expect(dataProviderMock.isConnected).toHaveBeenCalled();
+    });
+
+    it('should return an empty array if no weights are found', async () => {
+        dataProviderMock.getWeights.mockResolvedValueOnce([]);
+
+        const weights = await service.getWeights();
+
+        expect(weights).toEqual([]);
+    });
+
+    it('should return null if no goal is defined', async () => {
+        dataProviderMock.getGoal.mockResolvedValueOnce(null as any);
+
+        const goal = await service.getGoal();
+
+        expect(goal).toBeNull();
+    });
+
+    it('should throw an error if retrieving weights fails', async () => {
+        dataProviderMock.getWeights.mockRejectedValueOnce(new Error('Failed to fetch weights'));
+
+        await expect(service.getWeights()).rejects.toThrow('Failed to fetch weights');
+    });
+
+    it('should throw an error if retrieving goal fails', async () => {
+        dataProviderMock.getGoal.mockRejectedValueOnce(new Error('Failed to fetch goal'));
+
+        await expect(service.getGoal()).rejects.toThrow('Failed to fetch goal');
     });
 });

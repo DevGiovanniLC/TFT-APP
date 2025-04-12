@@ -13,8 +13,22 @@ import { environment } from '@envs/environment';
 describe('DataProviderService', () => {
     let service: DataProviderService;
 
-    const mockWeight: Weight = { weight: 70, date: new Date(), weight_units: 'kg' as any };
-    const mockUser: User = { name: 'Test', age: 30, height: 170, gender: 'male' as any, email: 'test@test.com', goal_weight: 65, goal_units: 'kg' as any, goal_date: new Date() };
+    const mockWeight: Weight = {
+        weight: 70,
+        date: new Date('2025-04-10'),
+        weight_units: 'kg' as any,
+    };
+
+    const mockUser: User = {
+        name: 'Test',
+        age: 30,
+        height: 170,
+        gender: 'male' as any,
+        email: 'test@test.com',
+        goal_weight: 65,
+        goal_units: 'kg' as any,
+        goal_date: new Date('2025-05-01'),
+    };
 
     const dataProviderMock = {
         initializeConnection: jest.fn(),
@@ -30,7 +44,7 @@ describe('DataProviderService', () => {
         service = new DataProviderService();
     });
 
-    describe('En entorno de desarrollo', () => {
+    describe('In development environment', () => {
         beforeEach(async () => {
             (environment as any).production = false;
             (LocalStorageProvider as any).mockImplementation(() => dataProviderMock);
@@ -38,40 +52,42 @@ describe('DataProviderService', () => {
             await service.initialize();
         });
 
-        it('Debería usar LocalStorageProvider en desarrollo', async () => {
+        it('should use LocalStorageProvider in development mode', () => {
             expect(LocalStorageProvider).toHaveBeenCalled();
             expect(dataProviderMock.initializeConnection).toHaveBeenCalled();
             expect(service.isConnected()).toBe(true);
         });
 
-        it('Debería delegar getWeights al proveedor', async () => {
+        it('should delegate getWeights to the provider', async () => {
             const weights = await service.getWeights();
             expect(dataProviderMock.getWeights).toHaveBeenCalled();
             expect(weights).toEqual([mockWeight]);
         });
 
-        it('Debería delegar getGoal al proveedor', async () => {
+        it('should delegate getGoal to the provider', async () => {
             const goal = await service.getGoal();
+            expect(dataProviderMock.getGoal).toHaveBeenCalled();
             expect(goal).toEqual(mockWeight);
         });
 
-        it('Debería delegar getUser al proveedor', async () => {
+        it('should delegate getUser to the provider', async () => {
             const user = await service.getUser();
+            expect(dataProviderMock.getUser).toHaveBeenCalled();
             expect(user).toEqual(mockUser);
         });
 
-        it('Debería delegar setUser al proveedor', () => {
+        it('should delegate setUser to the provider', () => {
             service.setUser(mockUser);
             expect(dataProviderMock.setUser).toHaveBeenCalledWith(mockUser);
         });
 
-        it('Debería delegar addWeight al proveedor', () => {
+        it('should delegate addWeight to the provider', () => {
             service.addWeight(mockWeight);
             expect(dataProviderMock.addWeight).toHaveBeenCalledWith(mockWeight);
         });
     });
 
-    describe('En entorno de producción', () => {
+    describe('In production environment', () => {
         beforeEach(async () => {
             (environment as any).production = true;
             (DBConnection as any).mockImplementation(() => dataProviderMock);
@@ -79,7 +95,7 @@ describe('DataProviderService', () => {
             await service.initialize();
         });
 
-        it('Debería usar DBConnection en producción', async () => {
+        it('should use DBConnection in production mode', () => {
             expect(DBConnection).toHaveBeenCalled();
             expect(dataProviderMock.initializeConnection).toHaveBeenCalled();
             expect(service.isConnected()).toBe(true);

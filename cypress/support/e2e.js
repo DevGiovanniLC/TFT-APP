@@ -15,3 +15,14 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+import '@shelex/cypress-allure-plugin';
+import 'cypress-real-events/support';
+import 'cypress-wait-until';
+
+
+// Forzar suite con nombre del archivo actual
+before(() => {
+    cy.allure().owner('Giovanni León Corujo');
+    cy.allure().label('framework', 'Cypress');
+    cy.allure().label('type', 'e2e');
+});

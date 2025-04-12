@@ -1,9 +1,6 @@
-import 'cypress-real-events/support';
-import 'cypress-wait-until';
-
-Cypress.Commands.add('captureCanvasImage', (selector, fileName = null, waitMS = 5000) => {
+Cypress.Commands.add('captureCanvasImage', (selector, fileName = null) => {
     cy.waitForCanvasToBeStable(selector);
-    cy.get(selector, { log: false }).then(($canvas) => {
+    cy.get(selector, { log: false, timeout: 5000 }).should('exist').then(($canvas) => {
         const canvas = $canvas[0];
         const dataURL = canvas.toDataURL('image/png');
         const base64 = dataURL.split(',')[1];
@@ -22,9 +19,9 @@ Cypress.Commands.add('captureCanvasImage', (selector, fileName = null, waitMS = 
 Cypress.Commands.add('compareCanvasImage', (actual, expected, diff, threshold = 0.3) => {
     cy.captureCanvasImage(actual).then((actual) => {
         const payload = {
-            actual: `cypress/screenshots/${actual}`,
-            expected: `cypress/screenshots/${expected}`,
-            diff: `cypress/screenshots/log/${diff}`,
+            actual: `cypress/fixtures/screenshots/${actual}`,
+            expected: `cypress/fixtures/screenshots/${expected}`,
+            diff: `cypress/fixtures/screenshots/log/${diff}`,
             threshold: threshold
         };
 

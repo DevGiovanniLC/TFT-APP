@@ -1,10 +1,9 @@
 {
     "author": "Giovanni León Corujo",
-    "name": "tft-app",
+    "name": "vita-weight",
     "description": "Aplicación de seguimiento de peso para TFT",
-    "version": "0.0.0",
-    "homepage": "",
-    "allureResultsPath": "allure-results-cypress",
+    "version": "0.1.0",
+    "homepage": "/tabs/tab1",
     "scripts": {
         "build": "ionic build",
         "android": "npx cap sync && ionic cap copy && ionic cap open android",

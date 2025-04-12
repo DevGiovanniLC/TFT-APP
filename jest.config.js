@@ -19,11 +19,5 @@ module.exports = {
         '^@envs/(.*)$': '<rootDir>/src/environments/$1',
         '^@assets/(.*)$': '<rootDir>/src/assets/$1'
     },
-    coverageDirectory: "./coverage",
-    collectCoverageFrom: [
-        "src/services/**/*.service.ts",
-        "!<rootDir>/test/",
-    ],
-
 };
 

@@ -21,17 +21,23 @@ import { DatasetChartOptions } from 'chart.js';
 
 @Component({
     selector: 'app-main-display',
+    standalone: true,
     imports: [IonButton, ChartModule],
     templateUrl: './MainDisplay.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainDisplay {
+    // Inputs / Outputs
     readonly weights = input.required<Weight[]>();
     readonly goal = input.required<Weight>();
     weightAdded = output<Weight>();
 
+    // Signals
     firstWeight: WritableSignal<Weight> = signal(emptyWeight);
     lastWeight: WritableSignal<Weight> = signal(emptyWeight);
+    isButtonActive = signal(false);
+
+    // Computed progression
     progression: Signal<number> = computed(() => {
         return this.calculationFunctionsService.weightProgression(
             this.firstWeight()?.weight,
@@ -40,41 +46,45 @@ export class MainDisplay {
         );
     });
 
-    doghnoutChart: any;
+    // Chart data
+    doughnutChart: any;
     data!: DatasetChartOptions;
     options!: DatasetChartOptions;
     plugins: any = [];
-
-    isButtonActive = signal(false);
 
     constructor(
         private readonly calculationFunctionsService: CalculationFunctionsService,
         private readonly modalCtrl: ModalController,
         private readonly cdr: ChangeDetectorRef
     ) {
+        // Solo inicializar gráfico cuando inputs estén disponibles
         effect(() => {
+            const weights = this.weights();
             this.goal();
-            this.weights();
-            this.updateChart(this.cdr);
+
+            if (!weights) return;
+
+            this.updateChart();
         });
     }
 
-    async updateChart(cdr: ChangeDetectorRef) {
-        if (this.weights().length <= 0) return;
+    private updateChart() {
         this.lastWeight.set(this.weights()[this.weights().length - 1]);
         this.firstWeight.set(this.weights()[0]);
 
-        this.doghnoutChart = DoughnutChart(this.progression);
-        this.data = this.doghnoutChart.data;
-        this.options = this.doghnoutChart.options;
+        this.doughnutChart = DoughnutChart(this.progression);
+        this.data = this.doughnutChart.data;
+        this.options = this.doughnutChart.options;
 
-        this.plugins.push(centerTextPlugin(this.progression, this.lastWeight));
+        this.plugins.push(centerTextPlugin(this.progression, this.lastWeight))
+
+
+
 
         if (Number.isNaN(this.progression())) return;
+        this.plugins.push(customSVGsPluginForDoughnutChart())
 
-        this.plugins.push(customSVGsPluginForDoughnutChart());
-
-        cdr.detectChanges();
+        this.cdr.detectChanges();
     }
 
     async openModal() {
@@ -86,7 +96,6 @@ export class MainDisplay {
         modal.present();
 
         const { data, role } = await modal.onDidDismiss();
-
         if (role === 'confirm') {
             this.weightAdded.emit(data as Weight);
         }

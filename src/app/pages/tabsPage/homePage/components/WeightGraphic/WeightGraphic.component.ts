@@ -34,7 +34,11 @@ export class WeightGraphic {
     }
 
     async updateWeightChart() {
+        if (!this.weights()) return;
+        if (!this.goal()) return;
+
         const weights: WritableSignal<Weight[]> = signal(this.weights());
+
 
         if (this.chartMode() == 'week') {
             weights.set(

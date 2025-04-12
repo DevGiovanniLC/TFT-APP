@@ -2,6 +2,10 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
+        "types": [
+            "jest",
+            "node"
+        ],
         "paths": {
             "@shared/*": [
                 "src/components/*"

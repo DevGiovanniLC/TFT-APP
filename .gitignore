@@ -69,8 +69,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
-
-
+/cypress/downloads
+/allure-report
 /allure-results
 .env
 /.scannerwork
+

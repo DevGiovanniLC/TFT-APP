@@ -31,7 +31,9 @@ export class HomePage {
     }
 
     async getWeights() {
-        this.weights.set(await this.weightTrackerService.getWeights());
+        this.weightTrackerService.getWeights().then((weights) => {
+            this.weights.set(weights());
+        });
     }
 
     async getGoal() {

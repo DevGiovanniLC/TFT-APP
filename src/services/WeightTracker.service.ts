@@ -6,11 +6,12 @@ import { DataProviderService } from './data-providers/DataProvider.service';
     providedIn: 'root',
 })
 export class WeightTrackerService {
+
     private readonly weights: WritableSignal<Weight[]> = signal<Weight[]>([]);
 
     constructor(private readonly dataProvider: DataProviderService) {}
 
-    async getWeights(): Promise<Weight[]> {
+    async getWeights(): Promise<WritableSignal<Weight[]>> {
         this.weights.set(await this.dataProvider.getWeights());
 
         this.weights.update((weights) =>
@@ -22,11 +23,11 @@ export class WeightTrackerService {
                 .sort((a, b) => a.date.getTime() - b.date.getTime())
         );
 
-        return this.weights();
+        return this.weights;
     }
 
     async getActualWeight(): Promise<Weight> {
-        return await this.getWeights().then((weights) => weights[weights.length - 1]);
+        return await this.getWeights().then((weights) => weights()[weights().length - 1]);
     }
 
     async getGoal(): Promise<Weight> {

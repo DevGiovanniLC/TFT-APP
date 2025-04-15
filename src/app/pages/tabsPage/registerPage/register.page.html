@@ -8,7 +8,12 @@
 </ion-header>
 
 <ion-content class="opacity-0 animate-fade-in">
-    <div class="h-full flex items-center justify-center">
+    <!-- <div class="h-full flex items-center justify-center">
         <h1 class="text-center">Coming soon</h1>
+    </div> -->
+    <div class="w-full my-10 flex flex-col items-center space-y-4">
+        @for (weight of reversedRegisters(); track weight; let i = $index) {
+        <app-item-register class="w-full" [id]="i" [weight]="weight" [progress]="weight.progress" />
+        }
     </div>
 </ion-content>

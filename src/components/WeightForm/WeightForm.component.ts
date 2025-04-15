@@ -9,7 +9,7 @@ import { WeightUnits } from '@models/types/Weight';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WeightFormComponent {
-    inputWeightValue = input.required<number>();
+    inputWeightValue = input.required<number | undefined>();
     inputWeightUnit = input(WeightUnits.KG);
 
     outputWeightValue = output<number>();
@@ -22,8 +22,8 @@ export class WeightFormComponent {
 
     constructor() {
         effect(() => {
-            this.lastWeight.set(Math.floor(this.inputWeightValue()));
-            this.lastWeightDecimal.set(Math.round((this.inputWeightValue() % 1) * 10));
+            this.lastWeight.set(Math.floor(this.inputWeightValue() ?? 0));
+            this.lastWeightDecimal.set(Math.round(((this.inputWeightValue() ?? 0) % 1) * 10));
         });
     }
 

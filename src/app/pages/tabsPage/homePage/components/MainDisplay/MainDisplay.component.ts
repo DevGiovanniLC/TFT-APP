@@ -30,18 +30,21 @@ export class MainDisplay {
     // Inputs / Outputs
     readonly weights = input.required<Weight[]>();
     readonly goal = input.required<Weight | null>();
+    readonly lastWeight = input.required<Weight | null>();
+
+
+
     weightAdded = output<Weight>();
 
     // Signals
     firstWeight: WritableSignal<Weight> = signal(emptyWeight);
-    lastWeight: WritableSignal<Weight> = signal(emptyWeight);
     isButtonActive = signal(false);
 
     // Computed progression
     progression: Signal<number> = computed(() => {
         return this.calculationFunctionsService.weightProgression(
             this.firstWeight()?.weight,
-            this.lastWeight()?.weight,
+            this.lastWeight()?.weight ?? NaN,
             this.goal()?.weight ?? NaN
         );
     });
@@ -68,8 +71,7 @@ export class MainDisplay {
         });
     }
 
-    private updateChart() {
-        this.lastWeight.set(this.weights()[this.weights().length - 1]);
+    private updateChart() {;
         this.firstWeight.set(this.weights()[0]);
 
         this.doughnutChart = DoughnutChart(this.progression);

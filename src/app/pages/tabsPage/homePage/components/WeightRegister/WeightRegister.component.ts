@@ -42,8 +42,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class WeightRegisterComponent {
     step = signal(0);
 
-    lastWeight = signal<number>(NaN);
-    lastWeightUnit = signal<WeightUnits>(WeightUnits.KG);
+    lastWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
+    lastWeightUnit = <WeightUnits>(WeightUnits.KG);
 
     actualWeight = signal(70);
     actualDate = signal(this.timeService.now());
@@ -54,20 +54,9 @@ export class WeightRegisterComponent {
         private readonly weightTracker: WeightTrackerService,
         private readonly timeService: TimeService
     ) {
-        if (!this.weightTracker.isAvailable()) return;
-
-        const actualWeight$ = from(this.weightTracker.getActualWeight());
-
-        const actualWeightSignal = toSignal(actualWeight$, { initialValue: null });
-
         effect(() => {
-            const w = actualWeightSignal();
-            if (!w?.weight) return;
 
-            this.lastWeight.set(Math.floor(w.weight));
-            this.lastWeightUnit.set(w.weight_units);
         });
-
     }
 
     cancel() {
@@ -77,7 +66,7 @@ export class WeightRegisterComponent {
     confirm() {
         const newWeight: Weight = {
             weight: this.actualWeight(),
-            weight_units: this.lastWeightUnit(),
+            weight_units: this.lastWeightUnit,
             date: this.actualDate(),
         };
 
@@ -86,7 +75,6 @@ export class WeightRegisterComponent {
 
     updateActualWeight(value: number) {
         if (typeof value !== 'number') return;
-
         this.actualWeight.set(value);
     }
 

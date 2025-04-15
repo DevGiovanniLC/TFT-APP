@@ -36,8 +36,8 @@
             class="w-10/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10 pb-14"
         >
             <app-weight-form
-                [inputWeightValue]="lastWeight()"
-                [inputWeightUnit]="lastWeightUnit()"
+                [inputWeightValue]="lastWeight()?.weight"
+                [inputWeightUnit]="lastWeightUnit"
                 (outputWeightValue)="updateActualWeight($event)"
             />
 

@@ -51,7 +51,7 @@ export const customSVGsPluginForDoughnutChart = () => {
     };
 };
 
-export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal<Weight>) => {
+export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal<Weight | null>) => {
     return {
         id: 'centerText',
         afterDraw: (chart: Chart) => {
@@ -101,7 +101,7 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
 
             ctx.font = '13px system-ui';
             ctx.fillStyle = '#1e8260';
-            ctx.fillText(`${differenceTime(lastWeight()?.date, timeService.now())}`, centerX, centerY + 50);
+            ctx.fillText(`${differenceTime(lastWeight()?.date ?? timeService.now(), timeService.now())}`, centerX, centerY + 50);
 
             ctx.restore();
         },

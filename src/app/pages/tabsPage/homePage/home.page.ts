@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, effect, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect } from '@angular/core';
 import { IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
 import { WeightTrackerService } from '@services/WeightTracker.service';
-import { Weight, WeightUnits } from '@models/types/Weight';
+import { Weight } from '@models/types/Weight';
 import { WeightGraphic } from '@pages/tabsPage/homePage/components/WeightGraphic/WeightGraphic.component';
 import { MainDisplay } from '@pages/tabsPage/homePage/components/MainDisplay/MainDisplay.component';
 import { ConfigService } from '@services/Config.service';
@@ -16,8 +16,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class HomePage {
     goal = toSignal(this.weightTrackerService.getGoal(), { initialValue: null });
-
     weights = toSignal(this.weightTrackerService.weights$, { initialValue: [] });
+    actualWeight = toSignal(this.weightTrackerService.lastWeight$, { initialValue: null });
+
 
     constructor(
         private readonly weightTrackerService: WeightTrackerService,
@@ -28,6 +29,7 @@ export class HomePage {
                 this.config.subscribe()();
                 this.getWeights();
                 this.getGoal();
+                this.getActualWeight();
             }
         });
     }
@@ -38,6 +40,10 @@ export class HomePage {
 
     async getGoal() {
         this.weightTrackerService.getGoal().subscribe()
+    }
+
+    async getActualWeight() {
+        this.weightTrackerService.getActualWeight().subscribe()
     }
 
     addWeight($event: Weight) {

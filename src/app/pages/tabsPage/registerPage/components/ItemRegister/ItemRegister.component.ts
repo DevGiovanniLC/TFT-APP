@@ -40,7 +40,7 @@ export class ItemRegisterComponent implements OnInit {
 
     checkColor(progress: number): string {
         if (progress >= 1.5) return '#be6363';
-        if (progress > 0.5) return '#f7d25c';
+        if (progress > 0) return '#f7d25c';
         if (progress < 0 ) return '#b3ea97';
         return '#e8e8e8'
     }

@@ -5,6 +5,7 @@ import { Weight, WeightUnits } from '@models/types/Weight';
 import { WeightGraphic } from '@pages/tabsPage/homePage/components/WeightGraphic/WeightGraphic.component';
 import { MainDisplay } from '@pages/tabsPage/homePage/components/MainDisplay/MainDisplay.component';
 import { ConfigService } from '@services/Config.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-tab1',
@@ -14,8 +15,9 @@ import { ConfigService } from '@services/Config.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage {
-    weights: WritableSignal<Weight[]> = signal<Weight[]>([]);
-    goal: WritableSignal<Weight> = signal<Weight>({ date: new Date(NaN), weight: 0, weight_units: WeightUnits.KG });
+    goal = toSignal(this.weightTrackerService.getGoal(), { initialValue: null });
+
+    weights = toSignal(this.weightTrackerService.weights$, { initialValue: [] });
 
     constructor(
         private readonly weightTrackerService: WeightTrackerService,
@@ -31,13 +33,11 @@ export class HomePage {
     }
 
     async getWeights() {
-        this.weightTrackerService.getWeights().then((weights) => {
-            this.weights.set(weights());
-        });
+        this.weightTrackerService.getWeights().subscribe()
     }
 
     async getGoal() {
-        this.goal.set(await this.weightTrackerService.getGoal());
+        this.weightTrackerService.getGoal().subscribe()
     }
 
     addWeight($event: Weight) {

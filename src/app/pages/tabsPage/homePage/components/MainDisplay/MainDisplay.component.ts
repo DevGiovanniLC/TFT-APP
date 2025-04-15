@@ -29,7 +29,7 @@ import { DatasetChartOptions } from 'chart.js';
 export class MainDisplay {
     // Inputs / Outputs
     readonly weights = input.required<Weight[]>();
-    readonly goal = input.required<Weight>();
+    readonly goal = input.required<Weight | null>();
     weightAdded = output<Weight>();
 
     // Signals
@@ -42,7 +42,7 @@ export class MainDisplay {
         return this.calculationFunctionsService.weightProgression(
             this.firstWeight()?.weight,
             this.lastWeight()?.weight,
-            this.goal()?.weight
+            this.goal()?.weight ?? NaN
         );
     });
 

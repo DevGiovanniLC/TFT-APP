@@ -16,7 +16,7 @@ import { GoalModalComponent } from './components/GoalModal/GoalModal.component';
 import { Gender, User } from '@models/types/User';
 import { FormsModule } from '@angular/forms';
 import { SimpleDatePipe } from '@pipes/SimpleDate.pipe';
-import { ConfigService } from '@services/Config.service';
+import { UserConfigService } from '@services/UserConfig.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { TimeService } from '@services/Time.service';
 
@@ -55,7 +55,7 @@ export class InitialPage {
 
     constructor(
         private readonly modalCtrl: ModalController,
-        private readonly config: ConfigService,
+        private readonly config: UserConfigService,
         private readonly weightTracker: WeightTrackerService,
         private readonly navCtrl: NavController,
         private readonly timeService: TimeService

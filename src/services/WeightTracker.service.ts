@@ -14,7 +14,6 @@ export class WeightTrackerService {
 
     constructor(private readonly dataProvider: DataProviderService) { }
 
-
     updateWeights(): Observable<Weight[]> {
         return from(this.dataProvider.getWeights()).pipe(
             map(weights =>
@@ -26,18 +25,10 @@ export class WeightTrackerService {
         );
     }
 
-
     updateLastWeight(): Observable<Weight | null> {
         return this.weights$.pipe(
             map(weights => { return weights.length > 0 ? weights[weights.length - 1] : null }),
             tap(parsed => this.lastWeightSubject.next(parsed))
-        );
-    }
-
-
-    getGoal(): Observable<Weight | null> {
-        return from(this.dataProvider.getGoal()).pipe(
-            map(goal => (goal ? { ...goal, date: new Date(goal.date) } : null))
         );
     }
 

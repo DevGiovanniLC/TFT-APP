@@ -36,7 +36,7 @@ export class DataProviderService {
         return await this.dataProvider.getGoal();
     }
 
-    async getUser(): Promise<User> {
+    async getUser(): Promise<User | null> {
         return await this.dataProvider.getUser();
     }
 

@@ -15,40 +15,29 @@ import { toSignal } from '@angular/core/rxjs-interop';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage {
-    goal = toSignal(this.weightTrackerService.getGoal(), { initialValue: null });
-    weights = toSignal(this.weightTrackerService.weights$, { initialValue: [] });
-    actualWeight = toSignal(this.weightTrackerService.lastWeight$, { initialValue: null });
+    goal = toSignal(this.weightTracker.getGoal(), { initialValue: null });
+    weights = toSignal(this.weightTracker.weights$, { initialValue: [] });
+    actualWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
 
 
     constructor(
-        private readonly weightTrackerService: WeightTrackerService,
+        private readonly weightTracker: WeightTrackerService,
         private readonly config: ConfigService
     ) {
+        this.weightTracker.updateWeights().subscribe()
+        this.weightTracker.updateLastWeight().subscribe()
+        this.weightTracker.getGoal().subscribe()
         effect(() => {
-            if (this.weightTrackerService.isAvailable()) {
+            if (this.weightTracker.isAvailable()) {
                 this.config.subscribe()();
-                this.getWeights();
-                this.getGoal();
-                this.getActualWeight();
             }
         });
     }
 
-    async getWeights() {
-        this.weightTrackerService.getWeights().subscribe()
-    }
-
-    async getGoal() {
-        this.weightTrackerService.getGoal().subscribe()
-    }
-
-    async getActualWeight() {
-        this.weightTrackerService.getActualWeight().subscribe()
-    }
 
     addWeight($event: Weight) {
-        this.weightTrackerService.addWeight($event);
-        this.getWeights();
-        this.getGoal();
+        this.weightTracker.addWeight($event);
+        this.weightTracker.updateWeights().subscribe()
+        this.weightTracker.updateLastWeight().subscribe()
     }
 }

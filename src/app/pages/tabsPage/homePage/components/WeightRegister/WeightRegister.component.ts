@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
     IonDatetime,
@@ -17,7 +17,6 @@ import { Weight, WeightUnits } from '@models/types/Weight';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
 import { TimeService } from '@services/Time.service';
-import { from } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -53,11 +52,7 @@ export class WeightRegisterComponent {
     constructor(
         private readonly weightTracker: WeightTrackerService,
         private readonly timeService: TimeService
-    ) {
-        effect(() => {
-
-        });
-    }
+    ) {}
 
     cancel() {
         return this.modalCtrl.dismiss(null, 'cancel');
@@ -80,7 +75,6 @@ export class WeightRegisterComponent {
 
     updateActualDate(value: any) {
         if (typeof value !== 'string') return;
-
         this.actualDate.set(new Date(value));
     }
 }

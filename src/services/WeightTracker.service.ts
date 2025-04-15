@@ -15,7 +15,7 @@ export class WeightTrackerService {
     constructor(private readonly dataProvider: DataProviderService) { }
 
 
-    getWeights(): Observable<Weight[]> {
+    updateWeights(): Observable<Weight[]> {
         return from(this.dataProvider.getWeights()).pipe(
             map(weights =>
                 weights
@@ -27,7 +27,7 @@ export class WeightTrackerService {
     }
 
 
-    getActualWeight(): Observable<Weight | null> {
+    updateLastWeight(): Observable<Weight | null> {
         return this.weights$.pipe(
             map(weights => { return weights.length > 0 ? weights[weights.length - 1] : null }),
             tap(parsed => this.lastWeightSubject.next(parsed))
@@ -43,7 +43,7 @@ export class WeightTrackerService {
 
 
     addWeight(value: Weight): boolean{
-        this.getWeights()
+        this.updateWeights()
         return this.dataProvider.addWeight(value)
     }
 

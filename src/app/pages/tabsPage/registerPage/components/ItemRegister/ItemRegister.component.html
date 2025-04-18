@@ -1,6 +1,7 @@
 <article class="w-full h-full flex items-center">
-    <ion-card class="w-full h-full items-center justify-center py-4 mx-10 flex rounded-3xl border-teal-600 border-4 relative"
-        style="--ion-background-color: var(--color-tertiary)">
+    <ion-card
+        class="w-full h-full items-center justify-center py-4 mx-10 flex rounded-3xl border-teal-600 border-4 relative"
+        style="--ion-background-color: var(--color-tertiary)" (click)="cardClick()">
         <ion-card-header class="flex ml-6 space-y-2 w-80">
             <ion-card-subtitle class="text-teal-50 text-sm text-balance">
                 {{weight().date | date:'MM/dd/yyyy h:mm a'}}
@@ -13,14 +14,15 @@
             </header>
         </ion-card-header>
         <ion-card-content class="h-full w-full flex justify-center items-center mt-10">
-            <span class="text-xl font" [style.color]="color()">{{progress() | signedNumber}} {{progress() ?  weight().weight_units: ''}}</span>
+            <span class="text-xl font" [style.color]="color()">{{progress() | signedNumber}} {{progress() ?
+                weight().weight_units: ''}}</span>
         </ion-card-content>
 
 
         <ion-button
             class="rounded-full text-teal-50 text-base mr-2 min-h-0 h-12 w-12 p-2  font-bold top-0 right-0 absolute m-0"
             style=" --background: #a31600; --background-activated: #3e0800; --padding-start: 0; --padding-end: 0; --padding-top: 0; --padding-bottom: 0; --border-radius: 50%;"
-            (click)="delete()">
+            (click)="$event.stopPropagation(); deleteButton()">
             <span>X</span>
         </ion-button>
     </ion-card>

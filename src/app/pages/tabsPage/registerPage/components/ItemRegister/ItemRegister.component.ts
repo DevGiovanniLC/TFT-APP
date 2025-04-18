@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input, OnInit, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, OnInit, output, signal } from '@angular/core';
 import { Weight } from '@models/types/Weight';
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonButton } from '@ionic/angular/standalone';
 import { SignedNumberPipe } from '@pipes/signedNumber.pipe';
@@ -20,17 +20,19 @@ import { DatePipe } from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemRegisterComponent implements OnInit {
+
     id = input.required<number>();
     weight = input.required<Weight>();
     progress = input.required<number>();
+
+    entryClick = output<Weight>();
     deleteWeight = output<number>();
 
     color = signal('')
 
-    constructor(private readonly cdr: ChangeDetectorRef) {
+    constructor() {
         effect(() => {
             this.color.set(this.checkColor(this.progress()));
-            this.cdr.detectChanges();
         })
     }
 
@@ -43,7 +45,11 @@ export class ItemRegisterComponent implements OnInit {
         return '#e8e8e8'
     }
 
-    delete() {
+    deleteButton() {
         this.deleteWeight.emit(this.weight().id);
+    }
+
+    cardClick() {
+        this.entryClick.emit(this.weight());
     }
 }

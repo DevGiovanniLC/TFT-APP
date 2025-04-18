@@ -4,6 +4,8 @@ import { User } from '@models/types/User';
 import data from '@assets/data/mock.json';
 
 export default class LocalStorageProvider implements DataProvider {
+
+
     private readonly WEIGHTS_KEY = 'weight_data_weights';
     private readonly USER_KEY = 'user_data';
 
@@ -45,11 +47,24 @@ export default class LocalStorageProvider implements DataProvider {
         }
     }
 
+    deleteWeight(id: number): boolean {
+        try {
+            const weights = this.getWeightsSync();
+            const updatedWeights = weights.filter((weight: Weight) => weight.id !== id);
+            localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(updatedWeights));
+            return true;
+        } catch (error) {
+            console.error('Error deleting weight:', error);
+            return false;
+        }
+    }
+
     getGoal(): Promise<Weight> {
         const userString = localStorage.getItem(this.USER_KEY);
         const user = userString ? JSON.parse(userString) : null;
 
         const goal = {
+            id: 0,
             weight: user?.goal_weight,
             weight_units: user?.goal_units,
             date: user?.goal_date,
@@ -65,6 +80,14 @@ export default class LocalStorageProvider implements DataProvider {
     private getWeightsSync(): Weight[] {
         const weightsString = localStorage.getItem(this.WEIGHTS_KEY);
         return weightsString ? JSON.parse(weightsString) : [];
+    }
+
+
+    generateWeightId(): number {
+        const weights = this.getWeightsSync();
+        if (weights.length === 0) return 1;
+        const maxId = Math.max(...weights.map((weight: Weight) => weight.id));
+        return maxId + 1;
     }
 
     async initializeConnection(): Promise<boolean> {

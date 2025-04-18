@@ -13,7 +13,7 @@
     </div> -->
     <div class="w-full my-10 flex flex-col items-center space-y-4">
         @for (weight of reversedRegisters(); track weight; let i = $index) {
-        <app-item-register class="w-full" [id]="i" [weight]="weight" [progress]="weight.progress" />
+        <app-item-register class="w-full" [id]="i" [weight]="weight" [progress]="weight.progress" (deleteWeight)="deleteWeight(weight.id)"/>
         }
     </div>
 </ion-content>

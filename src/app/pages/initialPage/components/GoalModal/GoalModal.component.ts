@@ -55,6 +55,7 @@ export class GoalModalComponent {
 
     confirm() {
         const newWeight: Weight = {
+            id: 0,
             weight: this.actualWeight(),
             weight_units: this.lastWeightUnit(),
             date: this.isWithDate() ? this.actualDate() : new Date(NaN),

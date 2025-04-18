@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input, OnInit, output, signal } from '@angular/core';
 import { Weight } from '@models/types/Weight';
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonButton } from '@ionic/angular/standalone';
 import { SimpleDatePipe } from '@pipes/SimpleDate.pipe';
@@ -23,7 +23,7 @@ export class ItemRegisterComponent implements OnInit {
     id = input.required<number>();
     weight = input.required<Weight>();
     progress = input.required<number>();
-
+    deleteWeight = output<number>();
 
     color = signal('')
 
@@ -34,14 +34,16 @@ export class ItemRegisterComponent implements OnInit {
         })
     }
 
-    ngOnInit(): void {
-
-    }
+    ngOnInit(): void { }
 
     checkColor(progress: number): string {
         if (progress >= 1.5) return '#be6363';
         if (progress > 0) return '#f7d25c';
-        if (progress < 0 ) return '#b3ea97';
+        if (progress < 0) return '#b3ea97';
         return '#e8e8e8'
+    }
+
+    delete() {
+        this.deleteWeight.emit(this.weight().id);
     }
 }

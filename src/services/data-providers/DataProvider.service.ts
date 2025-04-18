@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
-import DBConnection from '@services/data-providers/DBConnection';
+//import DBConnection from '@services/data-providers/DBConnection';
 import { environment } from '@envs/environment';
 
 import LocalStorageProvider from './LocalStorageProvider';
@@ -19,7 +19,7 @@ export class DataProviderService {
 
     async initialize() {
         if (environment.production) {
-            this.dataProvider = new DBConnection();
+            //this.dataProvider = new DBConnection();
         } else {
             this.dataProvider = new LocalStorageProvider();
         }
@@ -46,6 +46,13 @@ export class DataProviderService {
 
     addWeight(value: Weight) {
         return this.dataProvider.addWeight(value);
+    }
+
+    deleteWeight(id: number) {
+        return this.dataProvider.deleteWeight(id);
+    }
+    generateWeightId(): number {
+        return this.dataProvider.generateWeightId();
     }
 
     isConnected(): boolean {

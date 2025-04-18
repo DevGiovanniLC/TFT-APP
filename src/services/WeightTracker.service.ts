@@ -34,10 +34,20 @@ export class WeightTrackerService {
 
 
     addWeight(value: Weight): boolean{
+        this.dataProvider.addWeight(value)
         this.updateWeights()
-        return this.dataProvider.addWeight(value)
+        return true;
     }
 
+    deleteWeight(value: number): boolean{
+        this.dataProvider.deleteWeight(value);
+        this.updateWeights();
+        return true;
+    }
+
+    generateWeightId(): number {
+        return this.dataProvider.generateWeightId();
+    }
 
     isAvailable(): boolean {
         return this.dataProvider.isConnected();

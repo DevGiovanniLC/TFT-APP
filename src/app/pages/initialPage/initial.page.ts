@@ -66,6 +66,7 @@ export class InitialPage {
 
         if (this.step === this.FINAL_STEP) {
             const actualWeight: Weight = {
+                id: 0,
                 weight: this.actualWeight(),
                 weight_units: this.lastWeightUnit,
                 date: this.timeService.now(),

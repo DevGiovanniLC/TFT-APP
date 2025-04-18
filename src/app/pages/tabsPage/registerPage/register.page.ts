@@ -1,4 +1,4 @@
-import { Component, computed } from '@angular/core';
+import { ChangeDetectorRef, Component, computed } from '@angular/core';
 import { IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
 import { ItemRegisterComponent } from './components/ItemRegister/ItemRegister.component';
 import { Weight, WeightUnits } from '@models/types/Weight';
@@ -10,6 +10,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     imports: [IonContent, IonHeader, IonToolbar, IonTitle, ItemRegisterComponent],
 })
 export class RegisterPage {
+
     registers = toSignal(this.weightTracker.weights$);
 
     readonly reversedRegisters = computed(() => {
@@ -26,6 +27,10 @@ export class RegisterPage {
         this.weightTracker.updateWeights().subscribe();
     }
 
+    deleteWeight(id: number) {
+        this.weightTracker.deleteWeight(id);
+        this.weightTracker.updateWeights().subscribe();
+    }
 
 
 

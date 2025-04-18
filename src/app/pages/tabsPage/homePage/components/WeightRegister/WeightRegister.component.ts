@@ -60,6 +60,7 @@ export class WeightRegisterComponent {
 
     confirm() {
         const newWeight: Weight = {
+            id: this.weightTracker.generateWeightId(),
             weight: this.actualWeight(),
             weight_units: this.lastWeightUnit,
             date: this.actualDate(),

@@ -18,6 +18,7 @@ export class HomePage {
     goal = toSignal(this.userConfig.getGoal(), { initialValue: null });
     weights = toSignal(this.weightTracker.weights$, { initialValue: [] });
     actualWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
+    firstWeight = toSignal(this.weightTracker.firstWeight$, { initialValue: null });
 
 
     constructor(
@@ -26,6 +27,7 @@ export class HomePage {
     ) {
         this.weightTracker.updateWeights().subscribe()
         this.weightTracker.updateLastWeight().subscribe()
+        this.weightTracker.updateFirstWeight().subscribe()
         this.userConfig.getGoal().subscribe()
     }
 

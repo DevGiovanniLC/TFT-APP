@@ -29,21 +29,21 @@ import { DatasetChartOptions } from 'chart.js';
 export class MainDisplay {
     // Inputs / Outputs
     readonly weights = input.required<Weight[]>();
-    readonly goal = input.required<Weight | null>();
     readonly lastWeight = input.required<Weight | null>();
+    readonly firstWeight = input.required<Weight | null>();
+    readonly goal = input.required<Weight | null>();
 
 
 
     weightAdded = output<Weight>();
 
     // Signals
-    firstWeight: WritableSignal<Weight> = signal(emptyWeight);
     isButtonActive = signal(false);
 
     // Computed progression
     progression: Signal<number> = computed(() => {
         return this.calculationFunctionsService.weightProgression(
-            this.firstWeight()?.weight,
+            this.firstWeight()?.weight ?? NaN,
             this.lastWeight()?.weight ?? NaN,
             this.goal()?.weight ?? NaN
         );
@@ -60,19 +60,17 @@ export class MainDisplay {
         private readonly modalCtrl: ModalController,
         private readonly cdr: ChangeDetectorRef
     ) {
-        // Solo inicializar gráfico cuando inputs estén disponibles
         effect(() => {
             const weights = this.weights();
             this.goal();
 
             if (!weights) return;
-
             this.updateChart();
         });
     }
 
     private updateChart() {;
-        this.firstWeight.set(this.weights()[0]);
+
 
         this.doughnutChart = DoughnutChart(this.progression);
         this.data = this.doughnutChart.data;

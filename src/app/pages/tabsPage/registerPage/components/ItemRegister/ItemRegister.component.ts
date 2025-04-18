@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input, OnInit, output, signal } from '@angular/core';
 import { Weight } from '@models/types/Weight';
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonButton } from '@ionic/angular/standalone';
-import { SimpleDatePipe } from '@pipes/SimpleDate.pipe';
 import { SignedNumberPipe } from '@pipes/signedNumber.pipe';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-item-register',
@@ -14,7 +14,7 @@ import { SignedNumberPipe } from '@pipes/signedNumber.pipe';
         IonCardContent,
         IonButton,
         SignedNumberPipe,
-        SimpleDatePipe,
+        DatePipe
     ],
     templateUrl: './ItemRegister.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,

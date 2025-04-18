@@ -15,10 +15,10 @@ import { WeightFormComponent } from '@components/WeightForm/WeightForm.component
 import { GoalModalComponent } from './components/GoalModal/GoalModal.component';
 import { Gender, User } from '@models/types/User';
 import { FormsModule } from '@angular/forms';
-import { SimpleDatePipe } from '@pipes/SimpleDate.pipe';
 import { UserConfigService } from '@services/UserConfig.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { TimeService } from '@services/Time.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-initial-modal',
@@ -31,7 +31,7 @@ import { TimeService } from '@services/Time.service';
         IonSelect,
         IonSelectOption,
         WeightFormComponent,
-        SimpleDatePipe,
+        DatePipe,
         FormsModule,
     ],
     templateUrl: './Initial.page.html',

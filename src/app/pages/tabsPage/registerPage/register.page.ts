@@ -1,13 +1,18 @@
-import { ChangeDetectorRef, Component, computed } from '@angular/core';
-import { IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
+import { Component, computed } from '@angular/core';
+import { IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonButtons, IonIcon, ModalController } from '@ionic/angular/standalone';
 import { ItemRegisterComponent } from './components/ItemRegister/ItemRegister.component';
-import { Weight, WeightUnits } from '@models/types/Weight';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { WeightRegisterComponent } from '../homePage/components/WeightRegister/WeightRegister.component';
+
 @Component({
     selector: 'app-tab2',
     templateUrl: 'register.page.html',
-    imports: [IonContent, IonHeader, IonToolbar, IonTitle, ItemRegisterComponent],
+    imports: [
+        IonContent, IonHeader, IonToolbar, IonTitle,
+        IonButton, ItemRegisterComponent,
+        IonButtons, IonIcon
+    ],
 })
 export class RegisterPage {
 
@@ -23,8 +28,9 @@ export class RegisterPage {
     });
 
 
-    constructor(private readonly weightTracker: WeightTrackerService) {
+    constructor(private readonly weightTracker: WeightTrackerService, private readonly modalCtrl: ModalController) {
         this.weightTracker.updateWeights().subscribe();
+        this.weightTracker.updateLastWeight().subscribe();
     }
 
     deleteWeight(id: number) {
@@ -32,6 +38,19 @@ export class RegisterPage {
         this.weightTracker.updateWeights().subscribe();
     }
 
+    async openModal() {
+        const modal = await this.modalCtrl.create({
+            component: WeightRegisterComponent,
+            cssClass: 'small-modal',
+        });
+        modal.present();
+
+        const { data, role } = await modal.onDidDismiss();
+        if (role === 'confirm') {
+            this.weightTracker.addWeight(data);
+            this.weightTracker.updateWeights().subscribe();
+        }
+    }
 
 
 }

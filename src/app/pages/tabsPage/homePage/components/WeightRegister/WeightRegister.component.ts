@@ -44,7 +44,7 @@ export class WeightRegisterComponent {
     lastWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
     lastWeightUnit = <WeightUnits>(WeightUnits.KG);
 
-    actualWeight = signal(70);
+    actualWeight = signal(this.lastWeight()?.weight ?? 0);
     actualDate = signal(this.timeService.now());
 
     private readonly modalCtrl = inject(ModalController);

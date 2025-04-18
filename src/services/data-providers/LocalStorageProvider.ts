@@ -59,6 +59,23 @@ export default class LocalStorageProvider implements DataProvider {
         }
     }
 
+    updateWeight(value: Weight): boolean {
+        try {
+            const weights = this.getWeightsSync();
+            const index = weights.findIndex((weight: Weight) => weight.id === value.id);
+            if (index !== -1) {
+                weights[index] = value;
+                localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(weights));
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error('Error updating weight:', error);
+            return false;
+        }
+    }
+
+
     getGoal(): Promise<Weight> {
         const userString = localStorage.getItem(this.USER_KEY);
         const user = userString ? JSON.parse(userString) : null;

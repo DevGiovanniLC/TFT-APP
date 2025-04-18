@@ -9,6 +9,7 @@ export interface DataProvider {
     setUser(value: User): boolean;
 
     addWeight(value: Weight): boolean;
+    updateWeight(value: Weight): boolean;
     deleteWeight(id: number): boolean;
 
     generateWeightId(): number;

@@ -45,6 +45,12 @@ export class WeightTrackerService {
         return true;
     }
 
+    updateWeight(value: Weight): boolean {
+        this.dataProvider.updateWeight(value);
+        this.updateWeights();
+        return true;
+    }
+
     generateWeightId(): number {
         return this.dataProvider.generateWeightId();
     }

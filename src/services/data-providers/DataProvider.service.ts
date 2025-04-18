@@ -51,6 +51,11 @@ export class DataProviderService {
     deleteWeight(id: number) {
         return this.dataProvider.deleteWeight(id);
     }
+
+    updateWeight(value: Weight) {
+        return this.dataProvider.updateWeight(value);
+    }
+
     generateWeightId(): number {
         return this.dataProvider.generateWeightId();
     }

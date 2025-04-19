@@ -134,3 +134,38 @@ function differenceTime(dateStart: Date, dateEnd: Date) {
 
     return result;
 }
+
+
+export const configurationAnnotationPlugin = (chartMode: string, goalWeight: number, goalDate: Date | undefined) => {
+    if (!goalWeight) return [];
+    return {
+        goalLabel: {
+            type: 'label',
+            yValue: goalWeight + 2,
+            xValue: chartMode === 'viewGoal' ? goalDate : NaN,
+            content: ['Goal'],
+            padding: 0,
+            color: '#343A40',
+            font: {
+                size: 11,
+            },
+        },
+        goalLine: {
+            type: 'line',
+            yMin: goalWeight,
+            yMax: goalWeight,
+            borderColor: '#343A40',
+            borderWidth: 2,
+            borderDash: [5, 5],
+        },
+        goalPoint: {
+            type: 'point',
+            xValue: goalDate,
+            yValue: goalWeight,
+            backgroundColor: '#1E8260',
+            radius: 3,
+            borderWidth: 2,
+            borderColor: '#00BD7E',
+        },
+    };
+}

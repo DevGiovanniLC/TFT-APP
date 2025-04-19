@@ -7,6 +7,9 @@ export default class LocalStorageProvider implements DataProvider {
     private readonly WEIGHTS_KEY = 'weight_data_weights';
     private readonly USER_KEY = 'user_data';
 
+    constructor() {
+        this.addExampleData();
+    }
 
     addExampleData() {
         localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(data.weights));

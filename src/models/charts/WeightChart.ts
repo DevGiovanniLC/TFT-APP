@@ -1,34 +1,67 @@
 import { Signal } from '@angular/core';
 import { Weight } from '@models/types/Weight';
+import { configurationAnnotationPlugin } from '@plugins/chartjs/ChartPlugins';
 
 export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>, goal: Signal<Weight | null>) => {
+
     if (weights().length === 0) return [];
 
-    const dataWeights = weights();
+    const allWeights = weights();
+    const dataWeights = allWeights;
+
+    // Verifica si el modo de gráfico es 'viewGoal' y si hay suficientes datos para mostrar la tendencia de una manera lógica
+    const viewTrend = chartMode() == 'viewGoal' && weights().length >= 7;
 
     const goalWeight = goal && typeof goal() === 'object' ? goal()?.weight : Number.POSITIVE_INFINITY;
     const goalDate = goal && typeof goal() === 'object' ? goal()?.date : null;
 
+    // Rango de pesos para el eje Y
     const minWeight = Math.min(...dataWeights.map((w) => w.weight));
     const maxWeight = Math.max(...dataWeights.map((w) => w.weight));
     const maxRangeY = goalWeight ? maxWeight - Math.min(minWeight, goalWeight) : maxWeight - minWeight;
-    const marginY = maxRangeY * 0.2 || 1; // Si el rango es 0, se asigna un margen mínimo
+    const marginY = maxRangeY * 0.2 || 1;
 
+    // Rango de fechas para el eje X
     const validDates = dataWeights.map((w) => new Date(w.date));
     const maxDate = Math.max(...validDates.map((w) => w.getTime()));
     const minDate = Math.min(...validDates.map((w) => w.getTime())) - 1 * 24 * 60 * 60 * 1000;
     const rangeX = goalDate ? new Date(Math.max(maxDate, goalDate.getTime())) : new Date(maxDate);
     let goalDateMaxRange;
 
+    // Visualización de datos en base al modo de gráfico
     if (chartMode() === 'viewGoal' && (goal()?.weight ?? NaN) > 0) {
-        goalDateMaxRange = new Date(rangeX.getTime() + 15 * 24 * 60 * 60 * 1000); // Agrega 15 días a la fecha máxima
+        goalDateMaxRange = new Date(rangeX.getTime() + 15 * 24 * 60 * 60 * 1000);
     } else if (chartMode() === 'total') {
-        goalDateMaxRange = new Date(maxDate + 15 * 24 * 60 * 60 * 1000); // Agrega 15 días a la fecha máxima
+        goalDateMaxRange = new Date(maxDate + 15 * 24 * 60 * 60 * 1000);
     } else if (chartMode() === 'week') {
-        goalDateMaxRange = new Date(maxDate + 1 * 24 * 60 * 60 * 1000); // Agrega 7 días a la fecha máxima
+        goalDateMaxRange = new Date(maxDate + 1 * 24 * 60 * 60 * 1000);
     } else if (chartMode() === 'month') {
-        goalDateMaxRange = new Date(maxDate + 1 * 24 * 60 * 60 * 1000); // Agrega 30 días a la fecha máxima
+        goalDateMaxRange = new Date(maxDate + 1 * 24 * 60 * 60 * 1000);
     }
+
+
+    // Línea de tendencia basada en las últimas 2 semanas de datos
+    const lastWeight = allWeights[allWeights.length - 1];
+    const lastDate = new Date(lastWeight.date).getTime();
+    const recentWeights = allWeights.filter(w => new Date(w.date).getTime() >= lastDate - 14 * 24 * 60 * 60 * 1000);
+
+    const xData = recentWeights.map(w => new Date(w.date).getTime());
+    const yData = recentWeights.map(w => w.weight);
+
+    const n = xData.length;
+    const sumX = xData.reduce((a, b) => a + b, 0);
+    const sumY = yData.reduce((a, b) => a + b, 0);
+    const sumXY = xData.reduce((sum, x, i) => sum + x * yData[i], 0);
+    const sumX2 = xData.reduce((sum, x) => sum + x * x, 0);
+
+    const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    const intercept = (sumY - slope * sumX) / n;
+
+    const futureTrendData = goalDate && !isNaN(goalDate.getTime()) ? [
+        { x: lastDate, y: lastWeight.weight },
+        { x: goalDate.getTime(), y: slope * goalDate.getTime() + intercept }
+    ] : [];
+
 
     return {
         data: {
@@ -47,7 +80,7 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
 
                         if (chartMode() === 'viewGoal') {
                             spacing = Math.ceil(total / 5);
-                        }else{
+                        } else {
                             spacing = Math.ceil(total / 15);
                         }
 
@@ -57,7 +90,26 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
 
                         return isFirst || isLast || total <= 20 || isSpaced ? 3 : 0;
                     }
-
+                },
+                {
+                    label: 'Trend',
+                    data: viewTrend ? futureTrendData : [],
+                    parsing: false,
+                    fill: false,
+                    borderDash: [6, 6],
+                    borderColor: '#ff6384',
+                    pointRadius: 0,
+                    tension: 0,
+                    segment: {
+                        borderDash: [6, 6]
+                    },
+                    interaction: {
+                        mode: null
+                    },
+                    hoverBackgroundColor: 'transparent',
+                    hoverBorderColor: 'transparent',
+                    pointHoverRadius: 0,
+                    pointHitRadius: 0,
                 },
             ],
         },
@@ -76,7 +128,7 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
                     annotations: configurationAnnotationPlugin(chartMode(), goal()?.weight ?? NaN, goal()?.date),
                 },
                 legend: {
-                    display: false,
+                    display: viewTrend ? true : false,
                     onClick: () => { },
                     position: 'top',
                 },
@@ -88,9 +140,9 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
             },
             scales: {
                 x: {
-                    type: 'time', // Eje de tiempo para las fechas
+                    type: 'time',
                     min: minDate,
-                    max: goalDateMaxRange, // Fecha máxima (ajústala según tu dataset)
+                    max: goalDateMaxRange,
                     time: {
                         unit: 'day',
                         displayFormats: {
@@ -108,7 +160,6 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
                     },
                 },
                 y: {
-                    // Se establece el rango "acercado" usando el mínimo y máximo en base a la meta con margen y redondeo al entero mayor
                     min: goalWeight
                         ? Math.round(Math.min(minWeight, goalWeight) - marginY)
                         : Math.round(minWeight - marginY),
@@ -121,10 +172,10 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
                     },
                     ticks: {
                         callback: function (value: number) {
-                            return `${value} ${dataWeights[0].weight_units}`; // Agrega "kg" como sufijo a los valores del eje Y
+                            return `${value} ${dataWeights[0].weight_units}`;
                         },
                         font: {
-                            size: 10, // Ajusta el tamaño de la fuente (puedes probar con otros valores)
+                            size: 10,
                         },
                         color: '#343a40',
                         maxTicksLimit: 8,
@@ -134,37 +185,3 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
         },
     };
 };
-
-export function configurationAnnotationPlugin(chartMode: string, goalWeight: number, goalDate: Date | undefined) {
-    if (!goalWeight) return [];
-    return {
-        goalLabel: {
-            type: 'label',
-            yValue: goalWeight + 2,
-            xValue: chartMode === 'viewGoal' ? goalDate : NaN,
-            content: ['Goal'],
-            padding: 0,
-            color: '#343A40',
-            font: {
-                size: 11,
-            },
-        },
-        goalLine: {
-            type: 'line',
-            yMin: goalWeight,
-            yMax: goalWeight,
-            borderColor: '#343A40',
-            borderWidth: 2,
-            borderDash: [5, 5],
-        },
-        goalPoint: {
-            type: 'point',
-            xValue: goalDate,
-            yValue: goalWeight,
-            backgroundColor: '#1E8260',
-            radius: 3,
-            borderWidth: 2,
-            borderColor: '#00BD7E',
-        },
-    };
-}

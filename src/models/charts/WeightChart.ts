@@ -40,6 +40,24 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
                     fill: false,
                     borderColor: '#00BD7E',
                     tension: 0.4,
+                    pointRadius: (ctx: { chart: any; dataIndex: number }) => {
+                        const dataset = ctx.chart.data.datasets[0];
+                        const total = dataset.data.length;
+                        let spacing = 0;
+
+                        if (chartMode() === 'viewGoal') {
+                            spacing = Math.ceil(total / 5);
+                        }else{
+                            spacing = Math.ceil(total / 15);
+                        }
+
+                        const isFirst = ctx.dataIndex === 0;
+                        const isLast = ctx.dataIndex === total - 1;
+                        const isSpaced = ctx.dataIndex % spacing === 0;
+
+                        return isFirst || isLast || total <= 20 || isSpaced ? 3 : 0;
+                    }
+
                 },
             ],
         },
@@ -49,9 +67,8 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
             pointBackgroundColor: '#00BD7E',
             elements: {
                 point: {
-                    radius: 5,
-                    hitRadius: 8,
-                    hoverRadius: 8,
+                    hitRadius: 6,
+                    hoverRadius: 7,
                 },
             },
             plugins: {
@@ -60,7 +77,7 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
                 },
                 legend: {
                     display: false,
-                    onClick: () => {},
+                    onClick: () => { },
                     position: 'top',
                 },
                 centerText: false,

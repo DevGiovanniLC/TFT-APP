@@ -1,49 +1,59 @@
 {
     "weights": [
-        {
-            "date": "2024-09-01",
-            "weight": 100,
-            "weight_units": "kg"
-        },
-        {
-            "date": "2024-09-02",
-            "weight": 100.2,
-            "weight_units": "kg"
-        },
-        {
-            "date": "2024-12-03",
-            "weight": 99,
-            "weight_units": "kg"
-        },
-        {
-            "date": "2025-01-04",
-            "weight": 98.5,
-            "weight_units": "kg"
-        },
-        {
-            "date": "2025-02-01",
-            "weight": 97,
-            "weight_units": "kg"
-        },
-        {
-            "date": "2025-02-02",
-            "weight": 95,
-            "weight_units": "kg"
-        },
-        {
-            "date": "2025-02-13",
-            "weight": 89,
-            "weight_units": "kg"
-        },
-        {
-            "date": "2025-03-14",
-            "weight": 89,
-            "weight_units": "kg"
-        }
+        { "date": "2024-09-01", "weight": 100.0, "weight_units": "kg" },
+        { "date": "2024-09-02", "weight": 99.7, "weight_units": "kg" },
+        { "date": "2024-09-03", "weight": 99.4, "weight_units": "kg" },
+        { "date": "2024-09-04", "weight": 99.1, "weight_units": "kg" },
+        { "date": "2024-09-05", "weight": 98.8, "weight_units": "kg" },
+        { "date": "2024-09-06", "weight": 98.5, "weight_units": "kg" },
+        { "date": "2024-09-07", "weight": 98.2, "weight_units": "kg" },
+        { "date": "2024-09-08", "weight": 97.9, "weight_units": "kg" },
+        { "date": "2024-09-09", "weight": 97.6, "weight_units": "kg" },
+        { "date": "2024-09-10", "weight": 97.2, "weight_units": "kg" },
+        { "date": "2024-09-11", "weight": 96.9, "weight_units": "kg" },
+        { "date": "2024-09-12", "weight": 96.6, "weight_units": "kg" },
+        { "date": "2024-09-13", "weight": 96.3, "weight_units": "kg" },
+        { "date": "2024-09-14", "weight": 96.0, "weight_units": "kg" },
+        { "date": "2024-09-15", "weight": 95.7, "weight_units": "kg" },
+        { "date": "2024-09-16", "weight": 95.4, "weight_units": "kg" },
+        { "date": "2024-09-17", "weight": 95.1, "weight_units": "kg" },
+        { "date": "2024-09-18", "weight": 94.8, "weight_units": "kg" },
+        { "date": "2024-09-19", "weight": 94.5, "weight_units": "kg" },
+        { "date": "2024-09-20", "weight": 94.2, "weight_units": "kg" },
+        { "date": "2024-09-21", "weight": 93.9, "weight_units": "kg" },
+        { "date": "2024-09-22", "weight": 93.6, "weight_units": "kg" },
+        { "date": "2024-09-23", "weight": 93.3, "weight_units": "kg" },
+        { "date": "2024-09-24", "weight": 93.0, "weight_units": "kg" },
+        { "date": "2024-09-25", "weight": 92.7, "weight_units": "kg" },
+        { "date": "2024-09-26", "weight": 92.3, "weight_units": "kg" },
+        { "date": "2024-09-27", "weight": 92.0, "weight_units": "kg" },
+        { "date": "2024-09-28", "weight": 91.7, "weight_units": "kg" },
+        { "date": "2024-09-29", "weight": 91.4, "weight_units": "kg" },
+        { "date": "2024-09-30", "weight": 91.1, "weight_units": "kg" },
+        { "date": "2024-10-01", "weight": 90.8, "weight_units": "kg" },
+        { "date": "2024-10-02", "weight": 90.5, "weight_units": "kg" },
+        { "date": "2024-10-03", "weight": 90.2, "weight_units": "kg" },
+        { "date": "2024-10-04", "weight": 89.9, "weight_units": "kg" },
+        { "date": "2024-10-05", "weight": 89.6, "weight_units": "kg" },
+        { "date": "2024-10-06", "weight": 89.3, "weight_units": "kg" },
+        { "date": "2024-10-07", "weight": 89.0, "weight_units": "kg" },
+        { "date": "2024-10-08", "weight": 88.7, "weight_units": "kg" },
+        { "date": "2024-10-09", "weight": 88.4, "weight_units": "kg" },
+        { "date": "2024-10-10", "weight": 88.1, "weight_units": "kg" },
+        { "date": "2024-10-11", "weight": 87.8, "weight_units": "kg" },
+        { "date": "2024-10-12", "weight": 87.4, "weight_units": "kg" },
+        { "date": "2024-10-13", "weight": 87.1, "weight_units": "kg" },
+        { "date": "2024-10-14", "weight": 86.8, "weight_units": "kg" },
+        { "date": "2024-10-15", "weight": 86.5, "weight_units": "kg" },
+        { "date": "2024-10-16", "weight": 86.2, "weight_units": "kg" },
+        { "date": "2024-10-17", "weight": 85.9, "weight_units": "kg" },
+        { "date": "2024-10-18", "weight": 85.6, "weight_units": "kg" },
+        { "date": "2024-10-19", "weight": 85.3, "weight_units": "kg" },
+        { "date": "2024-10-20", "weight": 85.0, "weight_units": "kg" }
     ],
     "goal": {
-        "date": "2025-6-01",
-        "weight": 85,
+        "date": "2025-06-01",
+        "weight": 85.0,
         "weight_units": "kg"
     }
 }

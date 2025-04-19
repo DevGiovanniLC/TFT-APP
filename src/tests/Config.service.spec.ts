@@ -1,9 +1,9 @@
-import { ConfigService } from '@services/Config.service';
+import { UserConfigService } from '@services/UserConfig.service';
 import { DataProviderService } from '@services/data-providers/DataProvider.service';
 import { User } from '@models/types/User';
 
 describe('ConfigService', () => {
-    let service: ConfigService;
+    let service: UserConfigService;
     let dataProviderMock: jest.Mocked<DataProviderService>;
 
     const mockUser: User = {
@@ -24,7 +24,7 @@ describe('ConfigService', () => {
             // You can extend this mock if ConfigService adds more dependencies
         } as any;
 
-        service = new ConfigService(dataProviderMock);
+        service = new UserConfigService(dataProviderMock);
     });
 
     it('should initialize the isUser signal as false', () => {
@@ -32,7 +32,7 @@ describe('ConfigService', () => {
     });
 
     it('should fetch the user from the DataProvider', async () => {
-        const user = await service.getUser();
+        const user = await service.updateUser();
         expect(dataProviderMock.getUser).toHaveBeenCalled();
         expect(user).toEqual(mockUser);
     });

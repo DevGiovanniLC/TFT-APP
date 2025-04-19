@@ -74,12 +74,57 @@
     padding: 0;
 }
 
-.small-modal {
-    --border-radius: 16px;
-    /* Bordes redondeados */
-}
-
 //Necesario para arreglar bug de picker
 ion-datetime::part(wheel-item) {
     margin: 24px 0em !important;
+}
+
+
+.small-alert .alert-wrapper {
+    background: var(--color-tertiary);
+    border: 4px solid #156111;
+    border-radius: 1.5rem;
+    padding: 1rem;
+}
+
+ion-alert.small-alert .alert-wrapper .alert-head {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: #F0FDFA;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+}
+
+.small-alert .alert-message {
+    font-size: 1rem;
+    color: #F0FDFA;
+    margin-bottom: 1rem;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+}
+
+.small-alert .alert-button-group {
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+
+}
+
+.small-alert .alert-button {
+    border-radius: 0.75rem;
+    font-weight: bold;
+    margin: 0 0.5rem;
+}
+
+.small-alert .alert-button:first-child {
+    background: transparent;
+    color: #F0FDFA;
+}
+
+.small-alert .alert-button:last-child {
+    background: var(--ion-color-danger);
+    color: #fff;
 }

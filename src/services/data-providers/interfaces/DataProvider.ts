@@ -7,7 +7,11 @@ export interface DataProvider {
     getUser(): Promise<User>;
 
     setUser(value: User): boolean;
-    addWeight(value: Weight): boolean;
 
+    addWeight(value: Weight): boolean;
+    updateWeight(value: Weight): boolean;
+    deleteWeight(id: number): boolean;
+
+    generateWeightId(): number;
     initializeConnection(): Promise<boolean>;
 }

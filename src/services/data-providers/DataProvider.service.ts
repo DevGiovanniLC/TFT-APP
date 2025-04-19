@@ -36,7 +36,7 @@ export class DataProviderService {
         return await this.dataProvider.getGoal();
     }
 
-    async getUser(): Promise<User> {
+    async getUser(): Promise<User | null> {
         return await this.dataProvider.getUser();
     }
 
@@ -46,6 +46,18 @@ export class DataProviderService {
 
     addWeight(value: Weight) {
         return this.dataProvider.addWeight(value);
+    }
+
+    deleteWeight(id: number) {
+        return this.dataProvider.deleteWeight(id);
+    }
+
+    updateWeight(value: Weight) {
+        return this.dataProvider.updateWeight(value);
+    }
+
+    generateWeightId(): number {
+        return this.dataProvider.generateWeightId();
     }
 
     isConnected(): boolean {

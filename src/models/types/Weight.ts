@@ -1,4 +1,5 @@
 export type Weight = {
+    id: number;
     date: Date;
     weight: number;
     weight_units: WeightUnits;
@@ -9,4 +10,4 @@ export enum WeightUnits {
     LB = 'lb',
 }
 
-export const emptyWeight: Weight = { weight: 0, weight_units: WeightUnits.KG, date: new Date(0) };
+export const emptyWeight: Weight = { id: 0, weight: 0, weight_units: WeightUnits.KG, date: new Date(0) };

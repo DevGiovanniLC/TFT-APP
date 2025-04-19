@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, input, output, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input, OnInit, output, signal } from '@angular/core';
 import { IonPicker, IonPickerColumn, IonPickerColumnOption } from '@ionic/angular/standalone';
 import { WeightUnits } from '@models/types/Weight';
 
@@ -8,8 +8,8 @@ import { WeightUnits } from '@models/types/Weight';
     templateUrl: './WeightForm.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WeightFormComponent {
-    inputWeightValue = input.required<number>();
+export class WeightFormComponent implements OnInit, AfterViewInit {
+    inputWeightValue = input.required<number | undefined>();
     inputWeightUnit = input(WeightUnits.KG);
 
     outputWeightValue = output<number>();
@@ -17,14 +17,22 @@ export class WeightFormComponent {
     lastWeight = signal(70);
     lastWeightDecimal = signal(0);
 
-    readonly weightOptions = this.generateRange(30, 250);
-    readonly weightOptionsDecimal = this.generateRange(0, 9);
+    weightOptions!: number[];
+    weightOptionsDecimal!: number[];
 
-    constructor() {
-        effect(() => {
-            this.lastWeight.set(Math.floor(this.inputWeightValue()));
-            this.lastWeightDecimal.set(Math.round((this.inputWeightValue() % 1) * 10));
-        });
+    constructor(private readonly cdr: ChangeDetectorRef) {}
+
+
+    ngOnInit(): void {
+        this.weightOptions = this.generateRange(30, 100);
+        this.weightOptionsDecimal = this.generateRange(0, 9);
+        this.lastWeight.set(Math.floor(this.inputWeightValue() ?? 0));
+        this.lastWeightDecimal.set(Math.round(((this.inputWeightValue() ?? 0) % 1) * 10));
+    }
+
+    ngAfterViewInit(): void {
+        this.weightOptions =this.weightOptions.concat(this.generateRange(101, 250))
+        this.cdr.detectChanges();
     }
 
     updateActualWeight(value: any) {

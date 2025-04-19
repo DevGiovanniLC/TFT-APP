@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, effect, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect } from '@angular/core';
 import { IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
 import { WeightTrackerService } from '@services/WeightTracker.service';
-import { Weight, WeightUnits } from '@models/types/Weight';
+import { Weight } from '@models/types/Weight';
 import { WeightGraphic } from '@pages/tabsPage/homePage/components/WeightGraphic/WeightGraphic.component';
 import { MainDisplay } from '@pages/tabsPage/homePage/components/MainDisplay/MainDisplay.component';
-import { ConfigService } from '@services/Config.service';
+import { UserConfigService } from '@services/UserConfig.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-tab1',
@@ -14,33 +15,26 @@ import { ConfigService } from '@services/Config.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage {
-    weights: WritableSignal<Weight[]> = signal<Weight[]>([]);
-    goal: WritableSignal<Weight> = signal<Weight>({ date: new Date(NaN), weight: 0, weight_units: WeightUnits.KG });
+    goal = toSignal(this.userConfig.getGoal(), { initialValue: null });
+    weights = toSignal(this.weightTracker.weights$, { initialValue: [] });
+    actualWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
+    firstWeight = toSignal(this.weightTracker.firstWeight$, { initialValue: null });
+
 
     constructor(
-        private readonly weightTrackerService: WeightTrackerService,
-        private readonly config: ConfigService
+        private readonly weightTracker: WeightTrackerService,
+        private readonly userConfig: UserConfigService
     ) {
-        effect(() => {
-            if (this.weightTrackerService.isAvailable()) {
-                this.config.subscribe()();
-                this.getWeights();
-                this.getGoal();
-            }
-        });
+        this.weightTracker.updateWeights().subscribe()
+        this.weightTracker.updateLastWeight().subscribe()
+        this.weightTracker.updateFirstWeight().subscribe()
+        this.userConfig.getGoal().subscribe()
     }
 
-    async getWeights() {
-        this.weights.set(await this.weightTrackerService.getWeights());
-    }
-
-    async getGoal() {
-        this.goal.set(await this.weightTrackerService.getGoal());
-    }
 
     addWeight($event: Weight) {
-        this.weightTrackerService.addWeight($event);
-        this.getWeights();
-        this.getGoal();
+        this.weightTracker.addWeight($event);
+        this.weightTracker.updateWeights().subscribe()
+        this.weightTracker.updateLastWeight().subscribe()
     }
 }

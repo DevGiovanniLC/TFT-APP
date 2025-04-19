@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
     IonDatetime,
@@ -17,6 +17,7 @@ import { Weight, WeightUnits } from '@models/types/Weight';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
 import { TimeService } from '@services/Time.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-weight-register',
@@ -37,33 +38,34 @@ import { TimeService } from '@services/Time.service';
     styleUrls: ['./WeightRegister.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WeightRegisterComponent {
-    step = signal(0);
+export class WeightRegisterComponent implements OnInit {
+    @Input() inputWeight: Weight | null = null;
+    selectedDate = signal<string | null>(null);
 
-    lastWeight = signal(70);
-    lastWeightUnit = signal(WeightUnits.KG);
+    lastWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
+    lastWeightUnit = <WeightUnits>(WeightUnits.KG);
 
-    actualWeight = signal(70);
+    actualWeight = signal(this.lastWeight()?.weight ?? 0);
     actualDate = signal(this.timeService.now());
+    step = signal(0);
 
     private readonly modalCtrl = inject(ModalController);
 
     constructor(
         private readonly weightTracker: WeightTrackerService,
         private readonly timeService: TimeService
-    ) {
-        effect(() => {
-            this.getActualWeight();
-        });
+    ) { }
+
+    ngOnInit(): void {
+        this.actualWeight.set(this.inputWeight?.weight ?? this.lastWeight()?.weight ?? 0);
+        this.actualDate.set(this.inputWeight?.date ?? this.timeService.now());
+
+        const date = this.inputWeight!.date;
+        const tzOffsetMs = date.getTimezoneOffset() * 60000;
+        const localISO = new Date(date.getTime() - tzOffsetMs).toISOString().substring(0, 16);
+        this.selectedDate.set(localISO);
     }
 
-    async getActualWeight() {
-        if (!this.weightTracker.isAvailable()) return;
-        if (!(await this.weightTracker.getActualWeight())?.weight) return;
-
-        this.lastWeight.set(Math.floor((await this.weightTracker.getActualWeight())?.weight));
-        this.lastWeightUnit.set((await this.weightTracker.getActualWeight())?.weight_units);
-    }
 
     cancel() {
         return this.modalCtrl.dismiss(null, 'cancel');
@@ -71,8 +73,9 @@ export class WeightRegisterComponent {
 
     confirm() {
         const newWeight: Weight = {
+            id: this.inputWeight?.id ?? this.weightTracker.generateWeightId(),
             weight: this.actualWeight(),
-            weight_units: this.lastWeightUnit(),
+            weight_units: this.lastWeightUnit,
             date: this.actualDate(),
         };
 
@@ -81,13 +84,11 @@ export class WeightRegisterComponent {
 
     updateActualWeight(value: number) {
         if (typeof value !== 'number') return;
-
         this.actualWeight.set(value);
     }
 
     updateActualDate(value: any) {
         if (typeof value !== 'string') return;
-
         this.actualDate.set(new Date(value));
     }
 }

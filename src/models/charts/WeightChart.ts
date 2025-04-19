@@ -1,7 +1,7 @@
 import { Signal } from '@angular/core';
 import { Weight } from '@models/types/Weight';
 
-export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>, goal: Signal<Weight>) => {
+export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>, goal: Signal<Weight | null>) => {
     if (weights().length === 0) return [];
 
     const dataWeights = weights();
@@ -20,7 +20,7 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
     const rangeX = goalDate ? new Date(Math.max(maxDate, goalDate.getTime())) : new Date(maxDate);
     let goalDateMaxRange;
 
-    if (chartMode() === 'viewGoal' && goal()?.weight > 0) {
+    if (chartMode() === 'viewGoal' && (goal()?.weight ?? NaN) > 0) {
         goalDateMaxRange = new Date(rangeX.getTime() + 15 * 24 * 60 * 60 * 1000); // Agrega 15 días a la fecha máxima
     } else if (chartMode() === 'total') {
         goalDateMaxRange = new Date(maxDate + 15 * 24 * 60 * 60 * 1000); // Agrega 15 días a la fecha máxima
@@ -56,7 +56,7 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
             },
             plugins: {
                 annotation: {
-                    annotations: configurationAnnotationPlugin(chartMode(), goal()?.weight, goal()?.date),
+                    annotations: configurationAnnotationPlugin(chartMode(), goal()?.weight ?? NaN, goal()?.date),
                 },
                 legend: {
                     display: false,
@@ -118,7 +118,7 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
     };
 };
 
-export function configurationAnnotationPlugin(chartMode: string, goalWeight: number, goalDate: Date): any {
+export function configurationAnnotationPlugin(chartMode: string, goalWeight: number, goalDate: Date | undefined): any {
     if (!goalWeight) return [];
     return {
         goalLabel: {

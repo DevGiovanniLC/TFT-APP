@@ -16,7 +16,7 @@ import { TimeService } from '@services/Time.service';
 })
 export class WeightGraphic {
     readonly weights = input.required<Weight[]>();
-    readonly goal = input.required<Weight>();
+    readonly goal = input.required<Weight | null>();
 
     weightChart: any;
     data!: DatasetChartOptions;
@@ -63,7 +63,7 @@ export class WeightGraphic {
     }
 
     validateGoalDate() {
-        if (!isNaN(this.goal().date?.getTime() || NaN)) return true;
+        if (!isNaN(this.goal()?.date?.getTime() || NaN)) return true;
         return false;
     }
 

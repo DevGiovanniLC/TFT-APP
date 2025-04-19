@@ -15,10 +15,10 @@ import { WeightFormComponent } from '@components/WeightForm/WeightForm.component
 import { GoalModalComponent } from './components/GoalModal/GoalModal.component';
 import { Gender, User } from '@models/types/User';
 import { FormsModule } from '@angular/forms';
-import { SimpleDatePipe } from '@pipes/SimpleDate.pipe';
-import { ConfigService } from '@services/Config.service';
+import { UserConfigService } from '@services/UserConfig.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { TimeService } from '@services/Time.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-initial-modal',
@@ -31,7 +31,7 @@ import { TimeService } from '@services/Time.service';
         IonSelect,
         IonSelectOption,
         WeightFormComponent,
-        SimpleDatePipe,
+        DatePipe,
         FormsModule,
     ],
     templateUrl: './Initial.page.html',
@@ -55,7 +55,7 @@ export class InitialPage {
 
     constructor(
         private readonly modalCtrl: ModalController,
-        private readonly config: ConfigService,
+        private readonly config: UserConfigService,
         private readonly weightTracker: WeightTrackerService,
         private readonly navCtrl: NavController,
         private readonly timeService: TimeService
@@ -66,6 +66,7 @@ export class InitialPage {
 
         if (this.step === this.FINAL_STEP) {
             const actualWeight: Weight = {
+                id: 0,
                 weight: this.actualWeight(),
                 weight_units: this.lastWeightUnit,
                 date: this.timeService.now(),

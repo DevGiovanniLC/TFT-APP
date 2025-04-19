@@ -1,43 +1,68 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Weight } from '@models/types/Weight';
 import { DataProviderService } from './data-providers/DataProvider.service';
+import { BehaviorSubject, from, map, Observable, tap } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class WeightTrackerService {
-    private readonly weights: WritableSignal<Weight[]> = signal<Weight[]>([]);
+    private readonly weightsSubject = new BehaviorSubject<Weight[]>([]);
+    private readonly firstWeightSubject = new BehaviorSubject<Weight | null>(null);
+    private readonly lastWeightSubject = new BehaviorSubject<Weight | null>(null);
 
-    constructor(private readonly dataProvider: DataProviderService) {}
+    readonly weights$: Observable<Weight[]> = this.weightsSubject.asObservable();
+    readonly firstWeight$: Observable<Weight | null> = this.firstWeightSubject.asObservable();
+    readonly lastWeight$: Observable<Weight | null> = this.lastWeightSubject.asObservable();
 
-    async getWeights(): Promise<Weight[]> {
-        this.weights.set(await this.dataProvider.getWeights());
+    constructor(private readonly dataProvider: DataProviderService) { }
 
-        this.weights.update((weights) =>
-            weights
-                .map((w) => {
-                    w.date = new Date(w.date);
-                    return w;
-                })
-                .sort((a, b) => a.date.getTime() - b.date.getTime())
+    updateWeights(): Observable<Weight[]> {
+        return from(this.dataProvider.getWeights()).pipe(
+            map(weights =>
+                weights
+                    .map(w => ({ ...w, date: new Date(w.date) }))
+                    .sort((a, b) => a.date.getTime() - b.date.getTime())
+            ),
+            tap(parsed => this.weightsSubject.next(parsed))
         );
-
-        return this.weights();
     }
 
-    async getActualWeight(): Promise<Weight> {
-        return await this.getWeights().then((weights) => weights[weights.length - 1]);
+    updateLastWeight(): Observable<Weight | null> {
+        return this.weights$.pipe(
+            map(weights => { return weights.length > 0 ? weights[weights.length - 1] : null }),
+            tap(parsed => this.lastWeightSubject.next(parsed))
+        );
     }
 
-    async getGoal(): Promise<Weight> {
-        const goal = await this.dataProvider.getGoal();
-        if (goal) goal.date = new Date(goal?.date);
-        return goal;
+    updateFirstWeight(): Observable<Weight | null> {
+        return this.weights$.pipe(
+            map(weights => { return weights.length > 0 ? weights[0] : null }),
+            tap(parsed => this.firstWeightSubject.next(parsed))
+        );
     }
 
-    addWeight(value: Weight) {
-        this.weights.update((weights) => [...weights, value]);
-        return this.dataProvider.addWeight(value);
+
+    addWeight(value: Weight): boolean{
+        this.dataProvider.addWeight(value)
+        this.updateWeights()
+        return true;
+    }
+
+    deleteWeight(value: number): boolean{
+        this.dataProvider.deleteWeight(value);
+        this.updateWeights();
+        return true;
+    }
+
+    updateWeight(value: Weight): boolean {
+        this.dataProvider.updateWeight(value);
+        this.updateWeights();
+        return true;
+    }
+
+    generateWeightId(): number {
+        return this.dataProvider.generateWeightId();
     }
 
     isAvailable(): boolean {

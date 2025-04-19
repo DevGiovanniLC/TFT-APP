@@ -4,6 +4,7 @@ import { Weight } from '@models/types/Weight';
 import { User } from '@models/types/User';
 
 export default class DBConnection implements DataProvider {
+
     private readonly sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite);
     private db!: SQLiteDBConnection;
 
@@ -54,6 +55,48 @@ export default class DBConnection implements DataProvider {
         return registers.values as Weight[];
     }
 
+    updateWeight(value: Weight): boolean {
+        this.db
+            .query(
+                `
+            UPDATE registers SET date = ?, weight = ?, weight_units = ? WHERE id = ?
+        `,
+                [value.date, value.weight, value.weight_units, value.id]
+            )
+            .catch((err) => alert(err));
+        return true;
+    }
+
+    deleteWeight(id: number): boolean {
+        this.db
+            .query(
+                `
+            DELETE FROM registers WHERE id = ?
+        `,
+                [id]
+            )
+            .catch((err) => alert(err));
+
+        return true;
+    }
+
+    generateWeightId(): number {
+        this.db
+            .query(
+                `
+            SELECT MAX(id) as maxId FROM registers
+        `
+            )
+            .then((result) => {
+                if (result?.values?.length === 0) return 1;
+                if (result?.values == undefined) return 1;
+
+                return result.values[0].maxId + 1;
+            })
+            .catch((err) => alert(err));
+        return 0;
+    }
+
     async getGoal(): Promise<Weight> {
         const user = await this.db
             .query(
@@ -67,6 +110,7 @@ export default class DBConnection implements DataProvider {
         if (user?.values == undefined) throw new Error('No goal found');
 
         return {
+            id: 0,
             date: user.values[0].goal_date,
             weight: user.values[0].goal_weight,
             weight_units: user.values[0].goal_units,

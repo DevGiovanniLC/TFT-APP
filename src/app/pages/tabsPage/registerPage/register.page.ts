@@ -18,6 +18,7 @@ import { Weight } from '@models/types/Weight';
 export class RegisterPage {
 
     registers = toSignal(this.weightTracker.weights$);
+    isPressingButton = false;
 
     readonly reversedRegisters = computed(() => {
         const list = this.registers()?.reverse();
@@ -35,6 +36,9 @@ export class RegisterPage {
     }
 
     async confirmDelete(id: number) {
+        if (this.isPressingButton) return;
+        this.isPressingButton = true;
+
         let alert;
 
         if (this.reversedRegisters()?.length === 1) {
@@ -70,10 +74,8 @@ export class RegisterPage {
                 ]
             });
         }
-
-
-
         await alert.present();
+        this.isPressingButton = false;
     }
 
     deleteWeight(id: number) {
@@ -82,6 +84,9 @@ export class RegisterPage {
     }
 
     async openModal(weight?: Weight) {
+        if (this.isPressingButton) return;
+        this.isPressingButton = true;
+
         const modal = await this.modalCtrl.create({
             component: WeightRegisterComponent,
             cssClass: 'small-modal',
@@ -98,7 +103,7 @@ export class RegisterPage {
             }
             this.weightTracker.updateWeights().subscribe();
         }
+        this.isPressingButton = false;
     }
-
 
 }

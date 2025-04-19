@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, effect, input, OnDestroy, OnInit, output, signal, viewChild, ElementRef, Renderer2 } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, effect, input, OnDestroy, output, signal, viewChild, ElementRef, Renderer2, } from '@angular/core';
 import { Gesture, GestureController } from '@ionic/angular';
 import { Weight } from '@models/types/Weight';
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent } from '@ionic/angular/standalone';
@@ -7,27 +7,19 @@ import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-item-register',
-    imports: [
-        IonCard,
-        IonCardHeader,
-        IonCardSubtitle,
-        IonCardTitle,
-        IonCardContent,
-        SignedNumberPipe,
-        DatePipe
-    ],
+    imports: [IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, SignedNumberPipe, DatePipe],
     templateUrl: './ItemRegister.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemRegisterComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ItemRegisterComponent implements AfterViewInit, OnDestroy {
     //Gesto de eliminar registro
     private swipeGesture!: Gesture;
     private readonly SWIPE_THRESHOLD = -100;
     private readonly MAX_TRANSLATE = -120;
     private readonly START_REPORT_AFTER = 10;
 
-    private swipeContainer = viewChild('swipeContainer', { read: ElementRef });
-    private cardElement = viewChild('cardElement', { read: ElementRef });
+    private readonly swipeContainer = viewChild('swipeContainer', { read: ElementRef });
+    private readonly cardElement = viewChild('cardElement', { read: ElementRef });
 
     //Inputs
     id = input.required<number>();
@@ -38,19 +30,16 @@ export class ItemRegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     entryClick = output<Weight>();
     deleteWeight = output<number>();
 
-
     color = signal('');
 
     constructor(
-        private gestureCtrl: GestureController,
-        private renderer: Renderer2
+        private readonly gestureCtrl: GestureController,
+        private readonly renderer: Renderer2
     ) {
         effect(() => {
             this.color.set(this.checkColor(this.progress()));
         });
     }
-
-    ngOnInit(): void { }
 
     ngAfterViewInit(): void {
         const containerRef = this.swipeContainer();
@@ -64,8 +53,8 @@ export class ItemRegisterComponent implements OnInit, AfterViewInit, OnDestroy {
             el: containerEl,
             gestureName: 'swipe-to-delete',
             threshold: this.START_REPORT_AFTER,
-            onMove: ev => this.handleMove(ev.deltaX, cardEl),
-            onEnd: ev => this.handleEnd(ev.deltaX, cardEl)
+            onMove: (ev) => this.handleMove(ev.deltaX, cardEl),
+            onEnd: (ev) => this.handleEnd(ev.deltaX, cardEl),
         });
         this.swipeGesture.enable(true);
     }

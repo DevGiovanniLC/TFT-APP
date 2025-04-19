@@ -20,14 +20,11 @@ export class AppComponent {
 
     initApp() {
         this.dataProvider.initialize().then(() => {
-
-            this.config.updateUser().subscribe(
-                user => {
-                    if (!user) {
-                        this.navCtrl.navigateRoot('/initial');
-                    }
+            this.config.updateUser().subscribe((user) => {
+                if (!user) {
+                    this.navCtrl.navigateRoot('/initial');
                 }
-            )
+            });
 
             SplashScreen.hide();
         });

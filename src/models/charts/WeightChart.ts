@@ -118,7 +118,7 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
     };
 };
 
-export function configurationAnnotationPlugin(chartMode: string, goalWeight: number, goalDate: Date | undefined): any {
+export function configurationAnnotationPlugin(chartMode: string, goalWeight: number, goalDate: Date | undefined) {
     if (!goalWeight) return [];
     return {
         goalLabel: {

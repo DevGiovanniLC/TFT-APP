@@ -79,7 +79,6 @@ ion-datetime::part(wheel-item) {
     margin: 24px 0em !important;
 }
 
-
 .small-alert .alert-wrapper {
     background: var(--color-tertiary);
     border: 4px solid #156111;
@@ -91,14 +90,14 @@ ion-alert.small-alert .alert-wrapper .alert-head {
     margin-bottom: 0.5rem;
     font-weight: bold;
     font-size: 1.25rem;
-    color: #F0FDFA;
+    color: #f0fdfa;
     font-family: 'Inter', sans-serif;
     text-align: center;
 }
 
 .small-alert .alert-message {
     font-size: 1rem;
-    color: #F0FDFA;
+    color: #f0fdfa;
     margin-bottom: 1rem;
     font-family: 'Inter', sans-serif;
     text-align: center;
@@ -110,7 +109,6 @@ ion-alert.small-alert .alert-wrapper .alert-head {
     flex-direction: row;
     align-items: center;
     gap: 1.5rem;
-
 }
 
 .small-alert .alert-button {
@@ -121,7 +119,7 @@ ion-alert.small-alert .alert-wrapper .alert-head {
 
 .small-alert .alert-button:first-child {
     background: transparent;
-    color: #F0FDFA;
+    color: #f0fdfa;
 }
 
 .small-alert .alert-button:last-child {

@@ -4,8 +4,6 @@ import { User } from '@models/types/User';
 import data from '@assets/data/mock.json';
 
 export default class LocalStorageProvider implements DataProvider {
-
-
     private readonly WEIGHTS_KEY = 'weight_data_weights';
     private readonly USER_KEY = 'user_data';
 
@@ -75,7 +73,6 @@ export default class LocalStorageProvider implements DataProvider {
         }
     }
 
-
     getGoal(): Promise<Weight> {
         const userString = localStorage.getItem(this.USER_KEY);
         const user = userString ? JSON.parse(userString) : null;
@@ -98,7 +95,6 @@ export default class LocalStorageProvider implements DataProvider {
         const weightsString = localStorage.getItem(this.WEIGHTS_KEY);
         return weightsString ? JSON.parse(weightsString) : [];
     }
-
 
     generateWeightId(): number {
         const weights = this.getWeightsSync();

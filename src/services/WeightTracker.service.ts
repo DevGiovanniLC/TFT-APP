@@ -15,41 +15,44 @@ export class WeightTrackerService {
     readonly firstWeight$: Observable<Weight | null> = this.firstWeightSubject.asObservable();
     readonly lastWeight$: Observable<Weight | null> = this.lastWeightSubject.asObservable();
 
-    constructor(private readonly dataProvider: DataProviderService) { }
+    constructor(private readonly dataProvider: DataProviderService) {}
 
     updateWeights(): Observable<Weight[]> {
         return from(this.dataProvider.getWeights()).pipe(
-            map(weights =>
+            map((weights) =>
                 weights
-                    .map(w => ({ ...w, date: new Date(w.date) }))
+                    .map((w) => ({ ...w, date: new Date(w.date) }))
                     .sort((a, b) => a.date.getTime() - b.date.getTime())
             ),
-            tap(parsed => this.weightsSubject.next(parsed))
+            tap((parsed) => this.weightsSubject.next(parsed))
         );
     }
 
     updateLastWeight(): Observable<Weight | null> {
         return this.weights$.pipe(
-            map(weights => { return weights.length > 0 ? weights[weights.length - 1] : null }),
-            tap(parsed => this.lastWeightSubject.next(parsed))
+            map((weights) => {
+                return weights.length > 0 ? weights[weights.length - 1] : null;
+            }),
+            tap((parsed) => this.lastWeightSubject.next(parsed))
         );
     }
 
     updateFirstWeight(): Observable<Weight | null> {
         return this.weights$.pipe(
-            map(weights => { return weights.length > 0 ? weights[0] : null }),
-            tap(parsed => this.firstWeightSubject.next(parsed))
+            map((weights) => {
+                return weights.length > 0 ? weights[0] : null;
+            }),
+            tap((parsed) => this.firstWeightSubject.next(parsed))
         );
     }
 
-
-    addWeight(value: Weight): boolean{
-        this.dataProvider.addWeight(value)
-        this.updateWeights()
+    addWeight(value: Weight): boolean {
+        this.dataProvider.addWeight(value);
+        this.updateWeights();
         return true;
     }
 
-    deleteWeight(value: number): boolean{
+    deleteWeight(value: number): boolean {
         this.dataProvider.deleteWeight(value);
         this.updateWeights();
         return true;

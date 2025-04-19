@@ -14,24 +14,23 @@ export class UserConfigService {
     readonly user$ = this.userSubject.asObservable();
     readonly goal$ = this.goalSubject.asObservable();
 
-    constructor(private readonly dataProvider: DataProviderService) { }
+    constructor(private readonly dataProvider: DataProviderService) {}
 
     updateUser() {
         return from(this.dataProvider.getUser()).pipe(
-            tap(user => {
+            tap((user) => {
                 if (user) {
                     this.userSubject.next(user);
-                }else this.userSubject.next(null);
-            }),
-        )
+                } else this.userSubject.next(null);
+            })
+        );
     }
 
     getGoal(): Observable<Weight | null> {
         return from(this.dataProvider.getGoal()).pipe(
-            map(goal => (goal ? { ...goal, date: new Date(goal.date) } : null))
+            map((goal) => (goal ? { ...goal, date: new Date(goal.date) } : null))
         );
     }
-
 
     setUser(user: User) {
         this.dataProvider.setUser(user);

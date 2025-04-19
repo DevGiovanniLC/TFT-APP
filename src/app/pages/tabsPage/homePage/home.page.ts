@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { Weight } from '@models/types/Weight';
@@ -20,21 +20,19 @@ export class HomePage {
     actualWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
     firstWeight = toSignal(this.weightTracker.firstWeight$, { initialValue: null });
 
-
     constructor(
         private readonly weightTracker: WeightTrackerService,
         private readonly userConfig: UserConfigService
     ) {
-        this.weightTracker.updateWeights().subscribe()
-        this.weightTracker.updateLastWeight().subscribe()
-        this.weightTracker.updateFirstWeight().subscribe()
-        this.userConfig.getGoal().subscribe()
+        this.weightTracker.updateWeights().subscribe();
+        this.weightTracker.updateLastWeight().subscribe();
+        this.weightTracker.updateFirstWeight().subscribe();
+        this.userConfig.getGoal().subscribe();
     }
-
 
     addWeight($event: Weight) {
         this.weightTracker.addWeight($event);
-        this.weightTracker.updateWeights().subscribe()
-        this.weightTracker.updateLastWeight().subscribe()
+        this.weightTracker.updateWeights().subscribe();
+        this.weightTracker.updateLastWeight().subscribe();
     }
 }

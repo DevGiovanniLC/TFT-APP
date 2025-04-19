@@ -8,9 +8,8 @@ import {
     output,
     Signal,
     signal,
-    WritableSignal,
 } from '@angular/core';
-import { Weight, emptyWeight } from '@models/types/Weight';
+import { Weight } from '@models/types/Weight';
 import { IonButton, ModalController } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
@@ -32,8 +31,6 @@ export class MainDisplay {
     readonly lastWeight = input.required<Weight | null>();
     readonly firstWeight = input.required<Weight | null>();
     readonly goal = input.required<Weight | null>();
-
-
 
     weightAdded = output<Weight>();
 
@@ -69,9 +66,7 @@ export class MainDisplay {
         });
     }
 
-    private updateChart() {;
-
-
+    private updateChart() {
         this.doughnutChart = DoughnutChart(this.progression);
         this.data = this.doughnutChart.data;
         this.options = this.doughnutChart.options;

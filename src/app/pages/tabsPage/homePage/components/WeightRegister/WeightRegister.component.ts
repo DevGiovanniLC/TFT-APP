@@ -43,7 +43,7 @@ export class WeightRegisterComponent implements OnInit {
     selectedDate = signal<string | null>(null);
 
     lastWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
-    lastWeightUnit = <WeightUnits>(WeightUnits.KG);
+    lastWeightUnit = <WeightUnits>WeightUnits.KG;
 
     actualWeight = signal(this.lastWeight()?.weight ?? 0);
     actualDate = signal(this.timeService.now());
@@ -54,7 +54,7 @@ export class WeightRegisterComponent implements OnInit {
     constructor(
         private readonly weightTracker: WeightTrackerService,
         private readonly timeService: TimeService
-    ) { }
+    ) {}
 
     ngOnInit(): void {
         this.actualWeight.set(this.inputWeight?.weight ?? this.lastWeight()?.weight ?? 0);
@@ -65,7 +65,6 @@ export class WeightRegisterComponent implements OnInit {
         const localISO = new Date(date.getTime() - tzOffsetMs).toISOString().substring(0, 16);
         this.selectedDate.set(localISO);
     }
-
 
     cancel() {
         return this.modalCtrl.dismiss(null, 'cancel');

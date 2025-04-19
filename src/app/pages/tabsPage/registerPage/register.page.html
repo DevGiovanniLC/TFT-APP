@@ -4,10 +4,22 @@
             <img src="assets/icon/icon-app.png" alt="icon app" class="w-10 h-10 mr-0.5" />
             <ion-title class="font-sans font-light text-slate-100 text-2xl mb-1 w-fit">Vita Weight</ion-title>
             <ion-buttons slot="end" class="m-3 mb-6">
-                <ion-button (click)="openModal()"
-                    style="--padding-start: 0; --padding-end: 0; --padding-top: 0; --padding-bottom: 0; --border-radius: 50%;">
-                    <ion-icon name="add" class="text-slate-100 text-4xl"
-                        src="assets/icons/add-circle-outline.svg"></ion-icon>
+                <ion-button
+                    (click)="openModal()"
+                    (keypress)="openModal()"
+                    style="
+                        --padding-start: 0;
+                        --padding-end: 0;
+                        --padding-top: 0;
+                        --padding-bottom: 0;
+                        --border-radius: 50%;
+                    "
+                >
+                    <ion-icon
+                        name="add"
+                        class="text-slate-100 text-4xl"
+                        src="assets/icons/add-circle-outline.svg"
+                    ></ion-icon>
                 </ion-button>
             </ion-buttons>
         </div>
@@ -15,13 +27,16 @@
 </ion-header>
 
 <ion-content class="opacity-0 animate-fade-in">
-    <!-- <div class="h-full flex items-center justify-center">
-        <h1 class="text-center">Coming soon</h1>
-    </div> -->
     <div class="w-full my-10 flex flex-col items-center space-y-4">
         @for (weight of reversedRegisters(); track weight; let i = $index) {
-        <app-item-register class="w-full" [id]="i" [weight]="weight" [progress]="weight.progress"
-            (deleteWeight)="confirmDelete($event)" (entryClick)="openModal($event)" />
+        <app-item-register
+            class="w-full"
+            [id]="i"
+            [weight]="weight"
+            [progress]="weight.progress"
+            (deleteWeight)="confirmDelete($event)"
+            (entryClick)="openModal($event)"
+        />
         }
     </div>
 </ion-content>

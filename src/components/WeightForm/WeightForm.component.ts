@@ -1,4 +1,13 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input, OnInit, output, signal } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    input,
+    OnInit,
+    output,
+    signal,
+} from '@angular/core';
 import { IonPicker, IonPickerColumn, IonPickerColumnOption } from '@ionic/angular/standalone';
 import { WeightUnits } from '@models/types/Weight';
 
@@ -22,7 +31,6 @@ export class WeightFormComponent implements OnInit, AfterViewInit {
 
     constructor(private readonly cdr: ChangeDetectorRef) {}
 
-
     ngOnInit(): void {
         this.weightOptions = this.generateRange(30, 100);
         this.weightOptionsDecimal = this.generateRange(0, 9);
@@ -31,7 +39,7 @@ export class WeightFormComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.weightOptions =this.weightOptions.concat(this.generateRange(101, 250))
+        this.weightOptions = this.weightOptions.concat(this.generateRange(101, 250));
         this.cdr.detectChanges();
     }
 

@@ -1,5 +1,15 @@
 import { Component, computed } from '@angular/core';
-import { IonContent, IonHeader, IonToolbar, IonTitle, IonButton, IonButtons, IonIcon, ModalController, AlertController } from '@ionic/angular/standalone';
+import {
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButton,
+    IonButtons,
+    IonIcon,
+    ModalController,
+    AlertController,
+} from '@ionic/angular/standalone';
 import { ItemRegisterComponent } from './components/ItemRegister/ItemRegister.component';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -9,14 +19,9 @@ import { Weight } from '@models/types/Weight';
 @Component({
     selector: 'app-tab2',
     templateUrl: 'register.page.html',
-    imports: [
-        IonContent, IonHeader, IonToolbar, IonTitle,
-        IonButton, ItemRegisterComponent,
-        IonButtons, IonIcon
-    ],
+    imports: [IonContent, IonHeader, IonToolbar, IonTitle, IonButton, ItemRegisterComponent, IonButtons, IonIcon],
 })
 export class RegisterPage {
-
     registers = toSignal(this.weightTracker.weights$);
     isPressingButton = false;
 
@@ -29,8 +34,11 @@ export class RegisterPage {
         });
     });
 
-
-    constructor(private readonly weightTracker: WeightTrackerService, private readonly modalCtrl: ModalController, private readonly alertCtrl: AlertController) {
+    constructor(
+        private readonly weightTracker: WeightTrackerService,
+        private readonly modalCtrl: ModalController,
+        private readonly alertCtrl: AlertController
+    ) {
         this.weightTracker.updateWeights().subscribe();
         this.weightTracker.updateLastWeight().subscribe();
     }
@@ -51,10 +59,9 @@ export class RegisterPage {
                         text: 'OK',
                         role: 'cancel',
                     },
-                ]
+                ],
             });
-        }
-        else {
+        } else {
             alert = await this.alertCtrl.create({
                 header: 'DELETE WEIGHT',
                 message: `Are you sure you want to delete this weight entry? \n This action cannot be undone.`,
@@ -69,9 +76,9 @@ export class RegisterPage {
                         role: 'confirm',
                         handler: () => {
                             this.deleteWeight(id);
-                        }
-                    }
-                ]
+                        },
+                    },
+                ],
             });
         }
         await alert.present();
@@ -105,5 +112,4 @@ export class RegisterPage {
         }
         this.isPressingButton = false;
     }
-
 }

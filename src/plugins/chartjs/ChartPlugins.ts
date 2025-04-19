@@ -101,7 +101,11 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
 
             ctx.font = '13px system-ui';
             ctx.fillStyle = '#1e8260';
-            ctx.fillText(`${differenceTime(lastWeight()?.date ?? timeService.now(), timeService.now())}`, centerX, centerY + 50);
+            ctx.fillText(
+                `${differenceTime(lastWeight()?.date ?? timeService.now(), timeService.now())}`,
+                centerX,
+                centerY + 50
+            );
 
             ctx.restore();
         },

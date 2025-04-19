@@ -63,7 +63,7 @@ export class WeightGraphic {
     }
 
     validateGoalDate() {
-        if (!isNaN(this.goal()?.date?.getTime() || NaN)) return true;
+        if (!isNaN(this.goal()?.date?.getTime() ?? NaN)) return true;
         return false;
     }
 

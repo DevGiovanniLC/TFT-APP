@@ -16,7 +16,7 @@ export const routes: Routes = [
             },
             {
                 path: 'tab3',
-                loadComponent: () => import('../tab3/tab3.page').then((m) => m.Tab3Page),
+                loadComponent: () => import('../bmiPage/bmi.page').then((m) => m.BMIPage),
             },
             {
                 path: '',

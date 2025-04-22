@@ -14,7 +14,7 @@ export class UserConfigService {
     readonly user$ = this.userSubject.asObservable();
     readonly goal$ = this.goalSubject.asObservable();
 
-    constructor(private readonly dataProvider: DataProviderService) {}
+    constructor(private readonly dataProvider: DataProviderService) { }
 
     updateUser() {
         return from(this.dataProvider.getUser()).pipe(
@@ -29,6 +29,16 @@ export class UserConfigService {
     getGoal(): Observable<Weight | null> {
         return from(this.dataProvider.getGoal()).pipe(
             map((goal) => (goal ? { ...goal, date: new Date(goal.date) } : null))
+        );
+    }
+
+    getHeight(): Observable<number | null | undefined> {
+        return this.user$.pipe(
+            map((user) => {
+                if (!user) return null;
+
+                return user.height;
+            })
         );
     }
 

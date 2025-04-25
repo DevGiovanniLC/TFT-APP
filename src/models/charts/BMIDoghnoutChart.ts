@@ -1,12 +1,8 @@
-import { Signal } from '@angular/core';
 
-export const DoughnutChart = (progression: Signal<number>) => {
+export const BMIDoughnutChart = (bmi: number) => {
     const documentStyle = getComputedStyle(document.documentElement);
 
-    let dataSet = [progression(), 100 - progression()];
-    if (Number.isNaN(progression())) dataSet = [100, 0];
-    if (progression() < 0) dataSet = [0, 100];
-    if (progression() > 100) dataSet = [100, 0];
+    const dataSet = [bmi, 40-bmi];
 
     return {
         data: {
@@ -14,10 +10,17 @@ export const DoughnutChart = (progression: Signal<number>) => {
             datasets: [
                 {
                     data: dataSet,
-                    backgroundColor: [
-                        documentStyle.getPropertyValue('--color-tertiary'),
-                        documentStyle.getPropertyValue('--color-accent'),
-                    ],
+                    backgroundColor: () =>{
+                        let bmiColor = documentStyle.getPropertyValue('--color-tertiary');
+                        if (bmi < 18.5) bmiColor = '#adccf2';
+                        if (bmi >= 25) bmiColor = '#dbe388';
+                        if (bmi >= 30) bmiColor = '#f2adad';
+
+                        return [
+                            bmiColor,
+                            documentStyle.getPropertyValue('--color-accent'),
+                        ]
+                    }
                 },
             ],
         },
@@ -26,7 +29,7 @@ export const DoughnutChart = (progression: Signal<number>) => {
             responsive: false,
             maintainAspectRatio: true,
             cutout: '93%',
-            radius: 90,
+            radius: 180,
             animation: {
                 // Desactivar la animación de desplazamiento
                 animateScale: false,
@@ -36,13 +39,8 @@ export const DoughnutChart = (progression: Signal<number>) => {
                 y: {
                     duration: 0,
                 },
-
-                // Mantener otras animaciones
                 animateRotate: true,
-
-                // Duración de la animación (en milisegundos)
                 duration: 1000,
-
                 // Función de temporización (easing) - puedes ajustarla a tu gusto
                 easing: 'easeOutQuart',
             },
@@ -53,10 +51,9 @@ export const DoughnutChart = (progression: Signal<number>) => {
                 tooltip: {
                     enabled: false,
                 },
-                centerText: true,
                 interaction: {
-                    mode: 'nearest', // O 'index', dependiendo de tu preferencia
-                    intersect: false, // Cambiar a `true` si quieres que solo funcione cuando el mouse esté directamente sobre los puntos
+                    mode: 'nearest',
+                    intersect: false,
                 },
             },
         },

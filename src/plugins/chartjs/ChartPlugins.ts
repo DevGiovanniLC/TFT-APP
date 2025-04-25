@@ -169,3 +169,80 @@ export const configurationAnnotationPlugin = (chartMode: string, goalWeight: num
         },
     };
 }
+
+
+export const BMIPluginDoughnut = (bmi: number) => {
+    const img = new Image();
+    img.src = 'assets/icons/body.svg'; // Tu silueta transparente
+
+    return {
+        id: 'bmiHumanFill',
+        afterDraw(chart: any) {
+            if (!img.complete) return;
+
+            const ctx = chart.ctx;
+            const meta = chart.getDatasetMeta(0);
+            if (!meta?.data?.length) return;
+
+            const segment = meta.data[0];
+            const { x: centerX, y: centerY, innerRadius, outerRadius } = segment;
+
+            const targetRadius = innerRadius + (outerRadius - innerRadius) / 2;
+            const imgSize = targetRadius * 0.3;
+
+            const imgX = centerX - imgSize / 2;
+            const imgY = imgSize+30;
+
+            // Dibuja la silueta base
+            ctx.save();
+            ctx.drawImage(img, imgX, imgY, imgSize, imgSize);
+            ctx.restore();
+
+            //  Canvas temporal para rellenar solo lo verde
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = imgSize;
+            tempCanvas.height = imgSize;
+            const tempCtx = tempCanvas.getContext('2d')!;
+
+            // Dibuja la silueta en el temporal
+            tempCtx.drawImage(img, 0, 0, imgSize, imgSize);
+
+            //Aplicar máscara para el relleno
+            tempCtx.globalCompositeOperation = 'source-in';
+
+            const fillHeight = imgSize * (bmi/40);
+            const fillY = imgSize - fillHeight;
+
+            tempCtx.fillStyle = checkColor(bmi);
+
+            tempCtx.fillRect(0, fillY, imgSize, fillHeight);
+
+
+            ctx.font = 'bold 50px sans-serif';
+            ctx.fillStyle = '#343a40';
+            ctx.fillText(bmi.toFixed(1), centerX-50, centerY+40);
+
+            ctx.font = 'bold 30px sans-serif';
+            ctx.fillStyle = '#343a40';
+            ctx.fillText(`BMI`, centerX-28, centerY-20);
+
+
+
+
+            tempCtx.globalCompositeOperation = 'source-over'; // Regresar a normal
+
+            // Dibuja el canvas temporal relleno encima del original
+            ctx.drawImage(tempCanvas, imgX, imgY, imgSize, imgSize);
+        }
+    };
+
+};
+
+const checkColor = (bmi: number) => {
+    if (bmi >= 30) return '#f15757';  // Obesidad
+    if (bmi >= 25) return '#cdc827';  // Sobre peso
+    if (bmi < 18.49) return '#adccf2';  // Bajo de peso
+    else return '#4caf50';  // Normal
+}
+
+

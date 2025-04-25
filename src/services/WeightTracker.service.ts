@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Weight } from '@models/types/Weight';
 import { DataProviderService } from './data-providers/DataProvider.service';
 import { BehaviorSubject, from, map, Observable, tap } from 'rxjs';
-import { UserConfigService } from './UserConfig.service';
 
 @Injectable({
     providedIn: 'root',
@@ -16,7 +15,8 @@ export class WeightTrackerService {
     readonly firstWeight$: Observable<Weight | null> = this.firstWeightSubject.asObservable();
     readonly lastWeight$: Observable<Weight | null> = this.lastWeightSubject.asObservable();
 
-    constructor(private readonly dataProvider: DataProviderService, private readonly config: UserConfigService) { }
+
+    constructor(private readonly dataProvider: DataProviderService) { }
 
     updateWeights(): Observable<Weight[]> {
         return from(this.dataProvider.getWeights()).pipe(
@@ -44,18 +44,6 @@ export class WeightTrackerService {
                 return weights.length > 0 ? weights[0] : null;
             }),
             tap((parsed) => this.firstWeightSubject.next(parsed))
-        );
-    }
-
-    getBMI(): Observable<number | null> {
-        return this.config.getHeight().pipe(
-            map((height) => {
-                if (!height) return null
-
-                return this.lastWeightSubject.value
-                    ? this.lastWeightSubject.value.weight / Math.pow(height / 100, 2)
-                    : null;
-            })
         );
     }
 

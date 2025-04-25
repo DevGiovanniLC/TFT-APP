@@ -32,16 +32,6 @@ export class UserConfigService {
         );
     }
 
-    getHeight(): Observable<number | null | undefined> {
-        return this.user$.pipe(
-            map((user) => {
-                if (!user) return null;
-
-                return user.height;
-            })
-        );
-    }
-
     setUser(user: User) {
         this.dataProvider.setUser(user);
     }

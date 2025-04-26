@@ -27,14 +27,18 @@ export class BMIChartComponent{
             ) return;
 
 
-            const chart = BMIDoughnutChart(bmi);
-            this.data = chart.data;
-            this.options = chart.options;
-
-            this.plugins.push(BMIPluginDoughnut(bmi));
-
-            this.cdr.detectChanges();
+            this.updateChart(bmi);
         })
+    }
+
+    updateChart(bmi: number) {
+        const chart = BMIDoughnutChart(bmi);
+        this.data = chart.data;
+        this.options = chart.options;
+        this.plugins.pop()
+        this.plugins.push(BMIPluginDoughnut(bmi));
+
+        this.cdr.detectChanges();
     }
 
 }

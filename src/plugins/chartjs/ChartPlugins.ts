@@ -191,7 +191,7 @@ export const BMIPluginDoughnut = (bmi: number) => {
             const imgSize = targetRadius * 0.3;
 
             const imgX = centerX - imgSize / 2;
-            const imgY = imgSize+30;
+            const imgY = imgSize + 30;
 
             // Dibuja la silueta base
             ctx.save();
@@ -210,23 +210,32 @@ export const BMIPluginDoughnut = (bmi: number) => {
             //Aplicar máscara para el relleno
             tempCtx.globalCompositeOperation = 'source-in';
 
-            const fillHeight = imgSize * (bmi/40);
+            const fillHeight = imgSize * (bmi / 40);
             const fillY = imgSize - fillHeight;
 
-            tempCtx.fillStyle = checkColor(bmi);
 
+            const alertColor = getColor(bmi);
+
+            tempCtx.fillStyle = alertColor
             tempCtx.fillRect(0, fillY, imgSize, fillHeight);
-
-
-            ctx.font = 'bold 50px sans-serif';
-            ctx.fillStyle = '#343a40';
-            ctx.fillText(bmi.toFixed(1), centerX-50, centerY+40);
 
             ctx.font = 'bold 30px sans-serif';
             ctx.fillStyle = '#343a40';
-            ctx.fillText(`BMI`, centerX-28, centerY-20);
+            ctx.fillText(`BMI`, centerX - 28, centerY - 20);
+
+            ctx.font = 'bold 50px sans-serif';
+            ctx.fillStyle = '#343a40';
+            ctx.fillText(bmi.toFixed(1), centerX - 50, centerY + 40);
 
 
+            const text = getTextLevel(bmi);
+            const textWidth = ctx.measureText(text).width;
+
+            const centeredX = centerX - textWidth / 5;
+
+            ctx.font = 'bold 20px sans-serif';
+            ctx.fillStyle = alertColor;
+            ctx.fillText(text, centeredX, centerY + 100);
 
 
             tempCtx.globalCompositeOperation = 'source-over'; // Regresar a normal
@@ -238,11 +247,25 @@ export const BMIPluginDoughnut = (bmi: number) => {
 
 };
 
-const checkColor = (bmi: number) => {
+const getColor = (bmi: number): string => {
     if (bmi >= 30) return '#f15757';  // Obesidad
     if (bmi >= 25) return '#cdc827';  // Sobre peso
     if (bmi < 18.49) return '#adccf2';  // Bajo de peso
     else return '#4caf50';  // Normal
+}
+
+const getTextLevel = (bmi: number): string => {
+    if (bmi < 16) return 'Severe Thinness';               // Delgadez severa
+    if (bmi >= 16 && bmi <= 16.99) return 'Moderate Thinness'; // Delgadez moderada
+    if (bmi >= 17 && bmi <= 18.49) return 'Mild Thinness';     // Delgadez leve
+    if (bmi >= 18.5 && bmi <= 24.9) return 'Normal';           // Normal (saludable)
+    if (bmi >= 25 && bmi <= 27.9) return 'Pre-obese';          // Preobesidad
+    if (bmi >= 28 && bmi <= 29.9) return 'High Overweight';    // Sobrepeso alto
+    if (bmi >= 30 && bmi <= 34.9) return 'Obesity Class I';    // Obesidad grado I
+    if (bmi >= 35 && bmi <= 39.9) return 'Obesity Class II';   // Obesidad grado II
+    if (bmi >= 40) return 'Obesity Class III';                 // Obesidad grado III (mórbida)
+
+    return 'Unknown';
 }
 
 

@@ -47,7 +47,6 @@ export class MainDisplay {
     });
 
     // Chart data
-    doughnutChart: any;
     data!: DatasetChartOptions;
     options!: DatasetChartOptions;
     plugins: any = [];
@@ -67,9 +66,10 @@ export class MainDisplay {
     }
 
     private updateChart() {
-        this.doughnutChart = DoughnutChart(this.progression);
-        this.data = this.doughnutChart.data;
-        this.options = this.doughnutChart.options;
+        const doughnutChart: any = DoughnutChart(this.progression);
+        this.data = doughnutChart.data;
+        this.options = doughnutChart.options;
+        this.plugins = [];
 
         this.plugins.push(centerTextPlugin(this.progression, this.lastWeight));
 

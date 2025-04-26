@@ -1,17 +1,19 @@
-import { ChangeDetectionStrategy, Component, computed, effect } from '@angular/core';
-import { IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { IonContent, IonHeader, IonToolbar, IonTitle, IonButton, ModalController } from '@ionic/angular/standalone';
 import { BMIChartComponent } from './components/BMIChart/BMIChart.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { UserConfigService } from '@services/UserConfig.service';
 import { BMICategoriesComponent } from './components/BMICategories/BMICategories.component';
+import { PersonalInfoModalComponent } from '@shared/PersonalInfoModal/PersonalInfoModal.component';
+import { User } from '@models/types/User';
 
 @Component({
     selector: 'app-tab3',
     templateUrl: 'bmi.page.html',
     standalone: true,
     imports: [
-        IonContent, IonHeader, IonToolbar, IonTitle,
+        IonContent, IonHeader, IonToolbar, IonTitle, IonButton,
         BMIChartComponent, BMICategoriesComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,10 +32,37 @@ export class BMIPage {
     });
 
 
-    constructor(private readonly weightTracker: WeightTrackerService, private readonly config: UserConfigService) {
+    constructor(
+        private readonly weightTracker: WeightTrackerService,
+        private readonly config: UserConfigService,
+        private readonly modalCtrl: ModalController
+    ) {
         this.weightTracker.updateWeights().subscribe();
         this.weightTracker.updateLastWeight().subscribe();
         this.config.updateUser().subscribe();
     }
 
+
+    async openModal() {
+        const modal = await this.modalCtrl.create({
+            component: PersonalInfoModalComponent,
+            cssClass: 'small-modal',
+            componentProps: {
+                text: {
+                    title: 'Register Weight',
+                    weightStepTitle: 'Select the weight',
+                    dateStepTitle: 'Pick the date',
+                },
+            },
+        });
+        modal.present();
+
+        const { data, role } = await modal.onDidDismiss();
+
+        if (role === 'confirm') {
+            const user = data as User;
+            this.config.setUser(user);
+            this.config.updateUser().subscribe();
+        }
+    }
 }

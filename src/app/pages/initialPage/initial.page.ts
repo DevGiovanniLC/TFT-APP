@@ -6,8 +6,6 @@ import {
     ModalController,
     IonButtons,
     IonButton,
-    IonSelect,
-    IonSelectOption,
     NavController,
 } from '@ionic/angular/standalone';
 import { Weight, WeightUnits } from '@models/types/Weight';
@@ -19,6 +17,7 @@ import { UserConfigService } from '@services/UserConfig.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { TimeService } from '@services/Time.service';
 import { DatePipe } from '@angular/common';
+import { UserFormComponent } from '@shared/UserForm/UserForm.component';
 
 @Component({
     selector: 'app-initial-modal',
@@ -28,11 +27,10 @@ import { DatePipe } from '@angular/common';
         IonContent,
         IonHeader,
         IonToolbar,
-        IonSelect,
-        IonSelectOption,
         WeightFormComponent,
         DatePipe,
         FormsModule,
+        UserFormComponent,
     ],
     templateUrl: './Initial.page.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,10 +40,16 @@ export class InitialPage {
 
     step = 0;
 
-    name!: string;
-    age!: number;
-    height!: number;
-    gender: Gender = Gender.OTHER;
+    user = signal<User>({
+        name: undefined,
+        age: undefined,
+        height: undefined,
+        gender: undefined,
+        email: undefined,
+        goal_weight: undefined,
+        goal_units: undefined,
+        goal_date: undefined
+    });
 
     actualWeight = signal(80);
     lastWeightUnit = WeightUnits.KG;
@@ -59,7 +63,7 @@ export class InitialPage {
         private readonly weightTracker: WeightTrackerService,
         private readonly navCtrl: NavController,
         private readonly timeService: TimeService
-    ) {}
+    ) { }
 
     nextStep() {
         this.step += 1;
@@ -72,18 +76,16 @@ export class InitialPage {
                 date: this.timeService.now(),
             };
 
-            const structuredData: User = {
-                name: this.name,
-                email: undefined,
-                age: this.age,
-                height: this.height,
-                gender: this.gender,
-                goal_weight: this.goalWeight?.weight,
-                goal_units: this.goalWeight?.weight_units,
-                goal_date: this.goalWeight?.date,
-            };
+            this.user.update((user) => {
+                return {
+                    ...user,
+                    goal_weight: this.goalWeight?.weight,
+                    goal_units: this.goalWeight?.weight_units,
+                    goal_date: this.goalWeight?.date,
+                };
+            });
 
-            this.config.setUser(structuredData);
+            this.config.setUser(this.user());
             this.weightTracker.addWeight(actualWeight);
             this.navCtrl.navigateRoot('/tabs/tab1');
         }
@@ -121,45 +123,13 @@ export class InitialPage {
         return false;
     }
 
-    validateHeight(event: Event): void {
-        const input = event.target as HTMLInputElement;
-        let value = Number(input.value);
-
-        if (value < 0) {
-            value = NaN;
-        }
-
-        if (value > 999) {
-            value = 999;
-        }
-
-        input.value = String(value.toFixed(0));
-    }
-
-    validateName(event: Event): void {
-        const input = event.target as HTMLInputElement;
-        const name = input.value.trim();
-        input.value = name.charAt(0).toUpperCase() + name.slice(1);
-    }
-
-    validateAge(event: Event): void {
-        const input = event.target as HTMLInputElement;
-        let value = Number(input.value);
-
-        if (value < 0) {
-            value = NaN;
-        }
-
-        if (value > 120) {
-            value = 120;
-        }
-
-        input.value = String(value.toFixed(0));
-    }
-
     updateActualWeight(value: any) {
         if (typeof value !== 'number') return;
 
         this.actualWeight.set(value);
+    }
+
+    updateUser(user: User) {
+        this.user.set(user);
     }
 }

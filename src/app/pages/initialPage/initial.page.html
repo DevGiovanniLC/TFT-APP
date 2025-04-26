@@ -2,23 +2,13 @@
     <ion-toolbar class="bg-transparent mt-4">
         @if (step !== 0) {
         <ion-buttons slot="start" class="mx-1">
-            <ion-button
-                id="backBtn"
-                class="w-20 h-10"
-                style="--border-radius: 15px"
-                (click)="backStep()"
-                (keypress)="backStep()"
-                >Back</ion-button
-            >
+            <ion-button id="backBtn" class="w-20 h-10" style="--border-radius: 15px" (click)="backStep()"
+                (keypress)="backStep()">Back</ion-button>
         </ion-buttons>
         } @else {
         <ion-buttons slot="start" class="mx-1">
-            <ion-button
-                id="BackBtnDisabled"
-                class="w-20 h-10"
-                style="--border-radius: 15px"
-                disabled="true"
-            ></ion-button>
+            <ion-button id="BackBtnDisabled" class="w-20 h-10" style="--border-radius: 15px"
+                disabled="true"></ion-button>
         </ion-buttons>
         }
         <div class="flex flex-row justify-center items-center mb-2">
@@ -26,24 +16,15 @@
             <h1 class="text-center font-sans font-bold text-base m-0">Vita Weight</h1>
         </div>
         <ion-buttons slot="end" class="mx-1">
-            <ion-button
-                id="nextBtn"
-                class="w-24 h-10"
-                style="--border-radius: 15px"
-                color="primary"
-                strong="true"
-                (click)="nextStep()"
-                (keypress)="nextStep()"
-                >{{ step < 3 ? 'Next' : 'Confirm' }}</ion-button
-            >
+            <ion-button id="nextBtn" class="w-24 h-10" style="--border-radius: 15px" color="primary" strong="true"
+                (click)="nextStep()" (keypress)="nextStep()">{{ step < 3 ? 'Next' : 'Confirm' }}</ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content scrollY="false">
     <div
-        class="h-full flex flex-col items-center text-center px-6 py-5 space-y-5 bg-gradient-to-tr from-emerald-100 to-emerald-300 w-full"
-    >
+        class="h-full flex flex-col items-center text-center px-6 py-5 space-y-5 bg-gradient-to-tr from-emerald-100 to-emerald-300 w-full">
         @switch (step) { @case (0) {
         <h1 class="text-3xl font-bold font-sans text-gray-800 text-pretty">
             Your journey to a healthier you starts now! 🚀
@@ -57,24 +38,17 @@
                 🎉 <span class="text-lg font-medium">Celebrate your milestones</span>
             </li>
         </ul>
-        <img
-            alt="Cartoon Woman with a mobile phone"
-            src="assets/images/initial-image-cartoon.png"
-            class="flex-grow h-1/6 max-h-80 drop-shadow-2xl"
-        />
+        <img alt="Cartoon Woman with a mobile phone" src="assets/images/initial-image-cartoon.png"
+            class="flex-grow h-1/6 max-h-80 drop-shadow-2xl" />
         } @case (1) {
         <h1 class="text-3xl font-bold font-sans text-gray-800">Track Your Weight</h1>
         <p class="text-lg text-gray-700">Stay consistent and monitor your progress!</p>
 
         <form
-            class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10"
-        >
+            class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10">
             <div class="h-full bg-white flex flex-col items-center">
-                <app-weight-form
-                    [inputWeightValue]="actualWeight()"
-                    [inputWeightUnit]="lastWeightUnit"
-                    (outputWeightValue)="updateActualWeight($event)"
-                ></app-weight-form>
+                <app-weight-form [inputWeightValue]="actualWeight()" [inputWeightUnit]="lastWeightUnit"
+                    (outputWeightValue)="updateActualWeight($event)"></app-weight-form>
             </div>
         </form>
         } @case (2) {
@@ -109,67 +83,7 @@
         <p class="text-gray-700 text-lg text-pretty h-2">Please fill in your information.</p>
         <p class="text-lg h-4 text-teal-500">All fields are optional.</p>
 
-        <form
-            id="form"
-            class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10 space-y-2"
-        >
-            <!-- Name -->
-            <div class="flex flex-col space-y-2">
-                <label for="name" class="text-sm font-medium text-teal-600">Name (Optional)</label>
-                <input
-                    id="name"
-                    name="name"
-                    placeholder="Enter your name"
-                    [(ngModel)]="name"
-                    (input)="validateName($event)"
-                    class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm"
-                />
-            </div>
-
-            <!-- Age -->
-            <div class="flex flex-col">
-                <label for="age" class="text-sm font-medium text-teal-600">Age (Optional)</label>
-                <input
-                    id="age"
-                    name="age"
-                    type="number"
-                    placeholder="Enter your age"
-                    [(ngModel)]="age"
-                    (input)="validateAge($event)"
-                    class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm"
-                />
-            </div>
-
-            <!-- Height -->
-            <div class="flex flex-col">
-                <label for="height" class="text-sm font-medium text-teal-600">Height (Optional)</label>
-                <input
-                    id="height"
-                    name="height"
-                    type="number"
-                    placeholder="Enter your height (cm)"
-                    [(ngModel)]="height"
-                    (input)="validateHeight($event)"
-                    class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm"
-                />
-            </div>
-
-            <!-- Gender -->
-            <div class="flex flex-col">
-                <label for="gender" class="text-sm font-medium text-teal-600">Gender (Optional)</label>
-                <ion-select
-                    id="gender"
-                    name="gender"
-                    placeholder="Select your gender"
-                    [(ngModel)]="gender"
-                    class="px-4 py-1 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm"
-                >
-                    <ion-select-option value="female">Female</ion-select-option>
-                    <ion-select-option value="male">Male</ion-select-option>
-                    <ion-select-option value="other">Other</ion-select-option>
-                </ion-select>
-            </div>
-        </form>
+        <app-user-form (setUser)="updateUser($event)"></app-user-form>
         } }
     </div>
 </ion-content>

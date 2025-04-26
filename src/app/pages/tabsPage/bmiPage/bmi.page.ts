@@ -5,7 +5,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { UserConfigService } from '@services/UserConfig.service';
 import { BMICategoriesComponent } from './components/BMICategories/BMICategories.component';
-import { PersonalInfoModalComponent } from '@shared/PersonalInfoModal/PersonalInfoModal.component';
+import { PersonalInfoModalComponent } from '@pages/tabsPage/bmiPage/components/PersonalInfoModal/PersonalInfoModal.component';
 import { User } from '@models/types/User';
 
 @Component({
@@ -48,11 +48,7 @@ export class BMIPage {
             component: PersonalInfoModalComponent,
             cssClass: 'small-modal',
             componentProps: {
-                text: {
-                    title: 'Register Weight',
-                    weightStepTitle: 'Select the weight',
-                    dateStepTitle: 'Pick the date',
-                },
+                inputUser: this.user,
             },
         });
         modal.present();

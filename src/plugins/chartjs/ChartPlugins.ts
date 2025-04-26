@@ -39,11 +39,11 @@ export const customSVGsPluginForDoughnutChart = () => {
             const progressY = centerY + innerRadius * Math.sin(endAngle);
 
             if (svgImageStart.complete) {
-                ctx.drawImage(svgImageStart, startX - 12, startY - 8, 25, 25);
+                ctx.drawImage(svgImageStart, startX - 12, startY - 14, 30, 30);
             }
 
             if (svgImageProgress.complete) {
-                ctx.drawImage(svgImageProgress, progressX - 10, progressY - 18, 25, 25);
+                ctx.drawImage(svgImageProgress, progressX - 10, progressY - 18, 30, 30);
             }
 
             ctx.restore();
@@ -71,12 +71,12 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
 
             let offset = Number.isNaN(progression()) ? -10 : 0;
 
-            ctx.font = '13px system-ui';
+            ctx.font = 'bold 14px system-ui';
             ctx.fillStyle = '#343a40';
-            const textOffset = 20;
+            const textOffset = 40;
 
             if (progression() < 100)
-                ctx.fillText(`Progression ${Number(progression()).toFixed(0)} %`, centerX, centerY - 40);
+                ctx.fillText(`Progression ${Number(progression()).toFixed(0)} %`, centerX, centerY - 60);
             if (progression() > 100) ctx.fillText(`Completed✅`, centerX, centerY - 35);
             else if (progression() > 90) {
                 ctx.fillText(``, centerX, centerY - 26);
@@ -95,16 +95,16 @@ export const centerTextPlugin = (progression: Signal<number>, lastWeight: Signal
                 ctx.fillText(`You can do better`, centerX, centerY - textOffset);
             } else offset = -10;
 
-            ctx.font = 'bold 30px sans-serif';
+            ctx.font = 'bold 35px sans-serif';
             ctx.fillStyle = '#343a40';
             ctx.fillText(`${lastWeight()?.weight} ${lastWeight()?.weight_units}`, centerX, centerY + offset + 10);
 
-            ctx.font = '13px system-ui';
+            ctx.font = '16px system-ui';
             ctx.fillStyle = '#1e8260';
             ctx.fillText(
                 `${differenceTime(lastWeight()?.date ?? timeService.now(), timeService.now())}`,
                 centerX,
-                centerY + 50
+                centerY + 70
             );
 
             ctx.restore();

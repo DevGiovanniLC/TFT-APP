@@ -25,8 +25,8 @@ export const DoughnutChart = (progression: Signal<number>) => {
         options: {
             responsive: false,
             maintainAspectRatio: true,
-            cutout: '93%',
-            radius: 90,
+            cutout: '92%',
+            radius: 120,
             animation: {
                 // Desactivar la animación de desplazamiento
                 animateScale: false,

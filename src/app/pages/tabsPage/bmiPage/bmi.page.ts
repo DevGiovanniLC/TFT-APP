@@ -4,6 +4,7 @@ import { BMIChartComponent } from './components/BMIChart/BMIChart.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { UserConfigService } from '@services/UserConfig.service';
+import { BMICategoriesComponent } from './components/BMICategories/BMICategories.component';
 
 @Component({
     selector: 'app-tab3',
@@ -11,7 +12,7 @@ import { UserConfigService } from '@services/UserConfig.service';
     standalone: true,
     imports: [
         IonContent, IonHeader, IonToolbar, IonTitle,
-        BMIChartComponent,
+        BMIChartComponent, BMICategoriesComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -28,9 +29,11 @@ export class BMIPage {
         return weight.weight / ((height * height));
     });
 
+
     constructor(private readonly weightTracker: WeightTrackerService, private readonly config: UserConfigService) {
         this.weightTracker.updateWeights().subscribe();
         this.weightTracker.updateLastWeight().subscribe();
         this.config.updateUser().subscribe();
     }
+
 }

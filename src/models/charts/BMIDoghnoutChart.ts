@@ -29,7 +29,7 @@ export const BMIDoughnutChart = (bmi: number) => {
             responsive: false,
             maintainAspectRatio: true,
             cutout: '93%',
-            radius: 180,
+            radius: 140,
             animation: {
                 // Desactivar la animación de desplazamiento
                 animateScale: false,

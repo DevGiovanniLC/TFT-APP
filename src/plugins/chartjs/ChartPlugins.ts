@@ -191,7 +191,7 @@ export const BMIPluginDoughnut = (bmi: number) => {
             const imgSize = targetRadius * 0.3;
 
             const imgX = centerX - imgSize / 2;
-            const imgY = imgSize + 30;
+            const imgY = imgSize;
 
             // Dibuja la silueta base
             ctx.save();
@@ -213,29 +213,28 @@ export const BMIPluginDoughnut = (bmi: number) => {
             const fillHeight = imgSize * (bmi / 40);
             const fillY = imgSize - fillHeight;
 
-
             const alertColor = getColor(bmi);
 
             tempCtx.fillStyle = alertColor
             tempCtx.fillRect(0, fillY, imgSize, fillHeight);
 
-            ctx.font = 'bold 30px sans-serif';
+            ctx.font = 'bold 25px sans-serif';
             ctx.fillStyle = '#343a40';
-            ctx.fillText(`BMI`, centerX - 28, centerY - 20);
+            ctx.fillText(`BMI`, centerX - 25, centerY - 20);
 
-            ctx.font = 'bold 50px sans-serif';
+            ctx.font = 'bold 45px sans-serif';
             ctx.fillStyle = '#343a40';
-            ctx.fillText(bmi.toFixed(1), centerX - 50, centerY + 40);
+            ctx.fillText(bmi.toFixed(1), centerX - 45, centerY + 40);
 
 
             const text = getTextLevel(bmi);
             const textWidth = ctx.measureText(text).width;
 
-            const centeredX = centerX - textWidth / 5;
+            const centeredX = centerX - textWidth / 6;
 
-            ctx.font = 'bold 20px sans-serif';
+            ctx.font = 'bold 16px sans-serif';
             ctx.fillStyle = alertColor;
-            ctx.fillText(text, centeredX, centerY + 100);
+            ctx.fillText(text, centeredX, centerY + 80);
 
 
             tempCtx.globalCompositeOperation = 'source-over'; // Regresar a normal

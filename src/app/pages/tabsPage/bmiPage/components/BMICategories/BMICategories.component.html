@@ -1,0 +1,30 @@
+<section class="mt-8 w-11/12 max-w-md mx-auto px-2 pb-6">
+    <div class="flex justify-center items-center gap-1 mb-4 ml-6">
+        <h2 class="text-xl font-semibold text-slate-700">BMI Categories</h2>
+
+        <ion-button fill="clear" size="small" (click)="openInfoPopover()">
+            <ion-icon slot="icon-only" name="information-circle-outline" src="assets/icons/info.svg" class="w-4 h-4 text-gray-600"></ion-icon>
+        </ion-button>
+    </div>
+    <div class="flex flex-col gap-2 text-slate-600">
+        @for (category of bmiCategories; track category) {
+        <div class="flex justify-between px-2 py-1 transition-all duration-300"
+            [class.bg-gray-200]="bmi() >= category.min && bmi() <= category.max"
+            [class.rounded-lg]="bmi() >= category.min && bmi() <= category.max"
+            [class.font-bold]="bmi() >= category.min && bmi() <= category.max"
+            [class.shadow-md]="bmi() >= category.min && bmi() <= category.max">
+            <span [class]="
+            (bmi()! >= category.min && bmi()! <= category.max)
+            ? getTextColor(bmi()!)
+            : 'text-slate-600'">
+                {{ category.label }}
+            </span>
+            <span [class]="
+            (bmi()! >= category.min && bmi()! <= category.max)
+            ? getTextColor(bmi()!)
+            : 'text-slate-600'">
+                {{ category.min }} – {{ category.max < 100 ? category.max : '≥ 40' }}</span>
+        </div>
+        }
+    </div>
+</section>

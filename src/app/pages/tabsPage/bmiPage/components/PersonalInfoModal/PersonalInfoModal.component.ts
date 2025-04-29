@@ -1,21 +1,23 @@
-import { ChangeDetectionStrategy, Component, input, OnInit, signal } from '@angular/core';
-import { IonSelect, IonSelectOption, IonButton, IonHeader, IonToolbar, IonButtons, ModalController, IonContent } from '@ionic/angular/standalone';
-import { Gender, User } from '@models/types/User';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ModalController, IonContent } from '@ionic/angular/standalone';
+import { User } from '@models/types/User';
 import { FormsModule } from '@angular/forms';
 import { UserFormComponent } from '@shared/UserForm/UserForm.component';
+import { ModalHeaderComponent } from '@shared/ModalHeader/ModalHeader.component';
 
 @Component({
     selector: 'app-personal-info-modal',
     imports: [
         FormsModule,
-        IonButtons, IonButton, IonHeader, IonToolbar, IonContent,
-        UserFormComponent
+        IonContent,
+        UserFormComponent,
+        ModalHeaderComponent
     ],
     templateUrl: './PersonalInfoModal.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class PersonalInfoModalComponent implements OnInit {
+export class PersonalInfoModalComponent {
 
     inputUser = input<User>(
         {
@@ -34,23 +36,23 @@ export class PersonalInfoModalComponent implements OnInit {
 
     constructor(
         private readonly modalCtrl: ModalController
-    ) {}
+    ) { }
 
-    ngOnInit(): void {}
-
-
-
-    cancel() {
-        return this.modalCtrl.dismiss(null, 'cancel');
-    }
-
-    async confirm() {
-        return this.modalCtrl.dismiss(this.user, 'confirm');
+    controlSteps(step: number) {
+        if (step == -1) this.cancel()
+        if (step == 1) this.confirm()
     }
 
     updateUser(user: User) {
         this.user = user;
     }
 
+    private cancel() {
+        return this.modalCtrl.dismiss(null, 'cancel');
+    }
+
+    private confirm() {
+        return this.modalCtrl.dismiss(this.user, 'confirm');
+    }
 
 }

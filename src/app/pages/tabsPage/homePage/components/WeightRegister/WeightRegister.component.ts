@@ -3,13 +3,9 @@ import { FormsModule } from '@angular/forms';
 import {
     IonDatetime,
     IonContent,
-    IonHeader,
-    IonToolbar,
     ModalController,
     IonModal,
     IonDatetimeButton,
-    IonButton,
-    IonButtons,
 } from '@ionic/angular/standalone';
 
 import { Weight, WeightUnits } from '@models/types/Weight';
@@ -18,22 +14,19 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
 import { TimeService } from '@services/Time.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ModalHeaderComponent } from '@shared/ModalHeader/ModalHeader.component';
 
 @Component({
     selector: 'app-weight-register',
     imports: [
-        IonButton,
-        IonButtons,
-        IonContent,
-        IonHeader,
-        IonToolbar,
-        IonDatetime,
-        IonButtons,
-        IonModal,
-        IonDatetimeButton,
-        FormsModule,
-        WeightFormComponent,
-    ],
+    IonContent,
+    IonDatetime,
+    IonModal,
+    IonDatetimeButton,
+    FormsModule,
+    WeightFormComponent,
+    ModalHeaderComponent
+],
     templateUrl: './WeightRegister.component.html',
     styleUrls: ['./WeightRegister.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -66,11 +59,16 @@ export class WeightRegisterComponent implements OnInit {
         this.selectedDate.set(localISO);
     }
 
-    cancel() {
+    controlSteps(step: number) {
+        if (step == -1) this.cancel()
+        if (step == 1) this.confirm()
+    }
+
+    private cancel() {
         return this.modalCtrl.dismiss(null, 'cancel');
     }
 
-    confirm() {
+    private confirm() {
         const newWeight: Weight = {
             id: this.inputWeight?.id ?? this.weightTracker.generateWeightId(),
             weight: this.actualWeight(),

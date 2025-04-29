@@ -1,26 +1,4 @@
-<ion-header class="bg-transparent">
-    <ion-toolbar class="bg-transparent mt-4">
-        @if (step !== 0) {
-        <ion-buttons slot="start" class="mx-1">
-            <ion-button id="backBtn" class="w-20 h-10" style="--border-radius: 15px" (click)="backStep()"
-                (keypress)="backStep()">Back</ion-button>
-        </ion-buttons>
-        } @else {
-        <ion-buttons slot="start" class="mx-1">
-            <ion-button id="BackBtnDisabled" class="w-20 h-10" style="--border-radius: 15px"
-                disabled="true"></ion-button>
-        </ion-buttons>
-        }
-        <div class="flex flex-row justify-center items-center mb-2">
-            <img src="assets/icon/icon-app.png" alt="icon app" class="w-10 h-10" />
-            <h1 class="text-center font-sans font-bold text-base m-0">Vita Weight</h1>
-        </div>
-        <ion-buttons slot="end" class="mx-1">
-            <ion-button id="nextBtn" class="w-24 h-10" style="--border-radius: 15px" color="primary" strong="true"
-                (click)="nextStep()" (keypress)="nextStep()">{{ step < 3 ? 'Next' : 'Confirm' }}</ion-button>
-        </ion-buttons>
-    </ion-toolbar>
-</ion-header>
+<app-modal-header [headerMode]="HeaderEnum.sequence"  [MAX_STEPS]="FINAL_STEP" (outputStep)="controlSteps($event)" />
 
 <ion-content scrollY="false">
     <div
@@ -31,9 +9,11 @@
         </h1>
         <ul class="mt-6 space-y-3 text-left bg-teal-100 p-6 rounded-3xl shadow-xl bg-opacity-30 font-system">
             <li class="flex items-center gap-2">💡 <span class="text-lg font-medium">Track your progress</span></li>
-            <li class="flex items-center gap-2">📊 <span class="text-lg font-medium">Set achievable goals</span></li>
+            <li class="flex items-center gap-2">📊 <span class="text-lg font-medium">Set achievable goals</span>
+            </li>
             <li class="flex items-center gap-2">📈 <span class="text-lg font-medium">View analysis</span></li>
-            <li class="flex items-center gap-2">🍎 <span class="text-lg font-medium">Build healthy habits</span></li>
+            <li class="flex items-center gap-2">🍎 <span class="text-lg font-medium">Build healthy habits</span>
+            </li>
             <li class="flex items-center gap-2">
                 🎉 <span class="text-lg font-medium">Celebrate your milestones</span>
             </li>
@@ -60,10 +40,12 @@
             <li class="flex items-center gap-2">
                 🎯 <span class="text-lg font-medium">Lose weight and stay fit</span>
             </li>
-            <li class="flex items-center gap-2">💪 <span class="text-lg font-medium">Increase your strength</span></li>
+            <li class="flex items-center gap-2">💪 <span class="text-lg font-medium">Increase your strength</span>
+            </li>
             <li class="flex items-center gap-2">🏃 <span class="text-lg font-medium">Improve endurance</span></li>
             <li class="flex items-center gap-2">🧘 <span class="text-lg font-medium">Enhance flexibility</span></li>
-            <li class="flex items-center gap-2">🥗 <span class="text-lg font-medium">Adopt a healthier diet</span></li>
+            <li class="flex items-center gap-2">🥗 <span class="text-lg font-medium">Adopt a healthier diet</span>
+            </li>
         </ul>
         <div class="p-3 flex flex-col items-center space-y-3">
             @if (!isGoal()) {

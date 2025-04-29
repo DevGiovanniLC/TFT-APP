@@ -1,43 +1,40 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import {
     IonContent,
-    IonHeader,
-    IonToolbar,
     ModalController,
-    IonButtons,
     IonButton,
     NavController,
 } from '@ionic/angular/standalone';
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
 import { GoalModalComponent } from './components/GoalModal/GoalModal.component';
-import { Gender, User } from '@models/types/User';
+import { User } from '@models/types/User';
 import { FormsModule } from '@angular/forms';
 import { UserConfigService } from '@services/UserConfig.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { TimeService } from '@services/Time.service';
 import { DatePipe } from '@angular/common';
 import { UserFormComponent } from '@shared/UserForm/UserForm.component';
+import { HeaderMode, ModalHeaderComponent } from '@shared/ModalHeader/ModalHeader.component';
 
 @Component({
     selector: 'app-initial-modal',
     imports: [
         IonButton,
-        IonButtons,
         IonContent,
-        IonHeader,
-        IonToolbar,
+        ModalHeaderComponent,
         WeightFormComponent,
         DatePipe,
         FormsModule,
-        UserFormComponent,
+        UserFormComponent
     ],
     templateUrl: './Initial.page.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InitialPage {
-    readonly FINAL_STEP = 4;
+    HeaderEnum = HeaderMode;
 
+    FINAL_STEP = 4;
     step = 0;
 
     user = signal<User>({
@@ -65,35 +62,29 @@ export class InitialPage {
         private readonly timeService: TimeService
     ) { }
 
-    nextStep() {
-        this.step += 1;
+    controlSteps(step: number) {
+        this.step = step;
+        if (this.step !== this.FINAL_STEP) return;
 
-        if (this.step === this.FINAL_STEP) {
-            const actualWeight: Weight = {
-                id: 0,
-                weight: this.actualWeight(),
-                weight_units: this.lastWeightUnit,
-                date: this.timeService.now(),
+        const actualWeight: Weight = {
+            id: 0,
+            weight: this.actualWeight(),
+            weight_units: this.lastWeightUnit,
+            date: this.timeService.now(),
+        };
+
+        this.user.update((user) => {
+            return {
+                ...user,
+                goal_weight: this.goalWeight?.weight,
+                goal_units: this.goalWeight?.weight_units,
+                goal_date: this.goalWeight?.date,
             };
+        });
 
-            this.user.update((user) => {
-                return {
-                    ...user,
-                    goal_weight: this.goalWeight?.weight,
-                    goal_units: this.goalWeight?.weight_units,
-                    goal_date: this.goalWeight?.date,
-                };
-            });
-
-            this.config.setUser(this.user());
-            this.weightTracker.addWeight(actualWeight);
-            this.navCtrl.navigateRoot('/tabs/tab1');
-        }
-    }
-
-    backStep() {
-        if (this.step === 0) return;
-        this.step -= 1;
+        this.config.setUser(this.user());
+        this.weightTracker.addWeight(actualWeight);
+        this.navCtrl.navigateRoot('/tabs/tab1');
     }
 
     async openModal() {

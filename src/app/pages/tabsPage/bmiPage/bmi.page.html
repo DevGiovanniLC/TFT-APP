@@ -1,20 +1,13 @@
-<ion-header class="h-16">
-    <ion-toolbar class="flex flex-row h-16" style="--ion-background-color: var(--color-tertiary)">
-        <div class="flex flex-row items-center justify-center mt-4 ml-1">
-            <img src="assets/icon/icon-app.png" alt="icon app" class="w-10 h-10 mr-0.5" />
-            <ion-title class="font-sans font-light text-slate-100 text-2xl mb-1 w-fit">Vita Weight</ion-title>
-        </div>
-    </ion-toolbar>
-</ion-header>
-
 <ion-content class="opacity-0 animate-fade-in">
     @if (bmi() !== null) {
-        <app-bmichart [bmi]="bmi()" />
-        <app-bmicategories [bmi]="bmi() ?? 0" />
-        <p class="text-xs text-slate-600 py-6 px-5 text-center">
-            BMI measures weight relative to height but ignores body composition, often misclassifying muscular or high-fat individuals.
-            It is useful for general screening but not for accurately assessing health.
-        </p>
+        <section class="pt-20">
+            <app-bmichart [bmi]="bmi()" />
+            <app-bmicategories [bmi]="bmi() ?? 0" />
+            <p class="text-xs text-slate-600 py-6 px-5 text-center">
+                BMI measures weight relative to height but ignores body composition, often misclassifying muscular or high-fat individuals.
+                It is useful for general screening but not for accurately assessing health.
+            </p>
+        </section>
     }@else {
         <div class="h-full flex flex-col justify-center items-center">
             <p  class="w-64 text-center text-2xl text-slate-600 font-semibold text-pretty">

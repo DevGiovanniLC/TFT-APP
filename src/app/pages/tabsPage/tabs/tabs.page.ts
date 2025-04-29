@@ -1,13 +1,22 @@
 import { Component, EnvironmentInjector, inject } from '@angular/core';
-import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/angular/standalone';
+import { Router } from '@angular/router';
+import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
+import { ModalWeightButtonComponent } from './components/ModalWeightButton/ModalWeightButton.component';
 
 @Component({
     selector: 'app-tabs',
     templateUrl: 'tabs.page.html',
-    imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel],
+    imports: [
+        IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel,
+        IonHeader, IonToolbar, IonTitle, ModalWeightButtonComponent
+    ],
 })
 export class TabsPage {
     public environmentInjector = inject(EnvironmentInjector);
 
-    constructor() {}
+    constructor(public router: Router) { }
+
+    isCurrentTab(tab: string): boolean {
+        return this.router.url.includes(tab);
+    }
 }

@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { BMIDoughnutChart } from '@models/charts/BMIDoghnoutChart';
 import { BMIPluginDoughnut } from '@plugins/chartjs/BMIDoughnutPlugin';
+import { ChartData, ChartOptions, Plugin } from 'chart.js';
 
 @Component({
     selector: 'app-bmichart',
@@ -9,12 +10,12 @@ import { BMIPluginDoughnut } from '@plugins/chartjs/BMIDoughnutPlugin';
     templateUrl: './BMIChart.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BMIChartComponent{
+export class BMIChartComponent {
 
     bmi = input.required<number | null>();
-    data: any;
-    options: any;
-    plugins: any = [];
+    data!: ChartData<'doughnut'>;
+    options!: ChartOptions<'doughnut'>;
+    plugins: Plugin[] = [];
 
     constructor(private readonly cdr: ChangeDetectorRef) {
         effect(() => {
@@ -25,15 +26,14 @@ export class BMIChartComponent{
                 !bmi
             ) return;
 
-
             this.updateChart(bmi);
         })
     }
 
     updateChart(bmi: number) {
-        const chart = BMIDoughnutChart(bmi);
-        this.data = chart.data;
-        this.options = chart.options;
+        const chart = new BMIDoughnutChart(bmi);
+        this.data = chart.getData();
+        this.options = chart.getOptions();
         this.plugins.pop()
         this.plugins.push(BMIPluginDoughnut(bmi));
 

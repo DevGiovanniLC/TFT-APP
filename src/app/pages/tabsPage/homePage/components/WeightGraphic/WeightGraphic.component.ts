@@ -4,8 +4,8 @@ import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
 import { Weight } from '@models/types/Weight';
 import annotationPlugin from 'chartjs-plugin-annotation';
-import { WeightChart } from '@models/charts/WeightChart';
-import { Chart, DatasetChartOptions } from 'chart.js';
+import HomeWeightChart from '@models/charts/HomeWeightChart';
+import { Chart, ChartData, ChartOptions } from 'chart.js';
 import { TimeService } from '@services/Time.service';
 
 @Component({
@@ -18,9 +18,8 @@ export class WeightGraphic {
     readonly weights = input.required<Weight[]>();
     readonly goal = input.required<Weight | null>();
 
-    weightChart: any;
-    data!: DatasetChartOptions;
-    options!: DatasetChartOptions;
+    data!: ChartData<'line'>;
+    options!: ChartOptions<'line'>;
 
     chartMode = signal('total');
     isEmpty = signal(false);
@@ -56,10 +55,10 @@ export class WeightGraphic {
         if (weights().length == 0) this.isEmpty.set(true);
         else this.isEmpty.set(false);
 
-        this.weightChart = WeightChart(this.chartMode, weights, this.goal);
+        const weightChart: any = new HomeWeightChart(this.chartMode, weights, this.goal);
 
-        this.data = this.weightChart.data;
-        this.options = this.weightChart.options;
+        this.data = weightChart.getData();
+        this.options = weightChart.getOptions();
     }
 
     validateGoalDate() {

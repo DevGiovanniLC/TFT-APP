@@ -1,29 +1,31 @@
-import { ChartData, ChartOptions } from "chart.js";
+import { ChartData, ChartOptions } from 'chart.js';
 
-export class BMIDoughnutChart {
-    bmi: number;
-    dataset: number[];
+export default class HomeDoughnutChart {
+    private readonly dataset: number[];
 
-    constructor(bmi: number) {
-        this.bmi = bmi;
-        this.dataset = [bmi, 40 - bmi];
+    constructor(progression: number) {
+
+        this.dataset = [progression, 100 - progression];
+
+        if (Number.isNaN(progression)) this.dataset = [100, 0];
+        if (progression < 0) this.dataset = [0, 100];
+        if (progression > 100) this.dataset = [100, 0];
     }
 
     getData(): ChartData<'doughnut'> {
         const documentStyle = getComputedStyle(document.documentElement);
 
-        let bmiColor = documentStyle.getPropertyValue('--color-tertiary');
-
-        if (this.bmi < 18.5) bmiColor = '#adccf2';
-        if (this.bmi >= 25) bmiColor = '#dbe388';
-        if (this.bmi >= 30) bmiColor = '#f2adad';
+        const backgroundColor = [
+            documentStyle.getPropertyValue('--color-tertiary'),
+            documentStyle.getPropertyValue('--color-accent'),
+        ]
 
         return {
             labels: ['Progress'],
             datasets: [
                 {
                     data: this.dataset,
-                    backgroundColor: [bmiColor, documentStyle.getPropertyValue('--color-accent')],
+                    backgroundColor: backgroundColor
                 },
             ],
         }
@@ -34,7 +36,7 @@ export class BMIDoughnutChart {
             responsive: false,
             maintainAspectRatio: true,
             cutout: '92%',
-            radius: 140,
+            radius: 120,
             animations: {
                 x: {
                     duration: 0,
@@ -62,7 +64,6 @@ export class BMIDoughnutChart {
                 },
             },
         }
-
-
     }
 }
+

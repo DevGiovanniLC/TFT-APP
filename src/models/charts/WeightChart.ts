@@ -1,6 +1,5 @@
 import { Signal } from '@angular/core';
 import { Weight } from '@models/types/Weight';
-import { configurationAnnotationPlugin } from '@plugins/chartjs/ChartPlugins';
 
 export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>, goal: Signal<Weight | null>) => {
 
@@ -125,7 +124,7 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
             },
             plugins: {
                 annotation: {
-                    annotations: configurationAnnotationPlugin(chartMode(), goal()?.weight ?? NaN, goal()?.date),
+                    annotations: annotationConfig(chartMode(), goal()?.weight ?? NaN, goal()?.date),
                 },
                 legend: {
                     display: viewTrend ? true : false,
@@ -185,3 +184,39 @@ export const WeightChart = (chartMode: Signal<string>, weights: Signal<Weight[]>
         },
     };
 };
+
+
+
+const annotationConfig = (chartMode: string, goalWeight: number, goalDate: Date | undefined) => {
+    if (!goalWeight) return [];
+    return {
+        goalLabel: {
+            type: 'label',
+            yValue: goalWeight + 2,
+            xValue: chartMode === 'viewGoal' ? goalDate : NaN,
+            content: ['Goal'],
+            padding: 0,
+            color: '#343A40',
+            font: {
+                size: 11,
+            },
+        },
+        goalLine: {
+            type: 'line',
+            yMin: goalWeight,
+            yMax: goalWeight,
+            borderColor: '#343A40',
+            borderWidth: 2,
+            borderDash: [5, 5],
+        },
+        goalPoint: {
+            type: 'point',
+            xValue: goalDate,
+            yValue: goalWeight,
+            backgroundColor: '#1E8260',
+            radius: 3,
+            borderWidth: 2,
+            borderColor: '#00BD7E',
+        },
+    };
+}

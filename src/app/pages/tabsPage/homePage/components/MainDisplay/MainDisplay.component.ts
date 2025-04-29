@@ -5,6 +5,7 @@ import {
     computed,
     effect,
     input,
+    OnInit,
     output,
     Signal,
     signal,
@@ -14,7 +15,7 @@ import { IonButton, ModalController } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 import { WeightRegisterComponent } from '@pages/tabsPage/homePage/components/WeightRegister/WeightRegister.component';
-import { centerTextPlugin, customSVGsPluginForDoughnutChart } from '@plugins/chartjs/ChartPlugins';
+import { TextPlugin, SVGIconsPlugin } from '@plugins/chartjs/HomeDoughnutPlugin';
 import { DoughnutChart } from '@models/charts/DoghnoutChart';
 import { DatasetChartOptions } from 'chart.js';
 
@@ -27,7 +28,6 @@ import { DatasetChartOptions } from 'chart.js';
 })
 export class MainDisplay {
     // Inputs / Outputs
-    readonly weights = input.required<Weight[]>();
     readonly lastWeight = input.required<Weight | null>();
     readonly firstWeight = input.required<Weight | null>();
     readonly goal = input.required<Weight | null>();
@@ -49,32 +49,36 @@ export class MainDisplay {
     // Chart data
     data!: DatasetChartOptions;
     options!: DatasetChartOptions;
-    plugins: any = [];
+    plugins = signal<any[]>([]);
 
     constructor(
         private readonly calculationFunctionsService: CalculationFunctionsService,
         private readonly modalCtrl: ModalController,
         private readonly cdr: ChangeDetectorRef
     ) {
-        effect(() => {
-            const weights = this.weights();
-            this.goal();
-
-            if (!weights) return;
-            this.updateChart();
-        });
+        effect(() => this.updateChart(this.progression, this.lastWeight));
     }
 
-    private updateChart() {
-        const doughnutChart: any = DoughnutChart(this.progression);
+
+
+    private updateChart(progression: Signal<number>, lastWeight: Signal<Weight | null>) {
+        const doughnutChart: any = DoughnutChart(progression);
         this.data = doughnutChart.data;
         this.options = doughnutChart.options;
-        this.plugins = [];
+        this.plugins.update(() => []);
 
-        this.plugins.push(centerTextPlugin(this.progression, this.lastWeight));
+        this.plugins.update((p: any[]) => {
+            p.push(TextPlugin(progression, lastWeight));
+            return p;
+        });
 
-        if (Number.isNaN(this.progression())) return;
-        this.plugins.push(customSVGsPluginForDoughnutChart());
+
+        if (Number.isNaN(progression())) return;
+
+        this.plugins.update((p: any[]) => {
+            p.push(SVGIconsPlugin());
+            return p;
+        });
 
         this.cdr.detectChanges();
     }

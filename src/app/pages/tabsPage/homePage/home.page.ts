@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { Weight } from '@models/types/Weight';
@@ -14,7 +14,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     imports: [IonContent, IonHeader, IonToolbar, IonTitle, WeightGraphic, MainDisplay],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePage {
+export class HomePage implements OnInit{
     goal = toSignal(this.userConfig.getGoal(), { initialValue: null });
     weights = toSignal(this.weightTracker.weights$, { initialValue: [] });
     actualWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
@@ -23,12 +23,16 @@ export class HomePage {
     constructor(
         private readonly weightTracker: WeightTrackerService,
         private readonly userConfig: UserConfigService
-    ) {
+    ) {}
+
+    ngOnInit(): void {
         this.weightTracker.updateWeights().subscribe();
         this.weightTracker.updateLastWeight().subscribe();
         this.weightTracker.updateFirstWeight().subscribe();
         this.userConfig.getGoal().subscribe();
     }
+
+
 
     addWeight($event: Weight) {
         this.weightTracker.addWeight($event);

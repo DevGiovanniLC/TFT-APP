@@ -2,7 +2,7 @@
     <p-chart #chart id="doughnutChart" type="doughnut"
         [data]="data"
         [options]="options"
-        [plugins]="plugins"
+        [plugins]="plugins()"
         class="w-64" />
     <ion-button id="registerBtn" class="button-shadow w-40 h-12" style="--border-radius: 15px"
         (click)="openModal()"

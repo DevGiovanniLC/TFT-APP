@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input, OnInit, signal } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { BMIDoughnutChart } from '@models/charts/BMIDoghnoutChart';
-import { WeightTrackerService } from '@services/WeightTracker.service';
-import { BMIPluginDoughnut } from '@plugins/chartjs/ChartPlugins';
+import { BMIPluginDoughnut } from '@plugins/chartjs/BMIDoughnutPlugin';
 
 @Component({
     selector: 'app-bmichart',

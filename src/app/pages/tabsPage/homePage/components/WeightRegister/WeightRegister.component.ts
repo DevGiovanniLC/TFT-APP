@@ -84,7 +84,7 @@ export class WeightRegisterComponent implements OnInit {
         this.actualWeight.set(value);
     }
 
-    updateActualDate(value: any) {
+    updateActualDate(value: string | string[] | undefined | null) {
         if (typeof value !== 'string') return;
         this.actualDate.set(new Date(value));
     }

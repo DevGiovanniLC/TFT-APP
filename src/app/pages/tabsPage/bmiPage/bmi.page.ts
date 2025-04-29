@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
-import { IonContent, IonHeader, IonToolbar, IonTitle, IonButton, ModalController } from '@ionic/angular/standalone';
+import { IonContent, IonButton, ModalController } from '@ionic/angular/standalone';
 import { BMIChartComponent } from './components/BMIChart/BMIChart.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { WeightTrackerService } from '@services/WeightTracker.service';
@@ -13,9 +13,9 @@ import { User } from '@models/types/User';
     templateUrl: 'bmi.page.html',
     standalone: true,
     imports: [
-        IonContent, IonHeader, IonToolbar, IonTitle, IonButton,
-        BMIChartComponent, BMICategoriesComponent,
-    ],
+    IonContent, IonButton,
+    BMIChartComponent, BMICategoriesComponent
+],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BMIPage {
@@ -23,12 +23,12 @@ export class BMIPage {
     lastWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
 
     bmi = computed(() => {
-        const height = this.user()?.height! / 100;
+        const height = this.user()?.height
         const weight = this.lastWeight();
 
         if (!height || !weight) return null;
 
-        return weight.weight / ((height * height));
+        return weight.weight / Math.pow(height/100, 2);
     });
 
 

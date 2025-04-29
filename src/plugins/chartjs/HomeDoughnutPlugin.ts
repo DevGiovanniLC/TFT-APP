@@ -16,10 +16,10 @@ export const SVGIconsPlugin = () => {
 
     return {
         id: 'customSVG',
-        afterDraw: (chartInstance: any) => {
-            const ctx = chartInstance.ctx;
+        afterDraw: (chart: any) => {
+            const ctx = chart.ctx;
 
-            const meta = chartInstance.getDatasetMeta(0);
+            const meta = chart.getDatasetMeta(0);
             if (!meta?.data || meta.data.length === 0) {
                 return;
             }

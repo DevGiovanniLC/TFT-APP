@@ -8,7 +8,7 @@ import {
     output,
     signal,
 } from '@angular/core';
-import { IonPicker, IonPickerColumn, IonPickerColumnOption } from '@ionic/angular/standalone';
+import { IonPicker, IonPickerColumn, IonPickerColumnOption, PickerColumn } from '@ionic/angular/standalone';
 import { WeightUnits } from '@models/types/Weight';
 
 @Component({
@@ -50,7 +50,7 @@ export class WeightFormComponent implements OnInit, AfterViewInit {
         this.outputWeightValue.emit(this.lastWeight() + this.lastWeightDecimal() / 10);
     }
 
-    updateActualWeightDecimal(value: any) {
+    updateActualWeightDecimal(value: PickerColumn['options'][number]['value']) {
         if (typeof value !== 'number') return;
 
         this.lastWeightDecimal.set(value);

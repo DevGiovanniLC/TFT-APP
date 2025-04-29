@@ -61,7 +61,7 @@ export class MainDisplay {
 
 
     private updateChart(progression: Signal<number>, lastWeight: Signal<Weight | null>) {
-        const doughnutChart: any = new HomeDoughnutChart(progression());
+        const doughnutChart = new HomeDoughnutChart(progression());
         this.data = doughnutChart.getData();
         this.options = doughnutChart.getOptions();
         this.plugins.update(() => []);

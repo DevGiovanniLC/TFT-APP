@@ -114,7 +114,7 @@ export class InitialPage {
         return false;
     }
 
-    updateActualWeight(value: any) {
+    updateActualWeight(value: number) {
         if (typeof value !== 'number') return;
 
         this.actualWeight.set(value);

@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, input, output, signal} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
-import { Gender, User } from '@models/types/User';
+import { User } from '@models/types/User';
 
 @Component({
     selector: 'app-user-form',
@@ -74,7 +74,7 @@ export class UserFormComponent {
         this.setUser.emit(this.outputUser);
     }
 
-    validateGender(event: Event): void {
+    validateGender(): void {
         this.setUser.emit(this.outputUser);
     }
 }

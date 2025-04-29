@@ -1,7 +1,7 @@
 import { Signal } from '@angular/core';
 import { Weight } from '@models/types/Weight';
 import { ChartData, ChartOptions } from 'chart.js';
-import { AnnotationOptions, LabelAnnotationOptions, LineAnnotationOptions, PointAnnotationOptions } from 'chartjs-plugin-annotation';
+import { AnnotationOptions, LineAnnotationOptions } from 'chartjs-plugin-annotation';
 
 
 export default class HomeWeightChart {

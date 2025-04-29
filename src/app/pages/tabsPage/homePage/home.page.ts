@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IonContent, IonHeader, IonToolbar, IonTitle } from '@ionic/angular/standalone';
+import { IonContent } from '@ionic/angular/standalone';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { Weight } from '@models/types/Weight';
 import { WeightGraphic } from '@pages/tabsPage/homePage/components/WeightGraphic/WeightGraphic.component';
@@ -11,7 +11,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     selector: 'app-tab1',
     templateUrl: 'Home.page.html',
     standalone: true,
-    imports: [IonContent, IonHeader, IonToolbar, IonTitle, WeightGraphic, MainDisplay],
+    imports: [IonContent, WeightGraphic, MainDisplay],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage implements OnInit{

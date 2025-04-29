@@ -55,7 +55,7 @@ export class WeightGraphic {
         if (weights().length == 0) this.isEmpty.set(true);
         else this.isEmpty.set(false);
 
-        const weightChart: any = new HomeWeightChart(this.chartMode, weights, this.goal);
+        const weightChart = new HomeWeightChart(this.chartMode, weights, this.goal);
 
         this.data = weightChart.getData();
         this.options = weightChart.getOptions();

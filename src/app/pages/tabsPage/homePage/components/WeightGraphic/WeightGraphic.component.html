@@ -1,4 +1,4 @@
-<div class="w-full flex justify-center items-center flex-col space-y-2">
+<section class="w-full flex justify-center items-center flex-col space-y-2">
     @if (!!goal()) {
         <div class="flex justify-end w-full px-5">
             <ion-select
@@ -29,4 +29,4 @@
     } @else {
         <p-chart id="lineChart" class="w-full h-full" type="line" [data]="data" [options]="options" />
     }
-</div>
+</section>

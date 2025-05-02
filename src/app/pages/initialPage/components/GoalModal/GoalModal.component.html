@@ -1,29 +1,4 @@
-<ion-header class="bg-transparent">
-    <ion-toolbar class="mt-4 bg-transparent">
-        <ion-buttons slot="start" class="mx-1">
-            <ion-button class="w-20 h-10" style="--border-radius: 15px" (click)="cancel()" (keypress)="cancel()">
-                Cancel
-            </ion-button>
-        </ion-buttons>
-        <div class="flex flex-row justify-center items-center mb-2">
-            <img src="assets/icon/icon-app.png" alt="icon app" class="w-10 h-10" />
-            <h1 class="text-center font-sans font-bold text-base m-0">Vita Weight</h1>
-        </div>
-        <ion-buttons slot="end" class="mx-1">
-            <ion-button
-                id="confirmBtn"
-                class="w-24 h-10"
-                color="primary"
-                style="--border-radius: 15px"
-                strong="true"
-                (click)="confirm()"
-                (keypress)="confirm()"
-            >
-                Confirm
-            </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
-</ion-header>
+<app-modal-header  (outputStep)="controlSteps($event)" />
 
 <ion-content #modalContainer class="bg-inherit">
     <div class="h-fit min-h-full bg-gradient-to-tr from-emerald-100 to-emerald-300 flex flex-col items-center">

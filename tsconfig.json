@@ -8,7 +8,7 @@
         ],
         "paths": {
             "@shared/*": [
-                "src/components/*"
+                "src/app/components/*"
                 ],
             "@core/*": [
                 "src/app/core/*"
@@ -23,7 +23,7 @@
                 "src/app/pages/*"
             ],
             "@components/*": [
-                "src/components/*"
+                "src/app/components/*"
             ],
             "@pipes/*": [
                 "src/pipes/*"

@@ -52,6 +52,7 @@
         "primeng": "^19.0.8",
         "rxjs": "~7.8.0",
         "tslib": "^2.3.0",
+        "twemoji": "^14.0.2",
         "zone.js": "~0.15.0"
     },
     "devDependencies": {

@@ -1,12 +1,6 @@
 import { Component, computed } from '@angular/core';
 import {
     IonContent,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonButton,
-    IonButtons,
-    IonIcon,
     ModalController,
     AlertController,
 } from '@ionic/angular/standalone';
@@ -19,7 +13,7 @@ import { Weight } from '@models/types/Weight';
 @Component({
     selector: 'app-tab2',
     templateUrl: 'register.page.html',
-    imports: [IonContent, IonHeader, IonToolbar, IonTitle, IonButton, ItemRegisterComponent, IonButtons, IonIcon],
+    imports: [IonContent, ItemRegisterComponent],
 })
 export class RegisterPage {
     registers = toSignal(this.weightTracker.weights$);

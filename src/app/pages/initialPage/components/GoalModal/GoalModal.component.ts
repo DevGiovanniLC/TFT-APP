@@ -5,11 +5,7 @@ import {
     IonModal,
     IonDatetime,
     IonContent,
-    IonHeader,
-    IonToolbar,
     ModalController,
-    IonButton,
-    IonButtons,
     IonDatetimeButton,
     IonToggle,
 } from '@ionic/angular/standalone';
@@ -17,21 +13,19 @@ import {
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
 import { TimeService } from '@services/Time.service';
+import { ModalHeaderComponent } from '@shared/ModalHeader/ModalHeader.component';
 
 @Component({
     selector: 'app-goal-modal',
     imports: [
-        IonButton,
-        IonButtons,
         IonContent,
-        IonHeader,
-        IonToolbar,
         FormsModule,
         WeightFormComponent,
         IonToggle,
         IonDatetimeButton,
         IonModal,
         IonDatetime,
+        ModalHeaderComponent
     ],
     templateUrl: './GoalModal.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,13 +41,18 @@ export class GoalModalComponent {
 
     private readonly modalCtrl = inject(ModalController);
 
-    constructor(private readonly timeService: TimeService) {}
+    constructor(private readonly timeService: TimeService) { }
 
-    cancel() {
+    controlSteps(step: number) {
+        if (step == -1) this.cancel()
+        if (step == 1) this.confirm()
+    }
+
+    private cancel() {
         return this.modalCtrl.dismiss(null, 'cancel');
     }
 
-    confirm() {
+    private confirm() {
         const newWeight: Weight = {
             id: 0,
             weight: this.actualWeight(),

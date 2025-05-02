@@ -1,6 +1,6 @@
 <ion-content>
-    <section class="h-full w-full flex flex-col px-3 pt-10 opacity-0 animate-fade-in items-center">
-        <div class="h-full flex flex-col max-w-[500px]">
+    <section class="h-full w-full flex flex-col px-3 pt-14 opacity-0 animate-fade-in items-center">
+        <div class="h-full flex flex-col">
             <app-main-display [goal]="goal()" [lastWeight]="actualWeight()" (weightAdded)="addWeight($event)" [firstWeight]="firstWeight()" />
             <app-weight-graphic [weights]="weights()" [goal]="goal()" class="p-2" />
         </div>

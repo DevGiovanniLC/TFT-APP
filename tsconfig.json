@@ -7,9 +7,6 @@
             "node"
         ],
         "paths": {
-            "@shared/*": [
-                "src/app/components/*"
-                ],
             "@core/*": [
                 "src/app/core/*"
             ],

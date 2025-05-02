@@ -13,7 +13,7 @@ import {
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
 import { TimeService } from '@services/Time.service';
-import { ModalHeaderComponent } from '@shared/ModalHeader/ModalHeader.component';
+import { ModalHeaderComponent } from '@components/ModalHeader/ModalHeader.component';
 
 @Component({
     selector: 'app-goal-modal',

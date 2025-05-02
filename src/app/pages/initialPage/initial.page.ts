@@ -14,8 +14,8 @@ import { UserConfigService } from '@services/UserConfig.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { TimeService } from '@services/Time.service';
 import { DatePipe } from '@angular/common';
-import { UserFormComponent } from '@shared/UserForm/UserForm.component';
-import { HeaderMode, ModalHeaderComponent } from '@shared/ModalHeader/ModalHeader.component';
+import { UserFormComponent } from '@components/UserForm/UserForm.component';
+import { HeaderMode, ModalHeaderComponent } from '@components/ModalHeader/ModalHeader.component';
 
 @Component({
     selector: 'app-initial-modal',

@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ModalController, IonContent } from '@ionic/angular/standalone';
 import { User } from '@models/types/User';
 import { FormsModule } from '@angular/forms';
-import { UserFormComponent } from '@shared/UserForm/UserForm.component';
-import { ModalHeaderComponent } from '@shared/ModalHeader/ModalHeader.component';
+import { UserFormComponent } from '@components/UserForm/UserForm.component';
+import { ModalHeaderComponent } from '@components/ModalHeader/ModalHeader.component';
 
 @Component({
     selector: 'app-personal-info-modal',

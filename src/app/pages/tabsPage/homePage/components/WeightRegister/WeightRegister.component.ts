@@ -14,7 +14,7 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
 import { TimeService } from '@services/Time.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ModalHeaderComponent } from '@shared/ModalHeader/ModalHeader.component';
+import { ModalHeaderComponent } from '@components/ModalHeader/ModalHeader.component';
 
 @Component({
     selector: 'app-weight-register',

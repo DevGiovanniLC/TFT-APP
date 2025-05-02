@@ -1,9 +1,12 @@
 <section class="card flex items-center justify-center flex-col space-y-4 mt-8">
-    <p-chart #chart id="doughnutChart" type="doughnut"
-        [data]="data"
-        [options]="options"
-        [plugins]="plugins()"
-        class="w-64" />
+    <div class="max-w-3xl w-96">
+        <p-chart  #chart id="doughnutChart" type="doughnut"
+            [data]="data"
+            [options]="options"
+            [plugins]="plugins()"
+            class="w-full"
+            />
+    </div>
     <ion-button id="registerBtn" class="button-shadow w-40 h-12" style="--border-radius: 15px"
         (click)="openModal()"
         (keypress)="openModal()"

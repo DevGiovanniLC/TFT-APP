@@ -4,10 +4,12 @@ import {
     Component,
     computed,
     effect,
+    ElementRef,
     input,
     output,
     Signal,
     signal,
+    viewChild,
 } from '@angular/core';
 import { Weight } from '@models/types/Weight';
 import { IonButton, ModalController } from '@ionic/angular/standalone';
@@ -22,6 +24,7 @@ import { ChartData, ChartOptions, Plugin } from 'chart.js';
     selector: 'app-main-display',
     standalone: true,
     imports: [IonButton, ChartModule],
+    styleUrl: './MainDisplay.component.css',
     templateUrl: './MainDisplay.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -33,10 +36,11 @@ export class MainDisplay {
 
     weightAdded = output<Weight>();
 
+    // viewChild
+    chartRef = viewChild('chart', { read: ElementRef });
+
     // Signals
     isButtonActive = signal(false);
-
-    // Computed progression
     progression: Signal<number> = computed(() => {
         return this.calculationFunctionsService.weightProgression(
             this.firstWeight()?.weight ?? NaN,
@@ -44,6 +48,22 @@ export class MainDisplay {
             this.goal()?.weight ?? NaN
         );
     });
+    ngAfterViewInit() {
+        setTimeout(() => {
+            const chart = this.chartRef();
+            const chartInstance = chart?.nativeElement.chartInstance;
+
+            if (!chartInstance) return;
+
+            // Puedes modificar el canvas si realmente necesitas
+            const canvas = chartInstance.canvas;
+            canvas.style.height = '500px';
+            canvas.style.width = '100%';
+
+            // Luego fuerzas que Chart.js se reajuste
+            chartInstance.resize();
+        });
+    }
 
     // Chart data
     data!: ChartData<'doughnut'>;

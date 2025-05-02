@@ -31,8 +31,8 @@ export class BMIDoughnutChart {
 
     getOptions(): ChartOptions<'doughnut'> {
         return {
-            responsive: false,
-            maintainAspectRatio: true,
+            responsive: true,
+            maintainAspectRatio: false,
             cutout: '92%',
             radius: 140,
             animations: {

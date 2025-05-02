@@ -1,0 +1,4 @@
+::ng-deep #lineChart canvas {
+    height: 210px !important;
+    width: 100% !important;
+}

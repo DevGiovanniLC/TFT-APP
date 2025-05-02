@@ -11,6 +11,7 @@ import { TimeService } from '@services/Time.service';
 @Component({
     selector: 'app-weight-graphic',
     imports: [ChartModule, IonSelect, IonSelectOption],
+    styleUrl: './WeightGraphic.component.css',
     templateUrl: './WeightGraphic.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

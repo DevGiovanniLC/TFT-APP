@@ -7,6 +7,7 @@ import { ChartData, ChartOptions, Plugin } from 'chart.js';
 @Component({
     selector: 'app-bmichart',
     imports: [ChartModule],
+    styleUrl: './BMIChart.component.css',
     templateUrl: './BMIChart.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

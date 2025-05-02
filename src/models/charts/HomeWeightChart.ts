@@ -174,8 +174,9 @@ export default class HomeWeightChart {
         goalDateMaxRange = goalDateMaxRange?.getTime();
 
         return {
-            responsive: false,
-            maintainAspectRatio: true,
+            responsive: true,
+            maintainAspectRatio: false,
+
             backgroundColor: '#00BD7E',
             elements: {
                 point: {

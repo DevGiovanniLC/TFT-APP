@@ -33,8 +33,8 @@ export default class HomeDoughnutChart {
 
     getOptions(): ChartOptions<'doughnut'> {
         return {
-            responsive: false,
-            maintainAspectRatio: true,
+            responsive: true,
+            maintainAspectRatio: false,
             cutout: '92%',
             radius: 120,
             animations: {

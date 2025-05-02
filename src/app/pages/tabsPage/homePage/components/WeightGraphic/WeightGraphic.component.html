@@ -27,6 +27,8 @@
             <h2>in this {{ chartMode() }} period</h2>
         </div>
     } @else {
-        <p-chart id="lineChart" class="w-full h-full" type="line" [data]="data" [options]="options" />
+        <div class="w-full relative">
+            <p-chart id="lineChart" class="w-full h-full" type="line" [data]="data" [options]="options" />
+        </div>
     }
 </section>

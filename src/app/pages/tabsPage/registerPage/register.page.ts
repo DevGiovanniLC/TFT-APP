@@ -20,9 +20,8 @@ export class RegisterPage {
     isPressingButton = false;
 
     readonly reversedRegisters = computed(() => {
-        const list = this.registers()?.reverse();
-        return list?.map((curr, i) => {
-            const prev = list[i + 1];
+        return this.registers()?.map((curr, i) => {
+            const prev = this.registers()?.[i+1];
             const progress = Number((prev ? curr?.weight - prev?.weight : 0).toFixed(2));
             return { ...curr, progress };
         });

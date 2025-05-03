@@ -20,19 +20,15 @@ export class WeightTrackerService {
 
     updateWeights(): Observable<Weight[]> {
         return from(this.dataProvider.getWeights()).pipe(
-            map((weights) =>
-                weights
-                    .map((w) => ({ ...w, date: new Date(w.date) }))
-                    .sort((a, b) => a.date.getTime() - b.date.getTime())
-            ),
-            tap((parsed) => this.weightsSubject.next(parsed))
+            tap((weights) => {this.updateLastWeight(); this.updateFirstWeight();}),
+            tap((weights) => this.weightsSubject.next(weights))
         );
     }
 
     updateLastWeight(): Observable<Weight | null> {
         return this.weights$.pipe(
             map((weights) => {
-                return weights.length > 0 ? weights[weights.length - 1] : null;
+                return weights.length > 0 ? weights[0] : null;
             }),
             tap((parsed) => this.lastWeightSubject.next(parsed))
         );
@@ -41,7 +37,7 @@ export class WeightTrackerService {
     updateFirstWeight(): Observable<Weight | null> {
         return this.weights$.pipe(
             map((weights) => {
-                return weights.length > 0 ? weights[0] : null;
+                return weights.length > 0 ? weights[weights.length - 1] : null;
             }),
             tap((parsed) => this.firstWeightSubject.next(parsed))
         );

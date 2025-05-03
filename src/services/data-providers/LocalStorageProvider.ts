@@ -92,7 +92,12 @@ export default class LocalStorageProvider implements DataProvider {
     }
 
     async getWeights(): Promise<Weight[]> {
-        return Promise.resolve(this.getWeightsSync());
+        return this.getWeightsSync().map((w) => ({
+            id: w.id,
+            date: new Date(w.date),
+            weight: w.weight,
+            weight_units: w.weight_units,
+        })).sort((a, b) => b.date.getTime() - a.date.getTime());
     }
 
     private getWeightsSync(): Weight[] {

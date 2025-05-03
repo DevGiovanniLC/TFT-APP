@@ -50,8 +50,13 @@ export default class DBConnection implements DataProvider {
     }
 
     async getWeights(): Promise<Weight[]> {
-        const registers = await this.db.query('SELECT * FROM registers');
-        return registers.values as Weight[];
+        const registers = await this.db.query('SELECT * FROM registers ORDER BY date DESC');
+        return registers.values?.map((r: any) => ({
+            id: r.id,
+            date: new Date(r.date),
+            weight: r.weight,
+            weight_units: r.weight_units,
+        })) as Weight[];
     }
 
     updateWeight(value: Weight): boolean {
@@ -137,7 +142,7 @@ export default class DBConnection implements DataProvider {
             INSERT INTO registers (date, weight, weight_units) VALUES
             (?, ?, ?)
             `,
-                [value.date, value.weight, value.weight_units]
+                [value.date.getTime(), value.weight, value.weight_units]
             )
             .catch((err) => alert(err));
         return true;
@@ -156,7 +161,7 @@ export default class DBConnection implements DataProvider {
         const schema = `
             CREATE TABLE IF NOT EXISTS registers (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                date TEXT,
+                date INTEGER,
                 weight REAL,
                 weight_units TEXT
             );

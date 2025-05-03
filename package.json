@@ -47,12 +47,9 @@
         "chart.js": "^4.4.8",
         "chartjs-adapter-date-fns": "^3.0.0",
         "chartjs-plugin-annotation": "^3.1.0",
-        "cypress-real-events": "^1.14.0",
-        "ionicons": "^7.0.0",
         "primeng": "^19.0.8",
         "rxjs": "~7.8.0",
         "tslib": "^2.3.0",
-        "twemoji": "^14.0.2",
         "zone.js": "~0.15.0"
     },
     "devDependencies": {
@@ -74,6 +71,7 @@
         "angular-eslint": "19.0.2",
         "autoprefixer": "^10.4.7",
         "cypress": "^14.2.1",
+        "cypress-real-events": "^1.14.0",
         "cypress-wait-until": "^3.0.2",
         "dotenv": "^16.4.7",
         "eslint": "^9.16.0",

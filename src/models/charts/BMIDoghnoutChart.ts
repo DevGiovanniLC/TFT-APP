@@ -36,16 +36,13 @@ export class BMIDoughnutChart {
             cutout: '92%',
             radius: 140,
             animations: {
-                x: {
-                    duration: 0,
-                },
-                y: {
-                    duration: 0,
-                },
+                x: { duration: 0, },
+                y: { duration: 0, },
             },
             animation: {
                 // Desactivar la animación de desplazamiento
                 animateScale: false,
+                animateRotate: true,
 
                 // Duración de la animación (en milisegundos)
                 duration: 1000,

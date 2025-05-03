@@ -194,10 +194,7 @@ export default class HomeWeightChart {
                     position: 'top',
                 },
             },
-            animation: {
-                duration: 1300,
-                delay: 100,
-            },
+            animation: {duration: 0 },
             scales: {
                 x: {
                     type: 'time',

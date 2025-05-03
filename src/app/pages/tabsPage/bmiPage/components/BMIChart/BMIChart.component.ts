@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input, ViewChild } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { BMIDoughnutChart } from '@models/charts/BMIDoghnoutChart';
-import { BMIPluginDoughnut } from '@plugins/chartjs/BMIDoughnutPlugin';
+import { BMIPluginDoughnut } from '@models/charts/plugins/BMIDoughnutPlugin';
 import { ChartData, ChartOptions, Plugin } from 'chart.js';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-bmichart',
@@ -13,12 +14,14 @@ import { ChartData, ChartOptions, Plugin } from 'chart.js';
 })
 export class BMIChartComponent {
 
+    @ViewChild('chart') chartComponent!: any;
+
     bmi = input.required<number | null>();
     data!: ChartData<'doughnut'>;
     options!: ChartOptions<'doughnut'>;
     plugins: Plugin[] = [];
 
-    constructor(private readonly cdr: ChangeDetectorRef) {
+    constructor(private readonly cdr: ChangeDetectorRef, private readonly route: ActivatedRoute) {
         effect(() => {
             const bmi = this.bmi();
 
@@ -29,6 +32,12 @@ export class BMIChartComponent {
 
             this.updateChart(bmi);
         })
+    }
+
+    ngOnInit() {
+        this.route.url.subscribe(() => {
+            this.updateChart(this.bmi()!);
+        });
     }
 
     updateChart(bmi: number) {

@@ -4,21 +4,20 @@ import {
     Component,
     computed,
     effect,
-    ElementRef,
     input,
     output,
     Signal,
     signal,
-    viewChild,
 } from '@angular/core';
 import { Weight } from '@models/types/Weight';
 import { IonButton, ModalController } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 import { WeightRegisterComponent } from '@pages/tabsPage/homePage/components/WeightRegister/WeightRegister.component';
-import { TextPlugin, SVGIconsPlugin } from '@plugins/chartjs/HomeDoughnutPlugin';
+import { TextPlugin, SVGIconsPlugin } from '@models/charts/plugins/HomeDoughnutPlugin';
 import HomeDoughnutChart from '@models/charts/HomeDoghnoutChart';
 import { ChartData, ChartOptions, Plugin } from 'chart.js';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-main-display',
@@ -33,8 +32,8 @@ export class MainDisplay {
     readonly lastWeight = input.required<Weight | null>();
     readonly firstWeight = input.required<Weight | null>();
     readonly goal = input.required<Weight | null>();
+    readonly weightAdded = output<Weight>();
 
-    weightAdded = output<Weight>();
 
     // Signals
     isButtonActive = signal(false);
@@ -46,20 +45,30 @@ export class MainDisplay {
         );
     });
 
-
     // Chart data
     data!: ChartData<'doughnut'>;
     options!: ChartOptions<'doughnut'>;
-    plugins = signal<Plugin[]>([]);
+    readonly plugins = signal<Plugin[]>([]);
 
     constructor(
         private readonly calculationFunctionsService: CalculationFunctionsService,
         private readonly modalCtrl: ModalController,
-        private readonly cdr: ChangeDetectorRef
+        private readonly cdr: ChangeDetectorRef,
+        private readonly route: ActivatedRoute,
     ) {
+        this.plugins.update((p: Plugin[]) => {
+            p.push(TextPlugin(this.progression, this.lastWeight));
+            return p;
+        });
+
         effect(() => this.updateChart(this.progression, this.lastWeight));
     }
 
+    ngOnInit() {
+        this.route.url.subscribe(() => {
+            this.updateChart(this.progression, this.lastWeight);
+        });
+    }
 
 
     private updateChart(progression: Signal<number>, lastWeight: Signal<Weight | null>) {
@@ -67,13 +76,7 @@ export class MainDisplay {
         this.data = doughnutChart.getData();
         this.options = doughnutChart.getOptions();
 
-        this.plugins.update((p: Plugin[]) => {
-            p.push(TextPlugin(progression, lastWeight));
-            return p;
-        });
-
-
-        if (Number.isNaN(progression())) return;
+        if (Number.isNaN(this.progression())) return;
 
         this.plugins.update((p: Plugin[]) => {
             p.push(SVGIconsPlugin());

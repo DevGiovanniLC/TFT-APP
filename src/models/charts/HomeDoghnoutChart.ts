@@ -46,13 +46,11 @@ export default class HomeDoughnutChart {
                 },
             },
             animation: {
-                // Desactivar la animación de desplazamiento
                 animateScale: false,
+                animateRotate: true,
 
-                // Duración de la animación (en milisegundos)
                 duration: 1000,
 
-                // Función de temporización (easing) - puedes ajustarla a tu gusto
                 easing: 'easeOutQuart',
             },
             plugins: {

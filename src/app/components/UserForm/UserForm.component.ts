@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { User } from '@models/types/User';
@@ -14,7 +14,7 @@ import { User } from '@models/types/User';
 })
 export class UserFormComponent {
 
-    inputUser =  input<User>({
+    inputUser = input<User | undefined>({
         name: undefined,
         age: undefined,
         height: undefined,
@@ -25,14 +25,17 @@ export class UserFormComponent {
         goal_date: undefined
     });
 
-    outputUser! : User;
+    outputUser!: User;
 
     setUser = output<User>();
 
-    constructor() {}
+    constructor() { }
 
     ngOnInit(): void {
-        this.outputUser = this.inputUser();
+        const user = this.inputUser();
+        if (!user) return
+
+        this.outputUser = user
     }
 
     validateHeight(event: Event): void {

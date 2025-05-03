@@ -5,6 +5,8 @@
             <ion-title class="font-sans font-light text-slate-100 text-2xl mb-1 w-fit">Vita Weight</ion-title>
             @if (isCurrentTab('tab2')) {
                 <app-modal-weight-button class="mt-3"></app-modal-weight-button>
+            }@else {
+                <app-modal-user-button class="mt-3"></app-modal-user-button>
             }
         </div>
     </ion-toolbar>

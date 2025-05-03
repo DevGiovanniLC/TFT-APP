@@ -8,7 +8,7 @@ import { Weight } from '@models/types/Weight';
     providedIn: 'root',
 })
 export class UserConfigService {
-    private readonly userSubject = new BehaviorSubject<User | null>(null);
+    private readonly userSubject = new BehaviorSubject<User | undefined>(undefined);
     private readonly goalSubject = new BehaviorSubject<Weight | null>(null);
 
     readonly user$ = this.userSubject.asObservable();
@@ -21,7 +21,7 @@ export class UserConfigService {
             tap((user) => {
                 if (user) {
                     this.userSubject.next(user);
-                } else this.userSubject.next(null);
+                } else this.userSubject.next(undefined);
             })
         );
     }

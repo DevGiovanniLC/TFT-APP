@@ -1,7 +1,12 @@
 {
-  "name": "tft-app",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular-standalone"
+    "name": "Vita Weight",
+    "integrations": {
+        "capacitor": {}
+    },
+    "type": "angular-standalone",
+    "platforms": {
+        "android": {
+            "style": "material"
+        }
+    }
 }

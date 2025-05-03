@@ -36,9 +36,6 @@ export class MainDisplay {
 
     weightAdded = output<Weight>();
 
-    // viewChild
-    chartRef = viewChild('chart', { read: ElementRef });
-
     // Signals
     isButtonActive = signal(false);
     progression: Signal<number> = computed(() => {
@@ -48,22 +45,7 @@ export class MainDisplay {
             this.goal()?.weight ?? NaN
         );
     });
-    ngAfterViewInit() {
-        setTimeout(() => {
-            const chart = this.chartRef();
-            const chartInstance = chart?.nativeElement.chartInstance;
 
-            if (!chartInstance) return;
-
-            // Puedes modificar el canvas si realmente necesitas
-            const canvas = chartInstance.canvas;
-            canvas.style.height = '500px';
-            canvas.style.width = '100%';
-
-            // Luego fuerzas que Chart.js se reajuste
-            chartInstance.resize();
-        });
-    }
 
     // Chart data
     data!: ChartData<'doughnut'>;
@@ -84,7 +66,6 @@ export class MainDisplay {
         const doughnutChart = new HomeDoughnutChart(progression());
         this.data = doughnutChart.getData();
         this.options = doughnutChart.getOptions();
-        this.plugins.update(() => []);
 
         this.plugins.update((p: Plugin[]) => {
             p.push(TextPlugin(progression, lastWeight));

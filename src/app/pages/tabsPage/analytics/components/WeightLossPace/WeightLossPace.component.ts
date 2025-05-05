@@ -3,6 +3,7 @@ import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle } from '@ionic/an
 import { Goal } from '@models/types/Goal';
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { is } from 'cypress/types/bluebird';
 
 @Component({
     selector: 'app-weight-loss-pace',
@@ -39,7 +40,11 @@ export class WeightLossPaceComponent {
             }
 
 
-            if (!goal || !lastWeight || !goalDate || isNaN(goalDate.getTime()) || isNaN(lastWeightDate.getTime())) return;
+            if (!goal || !lastWeight || !goalDate || isNaN(goalDate.getTime()) || isNaN(lastWeightDate.getTime())){
+                this.isGoal.set(false);
+                return;
+            }
+
             this.calculateGoalPace(goal, lastWeight, goalDate, lastWeightDate);
             this.weightUnits.set(lastWeight?.weight_units);
         });

@@ -26,7 +26,7 @@ export class ModalUserComponent {
     inputUser = toSignal(this.userConfig.user$);
     isGoalDate = signal(false);
 
-    user = signal<User>({
+    user = signal<User | undefined>({
         name: undefined,
         age: undefined,
         height: undefined,
@@ -57,7 +57,9 @@ export class ModalUserComponent {
     }
 
     confim() {
-        this.userConfig.setUser(this.user());
+        const user = this.user();
+        if (!user) return;
+        this.userConfig.setUser(user);
         this.userConfig.updateUser().subscribe();
         this.userConfig.updateGoal().subscribe();
         this.modalCtrl.dismiss(undefined, 'confirm');
@@ -102,6 +104,7 @@ export class ModalUserComponent {
         if (role === 'confirm') {
             const goal = data as Weight;
             this.user.update((user) => {
+                if (!user) return user;
                 return {
                     ...user,
                     goal_weight: goal.weight,

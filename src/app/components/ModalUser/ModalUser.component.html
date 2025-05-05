@@ -4,10 +4,10 @@
     class="h-full flex flex-col items-center text-center px-6 py-5 space-y-5 bg-gradient-to-tr from-emerald-100 to-emerald-300 w-full">
     <app-user-form class="pt-8" [inputUser]="inputUser()" (setUser)="setUser($event)"></app-user-form>
     <div class="p-3 flex flex-col items-center space-y-3">
-        @if (user().goal_weight) {
-            <p>Weight goal: {{ user().goal_weight ?? '' }} {{ user().goal_units ?? '' }}</p>
+        @if (user()?.goal_weight) {
+            <p>Weight goal: {{ user()?.goal_weight ?? '' }} {{ user()?.goal_units ?? '' }}</p>
             @if (isGoalDate()) {
-                <p>Date: {{ user().goal_date | date: 'MM/dd/yyyy' }}</p>
+                <p>Date: {{ user()?.goal_date | date: 'MM/dd/yyyy' }}</p>
             }
         }
         <ion-button id="goalBtn" class="w-40" color="primary" (click)="openModal()" (keypress)="openModal()">

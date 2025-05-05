@@ -8,15 +8,19 @@ export const routes: Routes = [
         children: [
             {
                 path: 'tab1',
-                loadComponent: () => import('../homePage/home.page').then((m) => m.HomePage),
+                loadComponent: () => import('../home/home.page').then((m) => m.HomePage),
             },
             {
                 path: 'tab2',
-                loadComponent: () => import('../registerPage/register.page').then((m) => m.RegisterPage),
+                loadComponent: () => import('../register/register.page').then((m) => m.RegisterPage),
             },
             {
                 path: 'tab3',
-                loadComponent: () => import('../bmiPage/bmi.page').then((m) => m.BMIPage),
+                loadComponent: () => import('../bmi/bmi.page').then((m) => m.BMIPage),
+            },
+            {
+                path: 'tab4',
+                loadComponent: () => import('../analytics/analytics.page').then(m => m.AnaliticsPage)
             },
             {
                 path: '',

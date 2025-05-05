@@ -5,17 +5,16 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { UserConfigService } from '@services/UserConfig.service';
 import { BMICategoriesComponent } from './components/BMICategories/BMICategories.component';
-import { PersonalInfoModalComponent } from '@pages/tabsPage/bmiPage/components/PersonalInfoModal/PersonalInfoModal.component';
-import { User } from '@models/types/User';
+import { ModalUserComponent } from '../../../components/ModalUser/ModalUser.component';
 
 @Component({
     selector: 'app-tab3',
     templateUrl: 'bmi.page.html',
     standalone: true,
     imports: [
-    IonContent, IonButton,
-    BMIChartComponent, BMICategoriesComponent
-],
+        IonContent, IonButton,
+        BMIChartComponent, BMICategoriesComponent
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BMIPage {
@@ -28,7 +27,7 @@ export class BMIPage {
 
         if (!height || !weight) return null;
 
-        return weight.weight / Math.pow(height/100, 2);
+        return weight.weight / Math.pow(height / 100, 2);
     });
 
 
@@ -45,20 +44,12 @@ export class BMIPage {
 
     async openModal() {
         const modal = await this.modalCtrl.create({
-            component: PersonalInfoModalComponent,
+            component: ModalUserComponent,
             cssClass: 'small-modal',
             componentProps: {
                 inputUser: this.user,
             },
         });
         modal.present();
-
-        const { data, role } = await modal.onDidDismiss();
-
-        if (role === 'confirm') {
-            const user = data as User;
-            this.config.setUser(user);
-            this.config.updateUser().subscribe();
-        }
     }
 }

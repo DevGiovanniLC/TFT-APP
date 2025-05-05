@@ -3,7 +3,7 @@ import { IonButton, IonButtons, IonIcon, ModalController } from '@ionic/angular/
 import { Weight } from '@models/types/Weight';
 import { WeightRegisterComponent } from '@pages/tabsPage/homePage/components/WeightRegister/WeightRegister.component';
 import { WeightTrackerService } from '@services/WeightTracker.service';
-import { ModalUserComponent } from '../ModalUser/ModalUser.component';
+import { ModalUserComponent } from '@components/ModalUser/ModalUser.component';
 
 
 @Component({

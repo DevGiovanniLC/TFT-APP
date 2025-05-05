@@ -1,49 +1,54 @@
 import { ChangeDetectionStrategy, Component, effect, input, Signal, signal } from '@angular/core';
 import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle } from '@ionic/angular/standalone';
+import { Goal } from '@models/types/Goal';
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 
 @Component({
-    selector: 'app-weight-display',
+    selector: 'app-weight-loss-pace',
     imports: [IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle],
-    templateUrl: './WeightDisplay.component.html',
+    templateUrl: './WeightLossPace.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WeightDisplay {
-    readonly weights = input.required<Signal<Weight[]>>();
-    readonly goal = input.required<Signal<Weight>>();
+export class WeightLossPaceComponent {
+    readonly lastWeight = input.required<Weight | undefined>();
+    readonly goal = input.required<Goal | undefined>();
 
     paceWeek = signal(0);
     paceMonth = signal(0);
     weightUnits = signal(WeightUnits.KG);
+    isGoal = signal(false);
 
     constructor(private readonly CalculationFunctionsService: CalculationFunctionsService) {
         effect(() => {
             const goal = this.goal();
-            const WeightList = this.weights();
-            const actualWeight = WeightList()[0];
-            const actualWeightDate = new Date(actualWeight?.date);
-            const goalDate = new Date(goal().date);
+            const lastWeight = this.lastWeight();
 
-            if (!goal || !WeightList) return;
+            const lastWeightDate = new Date(lastWeight?.date ?? NaN);
+            const goalDate = new Date(goal?.date ?? NaN);
+
+            if (!goal || !lastWeight || !goalDate || isNaN(goalDate.getTime()) || isNaN(lastWeightDate.getTime())) return;
+
+            this.isGoal.set(true);
+
             this.paceWeek.set(
                 this.CalculationFunctionsService.PaceWeekWeightLoss(
-                    actualWeight?.weight,
-                    goal().weight,
-                    actualWeightDate,
+                    lastWeight?.weight,
+                    goal.weight,
+                    lastWeightDate,
                     goalDate
                 )
             );
             this.paceMonth.set(
                 this.CalculationFunctionsService.PaceMonthWeightLoss(
-                    actualWeight?.weight,
-                    goal().weight,
-                    actualWeightDate,
+                    lastWeight?.weight,
+                    goal.weight,
+                    lastWeightDate,
                     goalDate
                 )
             );
 
-            this.weightUnits.set(actualWeight?.weight_units);
+            this.weightUnits.set(lastWeight?.weight_units);
         });
     }
 }

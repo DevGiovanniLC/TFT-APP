@@ -17,8 +17,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class HomePage implements OnInit {
     goal = toSignal(this.userConfig.goal$);
     weights = toSignal(this.weightTracker.weights$, { initialValue: [] });
-    actualWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
-    firstWeight = toSignal(this.weightTracker.firstWeight$, { initialValue: null });
+    lastWeight = toSignal(this.weightTracker.lastWeight$);
+    firstWeight = toSignal(this.weightTracker.firstWeight$);
 
     constructor(
         private readonly weightTracker: WeightTrackerService,

@@ -1,19 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { WeightLossPaceComponent } from './components/WeightLossPace/WeightLossPace.component';
+import { WeightTrackerService } from '@services/WeightTracker.service';
+import { UserConfigService } from '@services/UserConfig.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-analitics',
     templateUrl: './analytics.page.html',
     standalone: true,
-    imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+    imports: [WeightLossPaceComponent]
 })
 export class AnaliticsPage implements OnInit {
+    lastWeight = toSignal(this.weightTracker.lastWeight$)
+    goal = toSignal(this.userConfig.goal$)
 
-    constructor() { }
+    constructor(
+        private readonly weightTracker: WeightTrackerService,
+        private readonly userConfig: UserConfigService
+    ) {}
 
     ngOnInit() {
+        this.weightTracker.updateLastWeight().subscribe();
+        this.userConfig.updateGoal().subscribe();
     }
 
 }

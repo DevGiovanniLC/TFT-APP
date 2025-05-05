@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Weight } from '@models/types/Weight';
 
 @Injectable({
     providedIn: 'root',
@@ -33,6 +34,33 @@ export class CalculationFunctionsService {
     PaceMonthWeightLoss(weight: number, weightGoal: number, startDate: Date, endDate: Date) {
         const pace = (weight - weightGoal) / this.monthDifference(startDate, endDate);
         return Number(pace.toFixed(2));
+    }
+
+    getTrendData(dataWeights: Weight[], goal_date: Date | undefined){
+
+        //Calculo de la línea de tendencia basada en las últimas 2 semanas de datos
+        const goalDate = goal_date && typeof goal_date === 'object' ? goal_date : null;
+
+        const lastWeight = dataWeights[dataWeights.length - 1];
+        const lastDate = new Date(lastWeight.date).getTime();
+
+        const recentWeights = dataWeights.filter(w => new Date(w.date).getTime() >= lastDate - 14 * 24 * 60 * 60 * 1000);
+        const xData = recentWeights.map(w => new Date(w.date).getTime());
+        const yData = recentWeights.map(w => w.weight);
+        const n = xData.length;
+        const sumX = xData.reduce((a, b) => a + b, 0);
+        const sumY = yData.reduce((a, b) => a + b, 0);
+        const sumXY = xData.reduce((sum, x, i) => sum + x * yData[i], 0);
+        const sumX2 = xData.reduce((sum, x) => sum + x * x, 0);
+        const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+        const intercept = (sumY - slope * sumX) / n;
+
+        const futureTrendData = goalDate && !isNaN(goalDate.getTime()) ? [
+            { x: lastDate, y: lastWeight.weight },
+            { x: goalDate.getTime(), y: slope * goalDate.getTime() + intercept }
+        ] : [];
+
+        return futureTrendData;
     }
 
     weightProgression(firstWeight: number, lastWeight: number, goalWeight: number): number {

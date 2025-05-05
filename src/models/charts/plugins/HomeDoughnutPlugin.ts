@@ -51,7 +51,7 @@ export const SVGIconsPlugin = () => {
     };
 };
 
-export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weight | null>) => {
+export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weight | undefined>) => {
     return {
         id: 'centerText',
         afterDraw: (chart: Chart) => {

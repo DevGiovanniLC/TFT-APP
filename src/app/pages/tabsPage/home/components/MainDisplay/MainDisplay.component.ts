@@ -30,8 +30,8 @@ import { Goal } from '@models/types/Goal';
 })
 export class MainDisplay {
     // Inputs / Outputs
-    readonly lastWeight = input.required<Weight | null>();
-    readonly firstWeight = input.required<Weight | null>();
+    readonly lastWeight = input.required<Weight | undefined>();
+    readonly firstWeight = input.required<Weight | undefined>();
     readonly goal = input.required<Goal | undefined>();
     readonly weightAdded = output<Weight>();
 
@@ -62,17 +62,17 @@ export class MainDisplay {
             return p;
         });
 
-        effect(() => this.updateChart(this.progression, this.lastWeight));
+        effect(() => this.updateChart(this.progression));
     }
 
     ngOnInit() {
         this.route.url.subscribe(() => {
-            this.updateChart(this.progression, this.lastWeight);
+            this.updateChart(this.progression);
         });
     }
 
 
-    private updateChart(progression: Signal<number>, lastWeight: Signal<Weight | null>) {
+    private updateChart(progression: Signal<number>) {
         const doughnutChart = new HomeDoughnutChart(progression());
         this.data = doughnutChart.getData();
         this.options = doughnutChart.getOptions();

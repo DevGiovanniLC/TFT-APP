@@ -14,16 +14,7 @@ import { User } from '@models/types/User';
 })
 export class UserFormComponent {
 
-    inputUser = input<User | undefined>({
-        name: undefined,
-        age: undefined,
-        height: undefined,
-        gender: undefined,
-        email: undefined,
-        goal_weight: undefined,
-        goal_units: undefined,
-        goal_date: undefined
-    });
+    inputUser = input<User | undefined>();
 
     outputUser!: User;
 

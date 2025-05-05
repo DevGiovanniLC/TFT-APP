@@ -15,7 +15,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage implements OnInit{
-    goal = toSignal(this.userConfig.getGoal(), { initialValue: null });
+    goal = toSignal(this.userConfig.getGoal());
     weights = toSignal(this.weightTracker.weights$, { initialValue: [] });
     actualWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
     firstWeight = toSignal(this.weightTracker.firstWeight$, { initialValue: null });

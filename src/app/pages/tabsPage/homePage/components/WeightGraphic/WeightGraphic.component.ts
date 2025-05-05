@@ -7,6 +7,7 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 import HomeWeightChart from '@models/charts/HomeWeightChart';
 import { Chart, ChartData, ChartOptions } from 'chart.js';
 import { TimeService } from '@services/Time.service';
+import { Goal } from '@models/types/Goal';
 
 @Component({
     selector: 'app-weight-graphic',
@@ -17,7 +18,7 @@ import { TimeService } from '@services/Time.service';
 })
 export class WeightGraphic {
     readonly weights = input.required<Weight[]>();
-    readonly goal = input.required<Weight | null>();
+    readonly goal = input.required<Goal | undefined>();
 
     data!: ChartData<'line'>;
     options!: ChartOptions<'line'>;
@@ -64,7 +65,6 @@ export class WeightGraphic {
 
     validateGoalDate() {
         const date = this.goal()?.date;
-
         if (!date) return false;
         if (isNaN(date.getTime() ?? NaN)) return false;
         if (date.getTime() === new Date(0).getTime()) return false;

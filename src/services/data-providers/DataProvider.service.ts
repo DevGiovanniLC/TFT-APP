@@ -6,6 +6,7 @@ import { environment } from '@envs/environment';
 import LocalStorageProvider from './LocalStorageProvider';
 import { Weight } from '@models/types/Weight';
 import { User } from '@models/types/User';
+import { Goal } from '@models/types/Goal';
 
 @Injectable({
     providedIn: 'root',
@@ -32,7 +33,7 @@ export class DataProviderService {
         return await this.dataProvider.getWeights();
     }
 
-    async getGoal(): Promise<Weight> {
+    async getGoal(): Promise<Goal> {
         return await this.dataProvider.getGoal();
     }
 

@@ -18,6 +18,7 @@ import { TextPlugin, SVGIconsPlugin } from '@models/charts/plugins/HomeDoughnutP
 import HomeDoughnutChart from '@models/charts/HomeDoghnoutChart';
 import { ChartData, ChartOptions, Plugin } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
+import { Goal } from '@models/types/Goal';
 
 @Component({
     selector: 'app-main-display',
@@ -31,7 +32,7 @@ export class MainDisplay {
     // Inputs / Outputs
     readonly lastWeight = input.required<Weight | null>();
     readonly firstWeight = input.required<Weight | null>();
-    readonly goal = input.required<Weight | null>();
+    readonly goal = input.required<Goal | undefined>();
     readonly weightAdded = output<Weight>();
 
 

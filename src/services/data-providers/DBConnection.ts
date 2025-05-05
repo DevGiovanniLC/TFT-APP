@@ -2,6 +2,7 @@ import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
 import { Weight } from '@models/types/Weight';
 import { User } from '@models/types/User';
+import { Goal } from '@models/types/Goal';
 
 export default class DBConnection implements DataProvider {
     private readonly sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite);
@@ -101,7 +102,7 @@ export default class DBConnection implements DataProvider {
         return 0;
     }
 
-    async getGoal(): Promise<Weight> {
+    async getGoal(): Promise<Goal> {
         const user = await this.db
             .query(
                 `
@@ -113,12 +114,13 @@ export default class DBConnection implements DataProvider {
         if (user?.values?.length === 0) throw new Error('No goal found');
         if (user?.values == undefined) throw new Error('No goal found');
 
-        return {
-            id: 0,
+        const goal: Goal = {
             date: user.values[0].goal_date,
             weight: user.values[0].goal_weight,
             weight_units: user.values[0].goal_units,
         };
+
+        return goal
     }
 
     setUser(value: User): boolean {

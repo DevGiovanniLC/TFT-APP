@@ -16,6 +16,7 @@ import { TimeService } from '@services/Time.service';
 import { DatePipe } from '@angular/common';
 import { UserFormComponent } from '@components/UserForm/UserForm.component';
 import { HeaderMode, ModalHeaderComponent } from '@components/ModalHeader/ModalHeader.component';
+import { Goal } from '@models/types/Goal';
 
 @Component({
     selector: 'app-initial-modal',
@@ -51,7 +52,7 @@ export class InitialPage {
     actualWeight = signal(80);
     lastWeightUnit = WeightUnits.KG;
 
-    goalWeight!: Weight | null;
+    goal!: Goal;
     isGoal = signal(false);
 
     constructor(
@@ -76,9 +77,9 @@ export class InitialPage {
         this.user.update((user) => {
             return {
                 ...user,
-                goal_weight: this.goalWeight?.weight,
-                goal_units: this.goalWeight?.weight_units,
-                goal_date: this.goalWeight?.date,
+                goal_weight: this.goal?.weight,
+                goal_units: this.goal?.weight_units,
+                goal_date: this.goal?.date,
             };
         });
 
@@ -104,13 +105,13 @@ export class InitialPage {
         const { data, role } = await modal.onDidDismiss();
 
         if (role === 'confirm') {
-            this.goalWeight = data as Weight;
+            this.goal = data as Weight;
             this.isGoal.set(true);
         }
     }
 
     validateGoalDate() {
-        if (this.isGoal() && !isNaN(this.goalWeight?.date?.getTime() ?? NaN)) return true;
+        if (this.isGoal() && !isNaN(this.goal?.date?.getTime() ?? NaN)) return true;
         return false;
     }
 

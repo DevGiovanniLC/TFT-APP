@@ -54,9 +54,9 @@
             <p class="text-pretty text-center text-xs h-1 text-teal-500">It's optional, but recommended</p>
             } @else {
             <p>You already have a weight goal✅</p>
-            <p>Weight goal: {{ goalWeight?.weight }} {{ goalWeight?.weight_units }}</p>
+            <p>Weight goal: {{ goal.weight }} {{ goal.weight_units }}</p>
             @if (validateGoalDate()) {
-            <p>Date: {{ goalWeight?.date | date: 'MM/dd/yyyy' }}</p>
+            <p>Date: {{ goal.date | date: 'MM/dd/yyyy' }}</p>
             } }
         </div>
         } @case (3) {

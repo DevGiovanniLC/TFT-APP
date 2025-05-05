@@ -2,6 +2,7 @@ import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
 import { Weight } from '@models/types/Weight';
 import { User } from '@models/types/User';
 import data from '@assets/data/mock.json';
+import { Goal } from '@models/types/Goal';
 
 export default class LocalStorageProvider implements DataProvider {
     private readonly WEIGHTS_KEY = 'weight_data_weights';
@@ -77,12 +78,11 @@ export default class LocalStorageProvider implements DataProvider {
         }
     }
 
-    getGoal(): Promise<Weight> {
+    getGoal(): Promise<Goal> {
         const userString = localStorage.getItem(this.USER_KEY);
         const user = userString ? JSON.parse(userString) : null;
 
-        const goal = {
-            id: 0,
+        const goal: Goal = {
             weight: user?.goal_weight,
             weight_units: user?.goal_units,
             date: user?.goal_date,

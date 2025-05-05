@@ -1,4 +1,5 @@
 import { Signal } from '@angular/core';
+import { Goal } from '@models/types/Goal';
 import { Weight } from '@models/types/Weight';
 import { ChartData, ChartOptions } from 'chart.js';
 import { AnnotationOptions, LineAnnotationOptions } from 'chartjs-plugin-annotation';
@@ -7,11 +8,11 @@ import { AnnotationOptions, LineAnnotationOptions } from 'chartjs-plugin-annotat
 export default class HomeWeightChart {
     private readonly chartMode: string;
     private readonly weights: Weight[];
-    private readonly goal: Weight | null;
+    private readonly goal: Goal | undefined;
     private readonly viewTrend: boolean;
 
 
-    constructor(chartMode: Signal<string>, weights: Signal<Weight[]>, goal: Signal<Weight | null>) {
+    constructor(chartMode: Signal<string>, weights: Signal<Weight[]>, goal: Signal<Goal | undefined>) {
         this.chartMode = chartMode();
         this.weights = weights();
         this.goal = goal();
@@ -98,13 +99,12 @@ export default class HomeWeightChart {
     }
 
     annotationConfig(chartMode: string, goalWeight: number, goalDate: Date | undefined) {
-        if (!goalWeight) return [];
-        if (!goalDate) return [];
+        if (!goalWeight) return {};
 
         const goalLabel: AnnotationOptions = {
             type: 'label',
             yValue: goalWeight + 3,
-            xValue: chartMode === 'viewGoal' ? goalDate.getTime() : NaN,
+            xValue: chartMode === 'viewGoal' ? goalDate?.getTime() : NaN,
             content: ['Goal'],
             padding: 0,
             color: '#343A40',
@@ -121,11 +121,16 @@ export default class HomeWeightChart {
             borderDash: [5, 5],
         };
 
+        if (!goalDate) return {
+            goalLabel,
+            goalLine,
+        };
+
         const goalPoint: AnnotationOptions = {
             type: 'point', // aquí sí puedes ponerlo
             xScaleID: 'x',
             yScaleID: 'y',
-            xValue: goalDate.getTime(),
+            xValue: goalDate?.getTime(),
             yValue: goalWeight,
             backgroundColor: '#1E8260',
             radius: 5,

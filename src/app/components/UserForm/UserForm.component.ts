@@ -42,12 +42,12 @@ export class UserFormComponent {
         const input = event.target as HTMLInputElement;
         let value = Number(input.value);
 
-        if (value < 0) {
+        if (value <= 0) {
             value = NaN;
         }
 
-        if (value > 999) {
-            value = 999;
+        if (value > 300) {
+            value = 300;
         }
 
         input.value = String(value.toFixed(0));
@@ -65,7 +65,7 @@ export class UserFormComponent {
         const input = event.target as HTMLInputElement;
         let value = Number(input.value);
 
-        if (value < 0) {
+        if (value <= 0) {
             value = NaN;
         }
 

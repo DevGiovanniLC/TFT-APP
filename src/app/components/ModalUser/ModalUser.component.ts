@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { UserConfigService } from '@services/UserConfig.service';
 import { ModalHeaderComponent } from '@components/ModalHeader/ModalHeader.component';
-import { ModalController, IonButton, IonIcon } from '@ionic/angular/standalone';
+import { ModalController, IonButton, IonIcon, IonContent } from '@ionic/angular/standalone';
 import { UserFormComponent } from '@components/UserForm/UserForm.component';
 import { User } from '@models/types/User';
 import { Weight } from '@models/types/Weight';
@@ -12,7 +12,7 @@ import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-modal-user',
-    imports: [
+    imports: [IonContent,
         IonButton, IonIcon,
         ModalHeaderComponent,
         UserFormComponent,

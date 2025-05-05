@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Signal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { UserConfigService } from '@services/UserConfig.service';
 import { ModalHeaderComponent } from '@components/ModalHeader/ModalHeader.component';
-import { ModalController, IonButton } from '@ionic/angular/standalone';
+import { ModalController, IonButton, IonIcon } from '@ionic/angular/standalone';
 import { UserFormComponent } from '@components/UserForm/UserForm.component';
 import { User } from '@models/types/User';
 import { Weight } from '@models/types/Weight';
@@ -13,7 +13,7 @@ import { DatePipe } from '@angular/common';
 @Component({
     selector: 'app-modal-user',
     imports: [
-        IonButton,
+        IonButton, IonIcon,
         ModalHeaderComponent,
         UserFormComponent,
         DatePipe
@@ -69,6 +69,19 @@ export class ModalUserComponent {
         if (date === new Date(0)) return false;
         if (isNaN(new Date(date).getTime() ?? NaN)) return false;
         return true;
+    }
+
+    deleteGoal() {
+        this.user.update((user) => {
+            if (!user) return user;
+            return {
+                ...user,
+                goal_weight: undefined,
+                goal_units: undefined,
+                goal_date: undefined,
+            };
+        });
+        this.isGoalDate.set(false);
     }
 
 

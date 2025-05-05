@@ -13,9 +13,14 @@ import { CalculationFunctionsService } from '@services/CalculationFunctions.serv
 export class WeightLossPaceComponent {
     readonly lastWeight = input.required<Weight | undefined>();
     readonly goal = input.required<Goal | undefined>();
+    readonly weights = input.required<Weight[] | undefined>();
 
-    paceWeek = signal(0);
-    paceMonth = signal(0);
+    goalPaceWeek = signal(0);
+    goalPaceMonth = signal(0);
+
+    trendPaceWeek = signal(0);
+    trendPaceMonth = signal(0);
+
     weightUnits = signal(WeightUnits.KG);
     isGoal = signal(false);
 
@@ -23,32 +28,42 @@ export class WeightLossPaceComponent {
         effect(() => {
             const goal = this.goal();
             const lastWeight = this.lastWeight();
-
+            const weights = this.weights();
             const lastWeightDate = new Date(lastWeight?.date ?? NaN);
             const goalDate = new Date(goal?.date ?? NaN);
 
+            if (weights){
+                const { weightPerWeek, weightPerMonth } = this.CalculationFunctionsService.trendWeightPace(weights);
+                this.trendPaceWeek.set(weightPerWeek);
+                this.trendPaceMonth.set(weightPerMonth);
+            }
+
+
             if (!goal || !lastWeight || !goalDate || isNaN(goalDate.getTime()) || isNaN(lastWeightDate.getTime())) return;
-
-            this.isGoal.set(true);
-
-            this.paceWeek.set(
-                this.CalculationFunctionsService.PaceWeekWeightLoss(
-                    lastWeight?.weight,
-                    goal.weight,
-                    lastWeightDate,
-                    goalDate
-                )
-            );
-            this.paceMonth.set(
-                this.CalculationFunctionsService.PaceMonthWeightLoss(
-                    lastWeight?.weight,
-                    goal.weight,
-                    lastWeightDate,
-                    goalDate
-                )
-            );
-
+            this.calculateGoalPace(goal, lastWeight, goalDate, lastWeightDate);
             this.weightUnits.set(lastWeight?.weight_units);
         });
+    }
+
+
+    private calculateGoalPace( goal: Goal, lastWeight: Weight, goalDate: Date, lastWeightDate: Date) {
+        this.isGoal.set(true);
+
+        this.goalPaceWeek.set(
+            this.CalculationFunctionsService.weekWeightLossPace(
+                lastWeight?.weight,
+                goal.weight,
+                lastWeightDate,
+                goalDate
+            )
+        );
+        this.goalPaceMonth.set(
+            this.CalculationFunctionsService.monthWeightLossPace(
+                lastWeight?.weight,
+                goal.weight,
+                lastWeightDate,
+                goalDate
+            )
+        );
     }
 }

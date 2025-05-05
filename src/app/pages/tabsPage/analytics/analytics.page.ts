@@ -11,6 +11,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     imports: [WeightLossPaceComponent]
 })
 export class AnaliticsPage implements OnInit {
+    weights = toSignal(this.weightTracker.weights$);
     lastWeight = toSignal(this.weightTracker.lastWeight$)
     goal = toSignal(this.userConfig.goal$)
 
@@ -20,6 +21,7 @@ export class AnaliticsPage implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.weightTracker.updateWeights().subscribe();
         this.weightTracker.updateLastWeight().subscribe();
         this.userConfig.updateGoal().subscribe();
     }

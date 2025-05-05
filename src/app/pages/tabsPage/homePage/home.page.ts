@@ -14,8 +14,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
     imports: [IonContent, WeightGraphic, MainDisplay],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePage implements OnInit{
-    goal = toSignal(this.userConfig.getGoal());
+export class HomePage implements OnInit {
+    goal = toSignal(this.userConfig.goal$);
     weights = toSignal(this.weightTracker.weights$, { initialValue: [] });
     actualWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
     firstWeight = toSignal(this.weightTracker.firstWeight$, { initialValue: null });
@@ -23,16 +23,14 @@ export class HomePage implements OnInit{
     constructor(
         private readonly weightTracker: WeightTrackerService,
         private readonly userConfig: UserConfigService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.weightTracker.updateWeights().subscribe();
         this.weightTracker.updateLastWeight().subscribe();
         this.weightTracker.updateFirstWeight().subscribe();
-        this.userConfig.getGoal().subscribe();
+        this.userConfig.updateGoal().subscribe();
     }
-
-
 
     addWeight($event: Weight) {
         this.weightTracker.addWeight($event);

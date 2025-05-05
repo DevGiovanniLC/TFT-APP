@@ -20,7 +20,6 @@ export class WeightTrackerService {
 
     updateWeights(): Observable<Weight[]> {
         return from(this.dataProvider.getWeights()).pipe(
-            tap((weights) => {this.updateLastWeight(); this.updateFirstWeight();}),
             tap((weights) => this.weightsSubject.next(weights))
         );
     }
@@ -68,6 +67,5 @@ export class WeightTrackerService {
     isAvailable(): boolean {
         return this.dataProvider.isConnected();
     }
-
 
 }

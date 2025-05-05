@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
-import { User } from '@models/types/User';
+import { Gender, User } from '@models/types/User';
 
 @Component({
     selector: 'app-user-form',
@@ -20,7 +20,18 @@ export class UserFormComponent {
 
     setUser = output<User>();
 
-    constructor() { }
+    constructor() {
+        this.outputUser = {
+            name: undefined,
+            age: undefined,
+            height: undefined,
+            gender: undefined,
+            email: undefined,
+            goal_weight: undefined,
+            goal_units: undefined,
+            goal_date: undefined
+        }
+    }
 
     ngOnInit(): void {
         const user = this.inputUser();
@@ -68,7 +79,7 @@ export class UserFormComponent {
         this.setUser.emit(this.outputUser);
     }
 
-    validateGender(): void {
+    validateGender(event: any): void {
         this.setUser.emit(this.outputUser);
     }
 }

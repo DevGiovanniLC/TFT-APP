@@ -26,16 +26,7 @@ export class ModalUserComponent {
     inputUser = toSignal(this.userConfig.user$);
     isGoalDate = signal(false);
 
-    user = signal<User | undefined>({
-        name: undefined,
-        age: undefined,
-        height: undefined,
-        gender: undefined,
-        email: undefined,
-        goal_weight: undefined,
-        goal_units: undefined,
-        goal_date: undefined
-    });
+    user = signal<User | undefined>(undefined);
 
     constructor(
         private readonly userConfig: UserConfigService,

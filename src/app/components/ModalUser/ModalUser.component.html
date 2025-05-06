@@ -1,22 +1,22 @@
 <app-modal-header (outputStep)="controlSteps($event)"></app-modal-header>
-
-<section
-    class="h-full flex flex-col items-center text-center px-6 py-5 space-y-5 bg-gradient-to-tr from-emerald-100 to-emerald-300 w-full">
-    <app-user-form class="pt-8" [inputUser]="inputUser()" (setUser)="setUser($event)"></app-user-form>
-    <div class="p-3 flex flex-col items-center space-y-3">
-        @if (user()?.goal_weight) {
-        <div class="flex items-center pl-6">
-            <p>Weight goal: {{ user()?.goal_weight}} {{ user()?.goal_units}}</p>
-            <button (click)="deleteGoal()" (keypress)="deleteGoal()" class="h-5 w-5 rounded-md ml-2 bg-red-600">
-                <ion-icon name="add" class="text-red-50 text-sm p-0" src="assets/icons/trash.svg"></ion-icon>
-            </button>
+<ion-content class="h-full w-full">
+    <section
+        class="h-full w-full flex flex-col items-center text-center px-6  bg-gradient-to-tr from-emerald-100 to-emerald-300">
+        <app-user-form class="pt-8" [inputUser]="inputUser()" (setUser)="setUser($event)"></app-user-form>
+        <div class="p-3 flex flex-col items-center space-y-3">
+            @if (user()?.goal_weight) {
+            <div class="flex items-center pl-6">
+                <p>Weight goal: {{ user()?.goal_weight}} {{ user()?.goal_units}}</p>
+                <button (click)="deleteGoal()" (keypress)="deleteGoal()" class="h-5 w-5 rounded-md ml-2 bg-red-600">
+                    <ion-icon name="add" class="text-red-50 text-sm p-0" src="assets/icons/trash.svg"></ion-icon>
+                </button>
+            </div>
+            @if (isGoalDate()) {
+            <p>Date: {{ user()?.goal_date | date: 'MM/dd/yyyy' }}</p>
+            }}
+            <ion-button id="goalBtn" class="w-40 my-4" color="primary" (click)="openModal()" (keypress)="openModal()">
+                Set weight Goal
+            </ion-button>
         </div>
-        @if (isGoalDate()) {
-        <p>Date: {{ user()?.goal_date | date: 'MM/dd/yyyy' }}</p>
-        }
-        }
-        <ion-button id="goalBtn" class="w-40" color="primary" (click)="openModal()" (keypress)="openModal()">
-            Set weight Goal
-        </ion-button>
-    </div>
-</section>
+    </section>
+</ion-content>

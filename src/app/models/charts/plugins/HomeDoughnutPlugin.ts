@@ -51,7 +51,7 @@ export const SVGIconsPlugin = () => {
     };
 };
 
-export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weight | null>) => {
+export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weight | undefined>) => {
     return {
         id: 'centerText',
         afterDraw: (chart: Chart) => {
@@ -97,7 +97,7 @@ export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weigh
 
             ctx.font = 'bold 35px sans-serif';
             ctx.fillStyle = '#343a40';
-            ctx.fillText(`${lastWeight()?.weight} ${lastWeight()?.weight_units}`, centerX, centerY + offset + 10);
+            ctx.fillText(`${lastWeight()?.weight ?? 'No Data'} ${lastWeight()?.weight_units ?? ''}`, centerX, centerY + offset + 10);
 
             ctx.font = '16px system-ui';
             ctx.fillStyle = '#1e8260';

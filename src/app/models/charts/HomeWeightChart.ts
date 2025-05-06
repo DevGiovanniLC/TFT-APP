@@ -1,6 +1,7 @@
-import { Signal } from '@angular/core';
+import { inject, Signal } from '@angular/core';
 import { Goal } from '@models/types/Goal';
 import { Weight } from '@models/types/Weight';
+import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { AnnotationOptions, LineAnnotationOptions } from 'chartjs-plugin-annotation';
 
@@ -10,41 +11,20 @@ export default class HomeWeightChart {
     private readonly weights: Weight[];
     private readonly goal: Goal | undefined;
     private readonly viewTrend: boolean;
+    private readonly calculateFunctionsService: CalculationFunctionsService;
 
 
-    constructor(chartMode: Signal<string>, weights: Signal<Weight[]>, goal: Signal<Goal | undefined>) {
+    constructor(
+        calculateFunctionsService: CalculationFunctionsService,
+        chartMode: Signal<string>, weights: Signal<Weight[]>, goal: Signal<Goal | undefined>
+    ) {
         this.chartMode = chartMode();
         this.weights = weights();
         this.goal = goal();
         this.viewTrend = this.chartMode == 'viewGoal' && this.weights.length >= 7;
+        this.calculateFunctionsService = calculateFunctionsService
     }
 
-    private calculateTrendData(dataWeights: Weight[], goal: Date | undefined) {
-
-        //Calculo de la línea de tendencia basada en las últimas 2 semanas de datos
-        const goalDate = goal && typeof goal === 'object' ? this.goal?.date : null;
-
-        const lastWeight = dataWeights[dataWeights.length - 1];
-        const lastDate = new Date(lastWeight.date).getTime();
-
-        const recentWeights = dataWeights.filter(w => new Date(w.date).getTime() >= lastDate - 14 * 24 * 60 * 60 * 1000);
-        const xData = recentWeights.map(w => new Date(w.date).getTime());
-        const yData = recentWeights.map(w => w.weight);
-        const n = xData.length;
-        const sumX = xData.reduce((a, b) => a + b, 0);
-        const sumY = yData.reduce((a, b) => a + b, 0);
-        const sumXY = xData.reduce((sum, x, i) => sum + x * yData[i], 0);
-        const sumX2 = xData.reduce((sum, x) => sum + x * x, 0);
-        const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-        const intercept = (sumY - slope * sumX) / n;
-
-        const futureTrendData = goalDate && !isNaN(goalDate.getTime()) ? [
-            { x: lastDate, y: lastWeight.weight },
-            { x: goalDate.getTime(), y: slope * goalDate.getTime() + intercept }
-        ] : [];
-
-        return futureTrendData;
-    }
 
     getData(): ChartData<'line'> {
         const dataWeights = this.weights;
@@ -79,7 +59,7 @@ export default class HomeWeightChart {
                 },
                 {
                     label: 'Trend',
-                    data: this.viewTrend ? this.calculateTrendData(dataWeights, this.goal?.date) : [],
+                    data: this.viewTrend ? this.calculateFunctionsService.getTrendData(dataWeights, this.goal?.date) : [],
                     parsing: false,
                     fill: false,
                     borderDash: [6, 6],

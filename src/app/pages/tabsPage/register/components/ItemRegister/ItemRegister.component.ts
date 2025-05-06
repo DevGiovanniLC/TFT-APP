@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, effect, input, OnDes
 import { Gesture, GestureController } from '@ionic/angular';
 import { Weight } from '@models/types/Weight';
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent } from '@ionic/angular/standalone';
-import { SignedNumberPipe } from '@pipes/signedNumber.pipe';
+import { SignedNumberPipe } from 'src/app/pipes/signedNumber.pipe';
 import { DatePipe } from '@angular/common';
 
 @Component({

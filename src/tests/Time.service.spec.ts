@@ -1,4 +1,4 @@
-import { TimeService } from '../services/Time.service';
+import { TimeService } from '../app/services/Time.service';
 import { environment } from '@envs/environment';
 
 describe('TimeService', () => {

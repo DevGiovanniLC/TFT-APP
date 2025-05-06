@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { IonContent } from '@ionic/angular/standalone';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { Weight } from '@models/types/Weight';
-import { WeightGraphic } from '@pages/tabsPage/homePage/components/WeightGraphic/WeightGraphic.component';
-import { MainDisplay } from '@pages/tabsPage/homePage/components/MainDisplay/MainDisplay.component';
+import { WeightGraphic } from '@pages/tabsPage/home/components/WeightGraphic/WeightGraphic.component';
+import { MainDisplay } from '@pages/tabsPage/home/components/MainDisplay/MainDisplay.component';
 import { UserConfigService } from '@services/UserConfig.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -17,8 +17,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class HomePage implements OnInit {
     goal = toSignal(this.userConfig.goal$);
     weights = toSignal(this.weightTracker.weights$, { initialValue: [] });
-    actualWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
-    firstWeight = toSignal(this.weightTracker.firstWeight$, { initialValue: null });
+    lastWeight = toSignal(this.weightTracker.lastWeight$);
+    firstWeight = toSignal(this.weightTracker.firstWeight$);
 
     constructor(
         private readonly weightTracker: WeightTrackerService,

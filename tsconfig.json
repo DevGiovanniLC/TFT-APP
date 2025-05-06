@@ -11,10 +11,10 @@
                 "src/app/core/*"
             ],
             "@models/*": [
-                "src/models/*"
+                "src/app/models/*"
             ],
             "@services/*": [
-                "src/services/*"
+                "src/app/services/*"
             ],
             "@pages/*": [
                 "src/app/pages/*"
@@ -23,7 +23,7 @@
                 "src/app/components/*"
             ],
             "@pipes/*": [
-                "src/pipes/*"
+                "src/app/pipes/*"
             ],
             "@plugins/*": [
                 "src/plugins/*"

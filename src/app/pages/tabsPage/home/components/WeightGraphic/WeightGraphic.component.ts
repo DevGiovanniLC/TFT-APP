@@ -8,6 +8,7 @@ import HomeWeightChart from '@models/charts/HomeWeightChart';
 import { Chart, ChartData, ChartOptions } from 'chart.js';
 import { TimeService } from '@services/Time.service';
 import { Goal } from '@models/types/Goal';
+import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 
 @Component({
     selector: 'app-weight-graphic',
@@ -26,7 +27,10 @@ export class WeightGraphic {
     chartMode = signal('total');
     isEmpty = signal(false);
 
-    constructor(private readonly timeService: TimeService) {
+    constructor(
+        private readonly timeService: TimeService,
+        private readonly calculateFunctionsService: CalculationFunctionsService
+    ) {
         Chart.register(annotationPlugin);
 
         effect(() => {
@@ -57,7 +61,7 @@ export class WeightGraphic {
         if (weights().length == 0) this.isEmpty.set(true);
         else this.isEmpty.set(false);
 
-        const weightChart = new HomeWeightChart(this.chartMode, weights, this.goal);
+        const weightChart = new HomeWeightChart(this.calculateFunctionsService,this.chartMode, weights, this.goal);
 
         this.data = weightChart.getData();
         this.options = weightChart.getOptions();

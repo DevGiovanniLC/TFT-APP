@@ -1,5 +1,6 @@
 <ion-picker class="w-full bg-transparent select-none selection:bg-transparent">
     <ion-picker-column
+        id="weight-int-picker"
         class="bg-transparent flex select-none selection:bg-transparent"
         [value]="lastWeight()"
         (ionChange)="updateActualWeight($event.detail.value)"
@@ -18,6 +19,7 @@
     </ion-picker-column>
 
     <ion-picker-column
+        id="weight-decimal-picker"
         class="bg-transparent flex select-none selection:bg-transparent"
         [value]="lastWeightDecimal()"
         (ionChange)="updateActualWeightDecimal($event.detail.value)"

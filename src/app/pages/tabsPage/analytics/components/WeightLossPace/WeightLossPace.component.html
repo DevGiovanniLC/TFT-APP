@@ -23,13 +23,12 @@
             <h1>No enough data</h1>
             <h2>to calculate the trend</h2>
         </div>
-
         }
     </article>
 
-    @if (isGoal()) {
-        <article class="flex-col space-y-5 items-center">
-            <ion-card-subtitle class="text-center">Weight loss pace to reach the goal</ion-card-subtitle>
+    <article class="flex-col space-y-5 items-center">
+        <ion-card-subtitle class="text-center">Weight loss pace to reach the goal</ion-card-subtitle>
+        @if (isGoal()) {
             <div class="flex justify-center items-center space-x-10">
                 <ion-card class="bg-[var(--color-tertiary)] rounded-xl p-5 text-center space-y-2 w-36 shadow-xl border-teal-600 border-2">
                     <ion-card-subtitle class="text-[var(--color-accent)] font-sans font-extrabold">Months</ion-card-subtitle>
@@ -41,7 +40,14 @@
                     <ion-card-title>{{ goalPaceWeek()*-1 }} {{ weightUnits() }}</ion-card-title>
                 </ion-card>
             </div>
-        </article>
-    }
+        }@else {
+            <div
+            class="flex justify-center items-center flex-col space-y-1 text-center font-sans font-bold text-gray-700 rounded-xl p-4 pb-8 bg-emerald-100 shadow-sm opacity-0 animate-fade-in mx-10"
+        >
+            <h1>Need to specify</h1>
+            <h2>a goal date</h2>
+        </div>
+        }
+    </article>
 </section>
 

@@ -7,7 +7,7 @@ import {
 } from '@ionic/angular/standalone';
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
-import { GoalModalComponent } from './components/GoalModal/GoalModal.component';
+import { GoalModalComponent } from '../../components/GoalModal/GoalModal.component';
 import { User } from '@models/types/User';
 import { FormsModule } from '@angular/forms';
 import { UserConfigService } from '@services/UserConfig.service';

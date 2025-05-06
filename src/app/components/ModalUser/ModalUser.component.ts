@@ -6,7 +6,7 @@ import { ModalController, IonButton, IonIcon, IonContent } from '@ionic/angular/
 import { UserFormComponent } from '@components/UserForm/UserForm.component';
 import { User } from '@models/types/User';
 import { Weight } from '@models/types/Weight';
-import { GoalModalComponent } from '@pages/initialPage/components/GoalModal/GoalModal.component';
+import { GoalModalComponent } from '@components/GoalModal/GoalModal.component';
 import { DatePipe } from '@angular/common';
 
 

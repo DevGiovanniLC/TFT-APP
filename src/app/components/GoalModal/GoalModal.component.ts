@@ -47,10 +47,12 @@ export class GoalModalComponent {
     ) { }
 
     ngOnInit(): void {
+
         this.lastWeight.set(this.inputWeight?.weight ?? 70);
         this.lastWeightUnit.set(this.inputWeight?.weight_units ?? WeightUnits.KG);
         this.actualWeight =this.inputWeight?.weight ?? 70
-        if (this.inputWeight?.date){
+        if (this.inputWeight?.date && !isNaN(new Date(this.inputWeight?.date)?.getTime() ?? NaN)){
+            alert(this.inputWeight?.date)
             this.actualDate = new Date(this.inputWeight?.date)
             this.isWithDate.set(true);
         }else this.actualDate = new Date(this.timeService.now())

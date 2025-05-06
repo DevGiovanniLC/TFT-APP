@@ -1,58 +1,308 @@
 {
     "weights": [
-        { "date": "2024-09-01", "weight": 99.0, "weight_units": "kg" },
-        { "date": "2024-09-02", "weight": 97.8, "weight_units": "kg" },
-        { "date": "2024-09-03", "weight": 97.0, "weight_units": "kg" },
-        { "date": "2024-09-04", "weight": 95.9, "weight_units": "kg" },
-        { "date": "2024-09-05", "weight": 94.9, "weight_units": "kg" },
-        { "date": "2024-09-06", "weight": 95.8, "weight_units": "kg" },
-        { "date": "2024-09-07", "weight": 96.4, "weight_units": "kg" },
-        { "date": "2024-09-08", "weight": 97.4, "weight_units": "kg" },
-        { "date": "2024-09-09", "weight": 98.2, "weight_units": "kg" },
-        { "date": "2024-09-10", "weight": 99.4, "weight_units": "kg" },
-        { "date": "2024-09-11", "weight": 98.7, "weight_units": "kg" },
-        { "date": "2024-09-12", "weight": 97.7, "weight_units": "kg" },
-        { "date": "2024-09-13", "weight": 96.6, "weight_units": "kg" },
-        { "date": "2024-09-14", "weight": 95.8, "weight_units": "kg" },
-        { "date": "2024-09-15", "weight": 94.7, "weight_units": "kg" },
-        { "date": "2024-09-16", "weight": 95.4, "weight_units": "kg" },
-        { "date": "2024-09-17", "weight": 96.5, "weight_units": "kg" },
-        { "date": "2024-09-18", "weight": 97.2, "weight_units": "kg" },
-        { "date": "2024-09-19", "weight": 98.3, "weight_units": "kg" },
-        { "date": "2024-09-20", "weight": 99.2, "weight_units": "kg" },
-        { "date": "2024-09-21", "weight": 98.0, "weight_units": "kg" },
-        { "date": "2024-09-22", "weight": 97.1, "weight_units": "kg" },
-        { "date": "2024-09-23", "weight": 96.1, "weight_units": "kg" },
-        { "date": "2024-09-24", "weight": 95.4, "weight_units": "kg" },
-        { "date": "2024-09-25", "weight": 94.2, "weight_units": "kg" },
-        { "date": "2024-09-26", "weight": 94.8, "weight_units": "kg" },
-        { "date": "2024-09-27", "weight": 95.8, "weight_units": "kg" },
-        { "date": "2024-09-28", "weight": 96.8, "weight_units": "kg" },
-        { "date": "2024-09-29", "weight": 97.6, "weight_units": "kg" },
-        { "date": "2024-09-30", "weight": 98.5, "weight_units": "kg" },
-        { "date": "2024-10-01", "weight": 97.4, "weight_units": "kg" },
-        { "date": "2024-10-02", "weight": 96.6, "weight_units": "kg" },
-        { "date": "2024-10-03", "weight": 95.7, "weight_units": "kg" },
-        { "date": "2024-10-04", "weight": 94.9, "weight_units": "kg" },
-        { "date": "2024-10-05", "weight": 93.9, "weight_units": "kg" },
-        { "date": "2024-10-06", "weight": 94.7, "weight_units": "kg" },
-        { "date": "2024-10-07", "weight": 95.8, "weight_units": "kg" },
-        { "date": "2024-10-08", "weight": 96.5, "weight_units": "kg" },
-        { "date": "2024-10-09", "weight": 97.4, "weight_units": "kg" },
-        { "date": "2024-10-10", "weight": 98.5, "weight_units": "kg" },
-        { "date": "2024-10-11", "weight": 97.6, "weight_units": "kg" },
-        { "date": "2024-10-12", "weight": 96.8, "weight_units": "kg" },
-        { "date": "2024-10-13", "weight": 96.2, "weight_units": "kg" },
-        { "date": "2024-10-14", "weight": 95.2, "weight_units": "kg" },
-        { "date": "2024-10-15", "weight": 94.2, "weight_units": "kg" },
-        { "date": "2024-10-16", "weight": 95.0, "weight_units": "kg" },
-        { "date": "2024-10-17", "weight": 96.0, "weight_units": "kg" },
-        { "date": "2024-10-18", "weight": 96.7, "weight_units": "kg" },
-        { "date": "2024-10-19", "weight": 97.4, "weight_units": "kg" },
-        { "date": "2024-10-20", "weight": 98.2, "weight_units": "kg" }
+        {
+            "id": 1,
+            "date": 1725148800000,
+            "weight": 99.0,
+            "weight_units": "kg"
+        },
+        {
+            "id": 2,
+            "date": 1725235200000,
+            "weight": 97.8,
+            "weight_units": "kg"
+        },
+        {
+            "id": 3,
+            "date": 1725321600000,
+            "weight": 97.0,
+            "weight_units": "kg"
+        },
+        {
+            "id": 4,
+            "date": 1725408000000,
+            "weight": 95.9,
+            "weight_units": "kg"
+        },
+        {
+            "id": 5,
+            "date": 1725494400000,
+            "weight": 94.9,
+            "weight_units": "kg"
+        },
+        {
+            "id": 6,
+            "date": 1725580800000,
+            "weight": 95.8,
+            "weight_units": "kg"
+        },
+        {
+            "id": 7,
+            "date": 1725667200000,
+            "weight": 96.4,
+            "weight_units": "kg"
+        },
+        {
+            "id": 8,
+            "date": 1725753600000,
+            "weight": 97.4,
+            "weight_units": "kg"
+        },
+        {
+            "id": 9,
+            "date": 1725840000000,
+            "weight": 98.2,
+            "weight_units": "kg"
+        },
+        {
+            "id": 10,
+            "date": 1725926400000,
+            "weight": 99.4,
+            "weight_units": "kg"
+        },
+        {
+            "id": 11,
+            "date": 1726012800000,
+            "weight": 98.7,
+            "weight_units": "kg"
+        },
+        {
+            "id": 12,
+            "date": 1726099200000,
+            "weight": 97.7,
+            "weight_units": "kg"
+        },
+        {
+            "id": 13,
+            "date": 1726185600000,
+            "weight": 96.6,
+            "weight_units": "kg"
+        },
+        {
+            "id": 14,
+            "date": 1726272000000,
+            "weight": 95.8,
+            "weight_units": "kg"
+        },
+        {
+            "id": 15,
+            "date": 1726358400000,
+            "weight": 94.7,
+            "weight_units": "kg"
+        },
+        {
+            "id": 16,
+            "date": 1726444800000,
+            "weight": 95.4,
+            "weight_units": "kg"
+        },
+        {
+            "id": 17,
+            "date": 1726531200000,
+            "weight": 96.5,
+            "weight_units": "kg"
+        },
+        {
+            "id": 18,
+            "date": 1726617600000,
+            "weight": 97.2,
+            "weight_units": "kg"
+        },
+        {
+            "id": 19,
+            "date": 1726704000000,
+            "weight": 98.3,
+            "weight_units": "kg"
+        },
+        {
+            "id": 20,
+            "date": 1726790400000,
+            "weight": 99.2,
+            "weight_units": "kg"
+        },
+        {
+            "id": 21,
+            "date": 1726876800000,
+            "weight": 98.0,
+            "weight_units": "kg"
+        },
+        {
+            "id": 22,
+            "date": 1726963200000,
+            "weight": 97.1,
+            "weight_units": "kg"
+        },
+        {
+            "id": 23,
+            "date": 1727049600000,
+            "weight": 96.1,
+            "weight_units": "kg"
+        },
+        {
+            "id": 24,
+            "date": 1727136000000,
+            "weight": 95.4,
+            "weight_units": "kg"
+        },
+        {
+            "id": 25,
+            "date": 1727222400000,
+            "weight": 94.2,
+            "weight_units": "kg"
+        },
+        {
+            "id": 26,
+            "date": 1727308800000,
+            "weight": 94.8,
+            "weight_units": "kg"
+        },
+        {
+            "id": 27,
+            "date": 1727395200000,
+            "weight": 95.8,
+            "weight_units": "kg"
+        },
+        {
+            "id": 28,
+            "date": 1727481600000,
+            "weight": 96.8,
+            "weight_units": "kg"
+        },
+        {
+            "id": 29,
+            "date": 1727568000000,
+            "weight": 97.6,
+            "weight_units": "kg"
+        },
+        {
+            "id": 30,
+            "date": 1727654400000,
+            "weight": 98.5,
+            "weight_units": "kg"
+        },
+        {
+            "id": 31,
+            "date": 1727740800000,
+            "weight": 97.4,
+            "weight_units": "kg"
+        },
+        {
+            "id": 32,
+            "date": 1727827200000,
+            "weight": 96.6,
+            "weight_units": "kg"
+        },
+        {
+            "id": 33,
+            "date": 1727913600000,
+            "weight": 95.7,
+            "weight_units": "kg"
+        },
+        {
+            "id": 34,
+            "date": 1728000000000,
+            "weight": 94.9,
+            "weight_units": "kg"
+        },
+        {
+            "id": 35,
+            "date": 1728086400000,
+            "weight": 93.9,
+            "weight_units": "kg"
+        },
+        {
+            "id": 36,
+            "date": 1728172800000,
+            "weight": 94.7,
+            "weight_units": "kg"
+        },
+        {
+            "id": 37,
+            "date": 1728259200000,
+            "weight": 95.8,
+            "weight_units": "kg"
+        },
+        {
+            "id": 38,
+            "date": 1728345600000,
+            "weight": 96.5,
+            "weight_units": "kg"
+        },
+        {
+            "id": 39,
+            "date": 1728432000000,
+            "weight": 97.4,
+            "weight_units": "kg"
+        },
+        {
+            "id": 40,
+            "date": 1728518400000,
+            "weight": 98.5,
+            "weight_units": "kg"
+        },
+        {
+            "id": 41,
+            "date": 1728604800000,
+            "weight": 97.6,
+            "weight_units": "kg"
+        },
+        {
+            "id": 42,
+            "date": 1728691200000,
+            "weight": 96.8,
+            "weight_units": "kg"
+        },
+        {
+            "id": 43,
+            "date": 1728777600000,
+            "weight": 96.2,
+            "weight_units": "kg"
+        },
+        {
+            "id": 44,
+            "date": 1728864000000,
+            "weight": 95.2,
+            "weight_units": "kg"
+        },
+        {
+            "id": 45,
+            "date": 1728950400000,
+            "weight": 94.2,
+            "weight_units": "kg"
+        },
+        {
+            "id": 46,
+            "date": 1729036800000,
+            "weight": 95.0,
+            "weight_units": "kg"
+        },
+        {
+            "id": 47,
+            "date": 1729123200000,
+            "weight": 96.0,
+            "weight_units": "kg"
+        },
+        {
+            "id": 48,
+            "date": 1729209600000,
+            "weight": 96.7,
+            "weight_units": "kg"
+        },
+        {
+            "id": 49,
+            "date": 1729296000000,
+            "weight": 97.4,
+            "weight_units": "kg"
+        },
+        {
+            "id": 50,
+            "date": 1729382400000,
+            "weight": 98.2,
+            "weight_units": "kg"
+        }
     ],
     "goal": {
-        "date": "2025-06-01",
+        "date": 1748736000000,
         "weight": 85.0,
         "weight_units": "kg"
     }

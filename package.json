@@ -1,8 +1,8 @@
 {
     "author": "Giovanni León Corujo",
     "name": "vita-weight",
-    "description": "Aplicación de seguimiento de peso para TFT",
-    "version": "0.1.0",
+    "description": "Aplicación de seguimiento de peso",
+    "version": "0.2.0",
     "homepage": "/tabs/tab1",
     "scripts": {
         "build": "ionic build",

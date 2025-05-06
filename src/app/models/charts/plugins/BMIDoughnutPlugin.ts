@@ -83,15 +83,17 @@ const getColor = (bmi: number): string => {
 }
 
 const getTextLevel = (bmi: number): string => {
-    if (bmi < 16) return 'Severe Thinness';               // Delgadez severa
-    if (bmi >= 16 && bmi <= 16.99) return 'Moderate Thinness'; // Delgadez moderada
-    if (bmi >= 17 && bmi <= 18.49) return 'Mild Thinness';     // Delgadez leve
-    if (bmi >= 18.5 && bmi <= 24.9) return 'Normal';           // Normal (saludable)
-    if (bmi >= 25 && bmi <= 27.9) return 'Pre-obese';          // Preobesidad
-    if (bmi >= 28 && bmi <= 29.9) return 'High Overweight';    // Sobrepeso alto
-    if (bmi >= 30 && bmi <= 34.9) return 'Obesity Class I';    // Obesidad grado I
-    if (bmi >= 35 && bmi <= 39.9) return 'Obesity Class II';   // Obesidad grado II
-    if (bmi >= 40) return 'Obesity Class III';                 // Obesidad grado III (mórbida)
+    const levels = [
+        { max: 16, text: 'Severe Thinness' },
+        { max: 16.99, text: 'Moderate Thinness' },
+        { max: 18.49, text: 'Mild Thinness' },
+        { max: 24.9, text: 'Normal' },
+        { max: 27.9, text: 'Pre-obese' },
+        { max: 29.9, text: 'High Overweight' },
+        { max: 34.9, text: 'Obesity Class I' },
+        { max: 39.9, text: 'Obesity Class II' },
+        { max: Infinity, text: 'Obesity Class III' }
+    ];
 
-    return 'Unknown';
-}
+    return levels.find(level => bmi <= level.max)?.text ?? 'Unknown';
+};

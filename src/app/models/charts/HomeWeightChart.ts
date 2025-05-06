@@ -174,7 +174,7 @@ export default class HomeWeightChart {
                     annotations: this.annotationConfig(this.chartMode, this.goal?.weight ?? NaN, this.goal?.date),
                 },
                 legend: {
-                    display: this.viewTrend ? true : false,
+                    display: this.viewTrend,
                     onClick: () => { },
                     position: 'top',
                 },

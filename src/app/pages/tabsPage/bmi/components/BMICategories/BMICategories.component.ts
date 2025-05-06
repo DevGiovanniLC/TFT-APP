@@ -25,7 +25,7 @@ export class BMICategoriesComponent {
         { label: '🔴 Obesity Class II', min: 35, max: 39.9, alert: '#f2adad' },
     ];
 
-    constructor(private popoverController: PopoverController) {}
+    constructor(private readonly popoverController: PopoverController) {}
 
     getTextColor(bmiValue: number): string {
         if (bmiValue < 16) return 'text-red-600';

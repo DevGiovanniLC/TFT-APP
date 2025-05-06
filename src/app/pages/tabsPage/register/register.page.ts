@@ -40,8 +40,8 @@ export class RegisterPage {
 
         if (this.reversedRegisters()?.length === 1) {
             alert = await this.alertCtrl.create({
-                header: 'CANNOT DELETE WEIGHT ENTRY',
-                message: `You can’t delete this weight entry because it’s the only one in your register. At least one entry must remain.”`,
+                header: 'Deletion Not Allowed',
+                message: `This is the only weight entry in your register. At least one entry must be kept`,
                 cssClass: 'small-alert',
                 buttons: [
                     {

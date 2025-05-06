@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import { Weight } from '@models/types/Weight';
 import { DataProviderService } from './data-providers/DataProvider.service';
 import { BehaviorSubject, from, map, Observable, tap } from 'rxjs';
+import { NotificationService } from './Notification.service';
+
+
+
+
 
 @Injectable({
     providedIn: 'root',
@@ -15,7 +20,10 @@ export class WeightTrackerService {
     readonly firstWeight$: Observable<Weight | undefined> = this.firstWeightSubject.asObservable();
     readonly lastWeight$: Observable<Weight | undefined> = this.lastWeightSubject.asObservable();
 
-    constructor(private readonly dataProvider: DataProviderService) {}
+    constructor(
+        private readonly dataProvider: DataProviderService,
+        private readonly notificationService: NotificationService
+    ) { }
 
     updateWeights(): Observable<Weight[]> {
         return from(this.dataProvider.getWeights()).pipe(tap((weights) => this.weightsSubject.next(weights)));
@@ -59,7 +67,9 @@ export class WeightTrackerService {
         return this.dataProvider.generateWeightId();
     }
 
-    isAvailable(): boolean {
-        return this.dataProvider.isConnected();
+    exportDataCSV() {
+        this.dataProvider.exportDataCSV();
+        this.notificationService.showToast('CSV corretly exported to documents folder');
     }
+
 }

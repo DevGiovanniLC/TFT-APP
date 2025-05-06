@@ -1,3 +1,10 @@
 <ion-content class="opacity-0 animate-fade-in">
     <app-weight-loss-pace [weights]="weights()" [lastWeight]="lastWeight()" [goal]="goal()" />
+
+    <section class="flex justify-center items-center mt-10">
+        <ion-button id="registerBtn" class="button-shadow w-40 h-12" style="--border-radius: 15px" (click)="exportDataCSV()"
+            (keypress)="exportDataCSV()" [disabled]="isButtonActive()">
+            Export data to CSV
+        </ion-button>
+    </section>
 </ion-content>

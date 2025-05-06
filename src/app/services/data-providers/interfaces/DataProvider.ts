@@ -13,6 +13,7 @@ export interface DataProvider {
     updateWeight(value: Weight): boolean;
     deleteWeight(id: number): boolean;
 
+    exportDataCSV(): void;
     generateWeightId(): number;
     initializeConnection(): Promise<boolean>;
 }

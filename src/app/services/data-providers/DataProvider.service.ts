@@ -12,6 +12,7 @@ import { Goal } from '@models/types/Goal';
     providedIn: 'root',
 })
 export class DataProviderService {
+
     connectionStatus = signal(false);
 
     private dataProvider!: DataProvider;
@@ -61,7 +62,7 @@ export class DataProviderService {
         return this.dataProvider.generateWeightId();
     }
 
-    isConnected(): boolean {
-        return this.connectionStatus();
+    exportDataCSV() {
+        this.dataProvider.exportDataCSV();
     }
 }

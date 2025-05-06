@@ -3,6 +3,8 @@ import { Weight } from '@models/types/Weight';
 import { User } from '@models/types/User';
 import data from '@assets/data/mock.json';
 import { Goal } from '@models/types/Goal';
+import Papa from 'papaparse';
+import { get } from 'cypress/types/lodash';
 
 export default class LocalStorageProvider implements DataProvider {
     private readonly WEIGHTS_KEY = 'weight_data_weights';
@@ -10,6 +12,20 @@ export default class LocalStorageProvider implements DataProvider {
 
     constructor() {
         this.addExampleData();
+    }
+
+    exportDataCSV(): void {
+        const csv = Papa.unparse(this.getWeightsSync());
+
+        // En web (descargar)
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const fileName = `weights-history-${Date.now()}.csv`;
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        URL.revokeObjectURL(url);
     }
 
     addExampleData() {

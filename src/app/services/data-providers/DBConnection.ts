@@ -1,4 +1,6 @@
 import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
+import * as Papa from 'papaparse';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
 import { Weight } from '@models/types/Weight';
 import { User } from '@models/types/User';
@@ -43,7 +45,7 @@ export default class DBConnection implements DataProvider {
     async getUser(): Promise<User> {
         const user = await this.db.query(`
             SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)
-        `);
+            `);
 
         if (user?.values == undefined) throw new Error('No goal found');
 
@@ -64,8 +66,8 @@ export default class DBConnection implements DataProvider {
         this.db
             .query(
                 `
-            UPDATE registers SET date = ?, weight = ?, weight_units = ? WHERE id = ?
-        `,
+                UPDATE registers SET date = ?, weight = ?, weight_units = ? WHERE id = ?
+                `,
                 [value.date, value.weight, value.weight_units, value.id]
             )
             .catch((err) => alert(err));
@@ -76,8 +78,8 @@ export default class DBConnection implements DataProvider {
         this.db
             .query(
                 `
-            DELETE FROM registers WHERE id = ?
-        `,
+                DELETE FROM registers WHERE id = ?
+                `,
                 [id]
             )
             .catch((err) => alert(err));
@@ -89,8 +91,8 @@ export default class DBConnection implements DataProvider {
         this.db
             .query(
                 `
-            SELECT MAX(id) as maxId FROM registers
-        `
+                SELECT MAX(id) as maxId FROM registers
+                `
             )
             .then((result) => {
                 if (result?.values?.length === 0) return 1;
@@ -106,8 +108,8 @@ export default class DBConnection implements DataProvider {
         const user = await this.db
             .query(
                 `
-            SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)
-        `
+                SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)
+                `
             )
             .catch((err) => alert(err));
 
@@ -127,9 +129,9 @@ export default class DBConnection implements DataProvider {
         this.db
             .query(
                 `
-            INSERT INTO user (name, email, age, height, goal_weight, goal_units, goal_date) VALUES
-            (?, ?, ?, ?, ?, ?, ?)
-            `,
+                INSERT INTO user (name, email, age, height, goal_weight, goal_units, goal_date) VALUES
+                (?, ?, ?, ?, ?, ?, ?)
+                `,
                 [value.name, value.email, value.age, value.height, value.goal_weight, value.goal_units, value.goal_date]
             )
             .catch((err) => alert(err));
@@ -152,20 +154,20 @@ export default class DBConnection implements DataProvider {
 
     private async deleteDBStructure() {
         const schema = `
-            DROP TABLE IF EXISTS registers;
-            DROP TABLE IF EXISTS user;
-            `;
+        DROP TABLE IF EXISTS registers;
+        DROP TABLE IF EXISTS user;
+        `;
 
         return await this.db.execute(schema);
     }
 
     private async setBDStructure() {
         const schema = `
-            CREATE TABLE IF NOT EXISTS registers (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                date INTEGER,
-                weight REAL,
-                weight_units TEXT
+        CREATE TABLE IF NOT EXISTS registers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date INTEGER,
+            weight REAL,
+            weight_units TEXT
             );
 
             CREATE TABLE IF NOT EXISTS user (
@@ -177,8 +179,8 @@ export default class DBConnection implements DataProvider {
                 goal_weight,
                 goal_units TEXT,
                 goal_date TEXT
-            );
-        `;
+                );
+                `;
 
         return await this.db.execute(schema);
     }
@@ -211,14 +213,29 @@ export default class DBConnection implements DataProvider {
     private async addUser() {
         return await this.db.query(
             `
-        INSERT INTO user (name, email, age, height, goal_weight, goal_units, goal_date) VALUES
-        (?, ?, ?, ?, ?, ?, ?)
-        `,
+                    INSERT INTO user (name, email, age, height, goal_weight, goal_units, goal_date) VALUES
+                    (?, ?, ?, ?, ?, ?, ?)
+                    `,
             ['John Doe', 'johndoe@gmail.com', 25, 180, 80, 'kg', '2025-12-31']
         );
     }
 
-    private async closeConnection() {
-        await this.db.close();
+    async exportDataCSV(): Promise<void> {
+        const csv = Papa.unparse(await this.getWeights());
+
+        const fileName = `weights-history-${Date.now()}.csv`;
+
+        try {
+            await Filesystem.writeFile({
+                path: fileName,
+                data: csv,
+                directory: Directory.Documents,
+                encoding: Encoding.UTF8,
+            });
+
+            console.log('✅ CSV guardado correctamente:', fileName);
+        } catch (err) {
+            console.error('❌ Error al guardar CSV:', err);
+        }
     }
 }

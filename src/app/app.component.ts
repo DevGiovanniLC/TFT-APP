@@ -3,7 +3,6 @@ import { IonApp, IonRouterOutlet, NavController } from '@ionic/angular/standalon
 import { DataProviderService } from '@services/data-providers/DataProvider.service';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { UserConfigService } from '@services/UserConfig.service';
-import { LocalNotifications } from '@capacitor/local-notifications';
 import { NotificationService } from '@services/Notification.service';
 
 @Component({

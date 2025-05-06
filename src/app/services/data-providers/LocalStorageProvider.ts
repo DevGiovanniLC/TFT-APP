@@ -4,7 +4,6 @@ import { User } from '@models/types/User';
 import data from '@assets/data/mock.json';
 import { Goal } from '@models/types/Goal';
 import Papa from 'papaparse';
-import { get } from 'cypress/types/lodash';
 
 export default class LocalStorageProvider implements DataProvider {
     private readonly WEIGHTS_KEY = 'weight_data_weights';

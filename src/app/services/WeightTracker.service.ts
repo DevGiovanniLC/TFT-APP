@@ -4,10 +4,6 @@ import { DataProviderService } from './data-providers/DataProvider.service';
 import { BehaviorSubject, from, map, Observable, tap } from 'rxjs';
 import { NotificationService } from './Notification.service';
 
-
-
-
-
 @Injectable({
     providedIn: 'root',
 })
@@ -71,8 +67,9 @@ export class WeightTrackerService {
         this.dataProvider.exportDataCSV()
         try {
             this.notificationService.showPushNotificationExportation();
-        }catch(err){
+        } catch (err) {
             this.notificationService.requestPermission();
+            console.error('❌:', err);
         }
         this.notificationService.showToast('CSV corretly exported to documents folder');
     }

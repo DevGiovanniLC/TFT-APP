@@ -59,11 +59,8 @@ export class CalculationFunctionsService {
         const sumY = yData.reduce((a, b) => a + b, 0);
         const sumXY = xData.reduce((sum, x, i) => sum + x * yData[i], 0);
         const sumX2 = xData.reduce((sum, x) => sum + x * x, 0);
-        console.log('SUMS' ,sumX, sumY, sumXY, sumX2);
         const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-        console.log(`SLOPE: ${slope}`);
         const intercept = (sumY - slope * sumX) / n;
-
         return { slope, intercept };
     }
 

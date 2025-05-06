@@ -23,6 +23,8 @@ export class WeightLossPaceComponent {
     trendPaceMonth = signal(0);
 
     weightUnits = signal(WeightUnits.KG);
+
+    isTrend = signal(false);
     isGoal = signal(false);
 
     constructor(private readonly CalculationFunctionsService: CalculationFunctionsService) {
@@ -35,8 +37,13 @@ export class WeightLossPaceComponent {
 
             if (weights){
                 const { weightPerWeek, weightPerMonth } = this.CalculationFunctionsService.trendWeightPace(weights);
-                this.trendPaceWeek.set(weightPerWeek);
-                this.trendPaceMonth.set(weightPerMonth);
+                if (weightPerWeek && weightPerMonth){
+                    this.isTrend.set(true);
+                    this.trendPaceWeek.set(weightPerWeek);
+                    this.trendPaceMonth.set(weightPerMonth);
+                }else{
+                    this.isTrend.set(false);
+                }
             }
 
 

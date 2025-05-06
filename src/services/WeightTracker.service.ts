@@ -42,7 +42,7 @@ export class WeightTrackerService {
 
     addWeight(value: Weight): boolean {
         this.dataProvider.addWeight(value);
-        this.updateWeights();
+        this.updateWeights().subscribe()
         return true;
     }
 

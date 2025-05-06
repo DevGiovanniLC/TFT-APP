@@ -34,9 +34,11 @@ export class WeightLossPaceComponent {
             const weights = this.weights();
             const lastWeightDate = new Date(lastWeight?.date ?? NaN);
             const goalDate = new Date(goal?.date ?? NaN);
+            alert(JSON.stringify(weights));
 
             if (weights){
-                const { weightPerWeek, weightPerMonth } = this.CalculationFunctionsService.trendWeightPace(weights);
+                const { weightPerWeek, weightPerMonth } = this.CalculationFunctionsService.trendWeightPace(weights, lastWeightDate.getTime());
+
                 if (weightPerWeek && weightPerMonth){
                     this.isTrend.set(true);
                     this.trendPaceWeek.set(weightPerWeek);

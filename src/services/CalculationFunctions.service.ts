@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Weight } from '@models/types/Weight';
+import { last } from 'cypress/types/lodash';
 
 @Injectable({
     providedIn: 'root',
@@ -36,8 +37,8 @@ export class CalculationFunctionsService {
         return Number(pace.toFixed(2));
     }
 
-    trendWeightPace(dataWeights: Weight[]){
-        const { slope } = this.calculateTrend(dataWeights);
+    trendWeightPace(dataWeights: Weight[], lastDate: number){
+        const { slope } = this.calculateTrend(dataWeights, lastDate);
         const weightPerWeek = slope * 7 * 24 * 60 * 60 * 1000;
         const weightPerMonth = slope * 30.44 * 24 * 60 * 60 * 1000;
 
@@ -47,10 +48,11 @@ export class CalculationFunctionsService {
         };
     }
 
-    private calculateTrend(dataWeights: Weight[]){
+    private calculateTrend(dataWeights: Weight[], lastDate: number){
         //Calculo de la línea de tendencia basada en las últimas 2 semanas de datos
-        const xData = dataWeights.map(w => new Date(w.date).getTime());
-        const yData = dataWeights.map(w => w.weight);
+        const recentWeights = dataWeights.filter(w => new Date(w.date).getTime() >= lastDate - 14 * 24 * 60 * 60 * 1000);
+        const xData = recentWeights.map(w => new Date(w.date).getTime());
+        const yData = recentWeights.map(w => w.weight);
         const n = xData.length;
         const sumX = xData.reduce((a, b) => a + b, 0);
         const sumY = yData.reduce((a, b) => a + b, 0);
@@ -62,11 +64,11 @@ export class CalculationFunctionsService {
         return { slope, intercept };
     }
 
-    getTrendData(dataWeights: Weight[], goal_date: Date | undefined){
+    getTrendData(dataWeights: Weight[], goal_date: Date | undefined,){
         const lastWeight = dataWeights[dataWeights.length - 1];
         const lastDate = new Date(lastWeight.date).getTime();
         const goalDate = goal_date && typeof goal_date === 'object' ? goal_date : null;
-        const {slope, intercept} = this.calculateTrend(dataWeights);
+        const {slope, intercept} = this.calculateTrend(dataWeights, lastDate);
         const futureTrendData = goalDate && !isNaN(goalDate.getTime()) ? [
             { x: lastDate, y: lastWeight.weight },
             { x: goalDate.getTime(), y: slope * goalDate.getTime() + intercept }

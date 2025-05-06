@@ -24,12 +24,12 @@
             <div class="flex justify-center items-center space-x-10">
                 <ion-card class="bg-[var(--color-tertiary)] rounded-xl p-5 text-center space-y-2 w-36 shadow-xl border-teal-600 border-2">
                     <ion-card-subtitle class="text-[var(--color-accent)] font-sans font-extrabold">Months</ion-card-subtitle>
-                    <ion-card-title>-{{ goalPaceMonth() }} {{ weightUnits() }}</ion-card-title>
+                    <ion-card-title>{{ goalPaceMonth()*-1 }} {{ weightUnits() }}</ion-card-title>
                 </ion-card>
 
                 <ion-card class="bg-[var(--color-tertiary)] rounded-xl p-5 text-center space-y-2 w-36 shadow-xl border-teal-600 border-2">
                     <ion-card-subtitle class="text-[var(--color-accent)] font-sans font-extrabold">Weeks</ion-card-subtitle>
-                    <ion-card-title>-{{ goalPaceWeek() }} {{ weightUnits() }}</ion-card-title>
+                    <ion-card-title>{{ goalPaceWeek()*-1 }} {{ weightUnits() }}</ion-card-title>
                 </ion-card>
             </div>
         </article>

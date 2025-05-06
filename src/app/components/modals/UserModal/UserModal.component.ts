@@ -9,19 +9,12 @@ import { Weight } from '@models/types/Weight';
 import { GoalModalComponent } from '@components/modals/GoalModal/GoalModal.component';
 import { DatePipe } from '@angular/common';
 
-
 @Component({
-    imports: [
-        IonContent, IonButton, IonIcon,
-        ModalHeaderComponent,
-        UserFormComponent,
-        DatePipe
-    ],
+    imports: [IonContent, IonButton, IonIcon, ModalHeaderComponent, UserFormComponent, DatePipe],
     templateUrl: './UserModal.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalUserComponent {
-
     inputUser = toSignal(this.userConfig.user$);
     isGoalDate = signal(false);
 
@@ -29,14 +22,14 @@ export class ModalUserComponent {
 
     constructor(
         private readonly userConfig: UserConfigService,
-        private readonly modalCtrl: ModalController,
+        private readonly modalCtrl: ModalController
     ) {
         this.userConfig.updateUser().subscribe();
     }
 
     ngOnInit(): void {
         const user = this.inputUser();
-        if (!user) return
+        if (!user) return;
         this.user.set(user);
         this.isGoalDate.set(this.validateDate(user.goal_date));
     }
@@ -63,7 +56,7 @@ export class ModalUserComponent {
         this.user.set(user);
     }
 
-    private validateDate(date: Date | undefined ) {
+    private validateDate(date: Date | undefined) {
         if (!date) return false;
         if (date == new Date(0)) return false;
         if (isNaN(new Date(date).getTime() ?? NaN)) return false;
@@ -83,7 +76,6 @@ export class ModalUserComponent {
         this.isGoalDate.set(false);
     }
 
-
     async openModal() {
         const user = this.user();
 
@@ -91,7 +83,7 @@ export class ModalUserComponent {
             weight: user?.goal_weight,
             weight_units: user?.goal_units,
             date: user?.goal_date,
-        }
+        };
 
         const modal = await this.modalCtrl.create({
             component: GoalModalComponent,

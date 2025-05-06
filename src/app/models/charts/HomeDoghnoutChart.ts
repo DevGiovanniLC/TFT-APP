@@ -4,7 +4,6 @@ export default class HomeDoughnutChart {
     private readonly dataset: number[];
 
     constructor(progression: number) {
-
         this.dataset = [progression, 100 - progression];
 
         if (Number.isNaN(progression)) this.dataset = [100, 0];
@@ -18,17 +17,17 @@ export default class HomeDoughnutChart {
         const backgroundColor = [
             documentStyle.getPropertyValue('--color-tertiary'),
             documentStyle.getPropertyValue('--color-accent'),
-        ]
+        ];
 
         return {
             labels: ['Progress'],
             datasets: [
                 {
                     data: this.dataset,
-                    backgroundColor: backgroundColor
+                    backgroundColor: backgroundColor,
                 },
             ],
-        }
+        };
     }
 
     getOptions(): ChartOptions<'doughnut'> {
@@ -61,7 +60,6 @@ export default class HomeDoughnutChart {
                     enabled: false,
                 },
             },
-        }
+        };
     }
 }
-

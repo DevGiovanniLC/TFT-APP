@@ -1,9 +1,5 @@
 import { Component, computed } from '@angular/core';
-import {
-    IonContent,
-    ModalController,
-    AlertController,
-} from '@ionic/angular/standalone';
+import { IonContent, ModalController, AlertController } from '@ionic/angular/standalone';
 import { ItemRegisterComponent } from './components/ItemRegister/ItemRegister.component';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -21,7 +17,7 @@ export class RegisterPage {
 
     readonly reversedRegisters = computed(() => {
         return this.registers()?.map((curr, i) => {
-            const prev = this.registers()?.[i+1];
+            const prev = this.registers()?.[i + 1];
             const progress = Number((prev ? curr?.weight - prev?.weight : 0).toFixed(2));
             return { ...curr, progress };
         });

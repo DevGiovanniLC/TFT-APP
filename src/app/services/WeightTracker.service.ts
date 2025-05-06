@@ -15,13 +15,10 @@ export class WeightTrackerService {
     readonly firstWeight$: Observable<Weight | undefined> = this.firstWeightSubject.asObservable();
     readonly lastWeight$: Observable<Weight | undefined> = this.lastWeightSubject.asObservable();
 
-
-    constructor(private readonly dataProvider: DataProviderService) { }
+    constructor(private readonly dataProvider: DataProviderService) {}
 
     updateWeights(): Observable<Weight[]> {
-        return from(this.dataProvider.getWeights()).pipe(
-            tap((weights) => this.weightsSubject.next(weights))
-        );
+        return from(this.dataProvider.getWeights()).pipe(tap((weights) => this.weightsSubject.next(weights)));
     }
 
     updateLastWeight(): Observable<Weight> {
@@ -42,7 +39,7 @@ export class WeightTrackerService {
 
     addWeight(value: Weight): boolean {
         this.dataProvider.addWeight(value);
-        this.updateWeights().subscribe()
+        this.updateWeights().subscribe();
         return true;
     }
 
@@ -65,5 +62,4 @@ export class WeightTrackerService {
     isAvailable(): boolean {
         return this.dataProvider.isConnected();
     }
-
 }

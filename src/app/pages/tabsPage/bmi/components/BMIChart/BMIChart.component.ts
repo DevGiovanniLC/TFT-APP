@@ -13,23 +13,22 @@ import { ActivatedRoute } from '@angular/router';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BMIChartComponent {
-
     bmi = input.required<number | null>();
     data!: ChartData<'doughnut'>;
     options!: ChartOptions<'doughnut'>;
     plugins: Plugin[] = [];
 
-    constructor(private readonly cdr: ChangeDetectorRef, private readonly route: ActivatedRoute) {
+    constructor(
+        private readonly cdr: ChangeDetectorRef,
+        private readonly route: ActivatedRoute
+    ) {
         effect(() => {
             const bmi = this.bmi();
 
-            if (
-                Number.isNaN(this.bmi()) ||
-                !bmi
-            ) return;
+            if (Number.isNaN(this.bmi()) || !bmi) return;
 
             this.updateChart(bmi);
-        })
+        });
     }
 
     ngOnInit() {
@@ -42,10 +41,9 @@ export class BMIChartComponent {
         const chart = new BMIDoughnutChart(bmi);
         this.data = chart.getData();
         this.options = chart.getOptions();
-        this.plugins.pop()
+        this.plugins.pop();
         this.plugins.push(BMIPluginDoughnut(bmi));
 
         this.cdr.detectChanges();
     }
-
 }

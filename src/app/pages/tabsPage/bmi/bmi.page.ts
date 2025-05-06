@@ -11,10 +11,7 @@ import { ModalUserComponent } from '../../../components/modals/UserModal/UserMod
     selector: 'app-tab3',
     templateUrl: 'bmi.page.html',
     standalone: true,
-    imports: [
-        IonContent, IonButton,
-        BMIChartComponent, BMICategoriesComponent
-    ],
+    imports: [IonContent, IonButton, BMIChartComponent, BMICategoriesComponent],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BMIPage {
@@ -22,14 +19,13 @@ export class BMIPage {
     lastWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
 
     bmi = computed(() => {
-        const height = this.user()?.height
+        const height = this.user()?.height;
         const weight = this.lastWeight();
 
         if (!height || !weight) return null;
 
         return weight.weight / Math.pow(height / 100, 2);
     });
-
 
     constructor(
         private readonly weightTracker: WeightTrackerService,
@@ -40,7 +36,6 @@ export class BMIPage {
         this.weightTracker.updateLastWeight().subscribe();
         this.config.updateUser().subscribe();
     }
-
 
     async openModal() {
         const modal = await this.modalCtrl.create({

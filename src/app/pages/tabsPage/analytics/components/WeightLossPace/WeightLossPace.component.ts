@@ -34,20 +34,19 @@ export class WeightLossPaceComponent {
             const lastWeightDate = new Date(lastWeight?.date ?? NaN);
             const goalDate = new Date(goal?.date ?? NaN);
 
-            if (weights){
+            if (weights) {
                 const { weightPerWeek, weightPerMonth } = this.CalculationFunctionsService.trendWeightPace(weights);
 
-                if (weightPerWeek && weightPerMonth){
+                if (weightPerWeek && weightPerMonth) {
                     this.isTrend.set(true);
                     this.trendPaceWeek.set(weightPerWeek);
                     this.trendPaceMonth.set(weightPerMonth);
-                }else{
+                } else {
                     this.isTrend.set(false);
                 }
             }
 
-
-            if (!goal || !lastWeight || !goalDate || isNaN(goalDate.getTime()) || isNaN(lastWeightDate.getTime())){
+            if (!goal || !lastWeight || !goalDate || isNaN(goalDate.getTime()) || isNaN(lastWeightDate.getTime())) {
                 this.isGoal.set(false);
                 return;
             }
@@ -57,8 +56,7 @@ export class WeightLossPaceComponent {
         });
     }
 
-
-    private calculateGoalPace( goal: Goal, lastWeight: Weight, goalDate: Date, lastWeightDate: Date) {
+    private calculateGoalPace(goal: Goal, lastWeight: Weight, goalDate: Date, lastWeightDate: Date) {
         this.isGoal.set(true);
 
         this.goalPaceWeek.set(

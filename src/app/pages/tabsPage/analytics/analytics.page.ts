@@ -3,18 +3,18 @@ import { WeightLossPaceComponent } from './components/WeightLossPace/WeightLossP
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { UserConfigService } from '@services/UserConfig.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { IonContent } from "@ionic/angular/standalone";
+import { IonContent } from '@ionic/angular/standalone';
 
 @Component({
     selector: 'app-analitics',
     templateUrl: './analytics.page.html',
     standalone: true,
-    imports: [IonContent, WeightLossPaceComponent]
+    imports: [IonContent, WeightLossPaceComponent],
 })
 export class AnaliticsPage implements OnInit {
     weights = toSignal(this.weightTracker.weights$);
-    lastWeight = toSignal(this.weightTracker.lastWeight$)
-    goal = toSignal(this.userConfig.goal$)
+    lastWeight = toSignal(this.weightTracker.lastWeight$);
+    goal = toSignal(this.userConfig.goal$);
 
     constructor(
         private readonly weightTracker: WeightTrackerService,
@@ -26,5 +26,4 @@ export class AnaliticsPage implements OnInit {
         this.weightTracker.updateLastWeight().subscribe();
         this.userConfig.updateGoal().subscribe();
     }
-
 }

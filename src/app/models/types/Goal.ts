@@ -1,4 +1,4 @@
-import { WeightUnits } from "./Weight";
+import { WeightUnits } from './Weight';
 
 export type Goal = {
     date: Date | undefined;

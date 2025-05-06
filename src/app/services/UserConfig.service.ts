@@ -42,7 +42,7 @@ export class UserConfigService {
 
         if (user.goal_weight === undefined || user.goal_units === undefined) {
             this.goalSubject.next(undefined);
-            return
+            return;
         }
 
         const goal: Goal = {

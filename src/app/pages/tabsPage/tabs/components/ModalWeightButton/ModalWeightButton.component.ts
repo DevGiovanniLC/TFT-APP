@@ -6,11 +6,7 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 
 @Component({
     selector: 'app-modal-weight-button',
-    imports: [
-        IonButton,
-        IonButtons,
-        IonIcon
-    ],
+    imports: [IonButton, IonButtons, IonIcon],
     templateUrl: './ModalWeightButton.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -20,7 +16,7 @@ export class ModalWeightButtonComponent {
     constructor(
         private readonly modalCtrl: ModalController,
         private readonly weightTracker: WeightTrackerService
-    ){
+    ) {
         this.isPressingButton = false;
     }
 

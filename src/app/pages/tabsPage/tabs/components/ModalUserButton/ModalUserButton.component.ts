@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonButton, IonButtons, IonIcon, ModalController } from '@ionic/angular/standalone';
 import { ModalUserComponent } from '@components/modals/UserModal/UserModal.component';
 
-
 @Component({
     selector: 'app-modal-user-button',
     imports: [IonButton, IonButtons, IonIcon],
@@ -10,12 +9,9 @@ import { ModalUserComponent } from '@components/modals/UserModal/UserModal.compo
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalUserButtonComponent {
-
     isPressingButton: boolean;
 
-    constructor(
-        private readonly modalCtrl: ModalController,
-    ) {
+    constructor(private readonly modalCtrl: ModalController) {
         this.isPressingButton = false;
     }
 
@@ -32,5 +28,3 @@ export class ModalUserButtonComponent {
         this.isPressingButton = false;
     }
 }
-
-

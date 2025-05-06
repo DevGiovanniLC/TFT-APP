@@ -23,7 +23,7 @@ export class HomePage implements OnInit {
     constructor(
         private readonly weightTracker: WeightTrackerService,
         private readonly userConfig: UserConfigService
-    ) { }
+    ) {}
 
     ngOnInit(): void {
         this.weightTracker.updateWeights().subscribe();

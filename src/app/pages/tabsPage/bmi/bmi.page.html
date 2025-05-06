@@ -1,21 +1,19 @@
 <ion-content class="opacity-0 animate-fade-in">
     @if (bmi() !== null) {
-        <section class="pt-20">
-            <app-bmichart [bmi]="bmi()" />
-            <app-bmicategories [bmi]="bmi() ?? 0" />
-            <p class="text-xs text-slate-600 py-6 px-5 text-center">
-                BMI measures weight relative to height but ignores body composition, often misclassifying muscular or high-fat individuals.
-                It is useful for general screening but not for accurately assessing health.
-            </p>
-        </section>
+    <section class="pt-20">
+        <app-bmichart [bmi]="bmi()" />
+        <app-bmicategories [bmi]="bmi() ?? 0" />
+        <p class="text-xs text-slate-600 py-6 px-5 text-center">
+            BMI measures weight relative to height but ignores body composition, often misclassifying muscular or
+            high-fat individuals. It is useful for general screening but not for accurately assessing health.
+        </p>
+    </section>
     }@else {
-        <section class="h-full flex flex-col justify-center items-center">
-            <p  class="w-64 text-center text-2xl text-slate-600 font-semibold text-pretty">
-                Height is required to calculate your BMI. Please provide it.
-            </p>
-            <ion-button class="mt-4" (click)="openModal()" (keypress)="openModal()">
-                Set Height
-            </ion-button>
-        </section>
+    <section class="h-full flex flex-col justify-center items-center">
+        <p class="w-64 text-center text-2xl text-slate-600 font-semibold text-pretty">
+            Height is required to calculate your BMI. Please provide it.
+        </p>
+        <ion-button class="mt-4" (click)="openModal()" (keypress)="openModal()"> Set Height </ion-button>
+    </section>
     }
 </ion-content>

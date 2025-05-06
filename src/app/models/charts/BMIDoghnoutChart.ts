@@ -1,4 +1,4 @@
-import { ChartData, ChartOptions } from "chart.js";
+import { ChartData, ChartOptions } from 'chart.js';
 
 export class BMIDoughnutChart {
     bmi: number;
@@ -26,7 +26,7 @@ export class BMIDoughnutChart {
                     backgroundColor: [bmiColor, documentStyle.getPropertyValue('--color-accent')],
                 },
             ],
-        }
+        };
     }
 
     getOptions(): ChartOptions<'doughnut'> {
@@ -36,8 +36,8 @@ export class BMIDoughnutChart {
             cutout: '92%',
             radius: 140,
             animations: {
-                x: { duration: 0, },
-                y: { duration: 0, },
+                x: { duration: 0 },
+                y: { duration: 0 },
             },
             animation: {
                 // Desactivar la animación de desplazamiento
@@ -58,8 +58,6 @@ export class BMIDoughnutChart {
                     enabled: false,
                 },
             },
-        }
-
-
+        };
     }
 }

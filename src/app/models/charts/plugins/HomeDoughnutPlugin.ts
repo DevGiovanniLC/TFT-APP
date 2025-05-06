@@ -98,7 +98,11 @@ export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weigh
 
             ctx.font = 'bold 35px sans-serif';
             ctx.fillStyle = '#343a40';
-            ctx.fillText(`${lastWeight()?.weight ?? 'No Data'} ${lastWeight()?.weight_units ?? ''}`, centerX, centerY + offset + 10);
+            ctx.fillText(
+                `${lastWeight()?.weight ?? 'No Data'} ${lastWeight()?.weight_units ?? ''}`,
+                centerX,
+                centerY + offset + 10
+            );
 
             ctx.font = '16px system-ui';
             ctx.fillStyle = '#1e8260';
@@ -135,6 +139,3 @@ function differenceTime(dateStart: Date, dateEnd: Date) {
 
     return result;
 }
-
-
-

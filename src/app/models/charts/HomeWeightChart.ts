@@ -5,7 +5,6 @@ import { CalculationFunctionsService } from '@services/CalculationFunctions.serv
 import { ChartData, ChartOptions, ScriptableContext } from 'chart.js';
 import { AnnotationOptions, LineAnnotationOptions } from 'chartjs-plugin-annotation';
 
-
 export default class HomeWeightChart {
     private readonly chartMode: string;
     private readonly weights: Weight[];
@@ -13,22 +12,21 @@ export default class HomeWeightChart {
     private readonly viewTrend: boolean;
     private readonly calculateFunctionsService: CalculationFunctionsService;
 
-
     constructor(
         calculateFunctionsService: CalculationFunctionsService,
-        chartMode: Signal<string>, weights: Signal<Weight[]>, goal: Signal<Goal | undefined>
+        chartMode: Signal<string>,
+        weights: Signal<Weight[]>,
+        goal: Signal<Goal | undefined>
     ) {
         this.chartMode = chartMode();
         this.weights = weights();
         this.goal = goal();
         this.viewTrend = this.chartMode == 'viewGoal' && this.weights.length >= 7;
-        this.calculateFunctionsService = calculateFunctionsService
+        this.calculateFunctionsService = calculateFunctionsService;
     }
-
 
     getData(): ChartData<'line'> {
         const dataWeights = this.weights;
-
 
         return {
             labels: dataWeights.map((w: Weight) => new Date(w.date).getTime()),
@@ -55,11 +53,13 @@ export default class HomeWeightChart {
                         const isSpaced = ctx.dataIndex % spacing === 0;
 
                         return isFirst || isLast || total <= 20 || isSpaced ? 3 : 0;
-                    }
+                    },
                 },
                 {
                     label: 'Trend',
-                    data: this.viewTrend ? this.calculateFunctionsService.getTrendData(dataWeights, this.goal?.date) : [],
+                    data: this.viewTrend
+                        ? this.calculateFunctionsService.getTrendData(dataWeights, this.goal?.date)
+                        : [],
                     parsing: false,
                     fill: false,
                     borderDash: [6, 6],
@@ -67,7 +67,7 @@ export default class HomeWeightChart {
                     pointRadius: 0,
                     tension: 0,
                     segment: {
-                        borderDash: [6, 6]
+                        borderDash: [6, 6],
                     },
                     hoverBackgroundColor: 'transparent',
                     hoverBorderColor: 'transparent',
@@ -75,7 +75,7 @@ export default class HomeWeightChart {
                     pointHitRadius: 0,
                 },
             ],
-        }
+        };
     }
 
     annotationConfig(chartMode: string, goalWeight: number, goalDate: Date | undefined) {
@@ -101,10 +101,11 @@ export default class HomeWeightChart {
             borderDash: [5, 5],
         };
 
-        if (!goalDate) return {
-            goalLabel,
-            goalLine,
-        };
+        if (!goalDate)
+            return {
+                goalLabel,
+                goalLine,
+            };
 
         const goalPoint: AnnotationOptions = {
             type: 'point', // aquí sí puedes ponerlo
@@ -175,7 +176,7 @@ export default class HomeWeightChart {
                 },
                 legend: {
                     display: this.viewTrend,
-                    onClick: () => { },
+                    onClick: () => {},
                     position: 'top',
                 },
             },
@@ -221,6 +222,6 @@ export default class HomeWeightChart {
                     },
                 },
             },
-        }
+        };
     }
 }

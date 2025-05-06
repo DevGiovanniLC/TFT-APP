@@ -1,4 +1,4 @@
-import { Chart } from "chart.js";
+import { Chart } from 'chart.js';
 
 export const BMIPluginDoughnut = (bmi: number) => {
     const img = new Image();
@@ -14,7 +14,12 @@ export const BMIPluginDoughnut = (bmi: number) => {
             if (!meta?.data?.length) return;
 
             const segment = meta.data[0];
-            const { x: centerX, y: centerY, innerRadius, outerRadius } = segment as unknown as { x: number; y: number; innerRadius: number; outerRadius: number };
+            const {
+                x: centerX,
+                y: centerY,
+                innerRadius,
+                outerRadius,
+            } = segment as unknown as { x: number; y: number; innerRadius: number; outerRadius: number };
 
             const targetRadius = innerRadius + (outerRadius - innerRadius) / 2;
             const imgSize = targetRadius * 0.3;
@@ -44,7 +49,7 @@ export const BMIPluginDoughnut = (bmi: number) => {
 
             const alertColor = getColor(bmi);
 
-            tempCtx.fillStyle = alertColor
+            tempCtx.fillStyle = alertColor;
             tempCtx.fillRect(0, fillY, imgSize, fillHeight);
 
             ctx.font = 'bold 25px sans-serif';
@@ -55,7 +60,6 @@ export const BMIPluginDoughnut = (bmi: number) => {
             ctx.fillStyle = '#343a40';
             ctx.fillText(bmi.toFixed(1), centerX - 45, centerY + 40);
 
-
             const text = getTextLevel(bmi);
             const textWidth = ctx.measureText(text).width;
 
@@ -65,22 +69,21 @@ export const BMIPluginDoughnut = (bmi: number) => {
             ctx.fillStyle = alertColor;
             ctx.fillText(text, centeredX, centerY + 80);
 
-
             tempCtx.globalCompositeOperation = 'source-over'; // Regresar a normal
 
             // Dibuja el canvas temporal relleno encima del original
             ctx.drawImage(tempCanvas, imgX, imgY, imgSize, imgSize);
-        }
+        },
     };
-
 };
 
 const getColor = (bmi: number): string => {
-    if (bmi >= 30) return '#f15757';  // Obesidad
-    if (bmi >= 25) return '#cdc827';  // Sobre peso
-    if (bmi < 18.49) return '#adccf2';  // Bajo de peso
-    else return '#4caf50';  // Normal
-}
+    if (bmi >= 30) return '#f15757'; // Obesidad
+    if (bmi >= 25) return '#cdc827'; // Sobre peso
+    if (bmi < 18.49)
+        return '#adccf2'; // Bajo de peso
+    else return '#4caf50'; // Normal
+};
 
 const getTextLevel = (bmi: number): string => {
     const levels = [
@@ -92,8 +95,8 @@ const getTextLevel = (bmi: number): string => {
         { max: 29.9, text: 'High Overweight' },
         { max: 34.9, text: 'Obesity Class I' },
         { max: 39.9, text: 'Obesity Class II' },
-        { max: Infinity, text: 'Obesity Class III' }
+        { max: Infinity, text: 'Obesity Class III' },
     ];
 
-    return levels.find(level => bmi <= level.max)?.text ?? 'Unknown';
+    return levels.find((level) => bmi <= level.max)?.text ?? 'Unknown';
 };

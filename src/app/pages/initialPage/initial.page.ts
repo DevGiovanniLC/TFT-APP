@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import {
-    IonContent,
-    ModalController,
-    IonButton,
-    NavController,
-} from '@ionic/angular/standalone';
+import { IonContent, ModalController, IonButton, NavController } from '@ionic/angular/standalone';
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { WeightFormComponent } from '@components/forms/WeightForm/WeightForm.component';
 import { GoalModalComponent } from '../../components/modals/GoalModal/GoalModal.component';
@@ -27,7 +22,7 @@ import { Goal } from '@models/types/Goal';
         WeightFormComponent,
         DatePipe,
         FormsModule,
-        UserFormComponent
+        UserFormComponent,
     ],
     templateUrl: './Initial.page.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,7 +41,7 @@ export class InitialPage {
         email: undefined,
         goal_weight: undefined,
         goal_units: undefined,
-        goal_date: undefined
+        goal_date: undefined,
     });
 
     actualWeight = signal(80);
@@ -61,7 +56,7 @@ export class InitialPage {
         private readonly weightTracker: WeightTrackerService,
         private readonly navCtrl: NavController,
         private readonly timeService: TimeService
-    ) { }
+    ) {}
 
     controlSteps(step: number) {
         this.step = step;

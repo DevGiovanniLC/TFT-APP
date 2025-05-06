@@ -1,12 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-    IonDatetime,
-    IonContent,
-    ModalController,
-    IonModal,
-    IonDatetimeButton,
-} from '@ionic/angular/standalone';
+import { IonDatetime, IonContent, ModalController, IonModal, IonDatetimeButton } from '@ionic/angular/standalone';
 
 import { Weight, WeightUnits } from '@models/types/Weight';
 
@@ -18,14 +12,14 @@ import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/
 
 @Component({
     imports: [
-    IonContent,
-    IonDatetime,
-    IonModal,
-    IonDatetimeButton,
-    FormsModule,
-    WeightFormComponent,
-    ModalHeaderComponent
-],
+        IonContent,
+        IonDatetime,
+        IonModal,
+        IonDatetimeButton,
+        FormsModule,
+        WeightFormComponent,
+        ModalHeaderComponent,
+    ],
     templateUrl: './WeightRegisterModal.component.html',
     styleUrl: './WeightRegisterModal.component.css',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,8 +54,8 @@ export class WeightRegisterComponent implements OnInit {
     }
 
     controlSteps(step: number) {
-        if (step == -1) this.cancel()
-        if (step == 1) this.confirm()
+        if (step == -1) this.cancel();
+        if (step == 1) this.confirm();
     }
 
     private cancel() {

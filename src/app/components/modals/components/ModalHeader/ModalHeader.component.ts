@@ -3,14 +3,11 @@ import { IonHeader, IonToolbar, IonButtons, IonButton } from '@ionic/angular/sta
 
 @Component({
     selector: 'app-modal-header',
-    imports: [
-        IonHeader, IonToolbar, IonButtons, IonButton
-    ],
+    imports: [IonHeader, IonToolbar, IonButtons, IonButton],
     templateUrl: './ModalHeader.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalHeaderComponent {
-
     HeaderEnum = HeaderMode;
 
     MAX_STEPS = input<number>(0);
@@ -22,13 +19,13 @@ export class ModalHeaderComponent {
 
     nextStep() {
         this.step++;
-        this.outputStep.emit(this.step)
+        this.outputStep.emit(this.step);
         return this.step;
     }
 
     backStep(): number {
         this.step--;
-        this.outputStep.emit(this.step)
+        this.outputStep.emit(this.step);
         return this.step;
     }
 }

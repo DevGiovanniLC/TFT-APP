@@ -1,4 +1,16 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, effect, input, OnDestroy, output, signal, viewChild, ElementRef, Renderer2, } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    effect,
+    input,
+    OnDestroy,
+    output,
+    signal,
+    viewChild,
+    ElementRef,
+    Renderer2,
+} from '@angular/core';
 import { Gesture, GestureController } from '@ionic/angular';
 import { Weight } from '@models/types/Weight';
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent } from '@ionic/angular/standalone';

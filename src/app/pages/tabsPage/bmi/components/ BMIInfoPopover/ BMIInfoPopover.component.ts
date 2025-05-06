@@ -6,4 +6,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     templateUrl: './ BMIInfoPopover.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BMIInfoPopoverComponent { }
+export class BMIInfoPopoverComponent {}

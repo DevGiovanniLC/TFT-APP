@@ -35,7 +35,6 @@ export class MainDisplay {
     readonly goal = input.required<Goal | undefined>();
     readonly weightAdded = output<Weight>();
 
-
     // Signals
     isButtonActive = signal(false);
     progression: Signal<number> = computed(() => {
@@ -55,7 +54,7 @@ export class MainDisplay {
         private readonly calculationFunctionsService: CalculationFunctionsService,
         private readonly modalCtrl: ModalController,
         private readonly cdr: ChangeDetectorRef,
-        private readonly route: ActivatedRoute,
+        private readonly route: ActivatedRoute
     ) {
         this.plugins.update((p: Plugin[]) => {
             p.push(TextPlugin(this.progression, this.lastWeight));
@@ -70,7 +69,6 @@ export class MainDisplay {
             this.updateChart(this.progression);
         });
     }
-
 
     private updateChart(progression: Signal<number>) {
         const doughnutChart = new HomeDoughnutChart(progression());

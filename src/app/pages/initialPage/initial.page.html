@@ -1,33 +1,40 @@
-<app-modal-header [headerMode]="HeaderEnum.sequence"  [MAX_STEPS]="FINAL_STEP" (outputStep)="controlSteps($event)" />
+<app-modal-header [headerMode]="HeaderEnum.sequence" [MAX_STEPS]="FINAL_STEP" (outputStep)="controlSteps($event)" />
 
 <ion-content scrollY="false">
-    <div class="h-full flex flex-col items-center text-center px-6 py-5 space-y-5 bg-gradient-to-tr from-emerald-100 to-emerald-300 w-full">
+    <div
+        class="h-full flex flex-col items-center text-center px-6 py-5 space-y-5 bg-gradient-to-tr from-emerald-100 to-emerald-300 w-full"
+    >
         @switch (step) { @case (0) {
         <h1 class="text-3xl font-bold font-sans text-gray-800 text-pretty">
             Your journey to a healthier you starts now! 🚀
         </h1>
         <ul class="mt-6 space-y-3 text-left bg-teal-100 p-6 rounded-3xl shadow-xl bg-opacity-30 font-system">
             <li class="flex items-center gap-2">💡 <span class="text-lg font-medium">Track your progress</span></li>
-            <li class="flex items-center gap-2">📊 <span class="text-lg font-medium">Set achievable goals</span>
-            </li>
+            <li class="flex items-center gap-2">📊 <span class="text-lg font-medium">Set achievable goals</span></li>
             <li class="flex items-center gap-2">📈 <span class="text-lg font-medium">View analysis</span></li>
-            <li class="flex items-center gap-2">🍎 <span class="text-lg font-medium">Build healthy habits</span>
-            </li>
+            <li class="flex items-center gap-2">🍎 <span class="text-lg font-medium">Build healthy habits</span></li>
             <li class="flex items-center gap-2">
                 🎉 <span class="text-lg font-medium">Celebrate your milestones</span>
             </li>
         </ul>
-        <img alt="Cartoon Woman with a mobile phone" src="assets/images/initial-image-cartoon.png"
-            class="flex-grow h-1/6 max-h-80 drop-shadow-2xl" />
+        <img
+            alt="Cartoon Woman with a mobile phone"
+            src="assets/images/initial-image-cartoon.png"
+            class="flex-grow h-1/6 max-h-80 drop-shadow-2xl"
+        />
         } @case (1) {
         <h1 class="text-3xl font-bold font-sans text-gray-800">Track Your Weight</h1>
         <p class="text-lg text-gray-700">Stay consistent and monitor your progress!</p>
 
         <form
-            class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10">
+            class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10"
+        >
             <div class="h-full bg-white flex flex-col items-center">
-                <app-weight-form [inputWeightValue]="actualWeight()" [inputWeightUnit]="lastWeightUnit"
-                    (outputWeightValue)="updateActualWeight($event)"></app-weight-form>
+                <app-weight-form
+                    [inputWeightValue]="actualWeight()"
+                    [inputWeightUnit]="lastWeightUnit"
+                    (outputWeightValue)="updateActualWeight($event)"
+                ></app-weight-form>
             </div>
         </form>
         } @case (2) {
@@ -39,12 +46,10 @@
             <li class="flex items-center gap-2">
                 🎯 <span class="text-lg font-medium">Lose weight and stay fit</span>
             </li>
-            <li class="flex items-center gap-2">💪 <span class="text-lg font-medium">Increase your strength</span>
-            </li>
+            <li class="flex items-center gap-2">💪 <span class="text-lg font-medium">Increase your strength</span></li>
             <li class="flex items-center gap-2">🏃 <span class="text-lg font-medium">Improve endurance</span></li>
             <li class="flex items-center gap-2">🧘 <span class="text-lg font-medium">Enhance flexibility</span></li>
-            <li class="flex items-center gap-2">🥗 <span class="text-lg font-medium">Adopt a healthier diet</span>
-            </li>
+            <li class="flex items-center gap-2">🥗 <span class="text-lg font-medium">Adopt a healthier diet</span></li>
         </ul>
         <div class="p-3 flex flex-col items-center space-y-3">
             @if (!isGoal()) {

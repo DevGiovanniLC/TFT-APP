@@ -20,7 +20,7 @@ export const routes: Routes = [
             },
             {
                 path: 'tab4',
-                loadComponent: () => import('../analytics/analytics.page').then(m => m.AnaliticsPage)
+                loadComponent: () => import('../analytics/analytics.page').then((m) => m.AnaliticsPage),
             },
             {
                 path: '',

@@ -120,7 +120,7 @@ export default class DBConnection implements DataProvider {
             weight_units: user.values[0].goal_units,
         };
 
-        return goal
+        return goal;
     }
 
     setUser(value: User): boolean {

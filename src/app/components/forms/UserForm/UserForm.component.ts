@@ -5,15 +5,11 @@ import { User } from '@models/types/User';
 
 @Component({
     selector: 'app-user-form',
-    imports: [
-        FormsModule,
-        IonSelect, IonSelectOption
-    ],
+    imports: [FormsModule, IonSelect, IonSelectOption],
     templateUrl: './UserForm.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserFormComponent {
-
     inputUser = input<User | undefined>();
 
     outputUser!: User;
@@ -29,15 +25,15 @@ export class UserFormComponent {
             email: undefined,
             goal_weight: undefined,
             goal_units: undefined,
-            goal_date: undefined
-        }
+            goal_date: undefined,
+        };
     }
 
     ngOnInit(): void {
         const user = this.inputUser();
-        if (!user) return
+        if (!user) return;
 
-        this.outputUser = user
+        this.outputUser = user;
     }
 
     validateHeight(event: Event): void {

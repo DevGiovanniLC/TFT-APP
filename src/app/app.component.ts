@@ -3,6 +3,8 @@ import { IonApp, IonRouterOutlet, NavController } from '@ionic/angular/standalon
 import { DataProviderService } from '@services/data-providers/DataProvider.service';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { UserConfigService } from '@services/UserConfig.service';
+import { LocalNotifications } from '@capacitor/local-notifications';
+import { NotificationService } from '@services/Notification.service';
 
 @Component({
     selector: 'app-root',
@@ -13,9 +15,11 @@ export class AppComponent {
     constructor(
         private readonly dataProvider: DataProviderService,
         private readonly navCtrl: NavController,
-        private readonly config: UserConfigService
+        private readonly config: UserConfigService,
+        private readonly notificationService: NotificationService
     ) {
         this.initApp();
+        this.notificationService.requestPermission();
     }
 
     initApp() {

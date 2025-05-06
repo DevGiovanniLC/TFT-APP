@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { LocalNotifications } from '@capacitor/local-notifications';
 import { ToastController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
     providedIn: 'root'
@@ -7,10 +9,12 @@ import { ToastController } from '@ionic/angular';
 export class NotificationService {
 
     constructor(
-        private readonly toastController: ToastController
+        private readonly toastController: ToastController,
+        private platform: Platform
     ) { }
 
     async showToast(message: string) {
+        await this.platform.ready();
         const toast = await this.toastController.create({
             message: `📁 ${message}`,
             duration: 4000,
@@ -18,6 +22,30 @@ export class NotificationService {
             color: 'primary',
             cssClass: 'custom-toast'
         });
-        await toast.present();
+
+        toast.present();
+
+    }
+
+    async showPushNotificationExportation() {
+        await LocalNotifications.schedule({
+            notifications: [
+                {
+                    title: '✅ CSV file saved',
+                    body: 'CSV file saved to documents folder',
+                    id: 1,
+                    sound: 'default',
+                    smallIcon: 'ic_stat_notify',
+                    actionTypeId: '',
+                }
+            ]
+        });
+    }
+
+    async requestPermission() {
+        const { display } = await LocalNotifications.requestPermissions();
+        if (display !== 'granted') {
+            console.warn('🔒 Permiso de notificaciones denegado');
+        }
     }
 }

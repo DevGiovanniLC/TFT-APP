@@ -13,7 +13,7 @@ import { Weight } from '@models/types/Weight';
 import { IonButton, ModalController } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
-import { WeightRegisterComponent } from '@pages/tabsPage/home/components/WeightRegister/WeightRegister.component';
+import { WeightRegisterComponent } from '@components/WeightRegister/WeightRegister.component';
 import { TextPlugin, SVGIconsPlugin } from '@models/charts/plugins/HomeDoughnutPlugin';
 import HomeDoughnutChart from '@models/charts/HomeDoghnoutChart';
 import { ChartData, ChartOptions, Plugin } from 'chart.js';

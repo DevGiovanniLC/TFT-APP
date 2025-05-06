@@ -53,7 +53,8 @@ export class WeightRegisterComponent implements OnInit {
         this.actualWeight.set(this.inputWeight?.weight ?? this.lastWeight()?.weight ?? 0);
         this.actualDate.set(this.inputWeight?.date ?? this.timeService.now());
 
-        const date = this.inputWeight!.date;
+        if (!this.inputWeight) return;
+        const date = this.inputWeight.date;
         const tzOffsetMs = date.getTimezoneOffset() * 60000;
         const localISO = new Date(date.getTime() - tzOffsetMs).toISOString().substring(0, 16);
         this.selectedDate.set(localISO);

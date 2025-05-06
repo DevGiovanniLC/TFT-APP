@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonButton, IonButtons, IonIcon, ModalController } from '@ionic/angular/standalone';
 import { Weight } from '@models/types/Weight';
-import { WeightRegisterComponent } from '@pages/tabsPage/home/components/WeightRegister/WeightRegister.component';
+import { WeightRegisterComponent } from '@components/WeightRegister/WeightRegister.component';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 
 @Component({

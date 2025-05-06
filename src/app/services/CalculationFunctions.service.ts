@@ -38,7 +38,7 @@ export class CalculationFunctionsService {
 
     trendWeightPace(dataWeights: Weight[]) {
         const lastWeight = dataWeights[dataWeights.length - 1];
-        const { slope } = this.calculateTrend(dataWeights, lastWeight.date.getTime());
+        const { slope } = this.calculateTrend(dataWeights, lastWeight?.date?.getTime());
         const weightPerWeek = slope * 7 * 24 * 60 * 60 * 1000;
         const weightPerMonth = slope * 30.44 * 24 * 60 * 60 * 1000;
 
@@ -73,9 +73,9 @@ export class CalculationFunctionsService {
         const futureTrendData =
             goalDate && !isNaN(goalDate.getTime())
                 ? [
-                      { x: lastDate, y: lastWeight.weight },
-                      { x: goalDate.getTime(), y: slope * goalDate.getTime() + intercept },
-                  ]
+                    { x: lastDate, y: lastWeight.weight },
+                    { x: goalDate.getTime(), y: slope * goalDate.getTime() + intercept },
+                ]
                 : [];
 
         return futureTrendData;

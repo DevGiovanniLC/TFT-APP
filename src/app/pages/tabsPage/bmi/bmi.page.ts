@@ -5,7 +5,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { UserConfigService } from '@services/UserConfig.service';
 import { BMICategoriesComponent } from './components/BMICategories/BMICategories.component';
-import { ModalUserComponent } from '../../../components/ModalUser/ModalUser.component';
+import { ModalUserComponent } from '../../../components/modals/UserModal/UserModal.component';
 
 @Component({
     selector: 'app-tab3',

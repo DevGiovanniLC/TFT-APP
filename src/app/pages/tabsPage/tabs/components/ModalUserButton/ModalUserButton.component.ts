@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonButton, IonButtons, IonIcon, ModalController } from '@ionic/angular/standalone';
-import { ModalUserComponent } from '@components/ModalUser/ModalUser.component';
+import { ModalUserComponent } from '@components/modals/UserModal/UserModal.component';
 
 
 @Component({

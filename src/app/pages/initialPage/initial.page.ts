@@ -6,16 +6,16 @@ import {
     NavController,
 } from '@ionic/angular/standalone';
 import { Weight, WeightUnits } from '@models/types/Weight';
-import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
-import { GoalModalComponent } from '../../components/GoalModal/GoalModal.component';
+import { WeightFormComponent } from '@components/forms/WeightForm/WeightForm.component';
+import { GoalModalComponent } from '../../components/modals/GoalModal/GoalModal.component';
 import { User } from '@models/types/User';
 import { FormsModule } from '@angular/forms';
 import { UserConfigService } from '@services/UserConfig.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { TimeService } from '@services/Time.service';
 import { DatePipe } from '@angular/common';
-import { UserFormComponent } from '@components/UserForm/UserForm.component';
-import { HeaderMode, ModalHeaderComponent } from '@components/ModalHeader/ModalHeader.component';
+import { UserFormComponent } from '@components/forms/UserForm/UserForm.component';
+import { HeaderMode, ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
 import { Goal } from '@models/types/Goal';
 
 @Component({

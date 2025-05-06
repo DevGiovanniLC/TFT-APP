@@ -11,12 +11,11 @@ import {
 } from '@ionic/angular/standalone';
 
 import { Weight, WeightUnits } from '@models/types/Weight';
-import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
+import { WeightFormComponent } from '@components/forms/WeightForm/WeightForm.component';
 import { TimeService } from '@services/Time.service';
-import { ModalHeaderComponent } from '@components/ModalHeader/ModalHeader.component';
+import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
 
 @Component({
-    selector: 'app-goal-modal',
     imports: [
         IonContent,
         FormsModule,

@@ -11,13 +11,12 @@ import {
 import { Weight, WeightUnits } from '@models/types/Weight';
 
 import { WeightTrackerService } from '@services/WeightTracker.service';
-import { WeightFormComponent } from '@components/WeightForm/WeightForm.component';
+import { WeightFormComponent } from '@components/forms/WeightForm/WeightForm.component';
 import { TimeService } from '@services/Time.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ModalHeaderComponent } from '@components/ModalHeader/ModalHeader.component';
+import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
 
 @Component({
-    selector: 'app-weight-register',
     imports: [
     IonContent,
     IonDatetime,
@@ -27,8 +26,8 @@ import { ModalHeaderComponent } from '@components/ModalHeader/ModalHeader.compon
     WeightFormComponent,
     ModalHeaderComponent
 ],
-    templateUrl: './WeightRegister.component.html',
-    styleUrls: ['./WeightRegister.component.css'],
+    templateUrl: './WeightRegisterModal.component.html',
+    styleUrl: './WeightRegisterModal.component.css',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WeightRegisterComponent implements OnInit {

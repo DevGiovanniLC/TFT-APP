@@ -35,7 +35,7 @@ export default class HomeDoughnutChart {
             responsive: true,
             maintainAspectRatio: false,
             cutout: '92%',
-            radius: 120,
+            radius: 110,
             animations: {
                 x: {
                     duration: 0,

@@ -1,4 +1,4 @@
-::ng-deep #lineChart canvas {
-    height: 210px !important;
+::ng-deep #doughnutChart canvas {
+    height: 245px !important;
     width: 100% !important;
 }

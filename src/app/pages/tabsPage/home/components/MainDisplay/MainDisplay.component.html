@@ -1,23 +1,39 @@
-<section class="card flex items-center justify-center flex-col space-y-4 mt-8">
-    <div class="max-w-3xl w-96">
-        <p-chart
-            #chart
-            id="doughnutChart"
-            type="doughnut"
-            [data]="data"
-            [options]="options"
-            [plugins]="plugins()"
-            class="w-full"
-        />
-    </div>
-    <ion-button
-        id="registerBtn"
-        class="button-shadow w-40 h-12"
-        style="--border-radius: 15px"
-        (click)="openModal()"
-        (keypress)="openModal()"
-        [disabled]="isButtonActive()"
-    >
+<section class="card flex items-center justify-center flex-col space-y-4 mt-10">
+    <article class="max-w-3xl w-96">
+        <p-chart #chart id="doughnutChart" type="doughnut" [data]="data" [options]="options" [plugins]="plugins()"
+            class="w-full" />
+    </article>
+    <article class="flex justify-center items-center space-x-10 pb-4">
+        <ion-card
+            class="bg-[var(--color-tertiary)] rounded-xl text-center space-y-1 w-36 h-24 shadow-xl border-teal-600 border-2 flex flex-col items-center justify-center">
+            <h1 class="text-[var(--color-accent)] font-sans font-extrabold text-xs m-0 p-0">Starting Weight</h1>
+            <p class="text-base text-slate-200">
+                {{firstWeight()?.weight}}
+                {{firstWeight()?.weight_units}}
+            </p>
+            <span class="text-xs text-teal-800">
+                {{firstWeight()?.date?.toLocaleDateString()}}
+            </span>
+        </ion-card>
+
+        <ion-card
+            class="bg-[var(--color-tertiary)] rounded-xl text-center space-y-1 w-36 h-24 shadow-xl border-teal-600 border-2 flex flex-col items-center justify-center">
+            <h1 class="text-[var(--color-accent)] font-sans font-extrabold text-xs m-0 p-0">Goal Weight</h1>
+            @if (goal()?.weight) {
+            <p class="text-base text-slate-200">
+                {{goal()?.weight}}
+                {{goal()?.weight_units}}
+            </p>
+            <span class="text-xs text-teal-800">
+                {{goal()?.date?.toLocaleDateString()}}
+            </span>
+            }@else{
+            <p class="text-base text-slate-200 text text-balance">No Goal<br>Selected</p>
+            }
+        </ion-card>
+    </article>
+    <ion-button id="registerBtn" class="button-shadow w-40 h-12" style="--border-radius: 15px" (click)="openModal()"
+        (keypress)="openModal()" [disabled]="isButtonActive()">
         Register Weight
     </ion-button>
 </section>

@@ -109,7 +109,7 @@ export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weigh
             ctx.fillText(
                 `${differenceTime(lastWeight()?.date ?? timeService.now(), timeService.now())}`,
                 centerX,
-                centerY + 70
+                centerY + 62
             );
 
             ctx.restore();

@@ -10,7 +10,7 @@ import {
     signal,
 } from '@angular/core';
 import { Weight } from '@models/types/Weight';
-import { IonButton, ModalController } from '@ionic/angular/standalone';
+import { IonButton, ModalController, IonCard } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 import { WeightRegisterComponent } from '@components/modals/WeightRegisterModal/WeightRegisterModal.component';
@@ -23,7 +23,7 @@ import { Goal } from '@models/types/Goal';
 @Component({
     selector: 'app-main-display',
     standalone: true,
-    imports: [IonButton, ChartModule],
+    imports: [IonCard, IonButton, ChartModule],
     styleUrl: './MainDisplay.component.css',
     templateUrl: './MainDisplay.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,

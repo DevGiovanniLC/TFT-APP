@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, effect, input, Signal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, signal } from '@angular/core';
 import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle } from '@ionic/angular/standalone';
 import { Goal } from '@models/types/Goal';
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
-import { is } from 'cypress/types/bluebird';
 
 @Component({
     selector: 'app-weight-loss-pace',

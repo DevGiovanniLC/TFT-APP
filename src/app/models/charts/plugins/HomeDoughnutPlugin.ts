@@ -16,7 +16,7 @@ export const SVGIconsPlugin = () => {
 
     return {
         id: 'customSVG',
-        afterDraw: (chart: any) => {
+        afterDraw: (chart: Chart) => {
             const ctx = chart.ctx;
 
             const meta = chart.getDatasetMeta(0);
@@ -28,13 +28,14 @@ export const SVGIconsPlugin = () => {
 
             const centerX = segment.x;
             const centerY = segment.y;
-            const innerRadius = segment.innerRadius + 2;
+            const arcSegment = segment as unknown as import('chart.js').ArcElement;
+            const innerRadius = arcSegment.innerRadius + 2;
 
-            const startAngle = segment.startAngle;
+            const startAngle = arcSegment.startAngle;
             const startX = centerX + innerRadius * Math.cos(startAngle);
             const startY = centerY + innerRadius * Math.sin(startAngle);
 
-            const endAngle = segment.endAngle;
+            const endAngle = arcSegment.endAngle;
             const progressX = centerX + innerRadius * Math.cos(endAngle);
             const progressY = centerY + innerRadius * Math.sin(endAngle);
 

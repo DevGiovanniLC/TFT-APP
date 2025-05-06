@@ -43,7 +43,7 @@ export class WeightFormComponent implements OnInit, AfterViewInit {
         this.cdr.detectChanges();
     }
 
-    updateActualWeight(value: any) {
+    updateActualWeight(value: PickerColumn['options'][number]['value']) {
         if (typeof value !== 'number') return;
 
         this.lastWeight.set(value);

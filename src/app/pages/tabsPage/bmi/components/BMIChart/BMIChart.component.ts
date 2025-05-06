@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 import { BMIDoughnutChart } from '@models/charts/BMIDoghnoutChart';
 import { BMIPluginDoughnut } from '@models/charts/plugins/BMIDoughnutPlugin';
@@ -13,8 +13,6 @@ import { ActivatedRoute } from '@angular/router';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BMIChartComponent {
-
-    @ViewChild('chart') chartComponent!: any;
 
     bmi = input.required<number | null>();
     data!: ChartData<'doughnut'>;

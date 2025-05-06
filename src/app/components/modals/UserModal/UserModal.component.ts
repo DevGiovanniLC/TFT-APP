@@ -65,7 +65,7 @@ export class ModalUserComponent {
 
     private validateDate(date: Date | undefined ) {
         if (!date) return false;
-        if (date === new Date(0)) return false;
+        if (date == new Date(0)) return false;
         if (isNaN(new Date(date).getTime() ?? NaN)) return false;
         return true;
     }

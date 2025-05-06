@@ -1,8 +1,8 @@
-import { inject, Signal } from '@angular/core';
+import { Signal } from '@angular/core';
 import { Goal } from '@models/types/Goal';
 import { Weight } from '@models/types/Weight';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
-import { ChartData, ChartOptions } from 'chart.js';
+import { ChartData, ChartOptions, ScriptableContext } from 'chart.js';
 import { AnnotationOptions, LineAnnotationOptions } from 'chartjs-plugin-annotation';
 
 
@@ -31,15 +31,15 @@ export default class HomeWeightChart {
 
 
         return {
-            labels: dataWeights.map((w) => new Date(w.date).getTime()),
+            labels: dataWeights.map((w: Weight) => new Date(w.date).getTime()),
             datasets: [
                 {
                     label: 'Weight (kg)',
-                    data: dataWeights.map((w) => w.weight),
+                    data: dataWeights.map((w: Weight) => w.weight),
                     fill: false,
                     borderColor: '#00BD7E',
                     tension: 0.4,
-                    pointRadius: (ctx: { chart: any; dataIndex: number }) => {
+                    pointRadius: (ctx: ScriptableContext<'line'>): number => {
                         const dataset = ctx.chart.data.datasets[0];
                         const total = dataset.data.length;
                         let spacing = 0;
@@ -179,7 +179,7 @@ export default class HomeWeightChart {
                     position: 'top',
                 },
             },
-            animation: {duration: 0 },
+            animation: { duration: 0 },
             scales: {
                 x: {
                     type: 'time',

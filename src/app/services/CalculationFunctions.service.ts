@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Weight } from '@models/types/Weight';
-import { last } from 'cypress/types/lodash';
 
 @Injectable({
     providedIn: 'root',

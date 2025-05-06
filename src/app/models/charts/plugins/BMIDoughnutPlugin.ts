@@ -1,3 +1,4 @@
+import { Chart } from "chart.js";
 
 export const BMIPluginDoughnut = (bmi: number) => {
     const img = new Image();
@@ -5,7 +6,7 @@ export const BMIPluginDoughnut = (bmi: number) => {
 
     return {
         id: 'bmiHumanFill',
-        afterDraw(chart: any) {
+        afterDraw(chart: Chart) {
             if (!img.complete) return;
 
             const ctx = chart.ctx;
@@ -13,7 +14,7 @@ export const BMIPluginDoughnut = (bmi: number) => {
             if (!meta?.data?.length) return;
 
             const segment = meta.data[0];
-            const { x: centerX, y: centerY, innerRadius, outerRadius } = segment;
+            const { x: centerX, y: centerY, innerRadius, outerRadius } = segment as unknown as { x: number; y: number; innerRadius: number; outerRadius: number };
 
             const targetRadius = innerRadius + (outerRadius - innerRadius) / 2;
             const imgSize = targetRadius * 0.3;

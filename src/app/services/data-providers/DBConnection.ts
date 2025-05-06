@@ -52,7 +52,7 @@ export default class DBConnection implements DataProvider {
 
     async getWeights(): Promise<Weight[]> {
         const registers = await this.db.query('SELECT * FROM registers ORDER BY date DESC');
-        return registers.values?.map((r: any) => ({
+        return registers.values?.map((r: Weight) => ({
             id: r.id,
             date: new Date(r.date),
             weight: r.weight,

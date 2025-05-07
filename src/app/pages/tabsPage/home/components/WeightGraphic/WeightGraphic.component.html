@@ -1,4 +1,4 @@
-<section class="w-full flex justify-center items-center flex-col space-y-2">
+<section class="w-full flex justify-center items-center flex-col">
     @if (!!goal()) {
         <div class="flex justify-end w-full px-5">
             <ion-select
@@ -28,8 +28,8 @@
             <h2>in this {{ chartMode() }} period</h2>
         </div>
     } @else {
-        <div class="w-full relative">
-            <p-chart id="lineChart" class="w-full h-full" type="line" [data]="data" [options]="options" />
+        <div class="w-full pt-2 shadow-xl rounded-lg border-teal-600 border-2 flex items-center justify-center align-middle">
+            <p-chart id="lineChart" class="w-full h-full ml-1 mt-1" type="line" [data]="data" [options]="options" />
         </div>
     }
 </section>

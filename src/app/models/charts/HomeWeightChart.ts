@@ -215,7 +215,7 @@ export default class HomeWeightChart {
                     },
                     ticks: {
                         font: {
-                            size: 10,
+                            size: 13,
                         },
                         color: '#343a40',
                         maxTicksLimit: 8,

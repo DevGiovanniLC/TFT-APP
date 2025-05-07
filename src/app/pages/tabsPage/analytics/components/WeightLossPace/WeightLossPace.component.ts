@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, effect, input, signal } from '@angular/core';
-import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle } from '@ionic/angular/standalone';
+import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonIcon, IonButton, PopoverController } from '@ionic/angular/standalone';
 import { Goal } from '@models/types/Goal';
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { WeightLossPaceInfoPopoverComponent } from '../WeightLossPaceInfoPopover/WeightLossPaceInfoPopover.component';
 
 @Component({
     selector: 'app-weight-loss-pace',
-    imports: [IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle],
+    imports: [IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle],
     templateUrl: './WeightLossPace.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -26,7 +27,10 @@ export class WeightLossPaceComponent {
     isTrend = signal(false);
     isGoal = signal(false);
 
-    constructor(private readonly CalculationFunctionsService: CalculationFunctionsService) {
+    constructor(
+        private readonly CalculationFunctionsService: CalculationFunctionsService,
+        private readonly popoverController: PopoverController
+    ) {
         effect(() => {
             const goal = this.goal();
             const lastWeight = this.lastWeight();
@@ -34,17 +38,7 @@ export class WeightLossPaceComponent {
             const lastWeightDate = new Date(lastWeight?.date ?? NaN);
             const goalDate = new Date(goal?.date ?? NaN);
 
-            if (weights) {
-                const { weightPerWeek, weightPerMonth } = this.CalculationFunctionsService.trendWeightPace(weights);
-
-                if (weightPerWeek && weightPerMonth) {
-                    this.isTrend.set(true);
-                    this.trendPaceWeek.set(weightPerWeek);
-                    this.trendPaceMonth.set(weightPerMonth);
-                } else {
-                    this.isTrend.set(false);
-                }
-            }
+            this.calculateTrendPace(weights);
 
             if (!goal || !lastWeight || !goalDate || isNaN(goalDate.getTime()) || isNaN(lastWeightDate.getTime())) {
                 this.isGoal.set(false);
@@ -54,6 +48,32 @@ export class WeightLossPaceComponent {
             this.calculateGoalPace(goal, lastWeight, goalDate, lastWeightDate);
             this.weightUnits.set(lastWeight?.weight_units);
         });
+    }
+
+    async openInfoPopover() {
+        const popover = await this.popoverController.create({
+            component: WeightLossPaceInfoPopoverComponent,
+            alignment: 'center',
+            showBackdrop: true,
+            backdropDismiss: true,
+            cssClass: 'bmi-popover-custom',
+        });
+
+        await popover.present();
+    }
+
+    private calculateTrendPace(weights: Weight[] | undefined) {
+        if (weights) {
+            const { weightPerWeek, weightPerMonth } = this.CalculationFunctionsService.trendWeightPace(weights);
+
+            if (weightPerWeek && weightPerMonth) {
+                this.isTrend.set(true);
+                this.trendPaceWeek.set(weightPerWeek);
+                this.trendPaceMonth.set(weightPerMonth);
+            } else {
+                this.isTrend.set(false);
+            }
+        }
     }
 
     private calculateGoalPace(goal: Goal, lastWeight: Weight, goalDate: Date, lastWeightDate: Date) {
@@ -76,4 +96,7 @@ export class WeightLossPaceComponent {
             )
         );
     }
+
+
+
 }

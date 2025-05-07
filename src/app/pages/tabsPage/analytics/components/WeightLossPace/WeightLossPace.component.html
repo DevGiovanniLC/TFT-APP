@@ -1,6 +1,16 @@
 <section class="flex flex-col space-y-4 mt-28">
-    <ion-card-header class="flex justify-center items-center flex-col space-y-2">
-        <ion-card-title class="font-semibold text-2xl">Weight Loss Pace</ion-card-title>
+    <ion-card-header class="flex flex-row justify-center items-center ml-6">
+        <ion-card-title class="font-semibold text-2xl">
+            Weight Loss Pace
+        </ion-card-title>
+        <ion-button fill="clear" size="small" (click)="openInfoPopover()" (keypress)="openInfoPopover()">
+            <ion-icon
+                slot="icon-only"
+                name="information-circle-outline"
+                src="assets/icons/info.svg"
+                class="w-4 h-4 text-gray-600"
+            ></ion-icon>
+        </ion-button>
     </ion-card-header>
     <article class="flex-col space-y-5 items-center">
         <ion-card-subtitle class="text-center">Actual trend weight loss pace</ion-card-subtitle>

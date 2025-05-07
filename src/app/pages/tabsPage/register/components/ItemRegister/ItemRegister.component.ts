@@ -82,14 +82,14 @@ export class ItemRegisterComponent implements AfterViewInit, OnDestroy {
         if (deltaX < this.SWIPE_THRESHOLD) {
             this.renderer.setStyle(card, 'transition', 'transform 0.3s ease-out');
             this.renderer.setStyle(card, 'transform', `translateX(${this.MAX_TRANSLATE}px)`);
-            setTimeout(() => this.deleteButton(card), 100);
+            setTimeout(() => this.deleteRegister(card), 100);
         } else {
             this.renderer.setStyle(card, 'transition', 'transform 0.2s ease-out');
             this.renderer.setStyle(card, 'transform', 'translateX(0)');
         }
     }
 
-    private deleteButton(card: HTMLElement): void {
+    private deleteRegister(card: HTMLElement): void {
         this.renderer.setStyle(card, 'transition', 'transform 0.2s ease-out');
         this.renderer.setStyle(card, 'transform', 'translateX(0)');
         this.deleteWeight.emit(this.weight().id);

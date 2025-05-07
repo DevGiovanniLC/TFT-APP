@@ -14,15 +14,13 @@
     </ion-card-header>
     <article class="flex-col space-y-5 items-center">
         <ion-card-subtitle class="text-center">Actual trend weight loss pace</ion-card-subtitle>
-        @if (isTrend()) {
         <div class="flex justify-center items-center space-x-10">
             <ion-card
                 class="bg-[var(--color-tertiary)] rounded-xl p-5 text-center space-y-2 w-40 h-28 shadow-xl border-teal-600 border-2 flex flex-col items-center justify-center">
                 <ion-card-subtitle
                     class="text-[var(--color-accent)] font-sans font-extrabold">Months</ion-card-subtitle>
                 <ion-card-title>{{
-                        trendPaceMonth() < 50 && trendPaceMonth()> -50 ? `${trendPaceMonth().toFixed(2)}
-                        ${weightUnits()}`: 'Not Logic'
+                        validateTrendPace(trendPaceMonth(), 50)
                     }} </ion-card-title>
             </ion-card>
 
@@ -31,19 +29,11 @@
                 <ion-card-subtitle class="text-[var(--color-accent)] font-sans font-extrabold">Weeks</ion-card-subtitle>
                 <ion-card-title>
                     {{
-                        trendPaceWeek() < 25 && trendPaceWeek()> -25 ? `${trendPaceWeek().toFixed(2)}
-                        ${weightUnits()}`: 'Not Logic'
+                        validateTrendPace(trendPaceWeek(), 25)
                     }}
                 </ion-card-title>
             </ion-card>
         </div>
-        } @else {
-        <div
-            class="flex justify-center items-center flex-col space-y-1 text-center font-sans font-bold text-gray-700 rounded-xl p-4 pb-8 bg-emerald-100 shadow-sm opacity-0 animate-fade-in mx-10">
-            <h1>No enough data</h1>
-            <h2>to calculate the trend</h2>
-        </div>
-        }
     </article>
 
     <article class="flex-col space-y-5 items-center">

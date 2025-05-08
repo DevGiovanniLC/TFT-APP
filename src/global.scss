@@ -103,7 +103,7 @@ ion-datetime::part(wheel-item) {
     }
 
     .alert-button-group {
-        justify-content: center;
+        justify-content: space-evenly;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -114,14 +114,33 @@ ion-datetime::part(wheel-item) {
         font-weight: bold;
 
         &:first-child {
-            background: transparent;
-            border: none;
-            color: #f0fdfa;
+            background: white;
+            color: #000000;
         }
 
         &:last-child {
             background: var(--ion-color-danger);
             color: #fff;
+        }
+    }
+}
+
+.export-alert{
+    .alert-button {
+        border-radius: 0.75rem;
+        font-weight: bold;
+        display: flex;
+
+
+        &:first-child {
+            background: var(--ion-color-danger);
+            border: none;
+            color: #f0fdfa;
+        }
+
+        &:last-child {
+            background: white;
+            color: #000000;
         }
     }
 }

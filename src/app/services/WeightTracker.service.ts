@@ -49,13 +49,13 @@ export class WeightTrackerService {
 
     deleteWeight(value: number): boolean {
         this.dataProvider.deleteWeight(value);
-        this.updateWeights();
+        this.updateWeights().subscribe();
         return true;
     }
 
     updateWeight(value: Weight): boolean {
         this.dataProvider.updateWeight(value);
-        this.updateWeights();
+        this.updateWeights().subscribe();
         return true;
     }
 

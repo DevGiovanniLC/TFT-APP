@@ -65,13 +65,6 @@ export class WeightTrackerService {
 
     exportDataCSV() {
         this.dataProvider.exportDataCSV()
-        try {
-            this.notificationService.showPushNotificationExportation();
-        } catch (err) {
-            this.notificationService.requestPermission();
-            console.error('❌:', err);
-        }
-        this.notificationService.showToast('CSV corretly exported to documents folder');
     }
 
 }

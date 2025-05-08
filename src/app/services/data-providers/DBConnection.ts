@@ -1,10 +1,12 @@
 import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
 import * as Papa from 'papaparse';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
 import { Weight } from '@models/types/Weight';
 import { User } from '@models/types/User';
 import { Goal } from '@models/types/Goal';
+
 
 export default class DBConnection implements DataProvider {
     private readonly sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite);
@@ -183,10 +185,22 @@ export default class DBConnection implements DataProvider {
                 directory: Directory.Documents,
                 encoding: Encoding.UTF8,
             });
-
-            console.log('✅ CSV guardado correctamente:', fileName);
+            this.openCSVFile(fileName);
         } catch (err) {
-            console.error('❌ Error al guardar CSV:', err);
+            throw new Error(`❌ Export CSV error: ${err}`);
         }
+    }
+
+    async openCSVFile(filePath: string) {
+
+        const fileUri = await Filesystem.getUri({
+            directory: Directory.Documents,
+            path: filePath,
+        });
+
+        await Share.share({
+            url: fileUri.uri,
+        });
+
     }
 }

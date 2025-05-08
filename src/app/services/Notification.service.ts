@@ -24,7 +24,6 @@ export class NotificationService {
         });
 
         toast.present();
-
     }
 
     async showPushNotificationExportation() {
@@ -37,15 +36,15 @@ export class NotificationService {
                     sound: 'default',
                     smallIcon: 'ic_stat_notify',
                     actionTypeId: '',
+
                 }
             ]
         });
     }
 
-    async requestPermission() {
+    async requestPermission(): Promise<boolean> {
         const { display } = await LocalNotifications.requestPermissions();
-        if (display !== 'granted') {
-            console.warn('🔒 Notification permission denied');
-        }
+        if (display !== 'granted') return false;
+        return true;
     }
 }

@@ -63,6 +63,6 @@ export class DataProviderService {
     }
 
     exportDataCSV() {
-        this.dataProvider.exportDataCSV();
+        return this.dataProvider.exportDataCSV();
     }
 }

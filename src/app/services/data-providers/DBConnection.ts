@@ -35,6 +35,7 @@ export default class DBConnection implements DataProvider {
 
         return true;
     }
+
     private async setBDStructure() {
         const schema = `
         CREATE TABLE IF NOT EXISTS registers (
@@ -153,8 +154,9 @@ export default class DBConnection implements DataProvider {
             SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)
             `);
 
-        if (user?.values == undefined) throw new Error('No goal found');
+        if (user?.values == undefined) throw new Error('No User found');
 
+        user.values[0].goal_date = new Date(user.values[0].goal_date);
         return user.values[0];
     }
 
@@ -166,7 +168,7 @@ export default class DBConnection implements DataProvider {
                 INSERT INTO user (name, email, age, height, goal_weight, goal_units, goal_date) VALUES
                 (?, ?, ?, ?, ?, ?, ?)
                 `,
-                [value.name, value.email, value.age, value.height, value.goal_weight, value.goal_units, value.goal_date]
+                [value.name, value.email, value.age, value.height, value.goal_weight, value.goal_units, value.goal_date?.getTime()]
             )
             .catch((err) => alert(err));
 
@@ -174,24 +176,51 @@ export default class DBConnection implements DataProvider {
     }
 
     async exportDataCSV(): Promise<void> {
-        const csv = Papa.unparse(await this.getWeights());
+        const user = await this.getUser();
+        const weights = await this.getWeights();
+
+        const userCSV = Papa.unparse([{
+            Name: user.name,
+            Age: user.age,
+            Height: user.height,
+            Gender: user.gender,
+            GoalDate: user.goal_date?.toISOString().substring(0, 10),
+            GoalWeight: user.goal_weight,
+            GoalUnits: user.goal_units
+        }]);
+
+        const weightsCSV = Papa.unparse(weights.map((w) => ({
+            Date: w.date.toISOString().substring(0, 10),
+            Weight: w.weight,
+            Units: w.weight_units
+        })));
+
+        const finalCSV = [
+            '# User Data',
+            userCSV,
+            '',
+            '# Weights Data',
+            weightsCSV
+        ].join('\n');
 
         const fileName = `weights-history-${Date.now()}.csv`;
 
         try {
             await Filesystem.writeFile({
                 path: fileName,
-                data: csv,
+                data: finalCSV,
                 directory: Directory.Documents,
                 encoding: Encoding.UTF8,
             });
-            this.openCSVFile(fileName);
+
+            this.shareCSVFile(fileName);
         } catch (err) {
             throw new Error(`❌ Export CSV error: ${err}`);
         }
+
     }
 
-    async openCSVFile(filePath: string) {
+    private async shareCSVFile(filePath: string) {
 
         const fileUri = await Filesystem.getUri({
             directory: Directory.Documents,

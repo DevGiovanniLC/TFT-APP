@@ -42,7 +42,7 @@ export class AnaliticsPage implements OnInit {
                     role: 'cancel',
                 },
                 {
-                    text: 'Save',
+                    text: 'Export',
                     role: 'confirm',
                     handler: () =>  this.weightTracker.exportDataCSV()
                 },

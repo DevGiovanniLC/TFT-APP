@@ -29,28 +29,36 @@ export default class DBConnection implements DataProvider {
 
         await this.db.open().catch((err) => alert(err));
 
-        // await this.deleteDBStructure().catch((err) => alert(err));
-
         await this.setBDStructure().catch((err) => alert(err));
-
-        // await this.addUser()
-        // .catch(err => alert(err));
-
-        // await this.addWeights()
-        // .catch(err => alert(err));
 
         return true;
     }
+    private async setBDStructure() {
+        const schema = `
+        CREATE TABLE IF NOT EXISTS registers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date INTEGER,
+            weight REAL,
+            weight_units TEXT
+        );
 
-    async getUser(): Promise<User> {
-        const user = await this.db.query(`
-            SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)
-            `);
+        CREATE INDEX IF NOT EXISTS idx_registers_date ON registers(date);
 
-        if (user?.values == undefined) throw new Error('No goal found');
+        CREATE TABLE IF NOT EXISTS user (
+            UniqueID INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            email TEXT UNIQUE,
+            age INTEGER,
+            height REAL,
+            goal_weight REAL,
+            goal_units TEXT,
+            goal_date TEXT
+        );
+        `;
 
-        return user.values[0];
+        return await this.db.execute(schema);
     }
+
 
     async getWeights(): Promise<Weight[]> {
         const registers = await this.db.query('SELECT * FROM registers ORDER BY date DESC');
@@ -62,13 +70,26 @@ export default class DBConnection implements DataProvider {
         })) as Weight[];
     }
 
+    addWeight(value: Weight): boolean {
+        this.db
+            .query(
+                `
+            INSERT INTO registers (date, weight, weight_units) VALUES
+            (?, ?, ?)
+            `,
+                [value.date.getTime(), value.weight, value.weight_units]
+            )
+            .catch((err) => alert(err));
+        return true;
+    }
+
     updateWeight(value: Weight): boolean {
         this.db
             .query(
                 `
                 UPDATE registers SET date = ?, weight = ?, weight_units = ? WHERE id = ?
                 `,
-                [value.date, value.weight, value.weight_units, value.id]
+                [value.date.getTime(), value.weight, value.weight_units, value.id]
             )
             .catch((err) => alert(err));
         return true;
@@ -125,6 +146,17 @@ export default class DBConnection implements DataProvider {
         return goal;
     }
 
+    async getUser(): Promise<User> {
+        const user = await this.db.query(`
+            SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)
+            `);
+
+        if (user?.values == undefined) throw new Error('No goal found');
+
+        return user.values[0];
+    }
+
+
     setUser(value: User): boolean {
         this.db
             .query(
@@ -137,87 +169,6 @@ export default class DBConnection implements DataProvider {
             .catch((err) => alert(err));
 
         return true;
-    }
-
-    addWeight(value: Weight): boolean {
-        this.db
-            .query(
-                `
-            INSERT INTO registers (date, weight, weight_units) VALUES
-            (?, ?, ?)
-            `,
-                [value.date.getTime(), value.weight, value.weight_units]
-            )
-            .catch((err) => alert(err));
-        return true;
-    }
-
-    private async deleteDBStructure() {
-        const schema = `
-        DROP TABLE IF EXISTS registers;
-        DROP TABLE IF EXISTS user;
-        `;
-
-        return await this.db.execute(schema);
-    }
-
-    private async setBDStructure() {
-        const schema = `
-        CREATE TABLE IF NOT EXISTS registers (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            date INTEGER,
-            weight REAL,
-            weight_units TEXT
-            );
-
-            CREATE TABLE IF NOT EXISTS user (
-                UniqueID INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT,
-                email TEXT UNIQUE,
-                age INTEGER,
-                height REAL,
-                goal_weight,
-                goal_units TEXT,
-                goal_date TEXT
-                );
-                `;
-
-        return await this.db.execute(schema);
-    }
-
-    private async addWeights() {
-        const data = [
-            ['2025-01-04', 96.0],
-            ['2025-01-11', 95.6],
-            ['2025-01-18', 95.3],
-            ['2025-01-25', 95.1],
-            ['2025-02-01', 94.8],
-            ['2025-02-08', 94.5],
-            ['2025-02-15', 94.2],
-            ['2025-02-22', 94.0],
-            ['2025-03-01', 93.8],
-            ['2025-03-08', 93.5],
-            ['2025-03-15', 93.2],
-            ['2025-03-22', 93.0],
-        ];
-
-        for (const [date, weight] of data) {
-            await this.db.query(`INSERT INTO registers (date, weight, weight_units) VALUES (?, ?, ?)`, [
-                date,
-                weight,
-                'kg',
-            ]);
-        }
-    }
-
-    private async addUser() {
-        return await this.db.query(
-            `
-                    INSERT INTO user (name, email, age, height, goal_weight, goal_units, goal_date) VALUES
-                    (?, ?, ?, ?, ?, ?, ?)
-                    `,
-            ['John Doe', 'johndoe@gmail.com', 25, 180, 80, 'kg', '2025-12-31']
-        );
     }
 
     async exportDataCSV(): Promise<void> {

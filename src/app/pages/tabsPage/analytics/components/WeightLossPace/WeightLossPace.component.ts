@@ -82,7 +82,7 @@ export class WeightLossPaceComponent {
         this.goalPaceWeek.set(
             this.CalculationFunctionsService.weekWeightLossPace(
                 lastWeight?.weight,
-                goal.weight,
+                goal.weight ?? NaN,
                 lastWeightDate,
                 goalDate
             )
@@ -90,7 +90,7 @@ export class WeightLossPaceComponent {
         this.goalPaceMonth.set(
             this.CalculationFunctionsService.monthWeightLossPace(
                 lastWeight?.weight,
-                goal.weight,
+                goal.weight ?? NaN,
                 lastWeightDate,
                 goalDate
             )

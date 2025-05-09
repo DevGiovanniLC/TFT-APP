@@ -136,13 +136,11 @@ export default class DBConnection implements DataProvider {
             )
             .catch((err) => alert(err));
 
-        if (user?.values?.length === 0) throw new Error('No goal found');
-        if (user?.values == undefined) throw new Error('No goal found');
 
         const goal: Goal = {
-            date: user.values[0].goal_date,
-            weight: user.values[0].goal_weight,
-            weight_units: user.values[0].goal_units,
+            date: user?.values?.[0]?.goal_date ? new Date(user.values[0].goal_date) : undefined,
+            weight: user?.values?.[0]?.goal_weight ?? undefined,
+            weight_units: user?.values?.[0]?.goal_units ?? undefined,
         };
 
         return goal;
@@ -153,10 +151,10 @@ export default class DBConnection implements DataProvider {
             SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)
             `);
 
-        if (user?.values == undefined) throw new Error('No User found');
-
-        user.values[0].goal_date = new Date(user.values[0].goal_date);
-        return user.values[0];
+        if (user.values && user.values[0]) {
+            user.values[0].goal_date = new Date(user.values[0].goal_date);
+        }
+        return user.values?.[0] ?? null;
     }
 
 

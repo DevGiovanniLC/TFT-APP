@@ -1,13 +1,19 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-    appId: 'io.ionic.starter',
-    appName: 'tft-app',
+    appId: 'io.vitaweight.app',
+    appName: 'Vita Weight',
     webDir: 'www',
     server: {
         androidScheme: 'https'
     },
     plugins: {
+        SplashScreen: {
+            launchShowDuration: 2000,
+            showSpinner: false,
+            splashFullScreen: true,
+            splashImmersive: true,
+        },
         CapacitorSQLite: {
             iosDatabaseLocation: 'Library/CapacitorDatabase',
             iosIsEncryption: true,

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
-import { ToastController } from '@ionic/angular';
-import { Platform } from '@ionic/angular';
+import { ToastController, Platform } from '@ionic/angular';
 
 @Injectable({
     providedIn: 'root'
@@ -10,7 +9,7 @@ export class NotificationService {
 
     constructor(
         private readonly toastController: ToastController,
-        private platform: Platform
+        private readonly platform: Platform
     ) { }
 
     async showToast(message: string) {

@@ -1,5 +1,4 @@
 import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
-import * as Papa from 'papaparse';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
@@ -175,45 +174,18 @@ export default class DBConnection implements DataProvider {
         return true;
     }
 
-    async exportDataCSV(): Promise<void> {
-        const user = await this.getUser();
-        const weights = await this.getWeights();
-
-        const userCSV = Papa.unparse([{
-            Name: user.name,
-            Age: user.age,
-            Height: user.height,
-            Gender: user.gender,
-            GoalDate: user.goal_date?.toISOString().substring(0, 10),
-            GoalWeight: user.goal_weight,
-            GoalUnits: user.goal_units
-        }]);
-
-        const weightsCSV = Papa.unparse(weights.map((w) => ({
-            Date: w.date.toISOString().substring(0, 10),
-            Weight: w.weight,
-            Units: w.weight_units
-        })));
-
-        const finalCSV = [
-            '# User Data',
-            userCSV,
-            '',
-            '# Weights Data',
-            weightsCSV
-        ].join('\n');
-
+    async exportDataCSV(csv: string) {
         const fileName = `weights-history-${Date.now()}.csv`;
 
         try {
             await Filesystem.writeFile({
                 path: fileName,
-                data: finalCSV,
+                data: csv,
                 directory: Directory.Documents,
                 encoding: Encoding.UTF8,
             });
 
-            this.shareCSVFile(fileName);
+            await this.shareCSVFile(fileName);
         } catch (err) {
             throw new Error(`❌ Export CSV error: ${err}`);
         }

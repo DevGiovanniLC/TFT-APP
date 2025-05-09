@@ -62,7 +62,7 @@ export class DataProviderService {
         return this.dataProvider.generateWeightId();
     }
 
-    exportDataCSV() {
-        return this.dataProvider.exportDataCSV();
+    exportDataCSV(csv: string) {
+        return this.dataProvider.exportDataCSV(csv);
     }
 }

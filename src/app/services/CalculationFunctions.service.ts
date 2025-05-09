@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { User } from '@models/types/User';
 import { Weight } from '@models/types/Weight';
+import Papa from 'papaparse';
 
 @Injectable({
     providedIn: 'root',
@@ -85,5 +87,34 @@ export class CalculationFunctionsService {
         if (!firstWeight || !lastWeight || !goalWeight) return NaN;
         const progression = ((lastWeight - firstWeight) / (goalWeight - firstWeight)) * 100;
         return Number(progression.toFixed(2));
+    }
+
+    async parseDataToCSV(user: User, weights: Weight[]) {
+
+        const userCSV = Papa.unparse([{
+            Name: user.name,
+            Age: user.age,
+            Height: user.height,
+            Gender: user.gender,
+            GoalDate: user.goal_date?.toISOString().substring(0, 10),
+            GoalWeight: user.goal_weight,
+            GoalUnits: user.goal_units
+        }]);
+
+        const weightsCSV = Papa.unparse(weights.map((w) => ({
+            Date: w.date.toISOString().substring(0, 10),
+            Weight: w.weight,
+            Units: w.weight_units
+        })));
+
+        const resultCSV = [
+            '# User Data',
+            userCSV,
+            '',
+            '# Weights Data',
+            weightsCSV
+        ].join('\n');
+
+        return resultCSV;
     }
 }

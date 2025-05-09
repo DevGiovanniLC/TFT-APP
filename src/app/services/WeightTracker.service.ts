@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Weight } from '@models/types/Weight';
 import { DataProviderService } from './data-providers/DataProvider.service';
 import { BehaviorSubject, from, map, Observable, tap } from 'rxjs';
-import { NotificationService } from './Notification.service';
+import { CalculationFunctionsService } from './CalculationFunctions.service';
 
 @Injectable({
     providedIn: 'root',
@@ -18,7 +18,7 @@ export class WeightTrackerService {
 
     constructor(
         private readonly dataProvider: DataProviderService,
-        private readonly notificationService: NotificationService
+        private readonly calculationFunctions: CalculationFunctionsService,
     ) { }
 
     updateWeights(): Observable<Weight[]> {
@@ -63,8 +63,15 @@ export class WeightTrackerService {
         return this.dataProvider.generateWeightId();
     }
 
-    exportDataCSV() {
-        this.dataProvider.exportDataCSV()
+    async exportDataCSV() {
+        const user = await this.dataProvider.getUser();
+        const weights = await this.dataProvider.getWeights();
+
+        if (!user || !weights) return;
+
+        const csv = await this.calculationFunctions.parseDataToCSV(user, weights);
+
+        this.dataProvider.exportDataCSV(csv);
     }
 
 }

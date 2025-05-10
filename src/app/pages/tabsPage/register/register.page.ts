@@ -1,4 +1,4 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { IonContent, ModalController, AlertController } from '@ionic/angular/standalone';
 import { ItemRegisterComponent } from './components/ItemRegister/ItemRegister.component';
 import { WeightTrackerService } from '@services/WeightTracker.service';
@@ -12,8 +12,8 @@ import { Weight } from '@models/types/Weight';
     imports: [IonContent, ItemRegisterComponent],
 })
 export class RegisterPage {
-    registers = toSignal(this.weightTracker.weights$);
-    isPressingButton = false;
+    readonly registers = toSignal(this.weightTracker.weights$, { initialValue: [] });
+    readonly isPressingButton = signal(false);
 
     readonly reversedRegisters = computed(() => {
         return this.registers()?.map((curr, i) => {
@@ -27,14 +27,11 @@ export class RegisterPage {
         private readonly weightTracker: WeightTrackerService,
         private readonly modalCtrl: ModalController,
         private readonly alertCtrl: AlertController
-    ) {
-        this.weightTracker.updateWeights().subscribe();
-        this.weightTracker.updateLastWeight().subscribe();
-    }
+    ) {}
 
     async confirmDelete(id: number) {
-        if (this.isPressingButton) return;
-        this.isPressingButton = true;
+        if (this.isPressingButton()) return;
+        this.isPressingButton.set(true);
 
         let alert;
 
@@ -71,17 +68,16 @@ export class RegisterPage {
             });
         }
         await alert.present();
-        this.isPressingButton = false;
+        this.isPressingButton.set(false);
     }
 
     deleteWeight(id: number) {
         this.weightTracker.deleteWeight(id);
-        this.weightTracker.updateWeights().subscribe();
     }
 
-    async openModal(weight?: Weight) {
-        if (this.isPressingButton) return;
-        this.isPressingButton = true;
+    async openWeightModal(weight?: Weight) {
+        if (this.isPressingButton()) return;
+        this.isPressingButton.set(true);
 
         const modal = await this.modalCtrl.create({
             component: WeightRegisterComponent,
@@ -97,8 +93,7 @@ export class RegisterPage {
             } else {
                 this.weightTracker.addWeight(data);
             }
-            this.weightTracker.updateWeights().subscribe();
         }
-        this.isPressingButton = false;
+        this.isPressingButton.set(false);
     }
 }

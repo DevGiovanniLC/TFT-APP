@@ -21,18 +21,18 @@ export class WeightTrackerService {
         private readonly calculationFunctions: CalculationFunctionsService,
     ) { }
 
-    updateWeights(): Observable<Weight[]> {
+    getWeights(): Observable<Weight[]> {
         return from(this.dataProvider.getWeights()).pipe(tap((weights) => this.weightsSubject.next(weights)));
     }
 
-    updateLastWeight(): Observable<Weight> {
+    getLastWeight(): Observable<Weight> {
         return this.weights$.pipe(
             map((weights) => weights[0]),
             tap((parsed) => this.lastWeightSubject.next(parsed))
         );
     }
 
-    updateFirstWeight(): Observable<Weight> {
+    getFirstWeight(): Observable<Weight> {
         return this.weights$.pipe(
             map((weights) => {
                 return weights[weights.length - 1];
@@ -43,19 +43,19 @@ export class WeightTrackerService {
 
     addWeight(value: Weight): boolean {
         this.dataProvider.addWeight(value);
-        this.updateWeights().subscribe();
+        this.getWeights().subscribe();
         return true;
     }
 
     deleteWeight(value: number): boolean {
         this.dataProvider.deleteWeight(value);
-        this.updateWeights().subscribe();
+        this.getWeights().subscribe();
         return true;
     }
 
     updateWeight(value: Weight): boolean {
         this.dataProvider.updateWeight(value);
-        this.updateWeights().subscribe();
+        this.getWeights().subscribe();
         return true;
     }
 

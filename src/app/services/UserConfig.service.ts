@@ -16,7 +16,7 @@ export class UserConfigService {
 
     constructor(private readonly dataProvider: DataProviderService) {}
 
-    updateUser() {
+    getUser() {
         return from(this.dataProvider.getUser()).pipe(
             tap((user) => {
                 if (user) {
@@ -26,7 +26,7 @@ export class UserConfigService {
         );
     }
 
-    updateGoal(): Observable<Goal | undefined> {
+    getGoal(): Observable<Goal | undefined> {
         return from(this.dataProvider.getGoal()).pipe(
             map((goal) => {
                 if (!goal) return undefined;
@@ -41,19 +41,7 @@ export class UserConfigService {
 
     setUser(user: User) {
         this.dataProvider.setUser(user);
-        this.userSubject.next(user);
-
-        if (user.goal_weight === undefined || user.goal_units === undefined) {
-            this.goalSubject.next(undefined);
-            return;
-        }
-
-        const goal: Goal = {
-            weight: user?.goal_weight,
-            weight_units: user?.goal_units,
-            date: user?.goal_date,
-        };
-
-        this.goalSubject.next(goal);
+        this.getUser().subscribe();
+        this.getGoal().subscribe();
     }
 }

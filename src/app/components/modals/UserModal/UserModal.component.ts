@@ -42,8 +42,8 @@ export class ModalUserComponent {
         const user = this.user();
         if (!user) return;
         this.userConfig.setUser(user);
-        this.userConfig.updateUser().subscribe();
-        this.userConfig.updateGoal().subscribe();
+        this.userConfig.getUser().subscribe();
+        this.userConfig.getGoal().subscribe();
         this.modalCtrl.dismiss(undefined, 'confirm');
     }
 

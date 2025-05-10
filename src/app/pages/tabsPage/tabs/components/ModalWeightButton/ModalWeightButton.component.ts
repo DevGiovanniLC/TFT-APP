@@ -38,7 +38,7 @@ export class ModalWeightButtonComponent {
             } else {
                 this.weightTracker.addWeight(data);
             }
-            this.weightTracker.updateWeights().subscribe();
+            this.weightTracker.getWeights().subscribe();
         }
         this.isPressingButton = false;
     }

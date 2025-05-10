@@ -32,7 +32,7 @@ describe('ConfigService', () => {
     });
 
     it('should fetch the user from the DataProvider', async () => {
-        const user = await service.updateUser();
+        const user = await service.getUser();
         expect(dataProviderMock.getUser).toHaveBeenCalled();
         expect(user).toEqual(mockUser);
     });

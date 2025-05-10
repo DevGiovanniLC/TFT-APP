@@ -25,9 +25,9 @@ export class AnaliticsPage implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.weightTracker.updateWeights().subscribe();
-        this.weightTracker.updateLastWeight().subscribe();
-        this.userConfig.updateGoal().subscribe();
+        this.weightTracker.getWeights().subscribe();
+        this.weightTracker.getLastWeight().subscribe();
+        this.userConfig.getGoal().subscribe();
     }
 
     async alertExport() {

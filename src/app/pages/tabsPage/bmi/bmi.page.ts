@@ -32,9 +32,9 @@ export class BMIPage {
         private readonly config: UserConfigService,
         private readonly modalCtrl: ModalController
     ) {
-        this.weightTracker.updateWeights().subscribe();
-        this.weightTracker.updateLastWeight().subscribe();
-        this.config.updateUser().subscribe();
+        this.weightTracker.getWeights().subscribe();
+        this.weightTracker.getLastWeight().subscribe();
+        this.config.getUser().subscribe();
     }
 
     async openModal() {

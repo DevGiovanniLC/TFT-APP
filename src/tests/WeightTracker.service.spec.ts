@@ -26,7 +26,7 @@ describe('WeightTrackerService', () => {
     });
 
     it('should retrieve and sort weights by descending date', async () => {
-        const weights = await service.updateWeights();
+        const weights = await service.getWeights();
 
         expect(weights[0].weight).toBe(70);
         expect(weights[1].weight).toBe(68);
@@ -34,7 +34,7 @@ describe('WeightTrackerService', () => {
     });
 
     it('should return the most recent weight', async () => {
-        const actual = await service.updateLastWeight();
+        const actual = await service.getLastWeight();
         expect(actual.weight).toBe(66);
         expect(actual.date.toISOString()).toBe('2023-03-01T00:00:00.000Z');
     });
@@ -77,7 +77,7 @@ describe('WeightTrackerService', () => {
     it('should return an empty array if no weights are found', async () => {
         dataProviderMock.getWeights.mockResolvedValueOnce([]);
 
-        const weights = await service.updateWeights();
+        const weights = await service.getWeights();
 
         expect(weights).toEqual([]);
     });
@@ -93,7 +93,7 @@ describe('WeightTrackerService', () => {
     it('should throw an error if retrieving weights fails', async () => {
         dataProviderMock.getWeights.mockRejectedValueOnce(new Error('Failed to fetch weights'));
 
-        await expect(service.updateWeights()).rejects.toThrow('Failed to fetch weights');
+        await expect(service.getWeights()).rejects.toThrow('Failed to fetch weights');
     });
 
     it('should throw an error if retrieving goal fails', async () => {

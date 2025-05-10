@@ -6,7 +6,7 @@
     "homepage": "/tabs/tab1",
     "scripts": {
         "build": "ionic build",
-        "android": "npx cap sync && ionic cap copy && ionic cap open android",
+        "android": "ionic build --prod && npx cap sync && ionic cap copy && ionic cap open android",
         "dev": "ionic serve --port 8080",
         "dev:test": "ionic serve --port 8080 --configuration=test",
         "test:all": "npm run test:unit && npm run test:e2e:run && npm run allure:generate",

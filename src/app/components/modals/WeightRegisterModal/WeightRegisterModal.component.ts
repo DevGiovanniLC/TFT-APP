@@ -64,7 +64,7 @@ export class WeightRegisterComponent implements OnInit {
 
     private confirm() {
         const newWeight: Weight = {
-            id: this.inputWeight?.id ?? this.weightTracker.generateWeightId(),
+            id: this.inputWeight?.id ?? undefined,
             weight: this.actualWeight(),
             weight_units: this.lastWeightUnit,
             date: this.actualDate(),

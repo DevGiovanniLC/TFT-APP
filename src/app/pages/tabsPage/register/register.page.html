@@ -4,7 +4,7 @@
             @for (weight of reversedRegisters(); track weight.id) {
             <app-item-register
                 class="w-full px-2"
-                [id]="weight.id"
+                [id]="weight.id ?? 0"
                 [weight]="weight"
                 [progress]="weight.progress"
                 (deleteWeight)="confirmDelete($event)"

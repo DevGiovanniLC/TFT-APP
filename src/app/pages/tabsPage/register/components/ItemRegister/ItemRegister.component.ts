@@ -92,7 +92,7 @@ export class ItemRegisterComponent implements AfterViewInit, OnDestroy {
     private deleteRegister(card: HTMLElement): void {
         this.renderer.setStyle(card, 'transition', 'transform 0.2s ease-out');
         this.renderer.setStyle(card, 'transform', 'translateX(0)');
-        this.deleteWeight.emit(this.weight().id);
+        this.deleteWeight.emit(this.weight().id ?? NaN);
     }
 
     cardClick(): void {

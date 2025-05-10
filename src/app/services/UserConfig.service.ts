@@ -26,13 +26,16 @@ export class UserConfigService {
         );
     }
 
-    updateGoal(): Observable<Goal> {
+    updateGoal(): Observable<Goal | undefined> {
         return from(this.dataProvider.getGoal()).pipe(
-            map((goal) => ({
-                ...goal,
-                date: goal.date ? new Date(goal.date) : undefined,
-            })),
-            tap((goal) => this.goalSubject.next(goal))
+            map((goal) => {
+                if (!goal) return undefined;
+                return {
+                    ...goal,
+                    date: goal.date ? new Date(goal.date) : undefined,
+                } as Goal;
+            }),
+            tap((goal) => this.goalSubject.next(goal ?? undefined))
         );
     }
 

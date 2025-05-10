@@ -16,9 +16,9 @@ export default class LocalStorageProvider implements DataProvider {
         localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(data.weights));
     }
 
-    getUser(): Promise<User> {
+    getUser(): Promise<User | undefined> {
         const userString = localStorage.getItem(this.USER_KEY);
-        const user = userString ? JSON.parse(userString) : null;
+        const user = userString ? JSON.parse(userString) : undefined;
         return Promise.resolve(user);
     }
 
@@ -28,26 +28,16 @@ export default class LocalStorageProvider implements DataProvider {
     }
 
     addWeight(value: Weight): boolean {
-        try {
-            const formattedDate = value.date;
 
-            const weights = this.getWeightsSync();
+        const formattedDate = new Date(value.date)
 
-            const existingIndex = weights.findIndex((w) => w.date === formattedDate);
+        const weights = this.getWeightsSync();
 
-            if (existingIndex !== -1) {
-                weights[existingIndex] = value;
-            } else {
-                weights.push({ ...value, date: new Date(formattedDate) }); // Asegurar formato
-            }
+        weights.push({ ...value, date: formattedDate, id: weights.length+1}); // Asegurar formato
 
-            localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(weights));
+        localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(weights.map((w) => ({ ...w, date: w.date.getTime() }))));
 
-            return true;
-        } catch (error) {
-            console.error('Error saving weight:', error);
-            return false;
-        }
+        return true;
     }
 
     deleteWeight(id: number): boolean {
@@ -80,7 +70,7 @@ export default class LocalStorageProvider implements DataProvider {
 
     getGoal(): Promise<Goal> {
         const userString = localStorage.getItem(this.USER_KEY);
-        const user = userString ? JSON.parse(userString) : null;
+        const user = userString ? JSON.parse(userString) : undefined;
 
         const goal: Goal = {
             weight: user?.goal_weight,
@@ -106,14 +96,6 @@ export default class LocalStorageProvider implements DataProvider {
         const weightsString = localStorage.getItem(this.WEIGHTS_KEY);
         return weightsString ? JSON.parse(weightsString) : [];
     }
-
-    generateWeightId(): number {
-        const weights = this.getWeightsSync();
-        if (weights.length === 0) return 1;
-        const maxId = Math.max(...weights.map((weight: Weight) => weight.id));
-        return maxId + 1;
-    }
-
 
     async exportDataCSV(csv: string): Promise<void> {
 

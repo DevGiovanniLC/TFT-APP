@@ -59,10 +59,6 @@ export class WeightTrackerService {
         return true;
     }
 
-    generateWeightId(): number {
-        return this.dataProvider.generateWeightId();
-    }
-
     async exportDataCSV() {
         const user = await this.dataProvider.getUser();
         const weights = await this.dataProvider.getWeights();

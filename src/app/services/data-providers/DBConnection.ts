@@ -64,12 +64,15 @@ export default class DBConnection implements DataProvider {
 
     async getWeights(): Promise<Weight[]> {
         const registers = await this.db.query('SELECT * FROM registers ORDER BY date DESC');
-        return registers.values?.map((r: Weight) => ({
+
+        const weights: Weight[] = registers.values?.map((r: Weight) => ({
             id: r.id,
             date: new Date(r.date),
             weight: r.weight,
             weight_units: r.weight_units,
         })) as Weight[];
+
+        return weights;
     }
 
     addWeight(value: Weight): boolean {
@@ -110,51 +113,40 @@ export default class DBConnection implements DataProvider {
         return true;
     }
 
-    generateWeightId(): number {
-        this.db
-            .query(
-                `
-                SELECT MAX(id) as maxId FROM registers
-                `
-            )
-            .then((result) => {
-                if (result?.values?.length === 0) return 1;
-                if (result?.values == undefined) return 1;
+    async getGoal(): Promise<Goal | undefined> {
+        const user = await this.getUser();
 
-                return result.values[0].maxId + 1;
-            })
-            .catch((err) => alert(err));
-        return 0;
-    }
-
-    async getGoal(): Promise<Goal> {
-        const user = await this.db
-            .query(
-                `
-                SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)
-                `
-            )
-            .catch((err) => alert(err));
-
+        if (!user) return undefined;
 
         const goal: Goal = {
-            date: user?.values?.[0]?.goal_date ? new Date(user.values[0].goal_date) : undefined,
-            weight: user?.values?.[0]?.goal_weight ?? undefined,
-            weight_units: user?.values?.[0]?.goal_units ?? undefined,
+            date: user.goal_date,
+            weight: user.goal_weight,
+            weight_units: user.goal_units,
         };
 
         return goal;
     }
 
-    async getUser(): Promise<User> {
-        const user = await this.db.query(`
+    async getUser(): Promise<User | undefined> {
+        const data = await this.db.query(`
             SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)
             `);
 
-        if (user.values && user.values[0]) {
-            user.values[0].goal_date = new Date(user.values[0].goal_date);
-        }
-        return user.values?.[0] ?? null;
+
+        if (!data.values || data.values.length === 0) return undefined
+
+        const user: User = {
+            name: data.values[0].name,
+            age: data.values[0].age,
+            height: data.values[0].height,
+            gender: data.values[0].gender,
+            email: data.values[0].email,
+            goal_weight: data.values[0].goal_weight,
+            goal_units: data.values[0].goal_units,
+            goal_date: data.values[0].goal_date ? new Date(Number(data.values[0].goal_date)) : undefined,
+        };
+
+        return user;
     }
 
 

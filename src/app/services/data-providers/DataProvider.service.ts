@@ -34,11 +34,11 @@ export class DataProviderService {
         return await this.dataProvider.getWeights();
     }
 
-    async getGoal(): Promise<Goal> {
+    async getGoal(): Promise<Goal | undefined> {
         return await this.dataProvider.getGoal();
     }
 
-    async getUser(): Promise<User | null> {
+    async getUser(): Promise<User | undefined> {
         return await this.dataProvider.getUser();
     }
 
@@ -56,10 +56,6 @@ export class DataProviderService {
 
     updateWeight(value: Weight) {
         return this.dataProvider.updateWeight(value);
-    }
-
-    generateWeightId(): number {
-        return this.dataProvider.generateWeightId();
     }
 
     exportDataCSV(csv: string) {

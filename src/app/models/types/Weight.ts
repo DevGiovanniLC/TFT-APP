@@ -1,5 +1,5 @@
 export type Weight = {
-    id: number;
+    id: number | undefined;
     date: Date;
     weight: number;
     weight_units: WeightUnits;

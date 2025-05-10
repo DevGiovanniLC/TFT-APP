@@ -4,8 +4,8 @@ import { Weight } from '@models/types/Weight';
 
 export interface DataProvider {
     getWeights(): Promise<Weight[]>;
-    getGoal(): Promise<Goal>;
-    getUser(): Promise<User>;
+    getGoal(): Promise<Goal | undefined>;
+    getUser(): Promise<User | undefined>;
 
     setUser(value: User): boolean;
 
@@ -14,6 +14,5 @@ export interface DataProvider {
     deleteWeight(id: number): boolean;
 
     exportDataCSV(csv: string): Promise<void>;
-    generateWeightId(): number;
     initializeConnection(): Promise<boolean>;
 }

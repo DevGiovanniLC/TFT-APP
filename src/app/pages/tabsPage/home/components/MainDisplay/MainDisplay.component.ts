@@ -37,13 +37,12 @@ export class MainDisplay {
 
     // Signals
     isButtonActive = signal(false);
-    progression: Signal<number> = computed(() => {
-        return this.calculationFunctionsService.weightProgression(
-            this.firstWeight()?.weight ?? NaN,
-            this.lastWeight()?.weight ?? NaN,
-            this.goal()?.weight ?? NaN
-        );
-    });
+    progression: Signal<number> = computed(() => this.calculationFunctionsService.weightProgression(
+        this.firstWeight()?.weight ?? NaN,
+        this.lastWeight()?.weight ?? NaN,
+        this.goal()?.weight ?? NaN
+    ));
+
 
     // Chart data
     data!: ChartData<'doughnut'>;
@@ -61,7 +60,11 @@ export class MainDisplay {
             return p;
         });
 
-        effect(() => this.updateChart(this.progression));
+        effect(() => {
+            this.firstWeight()
+            this.lastWeight()
+            this.updateChart(this.progression)
+        });
     }
 
     ngOnInit() {

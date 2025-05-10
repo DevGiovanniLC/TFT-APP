@@ -31,11 +31,7 @@ export class BMIPage {
         private readonly weightTracker: WeightTrackerService,
         private readonly config: UserConfigService,
         private readonly modalCtrl: ModalController
-    ) {
-        this.weightTracker.getWeights().subscribe();
-        this.weightTracker.getLastWeight().subscribe();
-        this.config.getUser().subscribe();
-    }
+    ) { }
 
     async openModal() {
         const modal = await this.modalCtrl.create({

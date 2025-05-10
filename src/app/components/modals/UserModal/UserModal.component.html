@@ -16,7 +16,11 @@
                     <p>Date: {{ user()?.goal_date | date: 'MM/dd/yyyy' }}</p>
                 }
             }
-            <ion-button id="goalBtn" class="w-40 my-4" color="primary" (click)="openModal()" (keypress)="openModal()">
+            <ion-button id="goalBtn" class="w-40 my-4"
+                color="primary"
+                (click)="openModal()"
+                (keypress)="openModal()"
+                [disabled]="isButtonActive()">
                 Set weight Goal
             </ion-button>
         </div>

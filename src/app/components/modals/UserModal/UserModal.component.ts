@@ -15,10 +15,11 @@ import { DatePipe } from '@angular/common';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalUserComponent {
-    inputUser = toSignal(this.userConfig.user$);
-    isGoalDate = signal(false);
+    readonly inputUser = toSignal(this.userConfig.user$);
+    readonly isGoalDate = signal(false);
+    readonly isButtonActive = signal(false);
 
-    user = signal<User | undefined>(undefined);
+    readonly user = signal<User | undefined>(undefined);
 
     constructor(
         private readonly userConfig: UserConfigService,
@@ -77,6 +78,9 @@ export class ModalUserComponent {
     }
 
     async openModal() {
+        if (this.isButtonActive()) return;
+        this.isButtonActive.set(true);
+
         const user = this.user();
 
         const goal = {
@@ -109,5 +113,6 @@ export class ModalUserComponent {
             });
             this.isGoalDate.set(this.validateDate(goal.date ?? null));
         }
+        this.isButtonActive.set(false);
     }
 }

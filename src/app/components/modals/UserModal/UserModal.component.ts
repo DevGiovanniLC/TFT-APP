@@ -24,9 +24,7 @@ export class ModalUserComponent {
     constructor(
         private readonly userConfig: UserConfigService,
         private readonly modalCtrl: ModalController
-    ) {
-        this.userConfig.updateUser().subscribe();
-    }
+    ) {}
 
     ngOnInit(): void {
         const user = this.inputUser();

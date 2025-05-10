@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonContent } from '@ionic/angular/standalone';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { Weight } from '@models/types/Weight';

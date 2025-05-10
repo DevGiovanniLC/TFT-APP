@@ -52,9 +52,10 @@ export default class DBConnection implements DataProvider {
             email TEXT UNIQUE,
             age INTEGER,
             height REAL,
+            gender TEXT,
             goal_weight REAL,
             goal_units TEXT,
-            goal_date TEXT
+            goal_date INTEGER
         );
         `;
 
@@ -154,10 +155,10 @@ export default class DBConnection implements DataProvider {
         this.db
             .query(
                 `
-                INSERT INTO user (name, email, age, height, goal_weight, goal_units, goal_date) VALUES
-                (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO user (name, email, age, height, gender, goal_weight, goal_units, goal_date) VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?)
                 `,
-                [value.name, value.email, value.age, value.height, value.goal_weight, value.goal_units, value.goal_date?.getTime()]
+                [value.name, value.email, value.age, value.height, value.gender, value.goal_weight, value.goal_units, value.goal_date?.getTime()]
             )
             .catch((err) => alert(err));
 

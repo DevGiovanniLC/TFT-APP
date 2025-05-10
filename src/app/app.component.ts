@@ -3,6 +3,7 @@ import { IonApp, IonRouterOutlet, NavController } from '@ionic/angular/standalon
 import { DataProviderService } from '@services/data-providers/DataProvider.service';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { UserConfigService } from '@services/UserConfig.service';
+import { WeightTrackerService } from '@services/WeightTracker.service';
 
 @Component({
     selector: 'app-root',
@@ -14,13 +15,18 @@ export class AppComponent {
         private readonly dataProvider: DataProviderService,
         private readonly navCtrl: NavController,
         private readonly config: UserConfigService,
+        private readonly weightTracker: WeightTrackerService,
     ) {
         this.initApp();
     }
 
     initApp() {
         this.dataProvider.initialize().then(() => {
-            this.config.updateUser().subscribe((user) => {
+            this.weightTracker.getWeights().subscribe();
+            this.weightTracker.getLastWeight().subscribe();
+            this.weightTracker.getFirstWeight().subscribe();
+            this.config.getGoal().subscribe();
+            this.config.getUser().subscribe((user) => {
                 if (!user) {
                     this.navCtrl.navigateRoot('/initial');
                 }

@@ -30,8 +30,9 @@
                             presentation="date"
                             locale="en-US"
                             hour-cycle="h23"
-                            [value]="actualDate.toISOString().substring(0, 16)"
+                            [value]="nextDeadlineGoal.toISOString().substring(0, 16)"
                             max="2099-12-31"
+                            [min]="actualDate.toISOString().substring(0, 16)"
                             (ionChange)="updateActualDate($event.detail.value)"
                         >
                             ></ion-datetime

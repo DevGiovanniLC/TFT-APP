@@ -30,28 +30,30 @@ import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GoalModalComponent {
-    isWithDate = signal(false);
     @Input() inputWeight: Weight | null = null;
 
-    lastWeight = signal<number>(70);
-    lastWeightUnit = signal<WeightUnits>(WeightUnits.KG);
+    readonly actualDate = this.timeService.now();
+    readonly isWithDate = signal(false);
 
-    actualWeight = 70;
-    actualDate = this.timeService.now();
+    readonly lastWeight = signal<number>(70);
+    readonly lastWeightUnit = signal<WeightUnits>(WeightUnits.KG);
+
+    nextDeadlineGoal = this.timeService.now();
+    nextWeightGoal = 70;
 
     constructor(
         private readonly timeService: TimeService,
         private readonly modalCtrl: ModalController
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.lastWeight.set(this.inputWeight?.weight ?? 70);
         this.lastWeightUnit.set(this.inputWeight?.weight_units ?? WeightUnits.KG);
-        this.actualWeight = this.inputWeight?.weight ?? 70;
+        this.nextWeightGoal = this.inputWeight?.weight ?? 70;
         if (this.inputWeight?.date && !isNaN(new Date(this.inputWeight?.date)?.getTime() ?? NaN)) {
-            this.actualDate = new Date(this.inputWeight?.date);
+            this.nextDeadlineGoal = new Date(this.inputWeight?.date);
             this.isWithDate.set(true);
-        } else this.actualDate = new Date(this.timeService.now());
+        } else this.nextDeadlineGoal = new Date(this.timeService.now());
     }
 
     controlSteps(step: number) {
@@ -66,9 +68,9 @@ export class GoalModalComponent {
     private confirm() {
         const newWeight: Weight = {
             id: 0,
-            weight: this.actualWeight,
+            weight: this.nextWeightGoal,
             weight_units: this.lastWeightUnit(),
-            date: this.isWithDate() ? this.actualDate : new Date(NaN),
+            date: this.isWithDate() ? this.nextDeadlineGoal : new Date(NaN),
         };
 
         return this.modalCtrl.dismiss(newWeight, 'confirm');
@@ -77,13 +79,13 @@ export class GoalModalComponent {
     updateActualWeight(value: number) {
         if (typeof value !== 'number') return;
 
-        this.actualWeight = value;
+        this.nextWeightGoal = value;
     }
 
     updateActualDate(value: string | string[] | undefined | null) {
         if (typeof value !== 'string') return;
 
-        this.actualDate = new Date(value);
+        this.nextDeadlineGoal = new Date(value);
     }
 
     toggleDate() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { WeightLossPaceComponent } from './components/WeightLossPace/WeightLossPace.component';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { UserConfigService } from '@services/UserConfig.service';
@@ -11,7 +11,7 @@ import { IonContent, IonButton, AlertController } from '@ionic/angular/standalon
     standalone: true,
     imports: [IonButton, IonContent, WeightLossPaceComponent],
 })
-export class AnaliticsPage implements OnInit {
+export class AnaliticsPage{
 
     weights = toSignal(this.weightTracker.weights$);
     lastWeight = toSignal(this.weightTracker.lastWeight$);
@@ -23,12 +23,6 @@ export class AnaliticsPage implements OnInit {
         private readonly userConfig: UserConfigService,
         private readonly alertCtrl: AlertController
     ) { }
-
-    ngOnInit() {
-        this.weightTracker.getWeights().subscribe();
-        this.weightTracker.getLastWeight().subscribe();
-        this.userConfig.getGoal().subscribe();
-    }
 
     async alertExport() {
         this.isButtonActive = true;

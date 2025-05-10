@@ -26,14 +26,14 @@ import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/
 })
 export class WeightRegisterComponent implements OnInit {
     @Input() inputWeight: Weight | null = null;
-    selectedDate = signal<string | null>(null);
+    readonly selectedDate = signal<string | null>(null);
 
-    lastWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
-    lastWeightUnit = <WeightUnits>WeightUnits.KG;
+    readonly lastWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
+    readonly lastWeightUnit = signal<WeightUnits>(WeightUnits.KG);
 
-    actualWeight = signal(this.lastWeight()?.weight ?? 0);
-    actualDate = signal(this.timeService.now());
-    step = signal(0);
+    readonly nextWeight = signal(this.lastWeight()?.weight ?? 0);
+    readonly nextDate = signal(this.timeService.now());
+    readonly step = signal(0);
 
     private readonly modalCtrl = inject(ModalController);
 
@@ -43,8 +43,8 @@ export class WeightRegisterComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.actualWeight.set(this.inputWeight?.weight ?? this.lastWeight()?.weight ?? 0);
-        this.actualDate.set(this.inputWeight?.date ?? this.timeService.now());
+        this.nextWeight.set(this.inputWeight?.weight ?? this.lastWeight()?.weight ?? 0);
+        this.nextDate.set(this.inputWeight?.date ?? this.timeService.now());
 
         if (!this.inputWeight) return;
         const date = this.inputWeight.date;
@@ -65,9 +65,9 @@ export class WeightRegisterComponent implements OnInit {
     private confirm() {
         const newWeight: Weight = {
             id: this.inputWeight?.id ?? undefined,
-            weight: this.actualWeight(),
-            weight_units: this.lastWeightUnit,
-            date: this.actualDate(),
+            weight: this.nextWeight(),
+            weight_units: this.lastWeightUnit(),
+            date: this.nextDate(),
         };
 
         return this.modalCtrl.dismiss(newWeight, 'confirm');
@@ -75,11 +75,11 @@ export class WeightRegisterComponent implements OnInit {
 
     updateActualWeight(value: number) {
         if (typeof value !== 'number') return;
-        this.actualWeight.set(value);
+        this.nextWeight.set(value);
     }
 
     updateActualDate(value: string | string[] | undefined | null) {
         if (typeof value !== 'string') return;
-        this.actualDate.set(new Date(value));
+        this.nextDate.set(new Date(value));
     }
 }

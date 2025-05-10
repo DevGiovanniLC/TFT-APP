@@ -13,7 +13,7 @@
         >
             <app-weight-form
                 [inputWeightValue]="inputWeight?.weight ?? lastWeight()?.weight"
-                [inputWeightUnit]="lastWeightUnit"
+                [inputWeightUnit]="lastWeightUnit()"
                 (outputWeightValue)="updateActualWeight($event)"
             />
 

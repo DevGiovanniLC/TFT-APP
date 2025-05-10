@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { IonButton, IonButtons, IonIcon, ModalController } from '@ionic/angular/standalone';
 import { Weight } from '@models/types/Weight';
 import { WeightRegisterComponent } from '@components/modals/WeightRegisterModal/WeightRegisterModal.component';
@@ -11,18 +11,16 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalWeightButtonComponent {
-    isPressingButton: boolean;
+    readonly isPressingButton = signal(false);
 
     constructor(
         private readonly modalCtrl: ModalController,
         private readonly weightTracker: WeightTrackerService
-    ) {
-        this.isPressingButton = false;
-    }
+    ) {}
 
     async openModal(weight?: Weight) {
-        if (this.isPressingButton) return;
-        this.isPressingButton = true;
+        if (this.isPressingButton()) return;
+        this.isPressingButton.set(true);
 
         const modal = await this.modalCtrl.create({
             component: WeightRegisterComponent,
@@ -38,8 +36,7 @@ export class ModalWeightButtonComponent {
             } else {
                 this.weightTracker.addWeight(data);
             }
-            this.weightTracker.getWeights().subscribe();
         }
-        this.isPressingButton = false;
+        this.isPressingButton.set(false);
     }
 }

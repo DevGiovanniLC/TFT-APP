@@ -35,7 +35,7 @@ export default class LocalStorageProvider implements DataProvider {
 
         weights.push({ ...value, date: formattedDate, id: weights.length+1}); // Asegurar formato
 
-        localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(weights.map((w) => ({ ...w, date: w.date.getTime() }))));
+        localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(weights.map((w) => ({ ...w, date: new Date(w.date).getTime() }))));
 
         return true;
     }

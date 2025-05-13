@@ -3,7 +3,7 @@ import { expect } from '@jest/globals';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
 
 
-describe('CalculationFunctionsService', () => {
+describe('CalculationFunctionsService (Unit Tests with Jest)', () => {
     let service: CalculationFunctionsService;
 
     const startDate = new Date('2024-01-01');

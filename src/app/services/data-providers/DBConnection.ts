@@ -28,9 +28,15 @@ export default class DBConnection implements DataProvider {
             this.BDConf.readonly
         );
 
-        await this.db.open().catch((err) => alert(err));
+        await this.db.open().catch((err) => {
+            this.throwDBError(err)
+            return false;
+        });
 
-        await this.setBDStructure().catch((err) => alert(err));
+        await this.setBDStructure().catch((err) => {
+            this.throwDBError(err)
+            return false;
+        });
 
         return true;
     }
@@ -62,6 +68,12 @@ export default class DBConnection implements DataProvider {
         return await this.db.execute(schema);
     }
 
+    private throwDBError(err: any) {
+        const errorMessage = `❌ Database error: ${err}`
+        alert(errorMessage);
+        throw new Error(errorMessage);
+    }
+
 
     async getWeights(): Promise<Weight[]> {
         const registers = await this.db.query('SELECT * FROM registers ORDER BY date DESC');
@@ -78,26 +90,30 @@ export default class DBConnection implements DataProvider {
 
     addWeight(value: Weight): boolean {
         this.db
-            .query(
-                `
+            .query(`
             INSERT INTO registers (date, weight, weight_units) VALUES
-            (?, ?, ?)
-            `,
+            (?, ?, ?)`,
                 [value.date.getTime(), value.weight, value.weight_units]
             )
-            .catch((err) => alert(err));
+            .catch((err) => {
+                this.throwDBError(err)
+                return false;
+            });
+
         return true;
     }
 
     updateWeight(value: Weight): boolean {
         this.db
-            .query(
-                `
+            .query(`
                 UPDATE registers SET date = ?, weight = ?, weight_units = ? WHERE id = ?
                 `,
                 [value.date.getTime(), value.weight, value.weight_units, value.id]
             )
-            .catch((err) => alert(err));
+            .catch((err) => {
+                this.throwDBError(err)
+                return false;
+            });
         return true;
     }
 
@@ -109,7 +125,10 @@ export default class DBConnection implements DataProvider {
                 `,
                 [id]
             )
-            .catch((err) => alert(err));
+            .catch((err) => {
+                this.throwDBError(err)
+                return false;
+            });
 
         return true;
     }
@@ -160,7 +179,10 @@ export default class DBConnection implements DataProvider {
                 `,
                 [value.name, value.email, value.age, value.height, value.gender, value.goal_weight, value.goal_units, value.goal_date?.getTime()]
             )
-            .catch((err) => alert(err));
+            .catch((err) => {
+                this.throwDBError(err)
+                return false;
+            });
 
         return true;
     }
@@ -175,12 +197,10 @@ export default class DBConnection implements DataProvider {
                 directory: Directory.Documents,
                 encoding: Encoding.UTF8,
             });
-
             await this.shareCSVFile(fileName);
         } catch (err) {
-            throw new Error(`❌ Export CSV error: ${err}`);
+            this.throwDBError(err)
         }
-
     }
 
     private async shareCSVFile(filePath: string) {

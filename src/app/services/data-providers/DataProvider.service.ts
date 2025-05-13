@@ -17,17 +17,17 @@ export class DataProviderService {
 
     private dataProvider!: DataProvider;
 
-    constructor() {}
+    constructor() { }
 
     async initialize() {
         if (environment.production) {
             this.dataProvider = new DBConnection();
         } else {
-            this.dataProvider = new LocalStorageProvider();
+            this.dataProvider = new LocalStorageProvider()
         }
 
-        await this.dataProvider.initializeConnection();
-        this.connectionStatus.set(true);
+        this.connectionStatus.set(await this.dataProvider.initializeConnection());
+        return this.connectionStatus();
     }
 
     async getWeights(): Promise<Weight[]> {

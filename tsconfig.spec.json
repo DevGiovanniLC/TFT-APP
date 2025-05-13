@@ -4,27 +4,26 @@
     "compilerOptions": {
         "outDir": "./out-tsc/spec",
         "types": [
-            "jest",
-            "node"
+            "jest", "node", "jsdom"
         ],
         "paths": {
             "@core/*": [
                 "src/app/core/*"
             ],
             "@models/*": [
-                "src/models/*"
+                "src/app/models/*"
             ],
             "@services/*": [
-                "src/services/*"
+                "src/app/services/*"
             ],
             "@pages/*": [
                 "src/app/pages/*"
             ],
             "@components/*": [
-                "src/components/*"
+                "src/app/components/*"
             ],
             "@pipes/*": [
-                "src/pipes/*"
+                "src/app/pipes/*"
             ],
             "@plugins/*": [
                 "src/plugins/*"

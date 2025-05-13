@@ -1,104 +1,115 @@
+/// <reference types="jest" />
+import { expect } from '@jest/globals';
+
 import { DataProviderService } from '@services/data-providers/DataProvider.service';
-import { Weight } from '@models/types/Weight';
-import { User } from '@models/types/User';
-
-// Mocks
-jest.mock('@services/data-providers/DBConnection');
-jest.mock('@services/data-providers/LocalStorageProvider');
-
-import DBConnection from '@services/data-providers/DBConnection';
 import LocalStorageProvider from '@services/data-providers/LocalStorageProvider';
+import DBConnection from '@services/data-providers/DBConnection';
 import { environment } from '@envs/environment';
+import { Weight, WeightUnits } from '@models/types/Weight';
+import { User, Gender } from '@models/types/User';
+import { Goal } from '@models/types/Goal';
 
-describe('DataProviderService', () => {
+describe('DataProviderService (Unit Tests with Jest)', () => {
     let service: DataProviderService;
 
-    const mockWeight: Weight = {
-        weight: 70,
-        date: new Date('2025-04-10'),
-        weight_units: 'kg' as any,
-    };
-
+    const mockWeights: Weight[] = [
+        { id: 1, date: new Date('2024-01-01'), weight: 80, weight_units: WeightUnits.KG },
+        { id: 2, date: new Date('2024-01-02'), weight: 79.5, weight_units: WeightUnits.KG }
+    ];
     const mockUser: User = {
-        name: 'Test',
+        name: 'User Test',
         age: 30,
-        height: 170,
-        gender: 'male' as any,
-        email: 'test@test.com',
-        goal_weight: 65,
-        goal_units: 'kg' as any,
-        goal_date: new Date('2025-05-01'),
+        height: 175,
+        gender: Gender.MALE,
+        email: 'test@example.com',
+        goal_weight: 70,
+        goal_units: WeightUnits.KG,
+        goal_date: new Date('2024-06-01')
     };
-
-    const dataProviderMock = {
-        initializeConnection: jest.fn(),
-        getWeights: jest.fn().mockResolvedValue([mockWeight]),
-        getGoal: jest.fn().mockResolvedValue(mockWeight),
-        getUser: jest.fn().mockResolvedValue(mockUser),
-        setUser: jest.fn(),
-        addWeight: jest.fn(),
+    const mockGoal: Goal = {
+        weight: mockUser.goal_weight,
+        weight_units: mockUser.goal_units,
+        date: mockUser.goal_date
     };
+    const mockCSV = 'id,weight,date,weight_units\n1,80,2024-01-01,kg';
 
     beforeEach(() => {
-        jest.clearAllMocks();
+        jest.resetModules();
+        environment.production = false;
+
+        // Spy on LocalStorageProvider methods
+        jest.spyOn(LocalStorageProvider.prototype, 'initializeConnection').mockResolvedValue(true);
+        jest.spyOn(LocalStorageProvider.prototype, 'getWeights').mockResolvedValue(mockWeights);
+        jest.spyOn(LocalStorageProvider.prototype, 'getUser').mockResolvedValue(mockUser);
+        jest.spyOn(LocalStorageProvider.prototype, 'getGoal').mockResolvedValue(mockGoal);
+        jest.spyOn(LocalStorageProvider.prototype, 'setUser').mockReturnValue(true);
+        jest.spyOn(LocalStorageProvider.prototype, 'addWeight').mockReturnValue(true);
+        jest.spyOn(LocalStorageProvider.prototype, 'deleteWeight').mockReturnValue(true);
+        jest.spyOn(LocalStorageProvider.prototype, 'updateWeight').mockReturnValue(true);
+        jest.spyOn(LocalStorageProvider.prototype, 'exportDataCSV').mockResolvedValue(undefined);
+
+        // Manual instantiation without TestBed
         service = new DataProviderService();
     });
 
-    describe('In development environment', () => {
-        beforeEach(async () => {
-            (environment as any).production = false;
-            (LocalStorageProvider as any).mockImplementation(() => dataProviderMock);
-
-            await service.initialize();
-        });
-
-        it('should use LocalStorageProvider in development mode', () => {
-            expect(LocalStorageProvider).toHaveBeenCalled();
-            expect(dataProviderMock.initializeConnection).toHaveBeenCalled();
-            expect(service.isConnected()).toBe(true);
-        });
-
-        it('should delegate getWeights to the provider', async () => {
-            const weights = await service.getWeights();
-            expect(dataProviderMock.getWeights).toHaveBeenCalled();
-            expect(weights).toEqual([mockWeight]);
-        });
-
-        it('should delegate getGoal to the provider', async () => {
-            const goal = await service.getGoal();
-            expect(dataProviderMock.getGoal).toHaveBeenCalled();
-            expect(goal).toEqual(mockWeight);
-        });
-
-        it('should delegate getUser to the provider', async () => {
-            const user = await service.getUser();
-            expect(dataProviderMock.getUser).toHaveBeenCalled();
-            expect(user).toEqual(mockUser);
-        });
-
-        it('should delegate setUser to the provider', () => {
-            service.setUser(mockUser);
-            expect(dataProviderMock.setUser).toHaveBeenCalledWith(mockUser);
-        });
-
-        it('should delegate addWeight to the provider', () => {
-            service.addWeight(mockWeight);
-            expect(dataProviderMock.addWeight).toHaveBeenCalledWith(mockWeight);
-        });
+    it('should have initial connectionStatus false', () => {
+        expect(service.connectionStatus()).toBe(false);
     });
 
-    describe('In production environment', () => {
-        beforeEach(async () => {
-            (environment as any).production = true;
-            (DBConnection as any).mockImplementation(() => dataProviderMock);
+    it('should initialize LocalStorageProvider and set connectionStatus to true', async () => {
+        await service.initialize();
+        expect(LocalStorageProvider.prototype.initializeConnection).toHaveBeenCalled();
+        expect(service.connectionStatus()).toBe(true);
+    });
 
-            await service.initialize();
-        });
+    it('should delegate synchronous methods to LocalStorageProvider', async () => {
+        await service.initialize();
 
-        it('should use DBConnection in production mode', () => {
-            expect(DBConnection).toHaveBeenCalled();
-            expect(dataProviderMock.initializeConnection).toHaveBeenCalled();
-            expect(service.isConnected()).toBe(true);
-        });
+        expect(service.setUser(mockUser)).toBe(true);
+        expect(service.addWeight(mockWeights[0])).toBe(true);
+        expect(service.deleteWeight(1)).toBe(true);
+        expect(service.updateWeight(mockWeights[0])).toBe(true);
+    });
+
+    it('should delegate asynchronous methods to LocalStorageProvider', async () => {
+        await service.initialize();
+
+        await expect(service.getWeights()).resolves.toEqual(mockWeights);
+        await expect(service.getUser()).resolves.toEqual(mockUser);
+        await expect(service.getGoal()).resolves.toEqual(mockGoal);
+        await expect(service.exportDataCSV(mockCSV)).resolves.toBeUndefined();
+    });
+
+    it('should not set connectionStatus true if initializeConnection fails', async () => {
+        jest.spyOn(LocalStorageProvider.prototype, 'initializeConnection').mockResolvedValue(false);
+        service = new DataProviderService();
+        await service.initialize();
+        expect(service.connectionStatus()).toBe(false);
+    });
+
+    it('should initialize DBConnection in production and delegate all methods', async () => {
+        environment.production = true;
+        jest.spyOn(DBConnection.prototype, 'initializeConnection').mockResolvedValue(true);
+        jest.spyOn(DBConnection.prototype, 'getWeights').mockResolvedValue(mockWeights);
+        jest.spyOn(DBConnection.prototype, 'getUser').mockResolvedValue(mockUser);
+        jest.spyOn(DBConnection.prototype, 'getGoal').mockResolvedValue(mockGoal);
+        jest.spyOn(DBConnection.prototype, 'setUser').mockReturnValue(true);
+        jest.spyOn(DBConnection.prototype, 'addWeight').mockReturnValue(true);
+        jest.spyOn(DBConnection.prototype, 'deleteWeight').mockReturnValue(true);
+        jest.spyOn(DBConnection.prototype, 'updateWeight').mockReturnValue(true);
+        jest.spyOn(DBConnection.prototype, 'exportDataCSV').mockResolvedValue(undefined);
+
+        service = new DataProviderService();
+        await service.initialize();
+
+        expect(service.connectionStatus()).toBe(true);
+        expect(service.setUser(mockUser)).toBe(true);
+        expect(service.addWeight(mockWeights[0])).toBe(true);
+        expect(service.deleteWeight(1)).toBe(true);
+        expect(service.updateWeight(mockWeights[0])).toBe(true);
+        await expect(service.getWeights()).resolves.toEqual(mockWeights);
+        await expect(service.getUser()).resolves.toEqual(mockUser);
+        await expect(service.getGoal()).resolves.toEqual(mockGoal);
+        await expect(service.exportDataCSV(mockCSV)).resolves.toBeUndefined();
     });
 });

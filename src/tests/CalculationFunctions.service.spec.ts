@@ -1,4 +1,7 @@
+/// <reference types="jest" />
+import { expect } from '@jest/globals';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+
 
 describe('CalculationFunctionsService', () => {
     let service: CalculationFunctionsService;

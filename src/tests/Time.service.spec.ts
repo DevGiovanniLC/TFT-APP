@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+import { expect } from '@jest/globals';
 import { TimeService } from '../app/services/Time.service';
 import { environment } from '@envs/environment';
 
@@ -23,7 +25,6 @@ describe('TimeService', () => {
         const result = service.now();
         const now = new Date();
 
-        // Ensure the returned date is within 1 second of the actual current time
         expect(Math.abs(result.getTime() - now.getTime()) < 1000).toBe(true);
     });
 

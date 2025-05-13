@@ -29,43 +29,13 @@ describe('Start application with a goal with deadline (E2E)', () => {
         });
     });
 
-
-    it('should render main weight chart correctly with progress', () => {
-        LOCAL_STORAGE_SNAPSHOT = { ...localStorage };
-        // cy.captureCanvasImage('#doughnutChart canvas', 'deadline-doughnut-chart.png');
-        cy.compareCanvasImage('#doughnutChart canvas', 'deadline-doughnut-chart.png', 'diff-doughnutChart.png');
-    });
-
     it('should display all chart modes with "View Goal"', () => {
+        LOCAL_STORAGE_SNAPSHOT = { ...localStorage };
         cy.get('#chartMode').click();
         cy.get('.sc-ion-select-popover-md').contains('View Goal').should('be.visible');
         cy.get('.sc-ion-select-popover-md').contains('Total').should('be.visible');
         cy.get('.sc-ion-select-popover-md').contains('Last Week').should('be.visible');
         cy.get('.sc-ion-select-popover-md').contains('Last Month').should('be.visible');
-    });
-
-    it('should render total progress line chart correctly', () => {
-        cy.get('#chartMode').click();
-        cy.get('.sc-ion-select-popover-md').contains('Total').click();
-
-        // cy.captureCanvasImage('#lineChart canvas', 'deadline-line-chart-total.png');
-        cy.compareCanvasImage('#lineChart canvas', 'deadline-line-chart-total.png', 'diff-line-chart-total.png');
-    });
-
-    it('should render last week line chart correctly', () => {
-        cy.get('#chartMode').click();
-        cy.get('.sc-ion-select-popover-md').contains('Last Week').click();
-
-        // cy.captureCanvasImage('#lineChart canvas', 'deadline-line-chart-week.png');
-        cy.compareCanvasImage('#lineChart canvas', 'deadline-line-chart-week.png', 'diff-line-chart-last-week.png');
-    });
-
-    it('should render last month line chart correctly', () => {
-        cy.get('#chartMode').click();
-        cy.get('.sc-ion-select-popover-md').contains('Last Month').click();
-
-        // cy.captureCanvasImage('#lineChart canvas', 'deadline-line-chart-month.png');
-        cy.compareCanvasImage('#lineChart canvas', 'deadline-line-chart-month.png', 'diff-line-chart-last-month.png');
     });
 
     it('should open weight registration form with current weight pre-filled', () => {
@@ -79,4 +49,37 @@ describe('Start application with a goal with deadline (E2E)', () => {
         expect(localStorage.getItem('user_data')).to.exist;
         expect(localStorage.getItem('weight_data_weights')).to.exist;
     });
+
+
+    context('Chart Tests', () => {
+        it('should render main weight chart correctly with progress', () => {
+            // cy.captureCanvasImage('#doughnutChart canvas', 'deadline-doughnut-chart.png');
+            cy.compareCanvasImage('#doughnutChart canvas', 'deadline-doughnut-chart.png', 'diff-doughnutChart.png');
+        });
+
+        it('should render total progress line chart correctly', () => {
+            cy.get('#chartMode').click();
+            cy.get('.sc-ion-select-popover-md').contains('Total').click();
+
+            // cy.captureCanvasImage('#lineChart canvas', 'deadline-line-chart-total.png');
+            cy.compareCanvasImage('#lineChart canvas', 'deadline-line-chart-total.png', 'diff-line-chart-total.png');
+        });
+
+        it('should render last week line chart correctly', () => {
+            cy.get('#chartMode').click();
+            cy.get('.sc-ion-select-popover-md').contains('Last Week').click();
+
+            // cy.captureCanvasImage('#lineChart canvas', 'deadline-line-chart-week.png');
+            cy.compareCanvasImage('#lineChart canvas', 'deadline-line-chart-week.png', 'diff-line-chart-last-week.png');
+        });
+
+        it('should render last month line chart correctly', () => {
+            cy.get('#chartMode').click();
+            cy.get('.sc-ion-select-popover-md').contains('Last Month').click();
+
+            // cy.captureCanvasImage('#lineChart canvas', 'deadline-line-chart-month.png');
+            cy.compareCanvasImage('#lineChart canvas', 'deadline-line-chart-month.png', 'diff-line-chart-last-month.png');
+        });
+    });
+
 });

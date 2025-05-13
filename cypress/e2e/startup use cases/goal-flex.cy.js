@@ -19,44 +19,13 @@ describe('Start application without a goal (E2E)', () => {
         });
     });
 
-    it('should render current weight chart without progress indicator', () => {
-        LOCAL_STORAGE_SNAPSHOT = { ...localStorage };
-
-        // cy.captureCanvasImage('#doughnutChart canvas', 'doughnut-chart.png');
-        cy.compareCanvasImage('#doughnutChart canvas', 'doughnut-chart.png', 'diff-doughnutChart.png');
-    });
-
     it('should not show "View Goal" as chart display mode when no goal is set', () => {
+        LOCAL_STORAGE_SNAPSHOT = { ...localStorage };
         cy.get('#chartMode').click();
         cy.get('.sc-ion-select-popover-md').contains('View Goal').should('not.exist');
         cy.get('.sc-ion-select-popover-md').contains('Total').should('be.visible');
         cy.get('.sc-ion-select-popover-md').contains('Last Week').should('be.visible');
         cy.get('.sc-ion-select-popover-md').contains('Last Month').should('be.visible');
-    });
-
-    it('should display "Total" weight log chart without a defined goal', () => {
-        cy.get('#chartMode').click();
-        cy.get('.sc-ion-select-popover-md').contains('Total').click();
-
-        // cy.captureCanvasImage('#lineChart canvas', 'line-chart-total.png');
-        cy.compareCanvasImage('#lineChart canvas', 'line-chart-total.png', 'diff-line-chart-total.png');
-    });
-
-    it('should show "Last Week" weight log chart correctly when no goal is set', () => {
-        cy.get('#chartMode').click();
-        cy.get('.sc-ion-select-popover-md').contains('Last Week').click();
-
-
-        // cy.captureCanvasImage('#lineChart canvas', 'line-chart-week.png');
-        cy.compareCanvasImage('#lineChart canvas', 'line-chart-week.png', 'diff-line-chart-last-week.png');
-    });
-
-    it('should show "Last Month" weight log chart correctly when no goal is set', () => {
-        cy.get('#chartMode').click();
-        cy.get('.sc-ion-select-popover-md').contains('Last Month').click();
-
-        // cy.captureCanvasImage('#lineChart canvas', 'line-chart-month.png');
-        cy.compareCanvasImage('#lineChart canvas', 'line-chart-month.png', 'diff-line-chart-last-month.png');
     });
 
     it('should show current weight pre-filled in weight registration form', () => {
@@ -70,4 +39,36 @@ describe('Start application without a goal (E2E)', () => {
         expect(localStorage.getItem('weight_data_weights')).to.exist;
         expect(localStorage.getItem('user_data')).to.exist;
     });
+
+    context('Chart Tests', () => {
+        it('should render current weight chart without progress indicator', () => {
+            // cy.captureCanvasImage('#doughnutChart canvas', 'doughnut-chart.png');
+            cy.compareCanvasImage('#doughnutChart canvas', 'doughnut-chart.png', 'diff-doughnutChart.png');
+        });
+
+        it('should display "Total" weight log chart without a defined goal', () => {
+            cy.get('#chartMode').click();
+            cy.get('.sc-ion-select-popover-md').contains('Total').click();
+
+            // cy.captureCanvasImage('#lineChart canvas', 'line-chart-total.png');
+            cy.compareCanvasImage('#lineChart canvas', 'line-chart-total.png', 'diff-line-chart-total.png');
+        });
+
+        it('should show "Last Week" weight log chart correctly when no goal is set', () => {
+            cy.get('#chartMode').click();
+            cy.get('.sc-ion-select-popover-md').contains('Last Week').click();
+
+            // cy.captureCanvasImage('#lineChart canvas', 'line-chart-week.png');
+            cy.compareCanvasImage('#lineChart canvas', 'line-chart-week.png', 'diff-line-chart-last-week.png');
+        });
+
+        it('should show "Last Month" weight log chart correctly when no goal is set', () => {
+            cy.get('#chartMode').click();
+            cy.get('.sc-ion-select-popover-md').contains('Last Month').click();
+
+            // cy.captureCanvasImage('#lineChart canvas', 'line-chart-month.png');
+            cy.compareCanvasImage('#lineChart canvas', 'line-chart-month.png', 'diff-line-chart-last-month.png');
+        });
+    });
+
 });

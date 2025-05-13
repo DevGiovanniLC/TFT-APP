@@ -28,43 +28,13 @@ describe('Start application with a goal (no deadline) (E2E)', () => {
         });
     });
 
-    it('should render doughnut chart with progress but no deadline', () => {
-        LOCAL_STORAGE_SNAPSHOT = { ...localStorage };
-
-        cy.captureCanvasImage('#doughnutChart canvas', 'goal-doughnut-chart.png');
-        // cy.compareCanvasImage('#doughnutChart canvas', 'goal-doughnut-chart.png', 'diff-doughnutChart.png');
-    });
-
     it('should not include "View Goal" mode if no deadline is defined', () => {
+        LOCAL_STORAGE_SNAPSHOT = { ...localStorage };
         cy.get('#chartMode').click();
         cy.get('.sc-ion-select-popover-md').contains('View Goal').should('not.exist');
         cy.get('.sc-ion-select-popover-md').contains('Total').should('be.visible');
         cy.get('.sc-ion-select-popover-md').contains('Last Week').should('be.visible');
         cy.get('.sc-ion-select-popover-md').contains('Last Month').should('be.visible');
-    });
-
-    it('should show "Total" line chart with goal but no deadline', () => {
-        cy.get('#chartMode').click();
-        cy.get('.sc-ion-select-popover-md').contains('Total').click();
-
-        // cy.captureCanvasImage('#lineChart canvas', 'goal-line-chart-total.png');
-        cy.compareCanvasImage('#lineChart canvas', 'goal-line-chart-total.png', 'diff-line-chart-total.png');
-    });
-
-    it('should show "Last Week" line chart with goal and no deadline', () => {
-        cy.get('#chartMode').click();
-        cy.get('.sc-ion-select-popover-md').contains('Last Week').click();
-
-        // cy.captureCanvasImage('#lineChart canvas', 'goal-line-chart-week.png');
-        cy.compareCanvasImage('#lineChart canvas', 'goal-line-chart-week.png', 'diff-line-chart-last-week.png');
-    });
-
-    it('should show "Last Month" line chart with goal and no deadline', () => {
-        cy.get('#chartMode').click();
-        cy.get('.sc-ion-select-popover-md').contains('Last Month').click();
-
-        // cy.captureCanvasImage('#lineChart canvas', 'goal-line-chart-month.png');
-        cy.compareCanvasImage('#lineChart canvas', 'goal-line-chart-month.png', 'diff-line-chart-last-month.png');
     });
 
     it('should open weight form pre-filled with current weight (120)', () => {
@@ -78,4 +48,37 @@ describe('Start application with a goal (no deadline) (E2E)', () => {
         expect(localStorage.getItem('weight_data_weights')).to.exist;
         expect(localStorage.getItem('user_data')).to.exist;
     });
+
+    context('Chart Tests', () => {
+
+        it('should render doughnut chart with progress but no deadline', () => {
+            cy.captureCanvasImage('#doughnutChart canvas', 'goal-doughnut-chart.png');
+            // cy.compareCanvasImage('#doughnutChart canvas', 'goal-doughnut-chart.png', 'diff-doughnutChart.png');
+        });
+
+
+        it('should show "Total" line chart with goal but no deadline', () => {
+            cy.get('#chartMode').click();
+            cy.get('.sc-ion-select-popover-md').contains('Total').click();
+
+            // cy.captureCanvasImage('#lineChart canvas', 'goal-line-chart-total.png');
+            cy.compareCanvasImage('#lineChart canvas', 'goal-line-chart-total.png', 'diff-line-chart-total.png');
+        });
+
+        it('should show "Last Week" line chart with goal and no deadline', () => {
+            cy.get('#chartMode').click();
+            cy.get('.sc-ion-select-popover-md').contains('Last Week').click();
+
+            // cy.captureCanvasImage('#lineChart canvas', 'goal-line-chart-week.png');
+            cy.compareCanvasImage('#lineChart canvas', 'goal-line-chart-week.png', 'diff-line-chart-last-week.png');
+        });
+
+        it('should show "Last Month" line chart with goal and no deadline', () => {
+            cy.get('#chartMode').click();
+            cy.get('.sc-ion-select-popover-md').contains('Last Month').click();
+
+            // cy.captureCanvasImage('#lineChart canvas', 'goal-line-chart-month.png');
+            cy.compareCanvasImage('#lineChart canvas', 'goal-line-chart-month.png', 'diff-line-chart-last-month.png');
+        });
+    })
 });

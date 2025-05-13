@@ -9,36 +9,27 @@
             </h2>
         </header>
         <form
-            class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10"
-        >
-            <app-weight-form
-                [inputWeightValue]="lastWeight()"
-                [inputWeightUnit]="lastWeightUnit()"
-                (outputWeightValue)="updateActualWeight($event)"
-            ></app-weight-form>
+            class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10">
+            <app-weight-form [inputWeightValue]="lastWeight()" [inputWeightUnit]="lastWeightUnit()"
+                (outputWeightValue)="updateActualWeight($event)"></app-weight-form>
 
             <div class="flex space-x-3 p-5 justify-center items-center align-middle">
                 <ion-toggle id="dateToggle" [checked]="isWithDate()" (ionChange)="toggleDate()">Set a date</ion-toggle>
             </div>
             @if (isWithDate()) {
-                <ion-datetime-button id="date-button" datetime="datetime" />
+            <ion-datetime-button id="date-button" datetime="datetime" />
 
-                <ion-modal [keepContentsMounted]="true" [breakpoints]="[0, 1]" initialBreakpoint="1">
-                    <ng-template>
-                        <ion-datetime
-                            id="datetime"
-                            presentation="date"
-                            locale="en-US"
-                            hour-cycle="h23"
-                            [value]="nextDeadlineGoal.toISOString().substring(0, 16)"
-                            max="2099-12-31"
-                            [min]="actualDate.toISOString().substring(0, 16)"
-                            (ionChange)="updateActualDate($event.detail.value)"
-                        >
-                            ></ion-datetime
-                        >
-                    </ng-template>
-                </ion-modal>
+            <ion-modal [keepContentsMounted]="true" [breakpoints]="[0, 1]" initialBreakpoint="1">
+                <ng-template>
+                    <ion-datetime id="datetime" presentation="date" locale="en-GB" hour-cycle="h23"
+                        display-format="DD/MM/YYYY"
+                        picker-format="DD/MM/YYYY"
+                        [value]="nextDeadlineGoal.toISOString().substring(0, 16)" max="2099-12-31"
+                        [min]="actualDate.toISOString().substring(0, 16)"
+                        (ionChange)="updateActualDate($event.detail.value)">
+                        ></ion-datetime>
+                </ng-template>
+            </ion-modal>
             }
         </form>
     </div>

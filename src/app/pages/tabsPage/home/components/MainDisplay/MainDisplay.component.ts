@@ -19,11 +19,12 @@ import HomeDoughnutChart from '@models/charts/HomeDoghnoutChart';
 import { ChartData, ChartOptions, Plugin } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
 import { Goal } from '@models/types/Goal';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-main-display',
     standalone: true,
-    imports: [IonCard, IonButton, ChartModule],
+    imports: [IonCard, IonButton, ChartModule, DatePipe],
     styleUrl: './MainDisplay.component.css',
     templateUrl: './MainDisplay.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,

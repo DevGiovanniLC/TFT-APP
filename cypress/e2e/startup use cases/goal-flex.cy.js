@@ -40,6 +40,17 @@ describe('Start application without a goal (E2E)', () => {
         expect(localStorage.getItem('user_data')).to.exist;
     });
 
+    it('should show starting weight no goal selected', () => {
+        cy.get('#startingWeight').should('have.text', ' 100 kg ');
+        cy.get('#startingDate').should('have.text', ' 30/05/2025 ');
+    })
+
+    it('should show goal weight no goal selected', () => {
+        cy.get('#goalWeight').should('not.exist');
+        cy.get('#goalDate').should('not.exist');
+        cy.pause();
+    })
+
     context('Chart Tests', () => {
         it('should render current weight chart without progress indicator', () => {
             // cy.captureCanvasImage('#doughnutChart canvas', 'doughnut-chart.png');

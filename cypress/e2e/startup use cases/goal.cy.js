@@ -49,11 +49,21 @@ describe('Start application with a goal (no deadline) (E2E)', () => {
         expect(localStorage.getItem('user_data')).to.exist;
     });
 
+    it('should show starting weight with goal selected', () => {
+        cy.get('#startingWeight').should('have.text', ' 120 kg ');
+        cy.get('#startingDate').should('have.text', ' 30/05/2025 ');
+    })
+
+    it('should show goal weight with goal selected', () => {
+        cy.get('#goalWeight').should('have.text', ' 80 kg ');
+        cy.get('#goalDate').should('not.be.visible');
+    })
+
     context('Chart Tests', () => {
 
         it('should render doughnut chart with progress but no deadline', () => {
-            cy.captureCanvasImage('#doughnutChart canvas', 'goal-doughnut-chart.png');
-            // cy.compareCanvasImage('#doughnutChart canvas', 'goal-doughnut-chart.png', 'diff-doughnutChart.png');
+            // cy.captureCanvasImage('#doughnutChart canvas', 'goal-doughnut-chart.png');
+            cy.compareCanvasImage('#doughnutChart canvas', 'goal-doughnut-chart.png', 'diff-doughnutChart.png');
         });
 
 

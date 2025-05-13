@@ -50,6 +50,17 @@ describe('Start application with a goal with deadline (E2E)', () => {
         expect(localStorage.getItem('weight_data_weights')).to.exist;
     });
 
+    it('should show starting weight with goal selected and deadline', () => {
+        cy.get('#startingWeight').should('have.text', ' 90 kg ');
+        cy.get('#startingDate').should('have.text', ' 30/05/2025 ');
+    })
+
+    it('should show goal weight with goal selected and deadline', () => {
+        cy.get('#goalWeight').should('have.text', ' 80 kg ');
+        cy.get('#goalDate').should('have.text', ' 30/05/2025 ');
+        cy.pause();
+    })
+
 
     context('Chart Tests', () => {
         it('should render main weight chart correctly with progress', () => {

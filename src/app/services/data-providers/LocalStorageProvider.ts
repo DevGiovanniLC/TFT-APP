@@ -8,11 +8,9 @@ export default class LocalStorageProvider implements DataProvider {
     private readonly WEIGHTS_KEY = 'weight_data_weights';
     private readonly USER_KEY = 'user_data';
 
-    constructor() {
-        this.addExampleData();
-    }
+    constructor() {}
 
-    addExampleData() {
+    private addExampleData() {
         localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(data.weights));
     }
 
@@ -33,7 +31,7 @@ export default class LocalStorageProvider implements DataProvider {
 
         const weights = this.getWeightsSync();
 
-        weights.push({ ...value, date: formattedDate, id: weights.length+1}); // Asegurar formato
+        weights.push({ ...value, date: formattedDate, id: weights.length + 1 }); // Asegurar formato
 
         localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(weights.map((w) => ({ ...w, date: new Date(w.date).getTime() }))));
 

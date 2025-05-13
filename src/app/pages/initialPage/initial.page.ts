@@ -30,7 +30,7 @@ import { Goal } from '@models/types/Goal';
 export class InitialPage {
     HeaderEnum = HeaderMode;
 
-    FINAL_STEP = 4;
+    FINAL_STEP = 3;
     step = 0;
 
     user = signal<User>({
@@ -60,7 +60,7 @@ export class InitialPage {
 
     controlSteps(step: number) {
         this.step = step;
-        if (this.step !== this.FINAL_STEP) return;
+        if (this.step <= this.FINAL_STEP) return;
 
         const actualWeight: Weight = {
             id: 0,

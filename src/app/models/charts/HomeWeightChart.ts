@@ -36,24 +36,12 @@ export default class HomeWeightChart {
                     data: dataWeights.map((w: Weight) => w.weight),
                     fill: false,
                     borderColor: '#00BD7E',
-                    tension: 0.4,
-                    pointRadius: (ctx: ScriptableContext<'line'>): number => {
-                        const dataset = ctx.chart.data.datasets[0];
-                        const total = dataset.data.length;
-                        let spacing = 0;
-
-                        if (this.chartMode === 'viewGoal') {
-                            spacing = Math.ceil(total / 5);
-                        } else {
-                            spacing = Math.ceil(total / 15);
-                        }
-
-                        const isFirst = ctx.dataIndex === 0;
-                        const isLast = ctx.dataIndex === total - 1;
-                        const isSpaced = ctx.dataIndex % spacing === 0;
-
-                        return isFirst || isLast || total <= 20 || isSpaced ? 3 : 0;
-                    },
+                    tension: 0.1,
+                    pointRadius: 0,
+                    hoverBackgroundColor: 'transparent',
+                    hoverBorderColor: 'transparent',
+                    pointHoverRadius: 0,
+                    pointHitRadius: 0,
                 },
                 {
                     label: 'Trend',
@@ -176,9 +164,23 @@ export default class HomeWeightChart {
                 },
                 legend: {
                     display: this.viewTrend,
-                    onClick: () => {},
+                    onClick: () => { },
                     position: 'top',
                 },
+                // zoom: {
+                //     zoom: {
+                //         wheel: {
+                //             enabled: true,
+                //         },
+                //         pinch: {
+                //             enabled: true,
+                //         },
+                //     },
+                //     pan: {
+                //         enabled: true,
+                //         mode: 'xy',
+                //     },
+                // }
             },
             animation: { duration: 0 },
             scales: {

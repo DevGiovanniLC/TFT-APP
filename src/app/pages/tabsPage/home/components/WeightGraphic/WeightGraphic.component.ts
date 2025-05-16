@@ -9,10 +9,14 @@ import { Chart, ChartData, ChartOptions } from 'chart.js';
 import { TimeService } from '@services/Time.service';
 import { Goal } from '@models/types/Goal';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { WeightGraphicZoomButtonComponent } from '../WeightGraphicZoomButton/WeightGraphicZoomButton.component';
+import zoomPlugin from 'chartjs-plugin-zoom';
+
+
 
 @Component({
     selector: 'app-weight-graphic',
-    imports: [ChartModule, IonSelect, IonSelectOption],
+    imports: [ChartModule, IonSelect, IonSelectOption, WeightGraphicZoomButtonComponent],
     styleUrl: './WeightGraphic.component.css',
     templateUrl: './WeightGraphic.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,6 +36,7 @@ export class WeightGraphic {
         private readonly calculateFunctionsService: CalculationFunctionsService
     ) {
         Chart.register(annotationPlugin);
+        Chart.register(zoomPlugin);
 
         effect(() => {
             this.updateWeightChart();

@@ -33,4 +33,5 @@ export class ModalHeaderComponent {
 export enum HeaderMode {
     static,
     sequence,
+    back
 }

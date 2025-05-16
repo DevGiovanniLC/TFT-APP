@@ -1,4 +1,4 @@
-<section class="w-full flex justify-center items-center flex-col">
+<section class="w-full flex justify-center items-center flex-col space-y-2">
     @if (goal()) {
         <div class="flex justify-between items-center w-full px-2">
             <ion-select
@@ -8,6 +8,7 @@
             aria-label="Chart Mode"
             placeholder="Chart Mode"
             value="total"
+
             (ionChange)="setChartMode($event.target.value)"
             >
             <ion-select-option value="total">Total</ion-select-option>

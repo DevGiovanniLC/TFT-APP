@@ -55,6 +55,7 @@ export class CalculationFunctionsService {
         const recentWeights = dataWeights.filter(
             (w) => new Date(w.date).getTime() >= lastDate - 14 * 24 * 60 * 60 * 1000
         );
+
         const xData = recentWeights.map((w) => new Date(w.date).getTime());
         const yData = recentWeights.map((w) => w.weight);
         const n = xData.length;
@@ -67,21 +68,25 @@ export class CalculationFunctionsService {
         return { slope, intercept };
     }
 
-    getTrendData(dataWeights: Weight[], goal_date: Date | undefined) {
-        const lastWeight = dataWeights[dataWeights.length - 1];
+    getTrendData(dataWeights: Weight[]) {
+        const lastWeight = dataWeights[0];
         const lastDate = new Date(lastWeight.date).getTime();
-        const goalDate = goal_date && typeof goal_date === 'object' ? goal_date : null;
+
         const { slope, intercept } = this.calculateTrend(dataWeights, lastDate);
-        const futureTrendData =
-            goalDate && !isNaN(goalDate.getTime())
-                ? [
-                    { x: lastDate, y: lastWeight.weight },
-                    { x: goalDate.getTime(), y: slope * goalDate.getTime() + intercept },
-                ]
-                : [];
+        const twoYearLater = lastDate + 2* 365 * 24 * 60 * 60 * 1000;
+
+        const y = slope * twoYearLater + intercept
+
+        if (!y) return [];
+
+        const futureTrendData = [
+            { x: lastDate, y: lastWeight.weight },
+            { x: twoYearLater, y: y }
+        ];
 
         return futureTrendData;
     }
+
 
     weightProgression(firstWeight: number, lastWeight: number, goalWeight: number): number {
         if (!firstWeight || !lastWeight || !goalWeight) return NaN;

@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonContent, IonButton, ModalController } from '@ionic/angular/standalone';
 import { BMIChartComponent } from './components/BMIChart/BMIChart.component';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { WeightTrackerService } from '@services/WeightTracker.service';
-import { UserConfigService } from '@services/UserConfig.service';
 import { BMICategoriesComponent } from './components/BMICategories/BMICategories.component';
 import { ModalUserComponent } from '../../../components/modals/UserModal/UserModal.component';
+import { BMIService } from '@services/BMI.service';
+import { UserConfigService } from '@services/UserConfig.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-tab3',
@@ -15,23 +15,14 @@ import { ModalUserComponent } from '../../../components/modals/UserModal/UserMod
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BMIPage {
-    user = toSignal(this.config.user$, { initialValue: null });
-    lastWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
-
-    bmi = computed(() => {
-        const height = this.user()?.height;
-        const weight = this.lastWeight();
-
-        if (!height || !weight) return null;
-
-        return weight.weight / Math.pow(height / 100, 2);
-    });
+    private readonly user = toSignal(this.userConfig.user$, { initialValue: null });
+    readonly bmi = toSignal(this.BMIService.bmi$, { initialValue: null });
 
     constructor(
-        private readonly weightTracker: WeightTrackerService,
-        private readonly config: UserConfigService,
+        private readonly BMIService: BMIService,
+        private readonly userConfig: UserConfigService,
         private readonly modalCtrl: ModalController
-    ) { }
+    ) {}
 
     async openModal() {
         const modal = await this.modalCtrl.create({

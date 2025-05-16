@@ -1,0 +1,5 @@
+::ng-deep #lineChartFull canvas {
+  width: 100vw !important;
+  height: 90vh !important;
+  display: block;
+}

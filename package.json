@@ -46,6 +46,7 @@
         "chart.js": "^4.4.8",
         "chartjs-adapter-date-fns": "^3.0.0",
         "chartjs-plugin-annotation": "^3.1.0",
+        "chartjs-plugin-zoom": "^2.2.0",
         "papaparse": "^5.5.2",
         "primeng": "^19.0.8",
         "rxjs": "~7.8.0",

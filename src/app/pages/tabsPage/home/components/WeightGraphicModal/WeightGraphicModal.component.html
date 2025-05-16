@@ -1,1 +1,2 @@
-<app-modal-header  [headerMode]="2" (outputStep)="cancel()"></app-modal-header>
+<app-modal-header [headerMode]="2" (outputStep)="exit()"></app-modal-header>
+<p-chart id="lineChartFull" class="w-full h-full" type="line" [data]="data" [options]="options" />

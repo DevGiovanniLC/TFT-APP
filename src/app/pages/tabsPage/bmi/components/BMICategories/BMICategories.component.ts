@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { IonButton, IonIcon, PopoverController } from '@ionic/angular/standalone';
-import { BMIInfoPopoverComponent } from '../ BMIInfoPopover/ BMIInfoPopover.component';
+import { BMIInfoPopoverComponent } from '../BMIInfoPopover/ BMIInfoPopover.component';
 
 @Component({
     selector: 'app-bmicategories',

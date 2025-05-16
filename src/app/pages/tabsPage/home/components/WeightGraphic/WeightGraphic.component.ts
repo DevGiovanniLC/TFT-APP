@@ -52,13 +52,13 @@ export class WeightGraphic {
         if (this.chartMode() == 'week') {
             weights.set(
                 this.weights().filter(
-                    (w) => w.date.getTime() > this.timeService.now().getTime() - 7 * 24 * 60 * 60 * 1000
+                    (w) => w.date.getTime() > this.timeService.now().getTime() - 7 * 24 * 60 * 60 * 1000 && w.date.getTime() < this.timeService.now().getTime()
                 )
             );
         } else if (this.chartMode() == 'month') {
             weights.set(
                 this.weights().filter(
-                    (w) => w.date.getTime() > this.timeService.now().getTime() - 30 * 24 * 60 * 60 * 1000
+                    (w) => w.date.getTime() > this.timeService.now().getTime() - 30 * 24 * 60 * 60 * 1000 && w.date.getTime() < this.timeService.now().getTime()
                 )
             );
         }

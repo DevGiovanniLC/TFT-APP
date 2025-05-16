@@ -27,31 +27,30 @@ export class BMIService {
     ) { }
 
 
-
     getBMILimitsForHeight(): { label: string; bmi: number; weight: number; alert: string }[] {
 
-    const height = this.user()?.height;
+        const height = this.user()?.height;
 
-    if (!height || height <= 0) return [];
+        if (!height || height <= 0) return [];
 
-    const h = height / 100;
-    const bmiCategories = [
-        { label: 'Severe Thinness', max: 15.99, alert: '#f15757' },
-        { label: 'Moderate Thinness', max: 16.99, alert: '#cdc827' },
-        { label: 'Mild Thinness', max: 18.49, alert: '#adccf2' },
-        { label: 'Normal', max: 24.9, alert: '#4caf50' },
-        { label: 'Pre-obese', max: 27.9, alert: '#1E8260' },
-        { label: 'High Overweight', max: 29.9, alert: '#1E8260' },
-        { label: 'Obesity Class I', max: 34.9, alert: '#c7b85a' },
-        { label: 'Obesity Class II', max: 39.9, alert: '#f2adad' }
-    ];
+        const h = height / 100;
+        const bmiCategories = [
+            { label: 'Severe Thinness', max: 15.99, alert: '#f15757' },
+            { label: 'Moderate Thinness', max: 16.99, alert: '#cdc827' },
+            { label: 'Mild Thinness', max: 18.49, alert: '#adccf2' },
+            { label: 'Normal', max: 24.9, alert: '#4caf50' },
+            { label: 'Pre-obese', max: 27.9, alert: '#1E8260' },
+            { label: 'High Overweight', max: 29.9, alert: '#c7b85a' },
+            { label: 'Obesity Class I', max: 34.9, alert: '#f2adad' },
+            { label: 'Obesity Class II', max: 39.9, alert: '#f2adad' }
+        ];
 
-    return bmiCategories.map(c => ({
-        label: c.label,
-        bmi: c.max,
-        weight: +(c.max * h * h).toFixed(1),
-        alert: c.alert
-    }));
-}
+        return bmiCategories.map(c => ({
+            label: c.label,
+            bmi: c.max,
+            weight: +(c.max * h * h).toFixed(1),
+            alert: c.alert
+        }));
+    }
 
 }

@@ -11,6 +11,7 @@ import { CalculationFunctionsService } from '@services/CalculationFunctions.serv
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { UserConfigService } from '@services/UserConfig.service';
 import ModalWeightChart from '@models/charts/ModalWeightChart';
+import { BMIService } from '@services/BMI.service';
 
 
 
@@ -28,22 +29,24 @@ export class WeightGraphicModalComponent {
     private readonly goal = toSignal(this.userService.goal$);
     private readonly weights = toSignal(this.weightTrackerService.weights$);
 
+
     constructor(
         private readonly modalCtrl: ModalController,
         private readonly calculateFunctionsService: CalculationFunctionsService,
         private readonly weightTrackerService: WeightTrackerService,
-        private readonly userService: UserConfigService
+        private readonly userService: UserConfigService,
+        private readonly BMIService: BMIService
     ) {
         Chart.register(zoomPlugin);
 
         effect(() => {
-            this.updateWeightChart(this.weights(), this.goal());
+            this.updateWeightChart(this.weights(), this.goal(), this.BMIService.getBMILimitsForHeight());
         });
     }
 
-    updateWeightChart(weights: Weight[] | undefined, goal: Goal | undefined) {
+    updateWeightChart(weights: Weight[] | undefined, goal: Goal | undefined, categories: { label: string; bmi: number; weight: number; alert: string; }[]) {
         if (!weights) return;
-        const weightChart = new ModalWeightChart(this.calculateFunctionsService, weights, goal);
+        const weightChart = new ModalWeightChart(this.calculateFunctionsService, weights, goal, categories);
         this.data = weightChart.getData();
         this.options = weightChart.getOptions();
     }

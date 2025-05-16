@@ -1,4 +1,3 @@
-import { Signal } from '@angular/core';
 import { Goal } from '@models/types/Goal';
 import { Weight } from '@models/types/Weight';
 import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
@@ -9,15 +8,18 @@ export default class ModalWeightChart {
     private readonly weights: Weight[];
     private readonly goal: Goal | undefined;
     private readonly trendData: { x: number; y: number; }[];
+    private readonly categories: { label: string; bmi: number; weight: number; alert: string; }[];
 
     constructor(
         calculateFunctionsService: CalculationFunctionsService,
         weights: Weight[],
-        goal: Goal | undefined
+        goal: Goal | undefined,
+        categories: { label: string; bmi: number; weight: number; alert: string; }[]
     ) {
         this.weights = weights;
         this.goal = goal;
         this.trendData = calculateFunctionsService.getTrendData(this.weights)
+        this.categories = categories;
     }
 
     getData(): ChartData<'line'> {
@@ -39,7 +41,7 @@ export default class ModalWeightChart {
                     parsing: false,
                     fill: false,
                     borderDash: [6, 6],
-                    borderColor: '#ff6384',
+                    borderColor: '#8f00ff',
                     pointRadius: 0,
                     tension: 0,
                     segment: {
@@ -58,31 +60,53 @@ export default class ModalWeightChart {
     annotationConfig(goalWeight: number, goalDate: Date | undefined) {
         if (!goalWeight) return {};
 
-        const goalLabel: AnnotationOptions = {
-            type: 'label',
-            yValue: goalWeight + 3,
-            xValue: goalDate?.getTime() ?? NaN,
-            content: ['Goal'],
-            padding: 0,
-            color: '#343A40',
-            font: {
-                size: 11,
-            },
-        };
-
         const goalLine: LineAnnotationOptions = {
             yMin: goalWeight,
             yMax: goalWeight,
             borderColor: '#343A40',
             borderWidth: 2,
             borderDash: [5, 5],
+            label: {
+                display: true,
+                content: 'Goal',
+                position: 'end',
+                backgroundColor: 'rgba(0,0,0,0.9)',
+                color: '#fff',
+                font: {
+                    weight: 'bold',
+                    size: 10
+                }
+            }
         };
 
-        if (!goalDate)
+        const bmiLineCategories: LineAnnotationOptions[] = this.categories.map(category => {
             return {
-                goalLabel,
-                goalLine,
+                yMin: category.weight,
+                yMax: category.weight,
+                borderColor: category.alert,
+                borderWidth: 2,
+                borderDash: [5, 5],
+                label: {
+                    display: true,
+                    content: category.label,
+                    position: 'end',
+                    backgroundColor: category.alert,
+                    color: '#fff',
+                    font: {
+                        weight: 'bold',
+                        size: 10
+                    }
+                }
             };
+        })
+
+
+        if (!goalDate) {
+            return {
+                goalLine,
+                ...bmiLineCategories
+            };
+        }
 
         const goalPoint: AnnotationOptions = {
             type: 'point',
@@ -91,15 +115,15 @@ export default class ModalWeightChart {
             xValue: goalDate?.getTime(),
             yValue: goalWeight,
             backgroundColor: '#1E8260',
-            radius: 5,
+            radius: 6,
             borderWidth: 2,
             borderColor: '#00BD7E',
         };
 
         return {
             goalPoint,
-            goalLabel,
             goalLine,
+            ...bmiLineCategories
         };
     }
 

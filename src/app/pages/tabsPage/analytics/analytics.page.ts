@@ -40,7 +40,7 @@ export class AnaliticsPage {
                 {
                     text: 'Export',
                     role: 'confirm',
-                    handler: () => this.documentService.exportDataCSV(),
+                    handler: () => this.documentService.exportAllDataToCSV(),
                 },
             ],
         });

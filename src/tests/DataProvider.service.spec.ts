@@ -3,7 +3,7 @@ import { expect } from '@jest/globals';
 
 import { DataProviderService } from '@services/data-providers/DataProvider.service';
 import LocalStorageProvider from '@services/data-providers/LocalStorageProvider';
-import DBConnection from '@services/data-providers/DBConnection';
+import SQLiteDataProvider from '@services/data-providers/SQLiteDataProvider';
 import { environment } from '@envs/environment';
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { User, Gender } from '@models/types/User';
@@ -89,15 +89,15 @@ describe('DataProviderService (Unit Tests with Jest)', () => {
 
     it('should initialize DBConnection in production and delegate all methods', async () => {
         environment.production = true;
-        jest.spyOn(DBConnection.prototype, 'initializeConnection').mockResolvedValue(true);
-        jest.spyOn(DBConnection.prototype, 'getWeights').mockResolvedValue(mockWeights);
-        jest.spyOn(DBConnection.prototype, 'getUser').mockResolvedValue(mockUser);
-        jest.spyOn(DBConnection.prototype, 'getGoal').mockResolvedValue(mockGoal);
-        jest.spyOn(DBConnection.prototype, 'setUser').mockReturnValue(true);
-        jest.spyOn(DBConnection.prototype, 'addWeight').mockReturnValue(true);
-        jest.spyOn(DBConnection.prototype, 'deleteWeight').mockReturnValue(true);
-        jest.spyOn(DBConnection.prototype, 'updateWeight').mockReturnValue(true);
-        jest.spyOn(DBConnection.prototype, 'exportDataCSV').mockResolvedValue(undefined);
+        jest.spyOn(SQLiteDataProvider.prototype, 'initializeConnection').mockResolvedValue(true);
+        jest.spyOn(SQLiteDataProvider.prototype, 'getWeights').mockResolvedValue(mockWeights);
+        jest.spyOn(SQLiteDataProvider.prototype, 'getUser').mockResolvedValue(mockUser);
+        jest.spyOn(SQLiteDataProvider.prototype, 'getGoal').mockResolvedValue(mockGoal);
+        jest.spyOn(SQLiteDataProvider.prototype, 'setUser').mockReturnValue(true);
+        jest.spyOn(SQLiteDataProvider.prototype, 'addWeight').mockReturnValue(true);
+        jest.spyOn(SQLiteDataProvider.prototype, 'deleteWeight').mockReturnValue(true);
+        jest.spyOn(SQLiteDataProvider.prototype, 'updateWeight').mockReturnValue(true);
+        jest.spyOn(SQLiteDataProvider.prototype, 'exportDataCSV').mockResolvedValue(undefined);
 
         service = new DataProviderService();
         await service.initialize();

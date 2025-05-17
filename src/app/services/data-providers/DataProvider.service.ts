@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
-import DBConnection from '@services/data-providers/DBConnection';
+import SQLiteDataProvider from '@services/data-providers/SQLiteDataProvider';
 import { environment } from '@envs/environment';
 
 import LocalStorageProvider from './LocalStorageProvider';
@@ -15,7 +15,7 @@ export class DataProviderService {
 
     constructor() {
         this.dataProvider = environment.production
-            ? new DBConnection()
+            ? new SQLiteDataProvider()
             : new LocalStorageProvider();
     }
 

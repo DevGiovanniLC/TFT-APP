@@ -7,11 +7,11 @@ export interface DataProvider {
     getGoal(): Promise<Goal | undefined>;
     getUser(): Promise<User | undefined>;
 
-    setUser(value: User): boolean;
+    setUser(value: User): Promise<boolean>;
 
-    addWeight(value: Weight): boolean;
-    updateWeight(value: Weight): boolean;
-    deleteWeight(id: number): boolean;
+    addWeight(value: Weight): Promise<boolean>;
+    updateWeight(value: Weight): Promise<boolean>;
+    deleteWeight(id: number): Promise<boolean>;
 
     exportDataCSV(csv: string): Promise<void>;
     initializeConnection(): Promise<boolean>;

@@ -1,48 +1,48 @@
 import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
 import { Weight } from '@models/types/Weight';
 import { User } from '@models/types/User';
-import data from '@assets/data/mock.json';
 import { Goal } from '@models/types/Goal';
 
+const WEIGHTS_KEY = 'weight_data_weights';
+const USER_KEY = 'user_data';
+
 export default class LocalStorageProvider implements DataProvider {
-    private readonly WEIGHTS_KEY = 'weight_data_weights';
-    private readonly USER_KEY = 'user_data';
+    constructor() { }
 
-    constructor() {}
-
-    private addExampleData() {
-        localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(data.weights));
+    private getItem<T>(key: string): T | undefined {
+        const item = localStorage.getItem(key);
+        return item ? JSON.parse(item) : undefined;
     }
 
-    getUser(): Promise<User | undefined> {
-        const userString = localStorage.getItem(this.USER_KEY);
-        const user = userString ? JSON.parse(userString) : undefined;
-        return Promise.resolve(user);
+    private setItem<T>(key: string, value: T): void {
+        localStorage.setItem(key, JSON.stringify(value));
     }
 
-    setUser(value: User): boolean {
-        localStorage.setItem(this.USER_KEY, JSON.stringify(value));
+    private getWeightsRaw(): any[] {
+        return this.getItem<any[]>(WEIGHTS_KEY) || [];
+    }
+
+    async getUser(): Promise<User | undefined> {
+        return this.getItem<User>(USER_KEY);
+    }
+
+    async setUser(value: User): Promise<boolean> {
+        this.setItem(USER_KEY, value);
         return true;
     }
 
-    addWeight(value: Weight): boolean {
-
-        const formattedDate = new Date(value.date)
-
-        const weights = this.getWeightsSync();
-
-        weights.push({ ...value, date: formattedDate, id: weights.length + 1 }); // Asegurar formato
-
-        localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(weights.map((w) => ({ ...w, date: new Date(w.date).getTime() }))));
-
+    async addWeight(value: Weight): Promise<boolean> {
+        const weights = this.getWeightsRaw();
+        const id = weights.length ? Math.max(...weights.map(w => w.id || 0)) + 1 : 1;
+        weights.push({ ...value, date: new Date(value.date).getTime(), id });
+        this.setItem(WEIGHTS_KEY, weights);
         return true;
     }
 
-    deleteWeight(id: number): boolean {
+    async deleteWeight(id: number): Promise<boolean> {
         try {
-            const weights = this.getWeightsSync();
-            const updatedWeights = weights.filter((weight: Weight) => weight.id !== id);
-            localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(updatedWeights));
+            const weights = this.getWeightsRaw().filter((w: Weight) => w.id !== id);
+            this.setItem(WEIGHTS_KEY, weights);
             return true;
         } catch (error) {
             console.error('Error deleting weight:', error);
@@ -50,13 +50,13 @@ export default class LocalStorageProvider implements DataProvider {
         }
     }
 
-    updateWeight(value: Weight): boolean {
+    async updateWeight(value: Weight): Promise<boolean> {
         try {
-            const weights = this.getWeightsSync();
-            const index = weights.findIndex((weight: Weight) => weight.id === value.id);
-            if (index !== -1) {
-                weights[index] = value;
-                localStorage.setItem(this.WEIGHTS_KEY, JSON.stringify(weights));
+            const weights = this.getWeightsRaw();
+            const idx = weights.findIndex((w: Weight) => w.id === value.id);
+            if (idx !== -1) {
+                weights[idx] = { ...value, date: new Date(value.date).getTime() };
+                this.setItem(WEIGHTS_KEY, weights);
                 return true;
             }
             return false;
@@ -66,47 +66,32 @@ export default class LocalStorageProvider implements DataProvider {
         }
     }
 
-    getGoal(): Promise<Goal> {
-        const userString = localStorage.getItem(this.USER_KEY);
-        const user = userString ? JSON.parse(userString) : undefined;
-
-        const goal: Goal = {
+    async getGoal(): Promise<Goal> {
+        const user = await this.getUser();
+        return {
             weight: user?.goal_weight,
             weight_units: user?.goal_units,
             date: user?.goal_date,
         };
-
-        return Promise.resolve(goal);
     }
 
     async getWeights(): Promise<Weight[]> {
-        return this.getWeightsSync()
-            .map((w) => ({
-                id: w.id,
+        return this.getWeightsRaw()
+            .map(w => ({
+                ...w,
                 date: new Date(w.date),
-                weight: w.weight,
-                weight_units: w.weight_units,
             }))
             .sort((a, b) => b.date.getTime() - a.date.getTime());
     }
 
-    private getWeightsSync(): Weight[] {
-        const weightsString = localStorage.getItem(this.WEIGHTS_KEY);
-        return weightsString ? JSON.parse(weightsString) : [];
-    }
-
     async exportDataCSV(csv: string): Promise<void> {
-
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        const fileName = `weights-history-${Date.now()}.csv`;
         a.href = url;
-        a.download = fileName;
+        a.download = `weights-history-${Date.now()}.csv`;
         a.click();
         URL.revokeObjectURL(url);
-
-        return Promise.resolve();
     }
 
     async initializeConnection(): Promise<boolean> {

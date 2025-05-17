@@ -5,7 +5,6 @@ import { TimeService } from '@services/Time.service';
 import { Chart } from 'chart.js';
 
 const injector = Injector.create({ providers: [CalculationFunctionsService, TimeService] });
-const calculationFunctionsService = injector.get(CalculationFunctionsService);
 const timeService = injector.get(TimeService);
 
 export const SVGIconsPlugin = () => {
@@ -118,7 +117,7 @@ export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weigh
 };
 
 function differenceTime(dateStart: Date, dateEnd: Date) {
-    const days = calculationFunctionsService.dayDifference(new Date(dateStart), new Date(dateEnd));
+    const days = timeService.dayDifference(new Date(dateStart), new Date(dateEnd));
 
     const cases = new Map<(val: number) => boolean, () => string>([
         [(v) => v > 365, () => `${Math.floor(days / 365)} years ago`],

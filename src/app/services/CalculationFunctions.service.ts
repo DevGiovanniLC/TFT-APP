@@ -2,124 +2,81 @@ import { Injectable } from '@angular/core';
 import { User } from '@models/types/User';
 import { Weight } from '@models/types/Weight';
 import Papa from 'papaparse';
+import { TimeService } from './Time.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CalculationFunctionsService {
-    weekDifference(startDate: Date, endDate: Date) {
-        if (!startDate || !endDate) return 0;
-        const differenceMilliseconds = endDate?.getTime() - startDate?.getTime();
-        const differenceWeeks = differenceMilliseconds / (1000 * 3600 * 24 * 7);
-        return differenceWeeks;
+
+    constructor(
+        private readonly timeService: TimeService
+    ) { }
+
+    weekWeightLossPace(weight: number, goal: number, start: Date, end: Date): number {
+        return this.weightLossPace(weight, goal, this.timeService.weekDifference(start, end));
     }
 
-    monthDifference(startDate: Date, endDate: Date) {
-        if (!startDate || !endDate) return 0;
-        const differenceMilliseconds = endDate?.getTime() - startDate?.getTime();
-        const differenceMonths = differenceMilliseconds / (1000 * 3600 * 24 * 30);
-        return differenceMonths;
+    monthWeightLossPace(weight: number, goal: number, start: Date, end: Date): number {
+        return this.weightLossPace(weight, goal, this.timeService.monthDifference(start, end));
     }
 
-    dayDifference(startDate: Date, endDate: Date) {
-        if (!startDate || !endDate) return 0;
-        const differenceMilliseconds = endDate?.getTime() - startDate?.getTime();
-        const differenceDays = differenceMilliseconds / (1000 * 3600 * 24);
-        return differenceDays;
+    private weightLossPace(weight: number, goal: number, diff: number): number {
+        if (!diff) return 0;
+        return Number(((weight - goal) / diff).toFixed(2));
     }
 
-    weekWeightLossPace(weight: number, weightGoal: number, startDate: Date, endDate: Date) {
-        const pace = (weight - weightGoal) / this.weekDifference(startDate, endDate);
-        return Number(pace.toFixed(2));
-    }
-
-    monthWeightLossPace(weight: number, weightGoal: number, startDate: Date, endDate: Date) {
-        const pace = (weight - weightGoal) / this.monthDifference(startDate, endDate);
-        return Number(pace.toFixed(2));
-    }
-
-    trendWeightPace(dataWeights: Weight[]) {
-        const lastWeight = dataWeights[dataWeights.length - 1];
-        const { slope } = this.calculateTrend(dataWeights, lastWeight?.date?.getTime());
-        const weightPerWeek = slope * 7 * 24 * 60 * 60 * 1000;
-        const weightPerMonth = slope * 30.44 * 24 * 60 * 60 * 1000;
-
+    trendWeightPace(weights: Weight[]) {
+        if (!weights?.length) return { weightPerWeek: 0, weightPerMonth: 0 };
+        const lastDate = TimeService.getTime(weights[weights.length - 1].date);
+        const { slope } = this.calculateTrend(weights, lastDate);
         return {
-            weightPerWeek,
-            weightPerMonth,
+            weightPerWeek: slope * TimeService.MS_PER_WEEK,
+            weightPerMonth: slope * TimeService.MS_PER_MONTH,
         };
     }
 
-    private calculateTrend(dataWeights: Weight[], lastDate: number) {
-        //Calculo de la línea de tendencia basada en las últimas 2 semanas de datos
-        const recentWeights = dataWeights.filter(
-            (w) => new Date(w.date).getTime() >= lastDate - 14 * 24 * 60 * 60 * 1000
-        );
+    private calculateTrend(weights: Weight[], refDate: number) {
+        // Últimas 2 semanas
+        const minDate = refDate - TimeService.MS_PER_DAY * 14;
+        const recent = weights.filter(w => TimeService.getTime(w.date) >= minDate);
 
-        const xData = recentWeights.map((w) => new Date(w.date).getTime());
-        const yData = recentWeights.map((w) => w.weight);
-        const n = xData.length;
-        const sumX = xData.reduce((a, b) => a + b, 0);
-        const sumY = yData.reduce((a, b) => a + b, 0);
-        const sumXY = xData.reduce((sum, x, i) => sum + x * yData[i], 0);
-        const sumX2 = xData.reduce((sum, x) => sum + x * x, 0);
-        const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+        const x = recent.map(w => TimeService.getTime(w.date));
+        const y = recent.map(w => w.weight);
+        const n = x.length;
+        if (n === 0) return { slope: 0, intercept: 0 };
+
+        const sumX = x.reduce((a, b) => a + b, 0);
+        const sumY = y.reduce((a, b) => a + b, 0);
+        const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
+        const sumX2 = x.reduce((sum, xi) => sum + xi * xi, 0);
+
+        const denominator = n * sumX2 - sumX * sumX;
+        if (!denominator) return { slope: 0, intercept: 0 };
+
+        const slope = (n * sumXY - sumX * sumY) / denominator;
         const intercept = (sumY - slope * sumX) / n;
         return { slope, intercept };
     }
 
-    getTrendData(dataWeights: Weight[]) {
-        const lastWeight = dataWeights[0];
-        const lastDate = new Date(lastWeight.date).getTime();
-
-        const { slope, intercept } = this.calculateTrend(dataWeights, lastDate);
-        const twoYearLater = lastDate + 2* 365 * 24 * 60 * 60 * 1000;
-
-        const y = slope * twoYearLater + intercept
-
+    getTrendData(weights: Weight[]) {
+        if (!weights?.length) return [];
+        const last = weights[0];
+        const lastDate = TimeService.getTime(last.date);
+        const { slope, intercept } = this.calculateTrend(weights, lastDate);
+        const twoYears = lastDate + 2 * 365 * TimeService.MS_PER_DAY;
+        const y = slope * twoYears + intercept;
         if (!y) return [];
-
-        const futureTrendData = [
-            { x: lastDate, y: lastWeight.weight },
-            { x: twoYearLater, y: y }
+        return [
+            { x: lastDate, y: last.weight },
+            { x: twoYears, y }
         ];
+    }
 
-        return futureTrendData;
+    weightProgression(first: number, last: number, goal: number): number {
+        if (!first || !last || !goal || goal === first) return NaN;
+        return Number((((last - first) / (goal - first)) * 100).toFixed(2));
     }
 
 
-    weightProgression(firstWeight: number, lastWeight: number, goalWeight: number): number {
-        if (!firstWeight || !lastWeight || !goalWeight) return NaN;
-        const progression = ((lastWeight - firstWeight) / (goalWeight - firstWeight)) * 100;
-        return Number(progression.toFixed(2));
-    }
-
-    async parseDataToCSV(user: User, weights: Weight[]) {
-
-        const userCSV = Papa.unparse([{
-            Name: user.name,
-            Age: user.age,
-            Height: user.height,
-            Gender: user.gender,
-            GoalDate: user.goal_date?.toISOString().substring(0, 10),
-            GoalWeight: user.goal_weight,
-            GoalUnits: user.goal_units
-        }]);
-
-        const weightsCSV = Papa.unparse(weights.map((w) => ({
-            Date: w.date.toISOString().substring(0, 10),
-            Weight: w.weight,
-            Units: w.weight_units
-        })));
-
-        const resultCSV = [
-            '# User Data',
-            userCSV,
-            '',
-            '# Weights Data',
-            weightsCSV
-        ].join('\n');
-
-        return resultCSV;
-    }
 }

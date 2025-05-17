@@ -4,6 +4,7 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 import { UserConfigService } from '@services/UserConfig.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { IonContent, IonButton, AlertController } from '@ionic/angular/standalone';
+import { DocumentsService } from '@services/Documents.service';
 
 @Component({
     selector: 'app-analitics',
@@ -11,7 +12,7 @@ import { IonContent, IonButton, AlertController } from '@ionic/angular/standalon
     standalone: true,
     imports: [IonButton, IonContent, WeightLossPaceComponent],
 })
-export class AnaliticsPage{
+export class AnaliticsPage {
 
     weights = toSignal(this.weightTracker.weights$);
     lastWeight = toSignal(this.weightTracker.lastWeight$);
@@ -21,6 +22,7 @@ export class AnaliticsPage{
     constructor(
         private readonly weightTracker: WeightTrackerService,
         private readonly userConfig: UserConfigService,
+        private readonly documentService: DocumentsService,
         private readonly alertCtrl: AlertController
     ) { }
 
@@ -38,7 +40,7 @@ export class AnaliticsPage{
                 {
                     text: 'Export',
                     role: 'confirm',
-                    handler: () =>  this.weightTracker.exportDataCSV()
+                    handler: () => this.documentService.exportDataCSV(),
                 },
             ],
         });

@@ -43,14 +43,4 @@ export class WeightTrackerService {
         this.dataProvider.updateWeight(weight);
         this.refreshWeights();
     }
-
-    async exportDataCSV(): Promise<void> {
-        const [user, weights] = await Promise.all([
-            this.dataProvider.getUser(),
-            this.dataProvider.getWeights()
-        ]);
-        if (!user || !weights) return;
-        const csv = await this.calculationFunctions.parseDataToCSV(user, weights);
-        this.dataProvider.exportDataCSV(csv);
-    }
 }

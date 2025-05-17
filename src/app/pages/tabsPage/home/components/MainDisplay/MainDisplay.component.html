@@ -25,7 +25,7 @@
                 {{goal()?.weight_units}}
             </p>
             <span id="goalDate" class="text-xs text-teal-800">
-                {{goal()?.date | date: 'dd/MM/yyyy'}}
+                {{ goal()?.date ? (goal()?.date | date: 'dd/MM/yyyy') : 'No deadline' }}
             </span>
             }@else{
             <p class="text-base text-slate-200 text text-balance">No Goal<br>Selected</p>

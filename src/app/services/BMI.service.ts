@@ -4,20 +4,19 @@ import { WeightTrackerService } from './WeightTracker.service';
 import { combineLatest, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class BMIService {
-
-    user = toSignal(this.userConfig.user$, { initialValue: null });
+    private readonly user = toSignal(this.userConfig.user$, { initialValue: null });
 
     readonly bmi$ = combineLatest([
         this.userConfig.user$,
         this.weightTracker.lastWeight$
     ]).pipe(
         map(([user, weight]) => {
-            if (!user?.height || !weight?.weight) return null;
-            const bmi = weight.weight / Math.pow(user.height / 100, 2);
+            const height = user?.height;
+            const w = weight?.weight;
+            if (!height || !w) return null;
+            const bmi = w / ((height / 100) ** 2);
             return Math.round(bmi * 10) / 10;
         })
     );
@@ -27,14 +26,11 @@ export class BMIService {
         private readonly weightTracker: WeightTrackerService
     ) { }
 
-
-    getBMILimitsForHeight(): { label: string; bmi: number; weight: number; alert: string }[] {
-
+    getBMILimitsForHeight() {
         const height = this.user()?.height;
-
         if (!height || height <= 0) return [];
 
-        const h = height / 100;
+        const h2 = (height / 100) ** 2;
         const bmiCategories = [
             { label: 'Severe Thinness', max: 15.99, alert: '#f2adad' },
             { label: 'Moderate Thinness', max: 16.99, alert: '#c7b85a' },
@@ -46,12 +42,11 @@ export class BMIService {
             { label: 'Obesity Class II', max: 39.9, alert: '#f2adad' }
         ];
 
-        return bmiCategories.map(c => ({
-            label: c.label,
-            bmi: c.max,
-            weight: +(c.max * h * h).toFixed(1),
-            alert: c.alert
+        return bmiCategories.map(({ label, max, alert }) => ({
+            label,
+            bmi: max,
+            weight: +(max * h2).toFixed(1),
+            alert
         }));
     }
-
 }

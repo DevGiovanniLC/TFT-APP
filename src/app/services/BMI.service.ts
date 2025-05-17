@@ -17,7 +17,8 @@ export class BMIService {
     ]).pipe(
         map(([user, weight]) => {
             if (!user?.height || !weight?.weight) return null;
-            return weight.weight / Math.pow(user.height / 100, 2);
+            const bmi = weight.weight / Math.pow(user.height / 100, 2);
+            return Math.round(bmi * 10) / 10;
         })
     );
 

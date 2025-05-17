@@ -14,8 +14,10 @@ export class BMIDoughnutChart {
 
         let bmiColor = documentStyle.getPropertyValue('--color-tertiary');
 
-        if (this.bmi < 18.5) bmiColor = '#adccf2';
-        if (this.bmi >= 25) bmiColor = '#dbe388';
+        if (this.bmi < 16) bmiColor = '#f2adad';
+        if (this.bmi < 18.5 && this.bmi >= 16) bmiColor = '#c7b85a';
+        if (this.bmi >= 18.5 && this.bmi < 25) bmiColor = '#4caf50';
+        if (this.bmi >= 25 && this.bmi < 30) bmiColor = '#c7b85a';
         if (this.bmi >= 30) bmiColor = '#f2adad';
 
         return {

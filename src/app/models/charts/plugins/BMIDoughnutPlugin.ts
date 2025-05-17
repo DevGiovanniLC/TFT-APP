@@ -80,8 +80,8 @@ export const BMIPluginDoughnut = (bmi: number) => {
 const getColor = (bmi: number): string => {
     if (bmi >= 30) return '#f15757'; // Obesidad
     if (bmi >= 25) return '#cdc827'; // Sobre peso
-    if (bmi < 18.49)
-        return '#adccf2'; // Bajo de peso
+    if (bmi < 16) return '#f15757'; //  Bajo de peso
+    if (bmi < 18.49) return '#cdc827'; // Bajo de peso
     else return '#4caf50'; // Normal
 };
 

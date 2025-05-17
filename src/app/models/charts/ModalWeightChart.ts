@@ -147,7 +147,6 @@ export default class ModalWeightChart {
         const goalDateMaxRange = new Date(rangeX.getTime() + 15 * 24 * 60 * 60 * 1000).getTime();
 
 
-
         return {
             responsive: true,
             maintainAspectRatio: false,
@@ -181,7 +180,21 @@ export default class ModalWeightChart {
                         enabled: true,
                         mode: 'xy',
                     },
-                }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: (tooltipItems) => {
+                            const date = new Date(tooltipItems[0].parsed.x);
+                            return date.toLocaleDateString('en-GB', {
+                                day: '2-digit',
+                                month: 'short',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                            });
+                        },
+                    }
+                },
             },
             animation: { duration: 0 },
             scales: {
@@ -192,7 +205,7 @@ export default class ModalWeightChart {
                     time: {
                         unit: 'day',
                         displayFormats: {
-                            day: 'dd/MM/yyyy',
+                            day: 'dd MMM',
                         },
                     },
                     title: {
@@ -202,7 +215,7 @@ export default class ModalWeightChart {
                     ticks: {
                         padding: 15,
                         color: '#343a40',
-                        maxTicksLimit: 8,
+                        maxTicksLimit: 6,
                         font: {
                             size: 15,
                         }

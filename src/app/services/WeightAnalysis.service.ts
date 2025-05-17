@@ -7,7 +7,7 @@ import { TimeService } from './Time.service';
 @Injectable({
     providedIn: 'root',
 })
-export class CalculationFunctionsService {
+export class WeightAnalysisService {
 
     constructor(
         private readonly timeService: TimeService

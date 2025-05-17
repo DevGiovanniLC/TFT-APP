@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, effect, input, signal } from '@angu
 import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonIcon, IonButton, PopoverController } from '@ionic/angular/standalone';
 import { Goal } from '@models/types/Goal';
 import { Weight, WeightUnits } from '@models/types/Weight';
-import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { WeightLossPaceInfoPopoverComponent } from '../WeightLossPaceInfoPopover/WeightLossPaceInfoPopover.component';
 
 @Component({
@@ -28,7 +28,7 @@ export class WeightLossPaceComponent {
     isGoal = signal(false);
 
     constructor(
-        private readonly CalculationFunctionsService: CalculationFunctionsService,
+        private readonly CalculationFunctionsService: WeightAnalysisService,
         private readonly popoverController: PopoverController
     ) {
         effect(() => {

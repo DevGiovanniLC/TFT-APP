@@ -4,14 +4,14 @@ import { firstValueFrom } from 'rxjs';
 
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { DataProviderService } from '@services/data-providers/DataProvider.service';
-import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { Weight, WeightUnits } from '@models/types/Weight';
 import { User, Gender } from '@models/types/User';
 
 describe('WeightTrackerService (Unit Tests with Jest)', () => {
     let service: WeightTrackerService;
     let dataProviderMock: jest.Mocked<DataProviderService>;
-    let calcFunctionsMock: jest.Mocked<CalculationFunctionsService>;
+    let calcFunctionsMock: jest.Mocked<WeightAnalysisService>;
 
     const sampleWeights: Weight[] = [
         { id: 1, date: new Date('2024-01-01'), weight: 80, weight_units: WeightUnits.KG },
@@ -41,7 +41,7 @@ describe('WeightTrackerService (Unit Tests with Jest)', () => {
 
         calcFunctionsMock = {
             parseDataToCSV: jest.fn().mockResolvedValue(sampleCSV)
-        } as unknown as jest.Mocked<CalculationFunctionsService>;
+        } as unknown as jest.Mocked<WeightAnalysisService>;
 
         service = new WeightTrackerService(dataProviderMock, calcFunctionsMock);
     });

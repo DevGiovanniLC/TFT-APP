@@ -1,7 +1,7 @@
 import { Signal } from '@angular/core';
 import { Goal } from '@models/types/Goal';
 import { Weight } from '@models/types/Weight';
-import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { AnnotationOptions, LineAnnotationOptions } from 'chartjs-plugin-annotation';
 
@@ -13,7 +13,7 @@ export default class HomeWeightChart {
     private readonly TrendData: any[];
 
     constructor(
-        calculateFunctionsService: CalculationFunctionsService,
+        calculateFunctionsService: WeightAnalysisService,
         chartMode: Signal<string>,
         weights: Signal<Weight[]>,
         goal: Signal<Goal | undefined>

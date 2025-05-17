@@ -1,6 +1,6 @@
 import { Goal } from '@models/types/Goal';
 import { Weight } from '@models/types/Weight';
-import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { AnnotationOptions, LineAnnotationOptions } from 'chartjs-plugin-annotation';
 
@@ -11,7 +11,7 @@ export default class ModalWeightChart {
     private readonly categories: { label: string; bmi: number; weight: number; alert: string; }[];
 
     constructor(
-        calculateFunctionsService: CalculationFunctionsService,
+        calculateFunctionsService: WeightAnalysisService,
         weights: Weight[],
         goal: Goal | undefined,
         categories: { label: string; bmi: number; weight: number; alert: string; }[]

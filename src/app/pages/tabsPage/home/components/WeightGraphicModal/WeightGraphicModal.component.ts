@@ -7,7 +7,7 @@ import zoomPlugin from 'chartjs-plugin-zoom';
 import { Weight } from '@models/types/Weight';
 import { Goal } from '@models/types/Goal';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { UserConfigService } from '@services/UserConfig.service';
 import ModalWeightChart from '@models/charts/ModalWeightChart';
@@ -32,7 +32,7 @@ export class WeightGraphicModalComponent {
 
     constructor(
         private readonly modalCtrl: ModalController,
-        private readonly calculateFunctionsService: CalculationFunctionsService,
+        private readonly calculateFunctionsService: WeightAnalysisService,
         private readonly weightTrackerService: WeightTrackerService,
         private readonly userService: UserConfigService,
         private readonly BMIService: BMIService

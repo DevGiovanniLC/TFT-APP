@@ -1,10 +1,10 @@
 import { Injector, Signal } from '@angular/core';
 import { Weight } from '@models/types/Weight';
-import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { TimeService } from '@services/Time.service';
 import { Chart } from 'chart.js';
 
-const injector = Injector.create({ providers: [CalculationFunctionsService, TimeService] });
+const injector = Injector.create({ providers: [WeightAnalysisService, TimeService] });
 const timeService = injector.get(TimeService);
 
 export const SVGIconsPlugin = () => {

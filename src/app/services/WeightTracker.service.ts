@@ -3,7 +3,7 @@ import { Weight } from '@models/types/Weight';
 import { DataProviderService } from './data-providers/DataProvider.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CalculationFunctionsService } from './CalculationFunctions.service';
+import { WeightAnalysisService } from './WeightAnalysis.service';
 
 @Injectable({
     providedIn: 'root',
@@ -17,7 +17,7 @@ export class WeightTrackerService {
 
     constructor(
         private readonly dataProvider: DataProviderService,
-        private readonly calculationFunctions: CalculationFunctionsService,
+        private readonly calculationFunctions: WeightAnalysisService,
     ) { }
 
     private refreshWeights(): void {

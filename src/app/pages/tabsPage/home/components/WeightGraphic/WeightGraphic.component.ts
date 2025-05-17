@@ -8,7 +8,7 @@ import HomeWeightChart from '@models/charts/HomeWeightChart';
 import { Chart, ChartData, ChartOptions } from 'chart.js';
 import { TimeService } from '@services/Time.service';
 import { Goal } from '@models/types/Goal';
-import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { WeightGraphicZoomButtonComponent } from '../WeightGraphicZoomButton/WeightGraphicZoomButton.component';
 import zoomPlugin from 'chartjs-plugin-zoom';
 
@@ -33,7 +33,7 @@ export class WeightGraphic {
 
     constructor(
         private readonly timeService: TimeService,
-        private readonly calculateFunctionsService: CalculationFunctionsService
+        private readonly calculateFunctionsService: WeightAnalysisService
     ) {
         Chart.register(annotationPlugin);
         Chart.register(zoomPlugin);

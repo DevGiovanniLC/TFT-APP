@@ -1,16 +1,16 @@
 /// <reference types="jest" />
 import { expect } from '@jest/globals';
-import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 
 
 describe('CalculationFunctionsService (Unit Tests with Jest)', () => {
-    let service: CalculationFunctionsService;
+    let service: WeightAnalysisService;
 
     const startDate = new Date('2024-01-01');
     const endDate = new Date('2024-01-15'); // 14 days difference
 
     beforeEach(() => {
-        service = new CalculationFunctionsService();
+        service = new WeightAnalysisService();
     });
 
     describe('Date difference calculations', () => {

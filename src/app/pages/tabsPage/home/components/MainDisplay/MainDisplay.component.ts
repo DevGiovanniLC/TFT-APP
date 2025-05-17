@@ -12,7 +12,7 @@ import {
 import { Weight } from '@models/types/Weight';
 import { IonButton, ModalController, IonCard } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
-import { CalculationFunctionsService } from '@services/CalculationFunctions.service';
+import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { WeightRegisterComponent } from '@components/modals/WeightRegisterModal/WeightRegisterModal.component';
 import { TextPlugin, SVGIconsPlugin } from '@models/charts/plugins/HomeDoughnutPlugin';
 import HomeDoughnutChart from '@models/charts/HomeDoghnoutChart';
@@ -51,7 +51,7 @@ export class MainDisplay {
     readonly plugins = signal<Plugin[]>([]);
 
     constructor(
-        private readonly calculationFunctionsService: CalculationFunctionsService,
+        private readonly calculationFunctionsService: WeightAnalysisService,
         private readonly modalCtrl: ModalController,
         private readonly cdr: ChangeDetectorRef,
         private readonly route: ActivatedRoute

@@ -8,57 +8,52 @@ import { Weight } from '@models/types/Weight';
 import { User } from '@models/types/User';
 import { Goal } from '@models/types/Goal';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class DataProviderService {
-
     connectionStatus = signal(false);
+    private dataProvider: DataProvider;
 
-    private dataProvider!: DataProvider;
-
-    constructor() { }
-
-    async initialize() {
-        if (environment.production) {
-            this.dataProvider = new DBConnection();
-        } else {
-            this.dataProvider = new LocalStorageProvider()
-        }
-
-        this.connectionStatus.set(await this.dataProvider.initializeConnection());
-        return this.connectionStatus();
+    constructor() {
+        this.dataProvider = environment.production
+            ? new DBConnection()
+            : new LocalStorageProvider();
     }
 
-    async getWeights(): Promise<Weight[]> {
-        return await this.dataProvider.getWeights();
+    async initialize(): Promise<boolean> {
+        const status = await this.dataProvider.initializeConnection();
+        this.connectionStatus.set(status);
+        return status;
     }
 
-    async getGoal(): Promise<Goal | undefined> {
-        return await this.dataProvider.getGoal();
+    getWeights(): Promise<Weight[]> {
+        return this.dataProvider.getWeights();
     }
 
-    async getUser(): Promise<User | undefined> {
-        return await this.dataProvider.getUser();
+    getGoal(): Promise<Goal | undefined> {
+        return this.dataProvider.getGoal();
     }
 
-    setUser(user: User) {
+    getUser(): Promise<User | undefined> {
+        return this.dataProvider.getUser();
+    }
+
+    async setUser(user: User): Promise<boolean> {
         return this.dataProvider.setUser(user);
     }
 
-    addWeight(value: Weight) {
-        return this.dataProvider.addWeight(value);
+    async addWeight(weight: Weight): Promise<boolean> {
+        return this.dataProvider.addWeight(weight);
     }
 
-    deleteWeight(id: number) {
+    async deleteWeight(id: number): Promise<boolean> {
         return this.dataProvider.deleteWeight(id);
     }
 
-    updateWeight(value: Weight) {
-        return this.dataProvider.updateWeight(value);
+    async updateWeight(weight: Weight): Promise<boolean> {
+        return this.dataProvider.updateWeight(weight);
     }
 
-    exportDataCSV(csv: string) {
+    exportDataCSV(csv: string): Promise<void> {
         return this.dataProvider.exportDataCSV(csv);
     }
 }

@@ -190,17 +190,14 @@ export default class DBConnection implements DataProvider {
     async exportDataCSV(csv: string) {
         const fileName = `weights-history-${Date.now()}.csv`;
 
-        try {
-            await Filesystem.writeFile({
-                path: fileName,
-                data: csv,
-                directory: Directory.Documents,
-                encoding: Encoding.UTF8,
-            });
-            await this.shareCSVFile(fileName);
-        } catch (err) {
-            this.throwDBError(err)
-        }
+        await Filesystem.writeFile({
+            path: fileName,
+            data: csv,
+            directory: Directory.Documents,
+            encoding: Encoding.UTF8,
+        });
+        await this.shareCSVFile(fileName);
+
     }
 
     private async shareCSVFile(filePath: string) {

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Weight } from '@models/types/Weight';
 import { DataProviderService } from './data-providers/DataProvider.service';
-import { BehaviorSubject, from, map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CalculationFunctionsService } from './CalculationFunctions.service';
 
 @Injectable({
@@ -9,65 +10,47 @@ import { CalculationFunctionsService } from './CalculationFunctions.service';
 })
 export class WeightTrackerService {
     private readonly weightsSubject = new BehaviorSubject<Weight[]>([]);
-    private readonly firstWeightSubject = new BehaviorSubject<Weight | undefined>(undefined);
-    private readonly lastWeightSubject = new BehaviorSubject<Weight | undefined>(undefined);
 
-    readonly weights$: Observable<Weight[]> = this.weightsSubject.asObservable();
-    readonly firstWeight$: Observable<Weight | undefined> = this.firstWeightSubject.asObservable();
-    readonly lastWeight$: Observable<Weight | undefined> = this.lastWeightSubject.asObservable();
+    readonly weights$ = this.weightsSubject.asObservable();
+    readonly firstWeight$ = this.weights$.pipe(map(weights => weights.at(-1)));
+    readonly lastWeight$ = this.weights$.pipe(map(weights => weights[0]));
 
     constructor(
         private readonly dataProvider: DataProviderService,
         private readonly calculationFunctions: CalculationFunctionsService,
     ) { }
 
+    private refreshWeights(): void {
+        this.dataProvider.getWeights().then(weights => this.weightsSubject.next(weights));
+    }
+
     getWeights(): Observable<Weight[]> {
-        return from(this.dataProvider.getWeights()).pipe(tap((weights) => this.weightsSubject.next(weights)));
+        this.refreshWeights();
+        return this.weights$;
     }
 
-    getLastWeight(): Observable<Weight> {
-        return this.weights$.pipe(
-            map((weights) => weights[0]),
-            tap((parsed) => this.lastWeightSubject.next(parsed))
-        );
+    addWeight(weight: Weight): void {
+        this.dataProvider.addWeight(weight);
+        this.refreshWeights();
     }
 
-    getFirstWeight(): Observable<Weight> {
-        return this.weights$.pipe(
-            map((weights) => {
-                return weights[weights.length - 1];
-            }),
-            tap((parsed) => this.firstWeightSubject.next(parsed))
-        );
+    deleteWeight(id: number): void {
+        this.dataProvider.deleteWeight(id);
+        this.refreshWeights();
     }
 
-    addWeight(value: Weight): boolean {
-        this.dataProvider.addWeight(value);
-        this.getWeights().subscribe();
-        return true;
+    updateWeight(weight: Weight): void {
+        this.dataProvider.updateWeight(weight);
+        this.refreshWeights();
     }
 
-    deleteWeight(value: number): boolean {
-        this.dataProvider.deleteWeight(value);
-        this.getWeights().subscribe();
-        return true;
-    }
-
-    updateWeight(value: Weight): boolean {
-        this.dataProvider.updateWeight(value);
-        this.getWeights().subscribe();
-        return true;
-    }
-
-    async exportDataCSV() {
-        const user = await this.dataProvider.getUser();
-        const weights = await this.dataProvider.getWeights();
-
+    async exportDataCSV(): Promise<void> {
+        const [user, weights] = await Promise.all([
+            this.dataProvider.getUser(),
+            this.dataProvider.getWeights()
+        ]);
         if (!user || !weights) return;
-
         const csv = await this.calculationFunctions.parseDataToCSV(user, weights);
-
         this.dataProvider.exportDataCSV(csv);
     }
-
 }

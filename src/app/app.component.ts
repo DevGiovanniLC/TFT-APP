@@ -24,8 +24,6 @@ export class AppComponent {
         this.dataProvider.initialize().then((connectionStatus) => {
             if (!connectionStatus) throw new Error('Connection to database failed, please try again or reinstall the app');
             this.weightTracker.getWeights().subscribe();
-            this.weightTracker.getLastWeight().subscribe();
-            this.weightTracker.getFirstWeight().subscribe();
             this.config.getGoal().subscribe();
             this.config.getUser().subscribe((user) => {
                 if (!user) {

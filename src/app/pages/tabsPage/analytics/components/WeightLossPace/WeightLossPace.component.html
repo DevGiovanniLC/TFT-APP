@@ -1,9 +1,11 @@
 <section class="flex flex-col space-y-4 mt-28">
-    <ion-card-header class="flex flex-row justify-center items-center ml-6">
+    <ion-card-header class="flex flex-row justify-center items-center ml-7 mb-2">
         <ion-card-title class="font-semibold text-2xl">
             Weight Loss Pace
         </ion-card-title>
-        <ion-button fill="clear" size="small" (click)="openInfoPopover()" (keypress)="openInfoPopover()">
+        <ion-button fill="clear" class="mb-2" size="small" (click)="openInfoPopover()" (keypress)="openInfoPopover()"
+            style="--border-radius: 50%"
+        >
             <ion-icon
                 slot="icon-only"
                 name="information-circle-outline"

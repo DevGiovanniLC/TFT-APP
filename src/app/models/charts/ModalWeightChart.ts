@@ -41,7 +41,7 @@ export default class ModalWeightChart {
                     parsing: false,
                     fill: false,
                     borderDash: [6, 6],
-                    borderColor: '#8f00ff',
+                    borderColor: '#fa0000',
                     pointRadius: 0,
                     tension: 0,
                     segment: {
@@ -192,7 +192,7 @@ export default class ModalWeightChart {
                     time: {
                         unit: 'day',
                         displayFormats: {
-                            day: 'MMM dd',
+                            day: 'dd/MM/yyyy',
                         },
                     },
                     title: {

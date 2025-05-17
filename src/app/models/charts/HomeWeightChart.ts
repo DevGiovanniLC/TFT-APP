@@ -50,7 +50,7 @@ export default class HomeWeightChart {
                     fill: false,
                     borderDash: [6, 6],
                     backgroundColor: 'transparent',
-                    borderColor: '#ff6384',
+                    borderColor: '#fa0000',
                     pointRadius: 0,
                     tension: 0,
                     segment: {
@@ -176,7 +176,7 @@ export default class HomeWeightChart {
                     time: {
                         unit: 'day',
                         displayFormats: {
-                            day: 'MMM dd',
+                            day: 'dd MMM',
                         },
                     },
                     title: {

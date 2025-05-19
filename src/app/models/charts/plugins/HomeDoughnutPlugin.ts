@@ -45,10 +45,11 @@ const getProgressionText = (progress: number) => {
     if (progress >= 100) return { text: 'Completed✅', offset: -38, color: '#343a40' };
     if (progress >= 90) return { text: 'Just a little bit more 👍', offset: -38, color: '#343a40' };
     if (progress >= 80) return { text: 'Just a bit more 👍', offset: -38, color: '#343a40' };
-    if (progress >= 50) return { text: 'Greatfully done 🎉', offset: -38, color: '#1E8260' };
+    if (progress >= 50) return { text: 'Wonderfully done 🎉', offset: -38, color: '#1E8260' };
     if (progress >= 20) return { text: 'Good job 😁', offset: -38, color: '#343a40' };
     if (progress >= 5) return { text: 'Keep going 💪', offset: -38, color: '#343a40' };
-    if (progress >= 0) return { text: "let's start👍", offset: -38, color: '#343a40' };
+    if (progress >= 0) return { text: "Let's start👍", offset: -38, color: '#343a40' };
+    if (isNaN(progress)) return { text: "", offset: -38, color: '#343a40' };
     return { text: 'You can do better', offset: -35, color: '#C7B85A' };
 };
 
@@ -61,7 +62,6 @@ export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weigh
         ctx.save();
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-
         const centerX = (chartArea.left + chartArea.right) / 2;
         const centerY = (chartArea.top + chartArea.bottom) / 2;
         const progress = Number(Math.min(100, progression()));
@@ -81,10 +81,11 @@ export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weigh
         ctx.font = 'bold 35px sans-serif';
         ctx.fillStyle = '#343a40';
         const weight = lastWeight();
+
         ctx.fillText(
             `${weight?.weight ?? 'No Data'} ${weight?.weight_units ?? ''}`,
             centerX,
-            centerY + 5
+            centerY + (isNaN(progress) ? 0 : 5)
         );
 
         ctx.font = '16px system-ui';

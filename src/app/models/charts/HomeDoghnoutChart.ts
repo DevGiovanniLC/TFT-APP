@@ -4,7 +4,11 @@ export default class HomeDoughnutChart {
     private readonly dataset: number[];
 
     constructor(progression: number) {
-        if (Number.isNaN(progression)) progression = 0;
+        if (isNaN(progression)) {
+            this.dataset = [100, 0];
+            return;
+        }
+
         progression = Math.max(0, Math.min(100, progression));
         this.dataset = [progression, 100 - progression];
     }

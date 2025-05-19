@@ -36,7 +36,7 @@ export class BMIDoughnutChart {
         return {
             responsive: true,
             maintainAspectRatio: false,
-            cutout: '92%',
+            cutout: '93%',
             radius: 140,
             hover: {
                 mode: 'x',

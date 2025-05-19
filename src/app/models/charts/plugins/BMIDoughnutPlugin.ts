@@ -1,102 +1,77 @@
 import { Chart } from 'chart.js';
 
-export const BMIPluginDoughnut = (bmi: number) => {
-    const img = new Image();
-    img.src = 'assets/icons/body.svg'; // Tu silueta transparente
+const BODY_IMG_SRC = 'assets/icons/body.svg';
+const MAX_BMI = 40;
 
-    return {
-        id: 'bmiHumanFill',
-        afterDraw(chart: Chart) {
-            if (!img.complete) return;
+const BMI_LEVELS = [
+    { max: 16, text: 'Severe Thinness', color: '#f15757' },
+    { max: 16.99, text: 'Moderate Thinness', color: '#cdc827' },
+    { max: 18.49, text: 'Mild Thinness', color: '#cdc827' },
+    { max: 24.9, text: 'Normal', color: '#4caf50' },
+    { max: 27.9, text: 'Pre-obese', color: '#cdc827' },
+    { max: 29.9, text: 'High Overweight', color: '#cdc827' },
+    { max: 34.9, text: 'Obesity Class I', color: '#f15757' },
+    { max: 39.9, text: 'Obesity Class II', color: '#f15757' },
+    { max: Infinity, text: 'Obesity Class III', color: '#f15757' },
+];
 
-            const ctx = chart.ctx;
-            const meta = chart.getDatasetMeta(0);
-            if (!meta?.data?.length) return;
+function getBMILevel(bmi: number) {
+    return BMI_LEVELS.find(level => bmi <= level.max) ?? BMI_LEVELS[BMI_LEVELS.length - 1];
+}
 
-            const segment = meta.data[0];
-            const {
-                x: centerX,
-                y: centerY,
-                innerRadius,
-                outerRadius,
-            } = segment as unknown as { x: number; y: number; innerRadius: number; outerRadius: number };
+const bodyImg = new Image();
+bodyImg.src = BODY_IMG_SRC;
 
-            const targetRadius = innerRadius + (outerRadius - innerRadius) / 2;
-            const imgSize = targetRadius * 0.3;
+export const BMIPluginDoughnut = (bmi: number) => ({
+    id: 'bmiHumanFill',
+    afterDraw(chart: Chart) {
+        if (!bodyImg.complete) return;
 
-            const imgX = centerX - imgSize / 2;
-            const imgY = imgSize;
+        const ctx = chart.ctx;
+        const meta = chart.getDatasetMeta(0);
+        if (!meta?.data?.length) return;
 
-            // Dibuja la silueta base
-            ctx.save();
-            ctx.drawImage(img, imgX, imgY, imgSize, imgSize);
-            ctx.restore();
+        const { x: centerX, y: centerY, innerRadius, outerRadius } = meta.data[0] as any;
+        const radius = innerRadius + (outerRadius - innerRadius) / 2;
+        const imgSize = radius * 0.29;
+        const imgX = centerX - imgSize / 2;
+        const imgY = centerY - imgSize / 2 - 80;
 
-            //  Canvas temporal para rellenar solo lo verde
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = imgSize;
-            tempCanvas.height = imgSize;
-            const tempCtx = tempCanvas.getContext('2d')!;
+        // Dibuja la silueta base
+        ctx.save();
+        ctx.drawImage(bodyImg, imgX, imgY, imgSize, imgSize);
+        ctx.restore();
 
-            // Dibuja la silueta en el temporal
-            tempCtx.drawImage(img, 0, 0, imgSize, imgSize);
+        // Prepara el canvas temporal
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = imgSize;
+        tempCanvas.height = imgSize;
+        const tempCtx = tempCanvas.getContext('2d')!;
 
-            //Aplicar máscara para el relleno
-            tempCtx.globalCompositeOperation = 'source-in';
+        tempCtx.drawImage(bodyImg, 0, 0, imgSize, imgSize);
+        tempCtx.globalCompositeOperation = 'source-in';
 
-            const fillHeight = imgSize * (bmi / 40);
-            const fillY = imgSize - fillHeight;
+        const fillHeight = imgSize * Math.min(bmi, MAX_BMI) / MAX_BMI;
+        const fillY = imgSize - fillHeight;
+        const { color, text } = getBMILevel(bmi);
 
-            const alertColor = getColor(bmi);
+        tempCtx.fillStyle = color;
+        tempCtx.fillRect(0, fillY, imgSize, fillHeight);
 
-            tempCtx.fillStyle = alertColor;
-            tempCtx.fillRect(0, fillY, imgSize, fillHeight);
+        tempCtx.globalCompositeOperation = 'source-over';
+        ctx.drawImage(tempCanvas, imgX, imgY, imgSize, imgSize);
 
-            ctx.font = 'bold 25px sans-serif';
-            ctx.fillStyle = '#343a40';
-            ctx.fillText(`BMI`, centerX - 25, centerY - 20);
+        // Dibuja el texto BMI
+        ctx.font = 'bold 25px sans-serif';
+        ctx.fillStyle = '#343a40';
+        ctx.textAlign = 'center';
+        ctx.fillText('BMI', centerX, centerY - 20);
 
-            ctx.font = 'bold 45px sans-serif';
-            ctx.fillStyle = '#343a40';
-            ctx.fillText(bmi.toFixed(1), centerX - 45, centerY + 40);
+        ctx.font = 'bold 45px sans-serif';
+        ctx.fillText(bmi.toFixed(1), centerX, centerY + 40);
 
-            const text = getTextLevel(bmi);
-            const textWidth = ctx.measureText(text).width;
-
-            const centeredX = centerX - textWidth / 6;
-
-            ctx.font = 'bold 16px sans-serif';
-            ctx.fillStyle = alertColor;
-            ctx.fillText(text, centeredX, centerY + 80);
-
-            tempCtx.globalCompositeOperation = 'source-over'; // Regresar a normal
-
-            // Dibuja el canvas temporal relleno encima del original
-            ctx.drawImage(tempCanvas, imgX, imgY, imgSize, imgSize);
-        },
-    };
-};
-
-const getColor = (bmi: number): string => {
-    if (bmi >= 30) return '#f15757'; // Obesidad
-    if (bmi >= 25) return '#cdc827'; // Sobre peso
-    if (bmi < 16) return '#f15757'; //  Bajo de peso
-    if (bmi < 18.49) return '#cdc827'; // Bajo de peso
-    else return '#4caf50'; // Normal
-};
-
-const getTextLevel = (bmi: number): string => {
-    const levels = [
-        { max: 16, text: 'Severe Thinness' },
-        { max: 16.99, text: 'Moderate Thinness' },
-        { max: 18.49, text: 'Mild Thinness' },
-        { max: 24.9, text: 'Normal' },
-        { max: 27.9, text: 'Pre-obese' },
-        { max: 29.9, text: 'High Overweight' },
-        { max: 34.9, text: 'Obesity Class I' },
-        { max: 39.9, text: 'Obesity Class II' },
-        { max: Infinity, text: 'Obesity Class III' },
-    ];
-
-    return levels.find((level) => bmi <= level.max)?.text ?? 'Unknown';
-};
+        ctx.font = 'bold 16px sans-serif';
+        ctx.fillStyle = color;
+        ctx.fillText(text, centerX, centerY + 80);
+    },
+});

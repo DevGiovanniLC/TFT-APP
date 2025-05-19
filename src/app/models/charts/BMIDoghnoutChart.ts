@@ -1,31 +1,32 @@
 import { ChartData, ChartOptions } from 'chart.js';
 
 export class BMIDoughnutChart {
-    bmi: number;
-    dataset: number[];
+    private readonly bmi: number;
 
     constructor(bmi: number) {
         this.bmi = bmi;
-        this.dataset = [bmi, 40 - bmi];
+    }
+
+    private getBmiColor(): string {
+        if (this.bmi < 16) return '#f2adad';
+        if (this.bmi < 18.5) return '#c7b85a';
+        if (this.bmi < 25) return '#4caf50';
+        if (this.bmi < 30) return '#c7b85a';
+        return '#f2adad';
     }
 
     getData(): ChartData<'doughnut'> {
-        const documentStyle = getComputedStyle(document.documentElement);
-
-        let bmiColor = documentStyle.getPropertyValue('--color-tertiary');
-
-        if (this.bmi < 16) bmiColor = '#f2adad';
-        if (this.bmi < 18.5 && this.bmi >= 16) bmiColor = '#c7b85a';
-        if (this.bmi >= 18.5 && this.bmi < 25) bmiColor = '#4caf50';
-        if (this.bmi >= 25 && this.bmi < 30) bmiColor = '#c7b85a';
-        if (this.bmi >= 30) bmiColor = '#f2adad';
+        const style = getComputedStyle(document.documentElement);
+        const accentColor = style.getPropertyValue('--color-accent').trim();
+        const bmiColor = this.getBmiColor();
 
         return {
-            labels: ['Progress'],
+            labels: ['BMI', 'Remaining'],
             datasets: [
                 {
-                    data: this.dataset,
-                    backgroundColor: [bmiColor, documentStyle.getPropertyValue('--color-accent')],
+                    data: [this.bmi, Math.max(0, 40 - this.bmi)],
+                    backgroundColor: [bmiColor, accentColor],
+                    borderWidth: 0,
                 },
             ],
         };
@@ -37,28 +38,22 @@ export class BMIDoughnutChart {
             maintainAspectRatio: false,
             cutout: '92%',
             radius: 140,
+            hover: {
+                mode: 'x',
+            },
             animations: {
-                x: { duration: 0 },
-                y: { duration: 0 },
+                x: {duration: 0},
+                y: {duration: 0},
             },
             animation: {
-                // Desactivar la animación de desplazamiento
                 animateScale: false,
                 animateRotate: true,
-
-                // Duración de la animación (en milisegundos)
                 duration: 1000,
-
-                // Función de temporización (easing) - puedes ajustarla a tu gusto
                 easing: 'easeOutQuart',
             },
             plugins: {
-                legend: {
-                    display: false,
-                },
-                tooltip: {
-                    enabled: false,
-                },
+                legend: { display: false },
+                tooltip: { enabled: false, intersect: false },
             },
         };
     }

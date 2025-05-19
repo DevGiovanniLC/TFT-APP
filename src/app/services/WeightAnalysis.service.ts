@@ -29,6 +29,7 @@ export class WeightAnalysisService {
     trendWeightPace(weights: Weight[]) {
         if (!weights?.length) return { weightPerWeek: 0, weightPerMonth: 0 };
         const lastDate = TimeService.getTime(weights[weights.length - 1].date);
+
         const { slope } = this.calculateTrend(weights, lastDate);
         return {
             weightPerWeek: slope * TimeService.MS_PER_WEEK,
@@ -39,7 +40,16 @@ export class WeightAnalysisService {
     private calculateTrend(weights: Weight[], refDate: number) {
         // Últimas 2 semanas
         const minDate = refDate - TimeService.MS_PER_DAY * 14;
-        const recent = weights.filter(w => TimeService.getTime(w.date) >= minDate);
+        let recent = weights.filter(w => TimeService.getTime(w.date) >= minDate);
+
+        // Si no hay al menos 2 puntos en las últimas 2 semanas, tomar los 2 últimos registros
+        if (recent.length < 2) {
+            recent = weights
+                .slice() // clonamos para no mutar el original
+                .sort((a, b) => TimeService.getTime(b.date) - TimeService.getTime(a.date))
+                .slice(0, 2)
+                .reverse(); // para mantener orden cronológico
+        }
 
         const x = recent.map(w => TimeService.getTime(w.date));
         const y = recent.map(w => w.weight);
@@ -58,6 +68,7 @@ export class WeightAnalysisService {
         const intercept = (sumY - slope * sumX) / n;
         return { slope, intercept };
     }
+
 
     getTrendData(weights: Weight[]) {
         if (!weights?.length) return [];

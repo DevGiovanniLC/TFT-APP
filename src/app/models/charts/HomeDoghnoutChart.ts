@@ -4,27 +4,24 @@ export default class HomeDoughnutChart {
     private readonly dataset: number[];
 
     constructor(progression: number) {
+        if (Number.isNaN(progression)) progression = 0;
+        progression = Math.max(0, Math.min(100, progression));
         this.dataset = [progression, 100 - progression];
-
-        if (Number.isNaN(progression)) this.dataset = [100, 0];
-        if (progression < 0) this.dataset = [0, 100];
-        if (progression > 100) this.dataset = [100, 0];
     }
 
     getData(): ChartData<'doughnut'> {
-        const documentStyle = getComputedStyle(document.documentElement);
-
+        const style = getComputedStyle(document.documentElement);
         const backgroundColor = [
-            documentStyle.getPropertyValue('--color-tertiary'),
-            documentStyle.getPropertyValue('--color-accent'),
+            style.getPropertyValue('--color-tertiary').trim(),
+            style.getPropertyValue('--color-accent').trim(),
         ];
 
         return {
-            labels: ['Progress'],
+            labels: ['Progression', 'Remaining'],
             datasets: [
                 {
                     data: this.dataset,
-                    backgroundColor: backgroundColor,
+                    backgroundColor,
                 },
             ],
         };
@@ -36,29 +33,22 @@ export default class HomeDoughnutChart {
             maintainAspectRatio: false,
             cutout: '92%',
             radius: 110,
+            hover: {
+                mode: 'x',
+            },
             animations: {
-                x: {
-                    duration: 0,
-                },
-                y: {
-                    duration: 0,
-                },
+                x: { duration: 0 },
+                y: { duration: 0 },
             },
             animation: {
                 animateScale: false,
                 animateRotate: true,
-
                 duration: 1000,
-
                 easing: 'easeOutQuart',
             },
             plugins: {
-                legend: {
-                    display: false,
-                },
-                tooltip: {
-                    enabled: false,
-                },
+                legend: { display: false },
+                tooltip: { enabled: false },
             },
         };
     }

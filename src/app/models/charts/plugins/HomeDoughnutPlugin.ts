@@ -69,7 +69,7 @@ export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weigh
 
         ctx.font = 'bold 13px system-ui';
         ctx.fillStyle = '#343a40';
-        if (progress <= 100 && progress >= 0) ctx.fillText(`Progression ${isNaN(progress) ? 0 : progress.toFixed(0)} %`, centerX, centerY - 60);
+        if (progress <= 100) ctx.fillText(`Progression ${isNaN(progress) ? 0 : progress.toFixed(0)} %`, centerX, centerY - 60);
 
         ctx.font = '13px system-ui';
         ctx.fillStyle = '#343a40';

@@ -1,35 +1,38 @@
 import { Goal } from '@models/types/Goal';
 import { Weight } from '@models/types/Weight';
+import { TimeService } from '@services/Time.service';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { AnnotationOptions, LineAnnotationOptions } from 'chartjs-plugin-annotation';
 
+type Category = { label: string; bmi: number; weight: number; alert: string; };
+
 export default class ModalWeightChart {
     private readonly weights: Weight[];
-    private readonly goal: Goal | undefined;
-    private readonly trendData: { x: number; y: number; }[];
-    private readonly categories: { label: string; bmi: number; weight: number; alert: string; }[];
+    private readonly goal?: Goal;
+    private readonly trendData: { x: number; y: number }[];
+    private readonly categories: Category[];
 
     constructor(
-        calculateFunctionsService: WeightAnalysisService,
+        analysisService: WeightAnalysisService,
         weights: Weight[],
         goal: Goal | undefined,
-        categories: { label: string; bmi: number; weight: number; alert: string; }[]
+        categories: Category[]
     ) {
         this.weights = weights;
         this.goal = goal;
-        this.trendData = calculateFunctionsService.getTrendData(this.weights)
+        this.trendData = analysisService.getTrendData(weights);
         this.categories = categories;
     }
 
     getData(): ChartData<'line'> {
-
+        const labels = this.weights.map(w => new Date(w.date).getTime());
         return {
-            labels: this.weights?.map((w: Weight) => new Date(w.date).getTime()),
+            labels,
             datasets: [
                 {
                     label: 'Weight (kg)',
-                    data: this.weights?.map((w: Weight) => w.weight),
+                    data: this.weights.map(w => w.weight),
                     fill: false,
                     borderColor: '#00BD7E',
                     tension: 0.1,
@@ -44,9 +47,7 @@ export default class ModalWeightChart {
                     borderColor: '#fa0000',
                     pointRadius: 0,
                     tension: 0,
-                    segment: {
-                        borderDash: [6, 6],
-                    },
+                    segment: { borderDash: [6, 6] },
                     backgroundColor: 'transparent',
                     hoverBackgroundColor: 'transparent',
                     hoverBorderColor: 'transparent',
@@ -57,10 +58,9 @@ export default class ModalWeightChart {
         };
     }
 
-    annotationConfig(goalWeight: number, goalDate: Date | undefined) {
-        if (!goalWeight) return {};
-
-        const goalLine: LineAnnotationOptions = {
+    private getGoalLine(goalWeight: number): LineAnnotationOptions & { type: 'line' } {
+        return {
+            type: 'line',
             yMin: goalWeight,
             yMax: goalWeight,
             borderColor: '#343A40',
@@ -70,97 +70,118 @@ export default class ModalWeightChart {
                 display: true,
                 content: 'Goal',
                 position: 'end',
-                backgroundColor: 'rgba(0,0,0,0.9)',
+                backgroundColor: 'rgba(0, 167, 20, 0.9)',
                 color: '#fff',
+                padding: { x: 5, y: 2 },
                 font: {
                     weight: 'bold',
-                    size: 10
+                    size: 9
                 }
             }
-        };
-
-        const bmiLineCategories: LineAnnotationOptions[] = this.categories.map(category => {
-            return {
-                yMin: category.weight,
-                yMax: category.weight,
-                borderColor: category.alert,
-                borderWidth: 2,
-                borderDash: [5, 5],
-                label: {
-                    display: true,
-                    content: category.label,
-                    position: 'end',
-                    backgroundColor: category.alert,
-                    color: '#fff',
-                    font: {
-                        weight: 'bold',
-                        size: 10
-                    }
-                }
-            };
-        })
-
-
-        if (!goalDate) {
-            return {
-                goalLine,
-                ...bmiLineCategories
-            };
         }
+    }
 
-        const goalPoint: AnnotationOptions = {
-            type: 'point',
-            xScaleID: 'x',
-            yScaleID: 'y',
-            xValue: goalDate?.getTime(),
-            yValue: goalWeight,
-            backgroundColor: '#1E8260',
-            radius: 6,
+    private getCategoryLines(): (LineAnnotationOptions & { type: 'line' })[] {
+        return this.categories.map(cat => ({
+            type: 'line',
+            yMin: cat.weight,
+            yMax: cat.weight,
+            borderColor: cat.alert,
             borderWidth: 2,
-            borderColor: '#00BD7E',
-        };
+            borderDash: [5, 5],
+            label: {
+                display: true,
+                content: cat.label,
+                position: 'end',
+                backgroundColor: cat.alert,
+                color: '#fff',
+                font: { weight: 'bold', size: 10 }
+            }
+        }));
+    }
 
+    private getGoalAnnotations(
+        goalWeight: number,
+        goalDate: Date
+    ): Record<string, AnnotationOptions> {
         return {
-            goalPoint,
-            goalLine,
-            ...bmiLineCategories
+            // 1️⃣ Marcador (punto)
+            goalPoint: {
+                type: 'point',
+                xScaleID: 'x',
+                yScaleID: 'y',
+                xValue: goalDate.getTime(),
+                yValue: goalWeight,
+                backgroundColor: 'black',
+                radius: 6,
+                borderWidth: 2,
+                borderColor: '#00BD7E',
+            },
+            goalLabel: {
+                type: 'label',
+                xScaleID: 'x',
+                yScaleID: 'y',
+                xValue: goalDate.getTime(),
+                yValue: goalWeight + 0.8,
+                content: [
+                    `Goal: ${goalWeight.toFixed(2)} kg`,
+                    `Date: ${goalDate.toLocaleDateString('en-GB')}`
+                ],
+                color: '#00BD7E',
+                font: {
+                    size: 11,
+                    weight: 'bold',
+                },
+                backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                padding: 4,
+            },
         };
     }
 
+
+    private buildAnnotations(goalWeight: number, goalDate?: Date) {
+        const lines = [
+            ...(goalWeight && !isNaN(goalWeight) ? [this.getGoalLine(goalWeight)] : []),
+            ...this.getCategoryLines()
+        ];
+        const annotations: Record<string, AnnotationOptions> = {};
+        lines.forEach((line, i) => {
+            if (line.type !== 'line') return;
+            annotations[`line${i}`] = line;
+        });
+
+        if (goalWeight && goalDate) {
+            Object.assign(annotations, this.getGoalAnnotations(goalWeight, goalDate));
+        }
+
+        return annotations;
+    }
+
     getOptions(): ChartOptions<'line'> {
-        const dataWeights = this.weights;
+        const weights = this.weights;
+        const goalWeight = this.goal?.weight ?? NaN;
 
-        // Verifica si el modo de gráfico es 'viewGoal' y si hay suficientes datos para mostrar la tendencia de una manera lógica
-        const goalWeight = this.goal && typeof this.goal === 'object' ? this.goal?.weight : Number.POSITIVE_INFINITY;
+        // Rango Y
+        const minWeight = Math.min(...weights.map(w => w.weight));
+        const maxWeight = Math.max(...weights.map(w => w.weight));
+        const marginY = ((goalWeight ? Math.max(maxWeight, goalWeight) - Math.min(minWeight, goalWeight) : maxWeight - minWeight) * 0.2) || 1;
 
-        // Rango de pesos para el eje Y
-        const minWeight = Math.min(...dataWeights.map((w) => w.weight));
-        const maxWeight = Math.max(...dataWeights.map((w) => w.weight));
-        const maxRangeY = goalWeight ? maxWeight - Math.min(minWeight, goalWeight) : maxWeight - minWeight;
-        const marginY = maxRangeY * 0.2 || 1;
-
-        // Rango de fechas para el eje X
-        const validDates = dataWeights.map((w) => new Date(w.date));
-        const maxDate = Math.max(...validDates.map((w) => w.getTime()));
-        const minDate = Math.min(...validDates.map((w) => w.getTime())) - 1 * 24 * 60 * 60 * 1000;
-        const rangeX = new Date(maxDate)
-        const goalDateMaxRange = new Date(rangeX.getTime() + 15 * 24 * 60 * 60 * 1000).getTime();
-
+        // Rango X
+        const dates = weights.map(w => new Date(w.date).getTime());
+        const minDate = Math.min(...dates) - 15 * TimeService.MS_PER_DAY;
+        const maxDate = Math.max(...dates) + 15 * TimeService.MS_PER_DAY;
+        const goalDate = (this.goal?.date?.getTime() ?? NaN) + 3 * TimeService.MS_PER_MONTH;
 
         return {
             responsive: true,
             maintainAspectRatio: false,
-
             backgroundColor: '#00BD7E',
             elements: {
-                point: {
-                    hitRadius: 6,
-                    hoverRadius: 7,
-                },
+                point: { hitRadius: 6, hoverRadius: 7 },
             },
             plugins: {
                 annotation: {
-                    annotations: this.annotationConfig(this.goal?.weight ?? NaN, this.goal?.date),
+                    annotations: this.buildAnnotations(goalWeight, this.goal?.date),
                 },
                 legend: {
                     display: this.trendData.length > 1,
@@ -168,23 +189,29 @@ export default class ModalWeightChart {
                     position: 'top',
                 },
                 zoom: {
-                    zoom: {
-                        wheel: {
-                            enabled: true,
+                    limits: {
+                        x: {
+                            min: minDate,
+                            max: Math.max(maxDate, goalDate),
+                            minRange: 3 * TimeService.MS_PER_DAY // mínimo 3 días visibles al hacer zoom
                         },
-                        pinch: {
-                            enabled: true,
-                        },
+                        y: {
+                            minRange: 2,
+                            max: 260,
+                            min: 0
+                        }
                     },
-                    pan: {
-                        enabled: true,
+                    zoom: {
+                        wheel: { enabled: true },
+                        pinch: { enabled: true },
                         mode: 'xy',
                     },
+                    pan: { enabled: true, mode: 'xy' },
                 },
                 tooltip: {
                     callbacks: {
-                        title: (tooltipItems) => {
-                            const date = new Date(tooltipItems[0].parsed.x);
+                        title: (items) => {
+                            const date = new Date(items[0].parsed.x);
                             return date.toLocaleDateString('en-GB', {
                                 day: '2-digit',
                                 month: 'short',
@@ -200,25 +227,18 @@ export default class ModalWeightChart {
             scales: {
                 x: {
                     min: minDate,
-                    max: goalDateMaxRange,
+                    max: maxDate,
                     type: 'time',
                     time: {
                         unit: 'day',
-                        displayFormats: {
-                            day: 'dd MMM',
-                        },
+                        displayFormats: { day: 'dd MMM' },
                     },
-                    title: {
-                        display: false,
-                        text: 'Date',
-                    },
+                    title: { display: false, text: 'Date' },
                     ticks: {
                         padding: 15,
                         color: '#343a40',
                         maxTicksLimit: 6,
-                        font: {
-                            size: 15,
-                        }
+                        font: { size: 15 },
                     },
                 },
                 y: {
@@ -228,14 +248,9 @@ export default class ModalWeightChart {
                     max: goalWeight
                         ? Math.round(Math.max(maxWeight, goalWeight) + marginY)
                         : Math.round(maxWeight + marginY),
-                    title: {
-                        display: false,
-                        text: 'Weights (kg)',
-                    },
+                    title: { display: false, text: 'Weights (kg)' },
                     ticks: {
-                        font: {
-                            size: 16,
-                        },
+                        font: { size: 16 },
                         color: '#343a40',
                     },
                 },

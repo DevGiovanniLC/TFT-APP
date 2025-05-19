@@ -14,11 +14,19 @@ export class WeightAnalysisService {
     ) { }
 
     weekWeightLossPace(weight: number, goal: number, start: Date, end: Date): number {
-        return this.weightLossPace(weight, goal, this.timeService.weekDifference(start, end));
+        const weeks = this.timeService.weekDifference(start, end);
+        if (weeks < 1) {
+            return Number((weight - goal).toFixed(2));
+        }
+        return this.weightLossPace(weight, goal, weeks);
     }
 
     monthWeightLossPace(weight: number, goal: number, start: Date, end: Date): number {
-        return this.weightLossPace(weight, goal, this.timeService.monthDifference(start, end));
+        const months = this.timeService.monthDifference(start, end);
+        if (months < 1) {
+            return Number((weight - goal).toFixed(2));
+        }
+        return this.weightLossPace(weight, goal, months);
     }
 
     private weightLossPace(weight: number, goal: number, diff: number): number {
@@ -45,10 +53,10 @@ export class WeightAnalysisService {
         // Si no hay al menos 2 puntos en las últimas 2 semanas, tomar los 2 últimos registros
         if (recent.length < 2) {
             recent = weights
-                .slice() // clonamos para no mutar el original
+                .slice()
                 .sort((a, b) => TimeService.getTime(b.date) - TimeService.getTime(a.date))
                 .slice(0, 2)
-                .reverse(); // para mantener orden cronológico
+                .reverse();
         }
 
         const x = recent.map(w => TimeService.getTime(w.date));

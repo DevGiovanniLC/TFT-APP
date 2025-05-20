@@ -62,8 +62,8 @@ export class GoalModalComponent {
     }
 
     controlSteps(step: number) {
-        if (step > -1)  this.cancel();
-        if (step < 1) this.confirm();
+        if (step == -1)  this.cancel();
+        if (step == 1) this.confirm();
     }
 
     private cancel() {

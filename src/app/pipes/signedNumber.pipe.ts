@@ -2,7 +2,7 @@ import { Pipe, type PipeTransform } from '@angular/core';
 @Pipe({
     name: 'signedNumber',
 })
-export class SignedNumber implements PipeTransform {
+export class SignedNumberPipe implements PipeTransform {
     transform(value: number | undefined): string {
         if (!value) return '';
 

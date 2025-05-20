@@ -14,12 +14,12 @@ import {
 import { Gesture, GestureController } from '@ionic/angular';
 import { Weight } from '@models/types/Weight.type';
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent } from '@ionic/angular/standalone';
-import { SignedNumber } from 'src/app/pipes/signedNumber.pipe';
+import { SignedNumberPipe } from 'src/app/pipes/signedNumber.pipe';
 import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-item-register',
-    imports: [IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, SignedNumber, DatePipe],
+    imports: [IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, SignedNumberPipe, DatePipe],
     templateUrl: './ItemRegister.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -5,12 +5,17 @@ import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { LineAnnotationOptions } from 'chartjs-plugin-annotation';
 
+type point = {
+    x: number;
+    y: number;
+}
+
 export default class HomeWeightLineChart {
     private readonly chartMode: string;
     private readonly weights: Weight[];
     private readonly goal?: Goal;
     private readonly viewTrend: boolean;
-    private readonly trendData: any[];
+    private readonly trendData: point[];
 
 
     constructor(
@@ -64,7 +69,7 @@ export default class HomeWeightLineChart {
         };
     }
 
-    private annotationConfig(chartMode: string, goalWeight?: number, goalDate?: Date, onGoalClick?: Function) {
+    private annotationConfig(chartMode: string, goalWeight?: number) {
         if (!goalWeight) return {};
 
         const goalLine: LineAnnotationOptions = {
@@ -122,7 +127,7 @@ export default class HomeWeightLineChart {
             },
             plugins: {
                 annotation: {
-                    annotations: this.annotationConfig(chartMode, goalWeight, goalDate),
+                    annotations: this.annotationConfig(chartMode, goalWeight),
                 },
                 legend: {
                     display: viewTrend && trendData.length > 1,

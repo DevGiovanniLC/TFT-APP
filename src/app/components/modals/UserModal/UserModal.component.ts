@@ -35,7 +35,8 @@ export class ModalUserComponent {
 
 
     controlSteps(step: number) {
-        step === -1 ? this.cancel() : step === 1 && this.confirm();
+        if (step > -1)  this.cancel();
+        if (step < 1) this.confirm();
     }
 
     private confirm() {

@@ -19,7 +19,7 @@ export default class LocalStorageProvider implements DataProvider {
     }
 
     private getWeightsRaw(): any[] {
-        return this.getItem<any[]>(WEIGHTS_KEY) || [];
+        return this.getItem<Weight[]>(WEIGHTS_KEY) || [];
     }
 
     async getUser(): Promise<User | undefined> {

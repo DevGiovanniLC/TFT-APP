@@ -2,6 +2,7 @@ import { Injector, Signal } from '@angular/core';
 import { Weight } from '@models/types/Weight.type';
 import { TimeService } from '@services/Time.service';
 import { Chart } from 'chart.js';
+import type { ArcElement } from 'chart.js';
 
 const injector = Injector.create({ providers: [TimeService] });
 const timeService = injector.get(TimeService);
@@ -21,7 +22,9 @@ export const SVGIconsPlugin = () => ({
         const meta = chart.getDatasetMeta(0);
         if (!meta?.data?.length) return;
 
-        const { x: cx, y: cy, innerRadius, startAngle, endAngle } = meta.data[0] as any;
+
+        // Usa el tipo ArcElement de Chart.js para tipar correctamente
+        const { x: cx, y: cy, innerRadius, startAngle, endAngle } = meta.data[0] as ArcElement;
         const radius = innerRadius + 2;
 
         const getCoords = (angle: number) => [

@@ -59,7 +59,7 @@ export default class SQLiteDataProvider implements DataProvider {
         await this.db.execute(schema);
     }
 
-    private handleDBError(err: any): never {
+    private handleDBError(err: unknown): never {
         const errorMessage = `❌ Database error: ${err}`;
         alert(errorMessage);
         throw new Error(errorMessage);
@@ -67,7 +67,7 @@ export default class SQLiteDataProvider implements DataProvider {
 
     async getWeights(): Promise<Weight[]> {
         const { values } = await this.db.query('SELECT * FROM registers ORDER BY date DESC');
-        return (values ?? []).map((r: any) => ({
+        return (values ?? []).map((r: Weight) => ({
             id: r.id,
             date: new Date(r.date),
             weight: r.weight,

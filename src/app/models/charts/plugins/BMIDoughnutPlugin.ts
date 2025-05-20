@@ -1,4 +1,5 @@
 import { Chart } from 'chart.js';
+import type { ArcElement } from 'chart.js';
 
 const BODY_IMG_SRC = 'assets/icons/body.svg';
 const MAX_BMI = 40;
@@ -31,7 +32,8 @@ export const BMIPluginDoughnut = (bmi: number) => ({
         const meta = chart.getDatasetMeta(0);
         if (!meta?.data?.length) return;
 
-        const { x: centerX, y: centerY, innerRadius, outerRadius } = meta.data[0] as any;
+        const arc = meta.data[0] as ArcElement;
+        const { x: centerX, y: centerY, innerRadius, outerRadius } = arc;
         const radius = innerRadius + (outerRadius - innerRadius) / 2;
         const imgSize = radius * 0.29;
         const imgX = centerX - imgSize / 2;

@@ -4,6 +4,7 @@ import { DataProviderService } from '@services/data-providers/DataProvider.servi
 import { SplashScreen } from '@capacitor/splash-screen';
 import { UserConfigService } from '@services/UserConfig.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
+import { set } from 'cypress/types/lodash';
 
 @Component({
     selector: 'app-root',
@@ -31,7 +32,10 @@ export class AppComponent {
                 }
             });
 
-            SplashScreen.hide();
+            setTimeout(() => {
+                SplashScreen.hide();
+            }, 1000);
+
         });
     }
 }

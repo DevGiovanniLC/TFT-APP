@@ -7,7 +7,7 @@
         <ion-card
             class="bg-[var(--color-tertiary)] rounded-xl text-center space-y-1 w-36 h-24 shadow-xl border-teal-600 border-2 flex flex-col items-center justify-center">
             <h1 class="text-teal-800 font-sans font-extrabold text-xs m-0 p-0">Starting Weight</h1>
-            <p id="startingWeight" class="text-base text-slate-200 font-semibold">
+            <p id="startingWeight" class="text-base text-zinc-800 font-semibold">
                 {{firstWeight()?.weight}}
                 {{firstWeight()?.weight_units}}
             </p>
@@ -20,7 +20,7 @@
             class="bg-[var(--color-tertiary)] rounded-xl text-center space-y-1 w-36 h-24 shadow-xl border-teal-600 border-2 flex flex-col items-center justify-center">
             <h1 class="text-teal-800 font-sans font-extrabold text-xs m-0 p-0">Goal Weight</h1>
             @if (goal()?.weight) {
-            <p id="goalWeight" class="text-base text-slate-200 font-semibold">
+            <p id="goalWeight" class="text-base text-zinc-800 font-semibold">
                 {{goal()?.weight}}
                 {{goal()?.weight_units}}
             </p>

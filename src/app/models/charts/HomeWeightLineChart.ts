@@ -5,7 +5,7 @@ import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { LineAnnotationOptions } from 'chartjs-plugin-annotation';
 
-export default class HomeWeightChart {
+export default class HomeWeightLineChart {
     private readonly chartMode: string;
     private readonly weights: Weight[];
     private readonly goal?: Goal;

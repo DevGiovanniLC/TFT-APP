@@ -10,7 +10,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { UserConfigService } from '@services/UserConfig.service';
-import ModalWeightChart from '@models/charts/ModalWeightChart';
+import ModalWeightLineChart from '@models/charts/ModalWeightLineChart';
 import { BMIService } from '@services/BMI.service';
 
 
@@ -46,7 +46,7 @@ export class ModalWeightLineChartComponent {
 
     updateWeightChart(weights: Weight[] | undefined, goal: Goal | undefined, categories: { label: string; bmi: number; weight: number; alert: string; }[]) {
         if (!weights) return;
-        const weightChart = new ModalWeightChart(this.calculateFunctionsService, weights, goal, categories);
+        const weightChart = new ModalWeightLineChart(this.calculateFunctionsService, weights, goal, categories);
         this.data = weightChart.getData();
         this.options = weightChart.getOptions();
     }

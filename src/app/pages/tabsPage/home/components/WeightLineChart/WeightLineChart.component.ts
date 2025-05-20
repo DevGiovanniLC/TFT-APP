@@ -4,7 +4,7 @@ import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
 import { Weight } from '@models/types/Weight.type';
 import annotationPlugin from 'chartjs-plugin-annotation';
-import HomeWeightChart from '@models/charts/HomeWeightChart';
+import HomeWeightLineChart from '@models/charts/HomeWeightLineChart';
 import { Chart, ChartData, ChartOptions } from 'chart.js';
 import { TimeService } from '@services/Time.service';
 import { Goal } from '@models/types/Goal.type';
@@ -66,7 +66,7 @@ export class WeightLineChartComponent {
         if (weights().length == 0) this.isEmpty.set(true);
         else this.isEmpty.set(false);
 
-        const weightChart = new HomeWeightChart(this.calculateFunctionsService, this.chartMode, weights, this.goal);
+        const weightChart = new HomeWeightLineChart(this.calculateFunctionsService, this.chartMode, weights, this.goal);
 
         this.data = weightChart.getData();
         this.options = weightChart.getOptions();

@@ -7,7 +7,7 @@ import { AnnotationOptions, LineAnnotationOptions } from 'chartjs-plugin-annotat
 
 type Category = { label: string; bmi: number; weight: number; alert: string; };
 
-export default class ModalWeightChart {
+export default class ModalWeightLineChart {
     private readonly weights: Weight[];
     private readonly goal?: Goal;
     private readonly trendData: { x: number; y: number }[];

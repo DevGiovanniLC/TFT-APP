@@ -12,7 +12,7 @@ import {
     Renderer2,
 } from '@angular/core';
 import { Gesture, GestureController } from '@ionic/angular';
-import { Weight } from '@models/types/Weight';
+import { Weight } from '@models/types/Weight.type';
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent } from '@ionic/angular/standalone';
 import { SignedNumberPipe } from 'src/app/pipes/signedNumber.pipe';
 import { DatePipe } from '@angular/common';

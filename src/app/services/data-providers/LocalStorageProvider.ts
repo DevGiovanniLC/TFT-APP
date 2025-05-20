@@ -1,7 +1,7 @@
 import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
-import { Weight } from '@models/types/Weight';
-import { User } from '@models/types/User';
-import { Goal } from '@models/types/Goal';
+import { Weight } from '@models/types/Weight.type';
+import { User } from '@models/types/User.type';
+import { Goal } from '@models/types/Goal.type';
 
 const WEIGHTS_KEY = 'weight_data_weights';
 const USER_KEY = 'user_data';

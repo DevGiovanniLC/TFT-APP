@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Weight } from '@models/types/Weight';
+import { Weight } from '@models/types/Weight.type';
 import { DataProviderService } from './data-providers/DataProvider.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

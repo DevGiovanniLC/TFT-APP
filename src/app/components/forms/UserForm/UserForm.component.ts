@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
-import { User } from '@models/types/User';
+import { User } from '@models/types/User.type';
 
 @Component({
     selector: 'app-user-form',

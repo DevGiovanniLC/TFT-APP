@@ -4,9 +4,9 @@ import SQLiteDataProvider from '@services/data-providers/SQLiteDataProvider';
 import { environment } from '@envs/environment';
 
 import LocalStorageProvider from './LocalStorageProvider';
-import { Weight } from '@models/types/Weight';
-import { User } from '@models/types/User';
-import { Goal } from '@models/types/Goal';
+import { Weight } from '@models/types/Weight.type';
+import { User } from '@models/types/User.type';
+import { Goal } from '@models/types/Goal.type';
 
 @Injectable({ providedIn: 'root' })
 export class DataProviderService {

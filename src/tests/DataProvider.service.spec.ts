@@ -5,9 +5,9 @@ import { DataProviderService } from '@services/data-providers/DataProvider.servi
 import LocalStorageProvider from '@services/data-providers/LocalStorageProvider';
 import SQLiteDataProvider from '@services/data-providers/SQLiteDataProvider';
 import { environment } from '@envs/environment';
-import { Weight, WeightUnits } from '@models/types/Weight';
-import { User, Gender } from '@models/types/User';
-import { Goal } from '@models/types/Goal';
+import { Weight, WeightUnits } from '@models/types/Weight.type';
+import { User, Gender } from '@models/types/User.type';
+import { Goal } from '@models/types/Goal.type';
 
 describe('DataProviderService (Unit Tests with Jest)', () => {
     let service: DataProviderService;

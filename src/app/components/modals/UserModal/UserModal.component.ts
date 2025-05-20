@@ -4,8 +4,8 @@ import { UserConfigService } from '@services/UserConfig.service';
 import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
 import { ModalController, IonButton, IonIcon, IonContent } from '@ionic/angular/standalone';
 import { UserFormComponent } from '@components/forms/UserForm/UserForm.component';
-import { User } from '@models/types/User';
-import { Weight } from '@models/types/Weight';
+import { User } from '@models/types/User.type';
+import { Weight } from '@models/types/Weight.type';
 import { GoalModalComponent } from '@components/modals/GoalModal/GoalModal.component';
 import { DatePipe } from '@angular/common';
 

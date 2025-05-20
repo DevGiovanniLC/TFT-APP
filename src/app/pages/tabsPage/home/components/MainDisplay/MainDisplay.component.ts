@@ -9,7 +9,7 @@ import {
     Signal,
     signal,
 } from '@angular/core';
-import { Weight } from '@models/types/Weight';
+import { Weight } from '@models/types/Weight.type';
 import { IonButton, ModalController, IonCard } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
@@ -18,7 +18,7 @@ import { TextPlugin, SVGIconsPlugin } from '@models/charts/plugins/HomeDoughnutP
 import HomeDoughnutChart from '@models/charts/HomeDoghnoutChart';
 import { ChartData, ChartOptions, Plugin } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
-import { Goal } from '@models/types/Goal';
+import { Goal } from '@models/types/Goal.type';
 import { DatePipe } from '@angular/common';
 
 @Component({

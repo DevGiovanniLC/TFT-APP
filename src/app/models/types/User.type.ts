@@ -1,4 +1,4 @@
-import { WeightUnits } from './Weight';
+import { WeightUnits } from './Weight.type';
 
 export type User = {
     name: string | undefined;

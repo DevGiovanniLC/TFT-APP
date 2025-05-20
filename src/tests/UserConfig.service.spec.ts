@@ -5,9 +5,9 @@ import { skip } from 'rxjs/operators';
 
 import { UserConfigService } from '@services/UserConfig.service';
 import { DataProviderService } from '@services/data-providers/DataProvider.service';
-import { User, Gender } from '@models/types/User';
-import { Goal } from '@models/types/Goal';
-import { WeightUnits } from '@models/types/Weight';
+import { User, Gender } from '@models/types/User.type';
+import { Goal } from '@models/types/Goal.type';
+import { WeightUnits } from '@models/types/Weight.type';
 
 describe('UserConfigService (Unit Tests with Jest)', () => {
     let service: UserConfigService;

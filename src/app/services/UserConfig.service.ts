@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { DataProviderService } from './data-providers/DataProvider.service';
-import { User } from '@models/types/User';
+import { User } from '@models/types/User.type';
 import { BehaviorSubject, Observable, from } from 'rxjs';
-import { Goal } from '@models/types/Goal';
+import { Goal } from '@models/types/Goal.type';
 import { map, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })

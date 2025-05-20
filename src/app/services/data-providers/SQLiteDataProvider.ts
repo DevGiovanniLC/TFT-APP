@@ -2,9 +2,9 @@ import { DataProvider } from '@services/data-providers/interfaces/DataProvider';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
-import { Weight } from '@models/types/Weight';
-import { User } from '@models/types/User';
-import { Goal } from '@models/types/Goal';
+import { Weight } from '@models/types/Weight.type';
+import { User } from '@models/types/User.type';
+import { Goal } from '@models/types/Goal.type';
 
 export default class SQLiteDataProvider implements DataProvider {
     private readonly sqlite = new SQLiteConnection(CapacitorSQLite);

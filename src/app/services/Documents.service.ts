@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from '@models/types/User';
-import { Weight } from '@models/types/Weight';
+import { User } from '@models/types/User.type';
+import { Weight } from '@models/types/Weight.type';
 import Papa from 'papaparse';
 import { DataProviderService } from './data-providers/DataProvider.service';
 

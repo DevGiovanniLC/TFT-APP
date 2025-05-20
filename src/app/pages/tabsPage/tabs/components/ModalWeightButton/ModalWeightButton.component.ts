@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { IonButton, IonButtons, IonIcon, ModalController } from '@ionic/angular/standalone';
-import { Weight } from '@models/types/Weight';
+import { Weight } from '@models/types/Weight.type';
 import { WeightRegisterComponent } from '@components/modals/WeightRegisterModal/WeightRegisterModal.component';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 

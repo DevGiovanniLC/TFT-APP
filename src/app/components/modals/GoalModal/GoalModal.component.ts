@@ -9,7 +9,7 @@ import {
     IonToggle,
 } from '@ionic/angular/standalone';
 
-import { Weight, WeightUnits } from '@models/types/Weight';
+import { Weight, WeightUnits } from '@models/types/Weight.type';
 import { WeightFormComponent } from '@components/forms/WeightForm/WeightForm.component';
 import { TimeService } from '@services/Time.service';
 import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';

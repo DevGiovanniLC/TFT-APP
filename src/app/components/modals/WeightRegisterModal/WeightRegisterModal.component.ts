@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, signal } from '@angu
 import { FormsModule } from '@angular/forms';
 import { IonDatetime, IonContent, ModalController, IonModal, IonDatetimeButton } from '@ionic/angular/standalone';
 
-import { Weight, WeightUnits } from '@models/types/Weight';
+import { Weight, WeightUnits } from '@models/types/Weight.type';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { WeightFormComponent } from '@components/forms/WeightForm/WeightForm.component';
 import { TimeService } from '@services/Time.service';

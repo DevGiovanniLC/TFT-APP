@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { IonContent, ModalController, IonButton, NavController } from '@ionic/angular/standalone';
-import { Weight, WeightUnits } from '@models/types/Weight';
+import { Weight, WeightUnits } from '@models/types/Weight.type';
 import { WeightFormComponent } from '@components/forms/WeightForm/WeightForm.component';
 import { GoalModalComponent } from '../../components/modals/GoalModal/GoalModal.component';
-import { User } from '@models/types/User';
+import { User } from '@models/types/User.type';
 import { FormsModule } from '@angular/forms';
 import { UserConfigService } from '@services/UserConfig.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
@@ -11,7 +11,7 @@ import { TimeService } from '@services/Time.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { UserFormComponent } from '@components/forms/UserForm/UserForm.component';
 import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
-import { Goal } from '@models/types/Goal';
+import { Goal } from '@models/types/Goal.type';
 
 @Component({
     selector: 'app-initial-modal',

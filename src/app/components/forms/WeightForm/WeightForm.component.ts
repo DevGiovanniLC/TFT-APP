@@ -9,7 +9,7 @@ import {
     AfterViewInit,
 } from '@angular/core';
 import { IonPicker, IonPickerColumn, IonPickerColumnOption, PickerColumn } from '@ionic/angular/standalone';
-import { WeightUnits } from '@models/types/Weight';
+import { WeightUnits } from '@models/types/Weight.type';
 
 @Component({
     selector: 'app-weight-form',

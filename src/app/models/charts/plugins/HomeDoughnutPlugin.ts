@@ -1,5 +1,5 @@
 import { Injector, Signal } from '@angular/core';
-import { Weight } from '@models/types/Weight';
+import { Weight } from '@models/types/Weight.type';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { TimeService } from '@services/Time.service';
 import { Chart } from 'chart.js';

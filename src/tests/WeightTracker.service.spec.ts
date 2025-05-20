@@ -5,8 +5,8 @@ import { firstValueFrom } from 'rxjs';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { DataProviderService } from '@services/data-providers/DataProvider.service';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
-import { Weight, WeightUnits } from '@models/types/Weight';
-import { User, Gender } from '@models/types/User';
+import { Weight, WeightUnits } from '@models/types/Weight.type';
+import { User, Gender } from '@models/types/User.type';
 
 describe('WeightTrackerService (Unit Tests with Jest)', () => {
     let service: WeightTrackerService;

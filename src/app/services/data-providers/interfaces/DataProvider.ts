@@ -1,6 +1,6 @@
-import { Goal } from '@models/types/Goal';
-import { User } from '@models/types/User';
-import { Weight } from '@models/types/Weight';
+import { Goal } from '@models/types/Goal.type';
+import { User } from '@models/types/User.type';
+import { Weight } from '@models/types/Weight.type';
 
 export interface DataProvider {
     getWeights(): Promise<Weight[]>;

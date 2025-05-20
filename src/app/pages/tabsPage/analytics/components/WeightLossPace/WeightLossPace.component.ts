@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, effect, input, signal } from '@angular/core';
 import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonIcon, IonButton, PopoverController } from '@ionic/angular/standalone';
-import { Goal } from '@models/types/Goal';
-import { Weight, WeightUnits } from '@models/types/Weight';
+import { Goal } from '@models/types/Goal.type';
+import { Weight, WeightUnits } from '@models/types/Weight.type';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { WeightLossPaceInfoPopoverComponent } from '../WeightLossPaceInfoPopover/WeightLossPaceInfoPopover.component';
 

@@ -1,6 +1,6 @@
 import { Signal } from '@angular/core';
-import { Goal } from '@models/types/Goal';
-import { Weight } from '@models/types/Weight';
+import { Goal } from '@models/types/Goal.type';
+import { Weight } from '@models/types/Weight.type';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { LineAnnotationOptions } from 'chartjs-plugin-annotation';

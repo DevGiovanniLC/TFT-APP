@@ -11,71 +11,55 @@ import { User } from '@models/types/User';
 })
 export class UserFormComponent {
     inputUser = input<User | undefined>();
-
-    outputUser!: User;
-
     setUser = output<User>();
 
-    constructor() {
-        this.outputUser = {
-            name: undefined,
-            age: undefined,
-            height: undefined,
-            gender: undefined,
-            email: undefined,
-            goal_weight: undefined,
-            goal_units: undefined,
-            goal_date: undefined,
-        };
-    }
+    user: User = {
+        name: undefined,
+        age: undefined,
+        height: undefined,
+        gender: undefined,
+        email: undefined,
+        goal_weight: undefined,
+        goal_units: undefined,
+        goal_date: undefined,
+    };
 
     ngOnInit(): void {
         const user = this.inputUser();
-        if (!user) return;
-
-        this.outputUser = user;
+        if (user) this.user = { ...user };
     }
 
-    validateHeight(event: Event): void {
-        const input = event.target as HTMLInputElement;
-        let value = Number(input.value);
-
-        if (value <= 0) {
-            value = NaN;
-        }
-
-        if (value > 300) {
-            value = 300;
-        }
-
-        input.value = String(value.toFixed(0));
-        this.setUser.emit(this.outputUser);
-    }
-
-    validateName(event: Event): void {
+    onNameChange(event: Event): void {
         const input = event.target as HTMLInputElement;
         const name = input.value.trim();
-        input.value = name.charAt(0).toUpperCase() + name.slice(1);
-        this.setUser.emit(this.outputUser);
+        this.user.name = name.charAt(0).toUpperCase() + name.slice(1);
+        input.value = this.user.name;
+        this.emitUser();
     }
 
-    validateAge(event: Event): void {
+    onAgeChange(event: Event): void {
         const input = event.target as HTMLInputElement;
-        let value = Number(input.value);
-
-        if (value <= 0) {
-            value = NaN;
-        }
-
-        if (value > 120) {
-            value = 120;
-        }
-
-        input.value = String(value.toFixed(0));
-        this.setUser.emit(this.outputUser);
+        let value: number | undefined = Number(input.value);
+        value = isNaN(value) || value <= 0 ? undefined : Math.min(value, 120);
+        this.user.age = value;
+        input.value = value ? String(value) : '';
+        this.emitUser();
     }
 
-    validateGender(): void {
-        this.setUser.emit(this.outputUser);
+    onHeightChange(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        let value: number | undefined = Number(input.value);
+        value = isNaN(value) || value <= 0 ? undefined : Math.min(value, 300);
+        this.user.height = value;
+        input.value = value ? String(value) : '';
+        this.emitUser();
+    }
+
+    onGenderChange(): void {
+        this.emitUser();
+    }
+
+    private emitUser(): void {
+        this.setUser.emit({ ...this.user });
     }
 }

@@ -12,8 +12,8 @@
                 name="name"
                 autocomplete="name"
                 placeholder="Enter your name"
-                [(ngModel)]="outputUser.name"
-                (input)="validateName($event)"
+                [(ngModel)]="user.name"
+                (input)="onNameChange($event)"
                 class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm"
             />
         </div>
@@ -26,8 +26,8 @@
                 name="age"
                 type="number"
                 placeholder="Enter your age"
-                [(ngModel)]="outputUser.age"
-                (input)="validateAge($event)"
+                [(ngModel)]="user.age"
+                (input)="onAgeChange($event)"
                 class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm"
             />
         </div>
@@ -40,8 +40,8 @@
                 name="height"
                 type="number"
                 placeholder="Enter your height (cm)"
-                [(ngModel)]="outputUser.height"
-                (input)="validateHeight($event)"
+                [(ngModel)]="user.height"
+                (input)="onHeightChange($event)"
                 class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm"
             />
         </div>
@@ -53,8 +53,8 @@
                 id="gender"
                 name="gender"
                 placeholder="Select your gender"
-                [(ngModel)]="outputUser.gender"
-                (ionChange)="validateGender()"
+                [(ngModel)]="user.gender"
+                (ionChange)="onGenderChange()"
                 class="px-4 py-1 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm"
             >
                 <ion-select-option value="female">Female</ion-select-option>

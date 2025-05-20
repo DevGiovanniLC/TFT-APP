@@ -9,19 +9,19 @@ import { Chart, ChartData, ChartOptions } from 'chart.js';
 import { TimeService } from '@services/Time.service';
 import { Goal } from '@models/types/Goal';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
-import { WeightGraphicZoomButtonComponent } from '../WeightGraphicZoomButton/WeightGraphicZoomButton.component';
+import { ChartZoomButton } from '../ChartZoomButton/ChartZoomButton.component';
 import zoomPlugin from 'chartjs-plugin-zoom';
 
 
 
 @Component({
     selector: 'app-weight-graphic',
-    imports: [ChartModule, IonSelect, IonSelectOption, WeightGraphicZoomButtonComponent],
-    styleUrl: './WeightGraphic.component.css',
-    templateUrl: './WeightGraphic.component.html',
+    imports: [ChartModule, IonSelect, IonSelectOption, ChartZoomButton],
+    styleUrl: './WeightLineChart.component.css',
+    templateUrl: './WeightLineChart.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WeightGraphic {
+export class WeightLineChart {
     readonly weights = input.required<Weight[]>();
     readonly goal = input.required<Goal | undefined>();
 

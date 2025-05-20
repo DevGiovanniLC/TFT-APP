@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonContent } from '@ionic/angular/standalone';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { Weight } from '@models/types/Weight';
-import { WeightGraphic } from '@pages/tabsPage/home/components/WeightGraphic/WeightGraphic.component';
+import { WeightLineChart } from '@pages/tabsPage/home/components/WeightLineChart/WeightLineChart.component';
 import { MainDisplay } from '@pages/tabsPage/home/components/MainDisplay/MainDisplay.component';
 import { UserConfigService } from '@services/UserConfig.service';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -11,7 +11,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     selector: 'app-tab1',
     templateUrl: 'Home.page.html',
     standalone: true,
-    imports: [IonContent, WeightGraphic, MainDisplay],
+    imports: [IonContent, WeightLineChart, MainDisplay],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePage {

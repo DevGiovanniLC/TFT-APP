@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, input, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect } from '@angular/core';
 import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
 import { ModalController } from '@ionic/angular/standalone';
 import { ChartModule } from 'primeng/chart';
@@ -18,11 +18,11 @@ import { BMIService } from '@services/BMI.service';
 @Component({
     selector: 'app-weight-graphic-modal',
     imports: [ModalHeaderComponent, ChartModule],
-    templateUrl: './WeightGraphicModal.component.html',
-    styleUrl: './WeightGraphicModal.component.css',
+    templateUrl: './ModalWeightLineChart.component.html',
+    styleUrl: './ModalWeightLineChart.component.css',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WeightGraphicModalComponent {
+export class ModalWeightLineChart {
     data!: ChartData<'line'>;
     options!: ChartOptions<'line'>;
 

@@ -22,7 +22,7 @@ import { BMIService } from '@services/BMI.service';
     styleUrl: './ModalWeightLineChart.component.css',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalWeightLineChart {
+export class ModalWeightLineChartComponent {
     data!: ChartData<'line'>;
     options!: ChartOptions<'line'>;
 

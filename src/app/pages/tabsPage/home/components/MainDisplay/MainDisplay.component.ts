@@ -29,7 +29,7 @@ import { DatePipe } from '@angular/common';
     templateUrl: './MainDisplay.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainDisplay {
+export class MainDisplayComponent {
     // Inputs / Outputs
     readonly lastWeight = input.required<Weight | undefined>();
     readonly firstWeight = input.required<Weight | undefined>();

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonButtons, IonButton, IonIcon, ModalController } from "@ionic/angular/standalone";
-import { ModalWeightLineChart } from '../ModalWeightLineChart/ModalWeightLineChart.component';
+import { ModalWeightLineChartComponent } from '../ModalWeightLineChart/ModalWeightLineChart.component';
 
 @Component({
     selector: 'app-weight-graphic-zoom-button',
@@ -8,7 +8,7 @@ import { ModalWeightLineChart } from '../ModalWeightLineChart/ModalWeightLineCha
     templateUrl: './ChartZoomButton.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChartZoomButton {
+export class ChartZoomButtonComponent {
 
     isPressingButton: boolean;
 
@@ -21,7 +21,7 @@ export class ChartZoomButton {
         this.isPressingButton = true;
 
         const modal = await this.modalCtrl.create({
-            component: ModalWeightLineChart,
+            component: ModalWeightLineChartComponent,
             cssClass: 'small-modal',
         });
         modal.present();

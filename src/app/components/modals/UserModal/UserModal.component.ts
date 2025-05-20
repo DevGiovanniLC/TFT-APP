@@ -18,7 +18,6 @@ export class ModalUserComponent {
     readonly inputUser = toSignal(this.userConfig.user$);
     readonly isGoalDate = signal(false);
     readonly isButtonActive = signal(false);
-
     readonly user = signal<User | undefined>(undefined);
 
     constructor(
@@ -28,24 +27,25 @@ export class ModalUserComponent {
 
     ngOnInit(): void {
         const user = this.inputUser();
-        if (!user) return;
-        this.user.set(user);
-        this.isGoalDate.set(this.validateDate(user.goal_date));
+        if (user) {
+            this.user.set(user);
+            this.isGoalDate.set(this.isValidDate(user.goal_date));
+        }
     }
 
-    controlSteps($event: number) {
-        if ($event == -1) this.cancel();
-        if ($event == 1) this.confim();
+
+    controlSteps(step: number) {
+        step === -1 ? this.cancel() : step === 1 && this.confirm();
     }
 
-    confim() {
+    private confirm() {
         const user = this.user();
         if (!user) return;
         this.userConfig.setUser(user);
         this.modalCtrl.dismiss(undefined, 'confirm');
     }
 
-    cancel() {
+    private cancel() {
         this.modalCtrl.dismiss();
     }
 
@@ -53,23 +53,18 @@ export class ModalUserComponent {
         this.user.set(user);
     }
 
-    private validateDate(date: Date | undefined) {
+    private isValidDate(date?: Date) {
         if (!date) return false;
-        if (date == new Date(0)) return false;
-        if (isNaN(new Date(date).getTime() ?? NaN)) return false;
-        return true;
+        const d = new Date(date);
+        return !isNaN(d.getTime()) && d.getTime() !== 0;
     }
 
     deleteGoal() {
-        this.user.update((user) => {
-            if (!user) return user;
-            return {
-                ...user,
-                goal_weight: undefined,
-                goal_units: undefined,
-                goal_date: undefined,
-            };
-        });
+        this.user.update(user =>
+            user
+                ? { ...user, goal_weight: undefined, goal_units: undefined, goal_date: undefined }
+                : user
+        );
         this.isGoalDate.set(false);
     }
 
@@ -78,7 +73,6 @@ export class ModalUserComponent {
         this.isButtonActive.set(true);
 
         const user = this.user();
-
         const goal = {
             weight: user?.goal_weight,
             weight_units: user?.goal_units,
@@ -88,26 +82,25 @@ export class ModalUserComponent {
         const modal = await this.modalCtrl.create({
             component: GoalModalComponent,
             cssClass: 'small-modal',
-            componentProps: {
-                inputWeight: goal,
-            },
+            componentProps: { inputWeight: goal },
         });
-        modal.present();
+        await modal.present();
 
         const { data, role } = await modal.onDidDismiss();
 
-        if (role === 'confirm') {
-            const goal = data as Weight;
-            this.user.update((user) => {
-                if (!user) return user;
-                return {
-                    ...user,
-                    goal_weight: goal.weight,
-                    goal_units: goal.weight_units,
-                    goal_date: goal.date,
-                };
-            });
-            this.isGoalDate.set(this.validateDate(goal.date ?? null));
+        if (role === 'confirm' && data) {
+            const goalData = data as Weight;
+            this.user.update(user =>
+                user
+                    ? {
+                        ...user,
+                        goal_weight: goalData.weight,
+                        goal_units: goalData.weight_units,
+                        goal_date: goalData.date,
+                    }
+                    : user
+            );
+            this.isGoalDate.set(this.isValidDate(goalData.date));
         }
         this.isButtonActive.set(false);
     }

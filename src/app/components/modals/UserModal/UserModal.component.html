@@ -1,7 +1,7 @@
 <app-modal-header (outputStep)="controlSteps($event)"></app-modal-header>
-<ion-content class="h-full w-full">
+<ion-content style="--ion-background-color: linear-gradient(to top right, #d1fae5, #6ee7b7);">
     <section
-        class="h-full w-full flex flex-col items-center text-center px-6 bg-gradient-to-tr from-emerald-100 to-emerald-300"
+        class="h-full w-full flex flex-col items-center text-center px-6"
     >
         <app-user-form class="pt-8" [inputUser]="inputUser()" (setUser)="setUser($event)"></app-user-form>
         <div class="p-3 flex flex-col items-center space-y-3">

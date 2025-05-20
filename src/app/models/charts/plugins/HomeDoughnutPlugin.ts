@@ -1,10 +1,9 @@
 import { Injector, Signal } from '@angular/core';
 import { Weight } from '@models/types/Weight.type';
-import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { TimeService } from '@services/Time.service';
 import { Chart } from 'chart.js';
 
-const injector = Injector.create({ providers: [WeightAnalysisService, TimeService] });
+const injector = Injector.create({ providers: [TimeService] });
 const timeService = injector.get(TimeService);
 
 const loadSVG = (src: string) => {
@@ -13,8 +12,8 @@ const loadSVG = (src: string) => {
     return img;
 };
 
-const svgImageStart = loadSVG('assets/icons/goal.svg');
-const svgImageProgress = loadSVG('assets/icons/runner.svg');
+const svgStart = loadSVG('assets/icons/goal.svg');
+const svgProgress = loadSVG('assets/icons/runner.svg');
 
 export const SVGIconsPlugin = () => ({
     id: 'customSVG',
@@ -22,22 +21,35 @@ export const SVGIconsPlugin = () => ({
         const meta = chart.getDatasetMeta(0);
         if (!meta?.data?.length) return;
 
-        const segment = meta.data[0] as any;
-        const { x: centerX, y: centerY, innerRadius, startAngle, endAngle } = segment;
+        const { x: cx, y: cy, innerRadius, startAngle, endAngle } = meta.data[0] as any;
         const radius = innerRadius + 2;
 
         const getCoords = (angle: number) => [
-            centerX + radius * Math.cos(angle),
-            centerY + radius * Math.sin(angle),
+            cx + radius * Math.cos(angle),
+            cy + radius * Math.sin(angle),
         ];
 
         const [startX, startY] = getCoords(startAngle);
         const [progressX, progressY] = getCoords(endAngle);
 
         const ctx = chart.ctx;
-        if (svgImageStart.complete) ctx.drawImage(svgImageStart, startX - 12, startY - 14, 30, 30);
-        if (svgImageProgress.complete) ctx.drawImage(svgImageProgress, progressX - 10, progressY - 18, 30, 30);
-        ctx.restore();
+
+        if (svgStart.complete) ctx.drawImage(svgStart, startX - 12, startY - 14, 30, 30);
+
+        if (svgProgress.complete) {
+            ctx.save();
+            ctx.translate(progressX, progressY);
+
+            // Calcular el punto donde ubicar el SVG
+            let progressPercent = (endAngle - startAngle) / (Math.PI * 2);
+            if (progressPercent < 0) progressPercent += 1;
+
+            // Puntos donde hacer el flip al SVG
+            if (progressPercent >= 0.28 && progressPercent < 0.75) ctx.scale(-1, 1);
+
+            ctx.drawImage(svgProgress, -15, -15, 30, 30);
+            ctx.restore();
+        }
     },
 });
 

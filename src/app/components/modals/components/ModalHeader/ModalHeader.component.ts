@@ -1,6 +1,12 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { IonHeader, IonToolbar, IonButtons, IonButton } from '@ionic/angular/standalone';
 
+enum HeaderEnum {
+    Static,
+    Sequence,
+    Back
+}
+
 @Component({
     selector: 'app-modal-header',
     imports: [IonHeader, IonToolbar, IonButtons, IonButton],
@@ -8,10 +14,11 @@ import { IonHeader, IonToolbar, IonButtons, IonButton } from '@ionic/angular/sta
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalHeaderComponent {
-    HeaderEnum = HeaderMode;
+    static readonly HeaderEnum = HeaderEnum
 
+    headerEnum = HeaderEnum;
     MAX_STEPS = input<number>(0);
-    headerMode = input<HeaderMode>(HeaderMode.static);
+    headerMode = input<HeaderEnum>(HeaderEnum.Static);
 
     outputStep = output<number>();
 
@@ -30,8 +37,4 @@ export class ModalHeaderComponent {
     }
 }
 
-export enum HeaderMode {
-    static,
-    sequence,
-    back
-}
+

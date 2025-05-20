@@ -10,7 +10,7 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 import { TimeService } from '@services/Time.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { UserFormComponent } from '@components/forms/UserForm/UserForm.component';
-import { HeaderMode, ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
+import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
 import { Goal } from '@models/types/Goal';
 
 @Component({
@@ -29,7 +29,7 @@ import { Goal } from '@models/types/Goal';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InitialPage {
-    readonly HeaderEnum = HeaderMode;
+    readonly HeaderEnum = ModalHeaderComponent.HeaderEnum
     readonly FINAL_STEP = 3;
 
     step = 0;

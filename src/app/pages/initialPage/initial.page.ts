@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { UserConfigService } from '@services/UserConfig.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { TimeService } from '@services/Time.service';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { UserFormComponent } from '@components/forms/UserForm/UserForm.component';
 import { HeaderMode, ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
 import { Goal } from '@models/types/Goal';
@@ -23,16 +23,16 @@ import { Goal } from '@models/types/Goal';
         DatePipe,
         FormsModule,
         UserFormComponent,
+        CommonModule,
     ],
     templateUrl: './Initial.page.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InitialPage {
-    HeaderEnum = HeaderMode;
+    readonly HeaderEnum = HeaderMode;
+    readonly FINAL_STEP = 3;
 
-    FINAL_STEP = 3;
     step = 0;
-
     user = signal<User>({
         name: undefined,
         age: undefined,
@@ -43,11 +43,9 @@ export class InitialPage {
         goal_units: undefined,
         goal_date: undefined,
     });
-
     actualWeight = signal(80);
     lastWeightUnit = WeightUnits.KG;
-
-    goal!: Goal;
+    goal?: Goal;
     isGoal = signal(false);
 
     constructor(
@@ -56,12 +54,16 @@ export class InitialPage {
         private readonly weightTracker: WeightTrackerService,
         private readonly navCtrl: NavController,
         private readonly timeService: TimeService
-    ) {}
+    ) { }
 
     controlSteps(step: number) {
         this.step = step;
-        if (this.step <= this.FINAL_STEP) return;
+        if (this.step > this.FINAL_STEP) {
+            this.saveUserData();
+        }
+    }
 
+    private saveUserData() {
         const actualWeight: Weight = {
             id: 0,
             weight: this.actualWeight(),
@@ -69,14 +71,12 @@ export class InitialPage {
             date: this.timeService.now(),
         };
 
-        this.user.update((user) => {
-            return {
-                ...user,
-                goal_weight: this.goal?.weight,
-                goal_units: this.goal?.weight_units,
-                goal_date: this.goal?.date,
-            };
-        });
+        this.user.update(user => ({
+            ...user,
+            goal_weight: this.goal?.weight,
+            goal_units: this.goal?.weight_units,
+            goal_date: this.goal?.date,
+        }));
 
         this.config.setUser(this.user());
         this.weightTracker.addWeight(actualWeight);
@@ -95,25 +95,23 @@ export class InitialPage {
                 },
             },
         });
-        modal.present();
+        await modal.present();
 
         const { data, role } = await modal.onDidDismiss();
-
         if (role === 'confirm') {
-            this.goal = data as Weight;
+            this.goal = data as Goal;
             this.isGoal.set(true);
         }
     }
 
-    validateGoalDate() {
-        if (this.isGoal() && !isNaN(this.goal?.date?.getTime() ?? NaN)) return true;
-        return false;
+    validateGoalDate(): boolean {
+        return !!(this.isGoal() && this.goal?.date && !isNaN(this.goal.date.getTime()));
     }
 
     updateActualWeight(value: number) {
-        if (typeof value !== 'number') return;
-
-        this.actualWeight.set(value);
+        if (typeof value === 'number') {
+            this.actualWeight.set(value);
+        }
     }
 
     updateUser(user: User) {

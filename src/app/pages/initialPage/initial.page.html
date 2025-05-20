@@ -1,70 +1,83 @@
-<app-modal-header [headerMode]="HeaderEnum.sequence" [MAX_STEPS]="FINAL_STEP" (outputStep)="controlSteps($event)" />
+<app-modal-header
+    [headerMode]="HeaderEnum.sequence"
+    [MAX_STEPS]="FINAL_STEP"
+    (outputStep)="controlSteps($event)"
+/>
 
-<ion-content scrollY="false">
-    <div
-        class="h-full flex flex-col items-center text-center px-6 py-5 space-y-5 bg-gradient-to-tr from-emerald-100 to-emerald-300 w-full">
-        @switch (step) { @case (0) {
-        <h1 class="text-3xl font-bold font-sans text-gray-800 text-pretty">
-            Your journey to a healthier you starts now! 🚀
-        </h1>
-        <ul class="mt-6 space-y-3 text-left bg-teal-100 p-6 rounded-3xl shadow-xl bg-opacity-30 font-system">
-            <li class="flex items-center gap-2">💡 <span class="text-lg font-medium">Track your progress</span></li>
-            <li class="flex items-center gap-2">📊 <span class="text-lg font-medium">Set achievable goals</span></li>
-            <li class="flex items-center gap-2">📈 <span class="text-lg font-medium">View analysis</span></li>
-            <li class="flex items-center gap-2">🍎 <span class="text-lg font-medium">Build healthy habits</span></li>
-            <li class="flex items-center gap-2">
-                🎉 <span class="text-lg font-medium">Celebrate your milestones</span>
-            </li>
-        </ul>
-        <img alt="Cartoon Woman with a mobile phone" src="assets/images/initial-image-cartoon.png"
-            class="flex-grow h-1/6 max-h-80 drop-shadow-2xl" />
-        } @case (1) {
-        <h1 class="text-3xl font-bold font-sans text-gray-800">Track Your Weight</h1>
-        <header class="space-y-2">
-            <p class="text-lg text-gray-700">Set your actual weight</p>
-            <p class="text-sm text-gray-700">Stay consistent and monitor your progress!</p>
-        </header>
-
-        <form
-            class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10">
-            <div class="h-full bg-white flex flex-col items-center">
-                <app-weight-form [inputWeightValue]="actualWeight()" [inputWeightUnit]="lastWeightUnit"
-                    (outputWeightValue)="updateActualWeight($event)"></app-weight-form>
-            </div>
-        </form>
-        } @case (2) {
-        <h1 class="text-3xl font-bold font-sans text-gray-800">Set Your Goal</h1>
-        <p class="text-lg text-gray-700">
-            Define your personal goals to stay motivated and focused on your fitness journey. Here are some ideas:
-        </p>
-        <ul class="space-y-3 text-left bg-teal-100 p-5 rounded-2xl shadow-xl bg-opacity-30 font-system">
-            <li class="flex items-center gap-2">
-                🎯 <span class="text-lg font-medium">Lose weight and stay fit</span>
-            </li>
-            <li class="flex items-center gap-2">💪 <span class="text-lg font-medium">Increase your strength</span></li>
-            <li class="flex items-center gap-2">🏃 <span class="text-lg font-medium">Improve endurance</span></li>
-            <li class="flex items-center gap-2">🧘 <span class="text-lg font-medium">Enhance flexibility</span></li>
-            <li class="flex items-center gap-2">🥗 <span class="text-lg font-medium">Adopt a healthier diet</span></li>
-        </ul>
-        <div class="p-3 flex flex-col items-center space-y-3">
-            @if (!isGoal()) {
-            <ion-button id="goalBtn" class="w-40" color="primary" (click)="openModal()" (keypress)="openModal()">
-                Set weight Goal
-            </ion-button>
-            <p class="text-pretty text-center text-xs h-1 text-teal-500">It's optional, but recommended</p>
-            } @else {
-            <p>You already have a weight goal✅</p>
-            <p>Weight goal: {{ goal.weight }} {{ goal.weight_units }}</p>
-            @if (validateGoalDate()) {
-            <p>Date: {{ goal.date | date: 'dd/MM/yyyy' }}</p>
-            } }
-        </div>
-        } @case (3) {
-        <h1 class="text-3xl font-bold font-sans text-gray-800">Personal Information</h1>
-        <p class="text-gray-700 text-lg text-pretty h-2">Please fill in your information.</p>
-        <p class="text-lg h-4 text-teal-500">All fields are optional.</p>
-
-        <app-user-form (setUser)="updateUser($event)"></app-user-form>
-        } }
+<ion-content   style="--ion-background-color: linear-gradient(to top right, #d1fae5, #6ee7b7);">
+    <div class="h-full min-h-full flex flex-col items-center text-center px-6 py-5 space-y-5 w-full bg-transparent">
+        @switch (step) {
+            @case (0) {
+                <h1 class="text-3xl font-bold text-gray-800 text-balance mb-0">Your journey to a healthier you starts now! 🚀</h1>
+                <ul class="mt-6 space-y-3 text-left bg-teal-100 p-6 rounded-3xl shadow-xl bg-opacity-30 font-system">
+                    <li *ngFor="let tip of [
+                        {icon:'💡', text:'Track your progress'},
+                        {icon:'📊', text:'Set achievable goals'},
+                        {icon:'📈', text:'View analysis'},
+                        {icon:'🍎', text:'Build healthy habits'},
+                        {icon:'🎉', text:'Celebrate your milestones'}
+                    ]" class="flex items-center gap-2">
+                        {{tip.icon}} <span class="text-lg font-medium">{{tip.text}}</span>
+                    </li>
+                </ul>
+                <img
+                    alt="Cartoon Woman with a mobile phone"
+                    src="assets/images/initial-image-cartoon.png"
+                    class="flex-grow h-1/6 max-h-80 drop-shadow-2xl"
+                />
+            }
+            @case (1) {
+                <h1 class="text-3xl font-bold text-gray-800 mb-0">Track Your Weight</h1>
+                <header class="space-y-2">
+                    <p class="text-lg text-gray-700">Set your actual weight</p>
+                    <p class="text-sm text-gray-700">Stay consistent and monitor your progress!</p>
+                </header>
+                <form class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10">
+                    <div class="flex flex-col items-center">
+                        <app-weight-form
+                            [inputWeightValue]="actualWeight()"
+                            [inputWeightUnit]="lastWeightUnit"
+                            (outputWeightValue)="updateActualWeight($event)">
+                        </app-weight-form>
+                    </div>
+                </form>
+            }
+            @case (2) {
+                <h1 class="text-3xl font-bold text-gray-800 mb-0">Set Your Goal</h1>
+                <p class="text-lg text-gray-700">
+                    Define your personal goals to stay motivated and focused on your fitness journey. Here are some ideas:
+                </p>
+                <ul class="space-y-3 text-left bg-teal-100 p-5 rounded-2xl shadow-xl bg-opacity-30 font-system">
+                    <li *ngFor="let goalTip of [
+                        {icon:'🎯', text:'Lose weight and stay fit'},
+                        {icon:'💪', text:'Increase your strength'},
+                        {icon:'🏃', text:'Improve endurance'},
+                        {icon:'🧘', text:'Enhance flexibility'},
+                        {icon:'🥗', text:'Adopt a healthier diet'}
+                    ]" class="flex items-center gap-2">
+                        {{goalTip.icon}} <span class="text-lg font-medium">{{goalTip.text}}</span>
+                    </li>
+                </ul>
+                <div class="p-3 flex flex-col items-center space-y-3">
+                    @if (!isGoal()) {
+                        <ion-button id="goalBtn" class="w-40" color="primary" (click)="openModal()" (keypress)="openModal()">
+                            Set weight Goal
+                        </ion-button>
+                        <p class="text-xs text-teal-500">It's optional, but recommended</p>
+                    } @else {
+                        <p>You already have a weight goal ✅</p>
+                        <p>Weight goal: {{ goal?.weight }} {{ goal?.weight_units }}</p>
+                        @if (validateGoalDate()) {
+                            <p>Date: {{ goal?.date | date: 'dd/MM/yyyy' }}</p>
+                        }
+                    }
+                </div>
+            }
+            @case (3) {
+                <h1 class="text-3xl font-bold text-gray-800 mb-0">Personal Information</h1>
+                <p class="text-gray-700 text-lg p-0 m-0">Please fill in your information.</p>
+                <app-user-form (setUser)="updateUser($event)"></app-user-form>
+            }
+        }
     </div>
 </ion-content>

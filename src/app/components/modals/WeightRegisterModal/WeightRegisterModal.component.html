@@ -11,7 +11,7 @@
         <form
             class="w-10/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10">
             <app-weight-form [inputWeightValue]="inputWeight?.weight ?? lastWeight()?.weight"
-                [inputWeightUnit]="lastWeightUnit()" (outputWeightValue)="updateActualWeight($event)" />
+                [inputWeightUnit]="lastWeightUnit()" (outputWeightValue)="updateNextWeight($event)" />
 
             <ion-datetime-button datetime="datetime" class="mt-5" />
 
@@ -19,7 +19,7 @@
                 <ng-template>
                     <ion-datetime id="datetime" presentation="date-time" locale="en-GB" hour-cycle="h23"
                         display-format="DD/MM/YYYY" picker-format="DD/MM/YYYY" [value]="selectedDate()"
-                        (ionChange)="updateActualDate($event.detail.value)" class="bg-transparent w-full text-lg" />
+                        (ionChange)="updateNextDate($event.detail.value)" class="bg-transparent w-full text-lg" />
                 </ng-template>
             </ion-modal>
         </form>

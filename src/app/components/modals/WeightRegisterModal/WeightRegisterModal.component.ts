@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonDatetime, IonContent, ModalController, IonModal, IonDatetimeButton } from '@ionic/angular/standalone';
 
 import { Weight, WeightUnits } from '@models/types/Weight';
-
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { WeightFormComponent } from '@components/forms/WeightForm/WeightForm.component';
 import { TimeService } from '@services/Time.service';
@@ -26,60 +25,60 @@ import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/
 })
 export class WeightRegisterComponent implements OnInit {
     @Input() inputWeight: Weight | null = null;
-    readonly selectedDate = signal<string | null>(null);
 
+    readonly selectedDate = signal<string | null>(null);
     readonly lastWeight = toSignal(this.weightTracker.lastWeight$, { initialValue: null });
     readonly lastWeightUnit = signal<WeightUnits>(WeightUnits.KG);
 
-    readonly nextWeight = signal(this.lastWeight()?.weight ?? 0);
-    readonly nextDate = signal(this.timeService.now());
-    readonly step = signal(0);
+    private readonly nextWeight = signal(0);
+    private readonly nextDate = signal<Date>(this.timeService.now());
 
-    private readonly modalCtrl = inject(ModalController);
 
     constructor(
         private readonly weightTracker: WeightTrackerService,
-        private readonly timeService: TimeService
-    ) {}
+        private readonly timeService: TimeService,
+        private readonly modalCtrl: ModalController,
+    ) { }
 
     ngOnInit(): void {
-        this.nextWeight.set(this.inputWeight?.weight ?? this.lastWeight()?.weight ?? 0);
-        this.nextDate.set(this.inputWeight?.date ?? this.timeService.now());
+        const last = this.lastWeight();
+        const input = this.inputWeight;
 
-        if (!this.inputWeight) return;
-        const date = this.inputWeight.date;
-        const tzOffsetMs = date.getTimezoneOffset() * 60000;
-        const localISO = new Date(date.getTime() - tzOffsetMs).toISOString().substring(0, 16);
-        this.selectedDate.set(localISO);
+        this.nextWeight.set(input?.weight ?? last?.weight ?? 0);
+        this.nextDate.set(input?.date ?? this.timeService.now());
+
+        if (input) {
+            const date = input.date;
+            const localISO = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+                .toISOString()
+                .substring(0, 16);
+            this.selectedDate.set(localISO);
+        }
     }
 
     controlSteps(step: number) {
-        if (step == -1) this.cancel();
-        if (step == 1) this.confirm();
+        step === -1 ? this.cancel() : step === 1 && this.confirm();
     }
 
     private cancel() {
-        return this.modalCtrl.dismiss(null, 'cancel');
+        this.modalCtrl.dismiss(null, 'cancel');
     }
 
     private confirm() {
         const newWeight: Weight = {
-            id: this.inputWeight?.id ?? undefined,
+            id: this.inputWeight?.id,
             weight: this.nextWeight(),
             weight_units: this.lastWeightUnit(),
             date: this.nextDate(),
         };
-
-        return this.modalCtrl.dismiss(newWeight, 'confirm');
+        this.modalCtrl.dismiss(newWeight, 'confirm');
     }
 
-    updateActualWeight(value: number) {
-        if (typeof value !== 'number') return;
-        this.nextWeight.set(value);
+    updateNextWeight(value: number) {
+        if (typeof value === 'number') this.nextWeight.set(value);
     }
 
-    updateActualDate(value: string | string[] | undefined | null) {
-        if (typeof value !== 'string') return;
-        this.nextDate.set(new Date(value));
+    updateNextDate(value: string | string[] | null | undefined) {
+        if (typeof value === 'string') this.nextDate.set(new Date(value));
     }
 }

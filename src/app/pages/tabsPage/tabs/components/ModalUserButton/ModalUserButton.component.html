@@ -2,6 +2,7 @@
     <ion-button
         (click)="openModal()"
         (keypress)="openModal()"
+        [disabled]="isPressingButton()"
         style="--padding-start: 0; --padding-end: 0; --padding-top: 0; --padding-bottom: 0; --border-radius: 50%"
     >
         <ion-icon name="add" class="text-slate-100 text-4xl" src="assets/icons/person.svg"></ion-icon>

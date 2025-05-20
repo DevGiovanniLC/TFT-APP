@@ -16,27 +16,28 @@ export class ModalWeightButtonComponent {
     constructor(
         private readonly modalCtrl: ModalController,
         private readonly weightTracker: WeightTrackerService
-    ) {}
+    ) { }
 
-    async openModal(weight?: Weight) {
+    async openModal() {
         if (this.isPressingButton()) return;
         this.isPressingButton.set(true);
 
         const modal = await this.modalCtrl.create({
             component: WeightRegisterComponent,
             cssClass: 'small-modal',
-            componentProps: { inputWeight: weight ?? null },
         });
-        modal.present();
+
+        await modal.present();
 
         const { data, role } = await modal.onDidDismiss();
-        if (role === 'confirm') {
-            if (weight) {
-                this.weightTracker.updateWeight(data);
-            } else {
-                this.weightTracker.addWeight(data);
-            }
-        }
+
+        this.confirmAction(role, data as Weight);
+
         this.isPressingButton.set(false);
+    }
+
+    private confirmAction(role: string | undefined, data: Weight) {
+        if (role !== 'confirm') return
+        this.weightTracker.addWeight(data);
     }
 }

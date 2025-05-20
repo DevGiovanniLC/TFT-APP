@@ -51,7 +51,7 @@ export class WeightAnalysisService {
         let recent = weights.filter(w => TimeService.getTime(w.date) >= minDate);
 
         // Si no hay al menos 2 puntos en las últimas 2 semanas, tomar los 2 últimos registros
-        if (recent.length < 2) {
+        if (recent.length < 2 && weights.length > 2) {
             recent = weights
                 .slice()
                 .sort((a, b) => TimeService.getTime(b.date) - TimeService.getTime(a.date))

@@ -1,39 +1,27 @@
 <ion-picker class="w-full bg-transparent select-none selection:bg-transparent">
-    <ion-picker-column
-        id="weight-int-picker"
-        class="bg-transparent flex select-none selection:bg-transparent"
-        [value]="lastWeight()"
-        (ionChange)="updateActualWeight($event.detail.value)"
-    >
+    <ion-picker-column id="weight-int-picker" class="bg-transparent flex select-none selection:bg-transparent"
+        [value]="lastWeight()" (ionChange)="updateActualWeight(columnValueToNumber($event.detail.value))">
         @for (item of weightOptions; track $index) {
-            <ng-container>
-                <ion-picker-column-option
-                    [value]="item"
-                    class="bg-transparent text-2xl text-center my-6 px-3 select-none selection:bg-transparent"
-                >
-                    {{ item }}
-                </ion-picker-column-option>
-            </ng-container>
+
+        <ion-picker-column-option [value]="item"
+            class="bg-transparent text-2xl text-center my-6 px-3 select-none selection:bg-transparent">
+            {{ item }}
+        </ion-picker-column-option>
+
         }
         <div class="text-2xl" slot="suffix">.</div>
     </ion-picker-column>
 
-    <ion-picker-column
-        id="weight-decimal-picker"
-        class="bg-transparent flex select-none selection:bg-transparent"
-        [value]="lastWeightDecimal()"
-        (ionChange)="updateActualWeightDecimal($event.detail.value)"
-    >
+    <ion-picker-column id="weight-decimal-picker" class="bg-transparent flex select-none selection:bg-transparent"
+        [value]="lastWeightDecimal()" (ionChange)="updateActualWeightDecimal(columnValueToNumber($event.detail.value))">
         <div class="text-2xl" slot="suffix">{{ inputWeightUnit() }}</div>
         @for (item of weightOptionsDecimal; track $index) {
-            <ng-container>
-                <ion-picker-column-option
-                    [value]="item"
-                    class="bg-transparent text-2xl text-center my-6 px-3 select-none selection:bg-transparent"
-                >
-                    {{ item }}
-                </ion-picker-column-option>
-            </ng-container>
+
+        <ion-picker-column-option [value]="item"
+            class="bg-transparent text-2xl text-center my-6 px-3 select-none selection:bg-transparent">
+            {{ item }}
+        </ion-picker-column-option>
+
         }
     </ion-picker-column>
 </ion-picker>

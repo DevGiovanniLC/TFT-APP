@@ -1,5 +1,4 @@
 module.exports = {
-    preset: "jest-preset-angular",
     testEnvironment: "allure-jest/jsdom",
     testPathIgnorePatterns: [
         '/node_modules/',

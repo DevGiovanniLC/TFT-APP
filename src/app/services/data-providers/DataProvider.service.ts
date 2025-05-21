@@ -10,8 +10,8 @@ import { Goal } from '@models/types/Goal.type';
 
 @Injectable({ providedIn: 'root' })
 export class DataProviderService {
-    connectionStatus = signal(false);
-    private dataProvider: DataProvider;
+    private readonly connectionStatus = signal(false);
+    private readonly dataProvider: DataProvider;
 
     constructor() {
         this.dataProvider = environment.production

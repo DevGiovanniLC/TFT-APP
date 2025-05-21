@@ -7,13 +7,13 @@ import { map, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UserConfigService {
-    private userSubject = new BehaviorSubject<User | undefined>(undefined);
-    private goalSubject = new BehaviorSubject<Goal | undefined>(undefined);
+    private readonly userSubject = new BehaviorSubject<User | undefined>(undefined);
+    private readonly goalSubject = new BehaviorSubject<Goal | undefined>(undefined);
 
     readonly user$ = this.userSubject.asObservable();
     readonly goal$ = this.goalSubject.asObservable();
 
-    constructor(private dataProvider: DataProviderService) { }
+    constructor(private readonly dataProvider: DataProviderService) { }
 
     getUser(): Observable<User | undefined> {
         return from(this.dataProvider.getUser()).pipe(

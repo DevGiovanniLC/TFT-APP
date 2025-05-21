@@ -7,7 +7,6 @@ const WEIGHTS_KEY = 'weight_data_weights';
 const USER_KEY = 'user_data';
 
 export default class LocalStorageProvider implements DataProvider {
-    constructor() { }
 
     private getItem<T>(key: string): T | undefined {
         const item = localStorage.getItem(key);

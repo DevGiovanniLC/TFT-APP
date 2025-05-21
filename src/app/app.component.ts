@@ -33,7 +33,7 @@ export class AppComponent {
 
             setTimeout(() => {
                 SplashScreen.hide();
-            }, 1000);
+            }, 500);
 
         });
     }

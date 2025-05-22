@@ -2,7 +2,7 @@
     "author": "Giovanni León Corujo",
     "name": "vita-weight",
     "description": "Aplicación de seguimiento de peso",
-    "version": "0.2.0",
+    "version": "0.5.0",
     "homepage": "/tabs/tab1",
     "scripts": {
         "android": "ionic build --prod && npx cap sync && ionic cap copy && ionic cap open android",

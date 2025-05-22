@@ -1,19 +1,19 @@
 <ion-header class="h-20">
-    <ion-toolbar class="flex flex-row h-20" style="--ion-background-color: var(--color-tertiary)">
-        <div class="flex flex-row items-center justify-center mt-6 ml-1">
-            <img src="assets/icon/icon-app.png" alt="icon app" class="w-10 h-10 mr-0.5" />
-            <ion-title class="font-sans font-light text-slate-100 text-2xl mb-1 w-fit">Vita Weight</ion-title>
+    <div class="flex flex-row h-full bg-tertiary justify-between items-center pt-4 px-1">
+        <img src="assets/icon/icon-app.png" alt="icon app" class="w-10 h-10 mr-0.5" />
+        <ion-title class="font-sans font-light text-slate-100 text-2xl mb-1 w-fit">Vita Weight</ion-title>
+        <div class="flex flex-row items-center justify-center ">
             @if (isCurrentTab('tab2')) {
             <app-modal-weight-button class="mt-3"></app-modal-weight-button>
             }@else {
             <app-modal-user-button class="mt-3"></app-modal-user-button>
             }
         </div>
-    </ion-toolbar>
+    </div>
 </ion-header>
 
 <ion-tabs>
-    <ion-tab-bar class="bg-[var(--color-tertiary)]" slot="bottom">
+    <ion-tab-bar class="bg-tertiary" slot="bottom">
         <ion-tab-button class="bg-transparent" tab="tab1" href="/tabs/tab1">
             <ion-icon aria-hidden="true" class="text-lg" src="assets/icons/home.svg"></ion-icon>
             <ion-label class="text-xs">Home</ion-label>

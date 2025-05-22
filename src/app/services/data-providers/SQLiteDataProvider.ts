@@ -165,7 +165,7 @@ export default class SQLiteDataProvider implements DataProvider {
         await Filesystem.writeFile({
             path: fileName,
             data: csv,
-            directory: Directory.Documents,
+            directory: Directory.Cache,
             encoding: Encoding.UTF8,
         });
         await this.shareCSVFile(fileName);
@@ -173,7 +173,7 @@ export default class SQLiteDataProvider implements DataProvider {
 
     private async shareCSVFile(filePath: string): Promise<void> {
         const { uri } = await Filesystem.getUri({
-            directory: Directory.Documents,
+            directory: Directory.Cache,
             path: filePath,
         });
         await Share.share({ url: uri });

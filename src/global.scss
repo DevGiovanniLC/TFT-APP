@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
@@ -74,7 +76,7 @@
     padding: 0;
 }
 
-//Necesario para arreglar bug de picker
+/* Necesario para arreglar bug de picker */
 ion-datetime::part(wheel-item) {
     margin: 24px 0em !important;
 }
@@ -100,6 +102,7 @@ ion-datetime::part(wheel-item) {
         margin-bottom: 1rem;
         font-family: 'Inter', sans-serif;
         text-align: center;
+        text-wrap: pretty;
     }
 
     .alert-button-group {
@@ -128,30 +131,97 @@ ion-datetime::part(wheel-item) {
 
 .alert-danger {
     .alert-wrapper {
-        background: #ff8181;
-        border: 4px solid #a01818;
+        background: #ffb2b2;
         border-radius: 1.5rem;
         padding: 1rem;
+        text-align: center;
+    }
+
+    .alert-title {
+        @apply text-teal-800;
+    }
+
+    .alert-button {
+        width: 80%;
+        color: #f4f4f4;
+
+        .alert-button-inner.sc-ion-alert-md {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .alert-message {
+        @apply text-accent;
+        font-size: 1rem;
         text-align: center;
     }
 }
 
-.alert-warning {
-    .alert-wrapper {
-        background: #fcf68c;
-        border: 4px solid #a18a00;
-        border-radius: 1.5rem;
-        padding: 1rem;
-        text-align: center;
+.alert-info {
+    .alert-title {
+        @apply text-teal-800;
     }
 
+    .alert-wrapper {
+        background: #f4f4f4;
+        border: 4px solid #156111;
+
+        .alert-button {
+            @apply bg-tertiary;
+            border-radius: 0.75rem;
+            width: 80%;
+            font-weight: bold;
+            color: #f4f4f4;
+
+            .alert-button-inner.sc-ion-alert-md {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
         .alert-message {
-        font-size: 1rem;
-        color: #242424;
-        margin-bottom: 1rem;
-        font-family: 'Inter', sans-serif;
-        text-align: center;
+            @apply text-accent;
+            font-size: 1rem;
+            text-align: center;
+        }
     }
+}
+
+.alert-warning {
+    .alert-title {
+        @apply text-teal-800;
+    }
+
+    .alert-wrapper {
+        background: #fcf68c;
+
+        .alert-button {
+            @apply bg-amber-500;
+            border-radius: 0.75rem;
+            width: 80%;
+            font-weight: bold;
+            color: #f4f4f4;
+
+            .alert-button-inner.sc-ion-alert-md {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        .alert-message {
+            text-wrap: pretty;
+            font-size: 1rem;
+            color: #242424;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+    }
+
+
 }
 
 .export-alert {

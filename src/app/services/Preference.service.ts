@@ -1,40 +1,36 @@
 import { Injectable, signal } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 
-type Preference = {
-    BMI_ALERT_40: boolean;
-    BMI_ALERT_35: boolean;
-    BMI_ALERT_18_5: boolean;
-    BMI_ALERT_16: boolean;
-}
+export type Preference = Record<
+    'BMI_ALERT_40' | 'BMI_ALERT_35' | 'BMI_ALERT_18_5' | 'BMI_ALERT_16',
+    boolean
+>;
 
 const DEFAULTS: Preference = {
     BMI_ALERT_40: true,
     BMI_ALERT_35: true,
     BMI_ALERT_18_5: true,
     BMI_ALERT_16: true,
-}
+};
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class PreferenceService {
     private readonly STORAGE_KEY = 'user_preferences';
     private readonly _preferences = signal<Preference>(DEFAULTS);
     readonly preferences = this._preferences.asReadonly();
 
     constructor() {
-        this.loadPreferences()
+        this.init();
     }
 
-    private async loadPreferences() {
-        const { value } = await Preferences.get({ key: this.STORAGE_KEY });
-        if (value) {
-            try {
+    private async init() {
+        try {
+            const { value } = await Preferences.get({ key: this.STORAGE_KEY });
+            if (value) {
                 this._preferences.set({ ...DEFAULTS, ...JSON.parse(value) });
-            } catch (err) {
-                console.error('Failed to parse preferences:', err);
             }
+        } catch (err) {
+            console.error('Failed to load preferences:', err);
         }
     }
 
@@ -50,5 +46,4 @@ export class PreferenceService {
     get<K extends keyof Preference>(key: K): Preference[K] {
         return this._preferences()[key];
     }
-
 }

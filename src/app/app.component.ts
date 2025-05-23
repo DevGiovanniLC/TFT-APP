@@ -4,6 +4,7 @@ import { DataProviderService } from '@services/data-providers/DataProvider.servi
 import { SplashScreen } from '@capacitor/splash-screen';
 import { UserConfigService } from '@services/UserConfig.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
+import { EventAdviceService } from '@services/EventAdvice.service';
 
 @Component({
     selector: 'app-root',
@@ -16,6 +17,7 @@ export class AppComponent {
         private readonly navCtrl: NavController,
         private readonly config: UserConfigService,
         private readonly weightTracker: WeightTrackerService,
+        private readonly eventAdvice: EventAdviceService,
     ) {
         this.initApp();
     }

@@ -3,12 +3,22 @@ import { Weight } from '@models/types/Weight.type';
 import { DataProviderService } from './data-providers/DataProvider.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { WeightAnalysisService } from './WeightAnalysis.service';
+
+enum EventTrigger {
+    NONE,
+    ADD,
+    DELETE,
+    UPDATE,
+}
 
 @Injectable({
     providedIn: 'root',
 })
 export class WeightTrackerService {
+
+    readonly EventTrigger = EventTrigger;
+    eventTriggered = EventTrigger.NONE;
+
     private readonly weightsSubject = new BehaviorSubject<Weight[]>([]);
 
     readonly weights$ = this.weightsSubject.asObservable();
@@ -17,7 +27,6 @@ export class WeightTrackerService {
 
     constructor(
         private readonly dataProvider: DataProviderService,
-        private readonly calculationFunctions: WeightAnalysisService,
     ) { }
 
     private refreshWeights(): void {
@@ -30,16 +39,19 @@ export class WeightTrackerService {
     }
 
     addWeight(weight: Weight): void {
+        this.eventTriggered = EventTrigger.ADD;
         this.dataProvider.addWeight(weight);
         this.refreshWeights();
     }
 
     deleteWeight(id: number): void {
+        this.eventTriggered = EventTrigger.DELETE;
         this.dataProvider.deleteWeight(id);
         this.refreshWeights();
     }
 
     updateWeight(weight: Weight): void {
+        this.eventTriggered = EventTrigger.UPDATE;
         this.dataProvider.updateWeight(weight);
         this.refreshWeights();
     }

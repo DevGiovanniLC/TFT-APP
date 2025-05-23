@@ -40,7 +40,6 @@ export class UserConfigService {
     }
 
     setUser(user: User): void {
-        alert('UserConfigService: setUser');
         this.eventTriggered = EventTrigger.CHANGED;
         this.dataProvider.setUser(user);
         this.getUser().subscribe();

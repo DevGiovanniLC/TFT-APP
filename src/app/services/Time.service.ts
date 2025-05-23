@@ -17,6 +17,15 @@ export class TimeService {
         return environment.testing ? new Date('2025-05-30T17:54:12.535Z') : new Date();
     }
 
+    isSameDay(date1: Date, date2: Date): boolean {
+        if (!date1 || !date2) return false;
+        return (
+            date1.getDate() === date2.getDate() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getFullYear() === date2.getFullYear()
+        );
+    }
+
     weekDifference(start: Date, end: Date): number {
         return this.dateDifference(start, end, TimeService.MS_PER_WEEK);
     }

@@ -55,4 +55,8 @@ export class WeightTrackerService {
         this.dataProvider.updateWeight(weight);
         this.refreshWeights();
     }
+
+    isLastEvent(event: EventTrigger): boolean {
+        return this.eventTriggered === event;
+    }
 }

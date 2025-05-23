@@ -56,7 +56,7 @@ export class EventAdviceService {
 
     private checkBMI(bmi: number | null | undefined): void {
 
-        if (!bmi || this.weightTracker.eventTriggered !== this.weightTracker.EventTrigger.ADD) return;
+        if (!bmi || this.weightTracker.isLastEvent(this.weightTracker.EventTrigger.ADD)) return;
 
         const prefs = {
             KEY_BMI_ALERT_40: this.preference.get('BMI_ALERT_40'),
@@ -107,14 +107,16 @@ export class EventAdviceService {
 
         if (!lastWeight) return;
 
-        const isLastWeekRegister = this.timeService.weekDifference(lastWeight.date, this.timeService.now()) < 1
-        const isTwiceRegistersToday = this.history.lastWeight.length >= 1 && this.timeService.isSameDay(lastWeight.date, this.history.lastWeight[this.history.lastWeight.length - 1].date);
+        const preLastWeight = this.history.lastWeight[this.history.lastWeight.length - 1];
 
-        if (!isLastWeekRegister && this.weightTracker.eventTriggered === this.weightTracker.EventTrigger.NONE) {
+        const isLastWeekRegister = this.timeService.weekDifference(lastWeight.date, this.timeService.now()) < 1
+        const isTwiceRegistersToday = this.history.lastWeight.length >= 1 && this.timeService.isSameDay(lastWeight.date, preLastWeight?.date);
+
+        if (!isLastWeekRegister && this.weightTracker.isLastEvent(this.weightTracker.EventTrigger.NONE)) {
             this.alert("Keep Your Progress Going!🕐",
                 "Try to register your weight every week, it will help you to keep your progress going!"
             );
-        } else if (isTwiceRegistersToday && this.weightTracker.eventTriggered === this.weightTracker.EventTrigger.ADD) {
+        } else if (isTwiceRegistersToday && this.weightTracker.isLastEvent(this.weightTracker.EventTrigger.ADD) && lastWeight.id !== preLastWeight?.id) {
             this.alert("A Friendly Reminder",
                 "You’ve registered your weight multiple times today. For accurate tracking and less stress, try weighing yourself just once daily or a few times per week."
             );
@@ -131,14 +133,14 @@ export class EventAdviceService {
         }
     }
 
-    private async alert(header: string, message: string, alertMode?: AlertMode): Promise<void> {
+    private async alert(header: string, message: string, alertMode: AlertMode = AlertMode.INFO): Promise<void> {
         const alertModal = await this.alertCtrl.create({
             header: header,
             message: message,
             cssClass: `small-alert alert-${alertMode}`,
             buttons: [
                 {
-                    text: 'OK',
+                    text: 'CONFIRM',
                     role: 'cancel',
                 }
             ],
@@ -149,6 +151,7 @@ export class EventAdviceService {
 }
 
 enum AlertMode {
+    INFO = "info",
     WARNING = "warning",
     DANGER = "danger",
 }

@@ -5,8 +5,19 @@ import { BehaviorSubject, Observable, from } from 'rxjs';
 import { Goal } from '@models/types/Goal.type';
 import { map, tap } from 'rxjs/operators';
 
+
+enum EventTrigger {
+    NONE,
+    CHANGED
+}
+
+
 @Injectable({ providedIn: 'root' })
 export class UserConfigService {
+
+    readonly EventTrigger = EventTrigger;
+    eventTriggered = EventTrigger.NONE;
+
     private readonly userSubject = new BehaviorSubject<User | undefined>(undefined);
     private readonly goalSubject = new BehaviorSubject<Goal | undefined>(undefined);
 
@@ -29,6 +40,8 @@ export class UserConfigService {
     }
 
     setUser(user: User): void {
+        alert('UserConfigService: setUser');
+        this.eventTriggered = EventTrigger.CHANGED;
         this.dataProvider.setUser(user);
         this.getUser().subscribe();
         this.getGoal().subscribe();

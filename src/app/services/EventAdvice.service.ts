@@ -7,6 +7,7 @@ import { Weight } from '@models/types/Weight.type';
 import { AlertController } from '@ionic/angular/standalone';
 import { BMIService } from './BMI.service';
 import { TimeService } from './Time.service';
+import { PreferenceService } from './Preference.service';
 
 
 
@@ -19,7 +20,7 @@ export class EventAdviceService {
     private readonly lastWeight = toSignal(this.weightTracker.lastWeight$);
     private readonly bmi = toSignal(this.bmiService.bmi$);
 
-    private readonly monthsPaceLoss = computed(() => {
+    private readonly monthsPaceLossGoal = computed(() => {
         const lastWeight = this.lastWeight();
         const goal = this.goal();
         if (!goal || !lastWeight || !lastWeight.weight || !goal.weight || !goal.date) return NaN;
@@ -27,7 +28,7 @@ export class EventAdviceService {
         return this.weightAnalysis.monthWeightLossPace(lastWeight?.weight, goal.weight, lastWeight?.date, goal.date);
     })
 
-    private readonly weeksPaceLoss = computed(() => {
+    private readonly weeksPaceLossGoal = computed(() => {
         const lastWeight = this.lastWeight();
         const goal = this.goal();
         if (!goal || !lastWeight || !lastWeight.weight || !goal.weight || !goal.date) return NaN;
@@ -46,50 +47,66 @@ export class EventAdviceService {
         private readonly weightAnalysis: WeightAnalysisService,
         private readonly alertCtrl: AlertController,
         private readonly timeService: TimeService,
+        private readonly preference: PreferenceService,
     ) {
-        effect(() => this.checking())
+        effect(() => this.checkBMI(this.bmi()));
+        effect(() => this.checkLastWeight(this.lastWeight()));
+        effect(() => this.checkGoal(this.monthsPaceLossGoal(), this.weeksPaceLossGoal()));
     }
 
-    private checking(): void {
-        const lastWeight = this.lastWeight();
-        const goal = this.goal()
-        const bmi = this.bmi();
+    private checkBMI(bmi: number | null | undefined): void {
 
-        if (lastWeight) {
-            this.checkLastWeight(lastWeight);
-            this.history.lastWeight.push(lastWeight);
+        if (!bmi || this.weightTracker.eventTriggered !== this.weightTracker.EventTrigger.ADD) return;
+
+        const prefs = {
+            KEY_BMI_ALERT_40: this.preference.get('BMI_ALERT_40'),
+            KEY_BMI_ALERT_35: this.preference.get('BMI_ALERT_35'),
+            KEY_BMI_ALERT_18_5: this.preference.get('BMI_ALERT_18_5'),
+            KEY_BMI_ALERT_16: this.preference.get('BMI_ALERT_16'),
         }
 
-        if (bmi && this.weightTracker.eventTriggered === this.weightTracker.EventTrigger.ADD) {
-            this.checkBMI(bmi);
-        }
-    }
-
-    private checkBMI(bmi: number) {
-        if (bmi < 16) {
+        if (bmi < 16 && prefs.KEY_BMI_ALERT_16) {
             this.alert("Very Low BMI!⚠️",
                 "Your BMI is significantly below the healthy range. This could affect your well-being. Please consider talking to a healthcare provider to get the support you deserve.",
                 AlertMode.DANGER
             );
-        } else if (bmi < 18.5) {
+
+            this.preference.set('BMI_ALERT_16', false);
+            this.preference.set('BMI_ALERT_18_5', false);
+
+        } else if (bmi < 18.5 && prefs.KEY_BMI_ALERT_18_5) {
             this.alert("Low BMI!⚠️",
                 "Your current BMI suggests you might be underweight. A health check-up could help ensure you're feeling your best.",
                 AlertMode.WARNING
             );
-        } else if (bmi >= 40) {
+
+            this.preference.set('BMI_ALERT_18_5', false);
+
+        } else if (bmi >= 40 && prefs.KEY_BMI_ALERT_40) {
             this.alert("Very High BMI!⚠️",
                 "Your BMI is currently over 40. This is considered a high-risk range. We recommend consulting a healthcare professional to explore options and support your well-being.",
                 AlertMode.DANGER
             );
-        } else if (bmi >= 35) {
+
+            this.preference.set('BMI_ALERT_40', false);
+            this.preference.set('BMI_ALERT_35', false);
+
+        } else if (bmi >= 35 && prefs.KEY_BMI_ALERT_35) {
+            alert(prefs.KEY_BMI_ALERT_35);
             this.alert("High BMI!⚠️",
                 "Your BMI suggests an elevated health risk. Making gradual, healthy changes and getting guidance can make a big difference.",
                 AlertMode.WARNING
             );
+
+            this.preference.set('BMI_ALERT_35', false);
+
         }
     }
 
-    private checkLastWeight(lastWeight: Weight): void {
+    private checkLastWeight(lastWeight: Weight | undefined): void {
+
+        if (!lastWeight) return;
+
         const isLastWeekRegister = this.timeService.weekDifference(lastWeight.date, this.timeService.now()) < 1
         const isTwiceRegistersToday = this.history.lastWeight.length >= 1 && this.timeService.isSameDay(lastWeight.date, this.history.lastWeight[this.history.lastWeight.length - 1].date);
 
@@ -102,10 +119,16 @@ export class EventAdviceService {
                 "You’ve registered your weight multiple times today. For accurate tracking and less stress, try weighing yourself just once daily or a few times per week."
             );
         }
+
+        this.history.lastWeight.push(lastWeight);
     }
 
-    private checkGoal(): void {
-
+    private checkGoal(monthsPaceLoss: number, weeksPaceLoss: number): void {
+        if ((monthsPaceLoss > 4 || weeksPaceLoss > 1) && this.userConfig.eventTriggered === this.userConfig.EventTrigger.CHANGED) {
+            this.alert("Set a Goal You Can Achieve",
+                "Your current goal may be too ambitious for the time frame you’ve set."
+            );
+        }
     }
 
     private async alert(header: string, message: string, alertMode?: AlertMode): Promise<void> {

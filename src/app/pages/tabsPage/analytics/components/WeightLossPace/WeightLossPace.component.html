@@ -1,46 +1,47 @@
-<section class="flex flex-col space-y-4 mt-28">
-    <ion-card-header class="flex flex-row justify-center items-center ml-7 mb-2">
-        <ion-card-title class="font-semibold text-2xl">
-            Your Weight Loss Trend
-        </ion-card-title>
-        <ion-button fill="clear" class="mb-2" size="small" (click)="openInfoPopover()" (keypress)="openInfoPopover()"
-            style="--border-radius: 50%">
-            <ion-icon slot="icon-only" name="information-circle-outline" src="assets/icons/info.svg"
-                class="w-4 h-4 text-accent"></ion-icon>
-        </ion-button>
-    </ion-card-header>
-
-    <article class="flex-col space-y-6 items-center">
-        <ion-card-subtitle class="text-center text-lg text-accent">Your average weight change over
-            time</ion-card-subtitle>
-        <div class="flex justify-center items-center space-x-4 px-2">
-            <ion-card
-                class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center">
-                <ion-card-subtitle class="text-teal-800 font-sans ">Months</ion-card-subtitle>
-                <ion-card-title class="text-secondary text-2xl font-bold">{{
-                    validateTrendPace(trendPaceMonth(), 50)
-                    }} </ion-card-title>
-            </ion-card>
-
-            <ion-card
-                class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center">
-                <ion-card-subtitle class="text-teal-800 font-sans">Weeks</ion-card-subtitle>
-                <ion-card-title class="text-secondary text-2xl font-bold">
-                    {{
-                    validateTrendPace(trendPaceWeek(), 25)
-                    }}
-                </ion-card-title>
-            </ion-card>
+<section class="flex flex-col space-y-4  mt-28">
+    <header class="flex flex-col justify-center items-center mb-2">
+        <div class="flex flex-row items-center  mb-2">
+            <h1 class="font-semibold text-2xl m-0 ml-7">
+                Your Weight Loss Trend
+            </h1>
+            <ion-button fill="clear" class="pb-3" size="small" (click)="openInfoPopover()" (keypress)="openInfoPopover()"
+                style="--border-radius: 50%">
+                <ion-icon slot="icon-only" name="information-circle-outline" src="assets/icons/info.svg"
+                    class="w-4 h-4 text-accent"></ion-icon>
+            </ion-button>
         </div>
-    </article>
+        <h2 class="text-center text-lg text-accent text-pretty ">
+            Your average weight change over time
+        </h2>
+    </header>
 
-    <article class="flex-col items-center">
+    <div class="flex flex-row flex-wrap items-center justify-center gap-6">
+
+        <ion-card
+            class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center">
+            <ion-card-subtitle class="text-teal-800 font-sans ">Months</ion-card-subtitle>
+            <ion-card-title class="text-secondary text-2xl font-bold">{{
+                validateTrendPace(trendPaceMonth(), 50)
+                }} </ion-card-title>
+        </ion-card>
+
+        <ion-card
+            class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center">
+            <ion-card-subtitle class="text-teal-800 font-sans">Weeks</ion-card-subtitle>
+            <ion-card-title class="text-secondary text-2xl font-bold">
+                {{
+                validateTrendPace(trendPaceWeek(), 25)
+                }}
+            </ion-card-title>
+        </ion-card>
+
         @if (isGoal()) {
-        <div class="flex justify-center items-center space-x-4 px-2">
+
             <ion-card
                 class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center">
                 <ion-card-subtitle class="text-teal-800 font-sans ">Goal per Month</ion-card-subtitle>
-                <ion-card-title class="text-secondary text-2xl font-bold">{{ goalPaceMonth() * -1 }} {{ weightUnits()
+                <ion-card-title class="text-secondary text-2xl font-bold">{{ goalPaceMonth() * -1 }} {{
+                    weightUnits()
                     }}</ion-card-title>
             </ion-card>
 
@@ -50,7 +51,7 @@
                 <ion-card-title class="text-secondary text-2xl font-bold">{{ goalPaceWeek() * -1 }} {{ weightUnits()
                     }}</ion-card-title>
             </ion-card>
-        </div>
+
         }
-    </article>
+    </div>
 </section>

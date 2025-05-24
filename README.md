@@ -2,6 +2,40 @@
   <img src="https://github.com/user-attachments/assets/caacc234-69fe-4ca0-9844-256bdce61f07" height=250 alt="favicon" />
 </p>
 
+<p align="center">
+  <a href="https://angular.io/">
+    <img src="https://img.shields.io/badge/Angular-19-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular 19" />
+  </a>
+  <a href="https://ionicframework.com/">
+    <img src="https://img.shields.io/badge/Ionic-8-3880FF?style=for-the-badge&logo=ionic&logoColor=white" alt="Ionic 8" />
+  </a>
+  <a href="https://capacitorjs.com/">
+    <img src="https://img.shields.io/badge/Capacitor-7-3578E5?style=for-the-badge&logo=capacitor&logoColor=white" alt="Capacitor 7" />
+  </a>
+  <a href="https://www.primefaces.org/primeng/">
+    <img src="https://img.shields.io/badge/PrimeNG-19-0071C5?style=for-the-badge&logo=primeng&logoColor=white" alt="PrimeNG" />
+  </a>
+  <a href="https://www.chartjs.org/">
+    <img src="https://img.shields.io/badge/Chart.js-4-FF6384?style=for-the-badge&logo=chart.js&logoColor=white" alt="Chart.js" />
+  </a>
+  <a href="https://www.npmjs.com/package/rxjs">
+    <img src="https://img.shields.io/badge/RxJS-7-B7178C?style=for-the-badge&logo=reactivex&logoColor=white" alt="RxJS" />
+  </a>
+  <a href="https://tailwindcss.com/">
+    <img src="https://img.shields.io/badge/TailwindCSS-3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS" />
+  </a>
+  <a href="https://jestjs.io/">
+    <img src="https://img.shields.io/badge/Jest-29-C21325?style=for-the-badge&logo=jest&logoColor=white" alt="Jest" />
+  </a>
+  <a href="https://www.cypress.io/">
+    <img src="https://img.shields.io/badge/Cypress-14-17202C?style=for-the-badge&logo=cypress&logoColor=white" alt="Cypress" />
+  </a>
+  <a href="https://docs.qameta.io/allure/">
+    <img src="https://img.shields.io/badge/Allure-3-8C1D40?style=for-the-badge&logo=allure&logoColor=white" alt="Allure Reports" />
+  </a>
+</p>
+
+
 # ⚖️ Vita Weight
 
 Vita Weight es una aplicación de seguimiento y análisis de peso, orientada a todo tipo de usuarios, principiantes y avanzados.
@@ -13,11 +47,19 @@ Con el objetivo de fomentar hábitos de vida saludables y sostenibles.
 </p>
 
 <p align="center">
+<img src="https://github.com/user-attachments/assets/5e936c7c-ebe6-49f0-a965-3edea2d03cfe" height=100/>
+</p>
+
+
+<p align="center">
   <img
     src="https://img.shields.io/badge/Author-Giovanni%20Le%C3%B3n-blue?style=for-the-badge"
     alt="Autor: Giovanni León"
   />
 </p>
+
+
+
 
 <br>
 
@@ -109,43 +151,13 @@ Requisitos para compilar y ejecutar la aplicación:
 - **`npm run allure:open`**  
   Abre el reporte de Allure generado previamente para visualizar los resultados de las pruebas.
 
+- **`npm run sonar`**  
+    Ejecuta el analisis del sonar, necesario configurar primero el servidor de sonar cube.
 
 <br>
 
 ## Tecnologías utilizadas
 
-<p align="center">
-  <a href="https://angular.io/">
-    <img src="https://img.shields.io/badge/Angular-19-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular 19" />
-  </a>
-  <a href="https://ionicframework.com/">
-    <img src="https://img.shields.io/badge/Ionic-8-3880FF?style=for-the-badge&logo=ionic&logoColor=white" alt="Ionic 8" />
-  </a>
-  <a href="https://capacitorjs.com/">
-    <img src="https://img.shields.io/badge/Capacitor-7-3578E5?style=for-the-badge&logo=capacitor&logoColor=white" alt="Capacitor 7" />
-  </a>
-  <a href="https://www.primefaces.org/primeng/">
-    <img src="https://img.shields.io/badge/PrimeNG-19-0071C5?style=for-the-badge&logo=primeng&logoColor=white" alt="PrimeNG" />
-  </a>
-  <a href="https://www.chartjs.org/">
-    <img src="https://img.shields.io/badge/Chart.js-4-FF6384?style=for-the-badge&logo=chart.js&logoColor=white" alt="Chart.js" />
-  </a>
-  <a href="https://www.npmjs.com/package/rxjs">
-    <img src="https://img.shields.io/badge/RxJS-7-B7178C?style=for-the-badge&logo=reactivex&logoColor=white" alt="RxJS" />
-  </a>
-  <a href="https://tailwindcss.com/">
-    <img src="https://img.shields.io/badge/TailwindCSS-3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS" />
-  </a>
-  <a href="https://jestjs.io/">
-    <img src="https://img.shields.io/badge/Jest-29-C21325?style=for-the-badge&logo=jest&logoColor=white" alt="Jest" />
-  </a>
-  <a href="https://www.cypress.io/">
-    <img src="https://img.shields.io/badge/Cypress-14-17202C?style=for-the-badge&logo=cypress&logoColor=white" alt="Cypress" />
-  </a>
-  <a href="https://docs.qameta.io/allure/">
-    <img src="https://img.shields.io/badge/Allure-3-8C1D40?style=for-the-badge&logo=allure&logoColor=white" alt="Allure Reports" />
-  </a>
-</p>
 
 * Angular 19 y Ionic 8 para la interfaz de usuario moderna y responsiva.
 * Capacitor 7 para integración nativa en Android.

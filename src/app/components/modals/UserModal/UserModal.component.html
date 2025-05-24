@@ -16,7 +16,7 @@
                     <p>Date: {{ user()?.goal_date | date: 'dd/MM/yyyy' }}</p>
                 }
             }
-            <ion-button id="goalBtn" class="w-40 my-4"
+            <ion-button id="goalBtn" class="w-40 my-4" style="--border-radius: 18px"
                 color="primary"
                 (click)="openModal()"
                 (keypress)="openModal()"

@@ -23,14 +23,13 @@
     }
 
     @if (isEmpty()) {
-        <div
-            class="flex justify-center items-center flex-col space-y-1 text-center font-sans text-xl font-bold text-gray-700 p-4 pb-8 bg-emerald-100 rounded-lg shadow-sm opacity-0 animate-lazy-fade-in"
-        >
-            <h1>No weight registered</h1>
-            <h2>in this {{ chartMode() }} period</h2>
+        <div class="flex w-full justify-center items-center flex-col mt-4 rounded-xl bg-slate-100 border-secondary shadow-md p-2 py-4">
+            <p class="w-full text-pretty  text-center font-sans font-bold text-accent">
+                No weight registered <br> in {{ chartMode() }} period
+            </p>
         </div>
     } @else {
-        <div class="w-full pt-2 shadow-xl rounded-lg border-teal-600 border-2 flex items-center justify-center align-middle">
+        <div class="w-full pt-2 shadow-xl rounded-lg border-tertiary border-2 flex items-center justify-center align-middle">
             <p-chart id="lineChart" class="w-full h-full ml-1 mt-1" type="line" [data]="data" [options]="options" />
         </div>
     }

@@ -23,15 +23,11 @@ export class PreferenceService {
         this.init();
     }
 
-    private async init() {
-        try {
-            const { value } = await Preferences.get({ key: this.STORAGE_KEY });
-            if (value) {
-                this._preferences.set({ ...DEFAULTS, ...JSON.parse(value) });
-            }
-        } catch (err) {
-            console.error('Failed to load preferences:', err);
-        }
+    private init() {
+        Preferences.get({ key: this.STORAGE_KEY }).then(({ value }) => {
+            if (!value) return;
+            this._preferences.set({ ...DEFAULTS, ...JSON.parse(value) });
+        });
     }
 
     async set<K extends keyof Preference>(key: K, value: Preference[K]) {

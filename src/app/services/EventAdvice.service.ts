@@ -109,7 +109,7 @@ export class EventAdviceService {
             );
         } else if (isDuplicateToday && this.weightTracker.isLastEvent(this.weightTracker.EventTrigger.ADD)) {
             this.alert(
-                "A Friendly Reminder",
+                "A Friendly Reminder😊",
                 "You’ve registered your weight multiple times today. For accurate tracking and less stress, try weighing yourself just once daily or a few times per week."
             );
         }
@@ -120,9 +120,11 @@ export class EventAdviceService {
     private checkGoal(monthsPaceLoss: number, weeksPaceLoss: number): void {
         if ((monthsPaceLoss > 4 || weeksPaceLoss > 1) && this.userConfig.eventTriggered === this.userConfig.EventTrigger.CHANGED) {
             this.alert(
-                "Set a Goal You Can Achieve",
+                "Set a Goal You Can Achieve 🎯",
                 "Your current goal may be too ambitious for the time frame you’ve set."
             );
+
+            this.userConfig.eventTriggered = this.userConfig.EventTrigger.NONE;
         }
     }
 

@@ -1,6 +1,7 @@
 import { Signal } from '@angular/core';
 import { Goal } from '@models/types/Goal.type';
 import { Weight } from '@models/types/Weight.type';
+import { TimeService } from '@services/Time.service';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { LineAnnotationOptions } from 'chartjs-plugin-annotation';
@@ -106,16 +107,16 @@ export default class HomeWeightLineChart {
         const marginY = ((goalWeight ? Math.max(maxWeight, goalWeight) - Math.min(minWeight, goalWeight) : maxWeight - minWeight) * 0.2) || 1;
 
         const dates = weights.map(w => new Date(w.date).getTime());
-        const minDate = Math.min(...dates) - 24 * 60 * 60 * 1000;
+        const minDate = Math.min(...dates) - TimeService.MS_PER_DAY;
         const maxDate = Math.max(...dates);
 
         let goalDateMaxRange: number = maxDate;
         if (chartMode === 'viewGoal' && goalWeight > 0 && goalDate) {
-            goalDateMaxRange = Math.max(maxDate, goalDate.getTime()) + 15 * 24 * 60 * 60 * 1000;
+            goalDateMaxRange = Math.max(maxDate, goalDate.getTime()) + 15 * TimeService.MS_PER_DAY;
         } else if (chartMode === 'total') {
-            goalDateMaxRange = maxDate + 15 * 24 * 60 * 60 * 1000;
+            goalDateMaxRange = maxDate + 15 * TimeService.MS_PER_DAY;
         } else if (chartMode === 'week' || chartMode === 'month') {
-            goalDateMaxRange = maxDate + 1 * 24 * 60 * 60 * 1000;
+            goalDateMaxRange = maxDate + 1 * TimeService.MS_PER_DAY;
         }
 
         return {

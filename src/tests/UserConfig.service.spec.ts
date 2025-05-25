@@ -1,7 +1,6 @@
 /// <reference types="jest" />
 import { expect } from '@jest/globals';
 import { firstValueFrom } from 'rxjs';
-import { skip } from 'rxjs/operators';
 
 import { UserConfigService } from '@services/UserConfig.service';
 import { DataProviderService } from '@services/data-providers/DataProvider.service';

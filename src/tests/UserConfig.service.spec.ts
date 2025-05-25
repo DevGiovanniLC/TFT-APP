@@ -8,7 +8,7 @@ import { User, Gender } from '@models/types/User.type';
 import { Goal } from '@models/types/Goal.type';
 import { WeightUnits } from '@models/types/Weight.type';
 
-describe('UserConfigService (Unit Tests with Jest)', () => {
+describe('UserConfigService (Expanded Unit Tests with Jest)', () => {
     let service: UserConfigService;
     let dpMock: jest.Mocked<DataProviderService>;
 
@@ -41,6 +41,13 @@ describe('UserConfigService (Unit Tests with Jest)', () => {
             setUser: jest.fn()
         } as unknown as jest.Mocked<DataProviderService>;
         service = new UserConfigService(dpMock);
+    });
+
+    it('should initialize BehaviorSubjects with undefined', async () => {
+        const initialUser = await firstValueFrom(service.user$);
+        const initialGoal = await firstValueFrom(service.goal$);
+        expect(initialUser).toBeUndefined();
+        expect(initialGoal).toBeUndefined();
     });
 
     it('should emit user when exists', async () => {
@@ -79,12 +86,52 @@ describe('UserConfigService (Unit Tests with Jest)', () => {
 
         service.setUser(mockUser);
         expect(dpMock.setUser).toHaveBeenCalledWith(mockUser);
-
-        // Espera al siguiente ciclo de eventos para que los Observables emitan
         await new Promise(process.nextTick);
 
-        // Verifica directamente los BehaviorSubjects
         expect((service as any).userSubject.getValue()).toEqual(mockUser);
         expect((service as any).goalSubject.getValue()).toEqual(mockGoal);
+    });
+
+    // 🔥 Nuevos tests 🔥
+
+    it('should set eventTriggered to CHANGED on setUser', () => {
+        service.setUser(mockUser);
+        expect(service.eventTriggered).toBe(service.EventTrigger.CHANGED);
+    });
+
+    it('should keep eventTriggered as NONE initially', () => {
+        expect(service.eventTriggered).toBe(service.EventTrigger.NONE);
+    });
+
+    it('should handle errors from getUser gracefully', async () => {
+        dpMock.getUser.mockRejectedValue(new Error('Failed'));
+        await expect(firstValueFrom(service.getUser())).rejects.toThrow('Failed');
+    });
+
+    it('should handle errors from getGoal gracefully', async () => {
+        dpMock.getGoal.mockRejectedValue(new Error('Failed'));
+        await expect(firstValueFrom(service.getGoal())).rejects.toThrow('Failed');
+    });
+
+    it('should update user$ and goal$ after multiple setUser calls', async () => {
+        const newUser = { ...mockUser, name: 'Updated' };
+        const newGoal = { ...mockGoal, weight: 70 };
+
+        dpMock.getUser.mockResolvedValueOnce(newUser);
+        dpMock.getGoal.mockResolvedValueOnce(newGoal as any);
+
+        service.setUser(newUser);
+        await new Promise(process.nextTick);
+
+        const user = (service as any).userSubject.getValue();
+        const goal = (service as any).goalSubject.getValue();
+        expect(user).toEqual(newUser);
+        expect(goal).toEqual(newGoal);
+    });
+
+    it('should emit goal with undefined date if date is missing', async () => {
+        dpMock.getGoal.mockResolvedValueOnce({ weight: 60, weight_units: WeightUnits.KG, date: undefined } as any);
+        const goal = await firstValueFrom(service.getGoal());
+        expect(goal).toEqual({ weight: 60, weight_units: WeightUnits.KG, date: undefined });
     });
 });

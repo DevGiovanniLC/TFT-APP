@@ -9,11 +9,10 @@ import { Weight, WeightUnits } from '@models/types/Weight.type';
 import { Gender, User } from '@models/types/User.type';
 import { Goal } from '@models/types/Goal.type';
 
-// Mock de los DataProvider
 jest.mock('@services/data-providers/SQLiteDataProvider');
 jest.mock('@services/data-providers/LocalStorageProvider');
 
-describe('DataProviderService', () => {
+describe('DataProviderService (Expanded)', () => {
     let service: DataProviderService;
     let mockProvider: jest.Mocked<any>;
 
@@ -23,22 +22,18 @@ describe('DataProviderService', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-
-        // Forzar entorno de desarrollo (local storage)
         (environment as any).production = false;
-        (LocalStorageProvider as any).mockImplementation(() => {
-            return {
-                initializeConnection: jest.fn().mockResolvedValue(true),
-                getWeights: jest.fn().mockResolvedValue([mockWeight]),
-                getGoal: jest.fn().mockResolvedValue(mockGoal),
-                getUser: jest.fn().mockResolvedValue(mockUser),
-                setUser: jest.fn().mockResolvedValue(true),
-                addWeight: jest.fn().mockResolvedValue(true),
-                deleteWeight: jest.fn().mockResolvedValue(true),
-                updateWeight: jest.fn().mockResolvedValue(true),
-                exportDataCSV: jest.fn().mockResolvedValue(undefined),
-            };
-        });
+        (LocalStorageProvider as any).mockImplementation(() => ({
+            initializeConnection: jest.fn().mockResolvedValue(true),
+            getWeights: jest.fn().mockResolvedValue([mockWeight]),
+            getGoal: jest.fn().mockResolvedValue(mockGoal),
+            getUser: jest.fn().mockResolvedValue(mockUser),
+            setUser: jest.fn().mockResolvedValue(true),
+            addWeight: jest.fn().mockResolvedValue(true),
+            deleteWeight: jest.fn().mockResolvedValue(true),
+            updateWeight: jest.fn().mockResolvedValue(true),
+            exportDataCSV: jest.fn().mockResolvedValue(undefined),
+        }));
 
         service = new DataProviderService();
         mockProvider = (service as any).dataProvider;
@@ -106,5 +101,49 @@ describe('DataProviderService', () => {
         (environment as any).production = true;
         new DataProviderService();
         expect(SQLiteDataProvider).toHaveBeenCalled();
+    });
+
+    // 🔥 Nuevos tests agregados
+
+    it('should initialize connection and return false if initialization fails', async () => {
+        mockProvider.initializeConnection.mockResolvedValueOnce(false);
+        const result = await service.initialize();
+        expect(result).toBe(false);
+        expect(service['connectionStatus']()).toBe(false);
+    });
+
+    it('should handle getGoal returning undefined', async () => {
+        mockProvider.getGoal.mockResolvedValueOnce(undefined);
+        const goal = await service.getGoal();
+        expect(goal).toBeUndefined();
+    });
+
+    it('should handle getUser returning undefined', async () => {
+        mockProvider.getUser.mockResolvedValueOnce(undefined);
+        const user = await service.getUser();
+        expect(user).toBeUndefined();
+    });
+
+    it('should handle addWeight returning false', async () => {
+        mockProvider.addWeight.mockResolvedValueOnce(false);
+        const result = await service.addWeight(mockWeight);
+        expect(result).toBe(false);
+    });
+
+    it('should handle deleteWeight returning false', async () => {
+        mockProvider.deleteWeight.mockResolvedValueOnce(false);
+        const result = await service.deleteWeight(mockWeight.id!);
+        expect(result).toBe(false);
+    });
+
+    it('should handle updateWeight returning false', async () => {
+        mockProvider.updateWeight.mockResolvedValueOnce(false);
+        const result = await service.updateWeight(mockWeight);
+        expect(result).toBe(false);
+    });
+
+    it('should handle exportDataCSV with empty string', async () => {
+        await service.exportDataCSV('');
+        expect(mockProvider.exportDataCSV).toHaveBeenCalledWith('');
     });
 });

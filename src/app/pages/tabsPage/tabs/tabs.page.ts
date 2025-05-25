@@ -7,7 +7,6 @@ import {
     IonIcon,
     IonLabel,
     IonHeader,
-    IonToolbar,
     IonTitle,
 } from '@ionic/angular/standalone';
 import { ModalWeightButtonComponent } from './components/ModalWeightButton/ModalWeightButton.component';
@@ -17,17 +16,16 @@ import { ModalUserButtonComponent } from './components/ModalUserButton/ModalUser
     selector: 'app-tabs',
     templateUrl: 'tabs.page.html',
     imports: [
-        IonTabs,
-        IonTabBar,
-        IonTabButton,
-        IonIcon,
-        IonLabel,
-        IonHeader,
-        IonToolbar,
-        IonTitle,
-        ModalWeightButtonComponent,
-        ModalUserButtonComponent,
-    ],
+    IonTabs,
+    IonTabBar,
+    IonTabButton,
+    IonIcon,
+    IonLabel,
+    IonHeader,
+    IonTitle,
+    ModalWeightButtonComponent,
+    ModalUserButtonComponent
+],
 })
 export class TabsPage {
     public environmentInjector = inject(EnvironmentInjector);

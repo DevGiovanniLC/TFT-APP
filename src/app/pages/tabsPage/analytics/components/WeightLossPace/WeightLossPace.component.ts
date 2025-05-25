@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, effect, input, signal } from '@angular/core';
-import { IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonIcon, IonButton, PopoverController } from '@ionic/angular/standalone';
+import { IonCard, IonCardTitle, IonCardSubtitle, IonIcon, IonButton, PopoverController } from '@ionic/angular/standalone';
 import { Goal } from '@models/types/Goal.type';
 import { Weight, WeightUnits } from '@models/types/Weight.type';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
@@ -7,7 +7,7 @@ import { WeightLossPaceInfoPopoverComponent } from '../WeightLossPaceInfoPopover
 
 @Component({
     selector: 'app-weight-loss-pace',
-    imports: [IonButton, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle],
+    imports: [IonButton, IonIcon, IonCard, IonCardTitle, IonCardSubtitle],
     templateUrl: './WeightLossPace.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

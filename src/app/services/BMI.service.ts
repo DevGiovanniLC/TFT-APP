@@ -1,14 +1,40 @@
 import { Injectable } from '@angular/core';
 import { UserConfigService } from './UserConfig.service';
 import { WeightTrackerService } from './WeightTracker.service';
-import { combineLatest, map } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({ providedIn: 'root' })
+/**
+ * Servicio para el cálculo y gestión del Índice de Masa Corporal (BMI).
+ * @export
+ * @class BMIService
+ */
 export class BMIService {
+    /**
+     * Señal que mantiene el usuario actual (puede ser `null` si aún no se ha cargado).
+     * @private
+     * @readonly
+     */
     private readonly user = toSignal(this.userConfig.user$, { initialValue: null });
 
-    readonly bmi$ = combineLatest([
+    /**
+     * Observable que emite el BMI calculado a partir de la altura del usuario
+     * y su último peso registrado. Emite `null` si faltan datos.
+     * @readonly
+     * @type {Observable<number | null>}
+     * @example
+     * ```ts
+     * this.bmiService.bmi$.subscribe(bmi => {
+     *   if (bmi !== null) {
+     *     console.log(`Tu BMI es ${bmi}`);
+     *   } else {
+     *     console.warn('Datos insuficientes para calcular BMI');
+     *   }
+     * });
+     * ```
+     */
+    readonly bmi$: Observable<number | null> = combineLatest([
         this.userConfig.user$,
         this.weightTracker.lastWeight$
     ]).pipe(
@@ -21,12 +47,35 @@ export class BMIService {
         })
     );
 
+    /**
+     * Crea una instancia de BMIService.
+     * @param {UserConfigService} userConfig - Servicio para obtener la configuración del usuario.
+     * @param {WeightTrackerService} weightTracker - Servicio para obtener el último peso registrado.
+     */
     constructor(
         private readonly userConfig: UserConfigService,
         private readonly weightTracker: WeightTrackerService
     ) { }
 
-    getBMILimitsForHeight() {
+    /**
+     * Genera los límites de BMI para la altura actual del usuario,
+     * devolviendo un array de categorías con su BMI máximo, peso
+     * correspondiente y color de alerta.
+     * @returns {Array<{ label: string; bmi: number; weight: number; alert: string }>}
+     *   Array de objetos con:
+     *   - `label`: nombre de la categoría
+     *   - `bmi`: valor máximo de BMI
+     *   - `weight`: peso en kg para ese BMI con la altura del usuario
+     *   - `alert`: color asociado a la categoría
+     * @example
+     * ```ts
+     * const limits = this.bmiService.getBMILimitsForHeight();
+     * limits.forEach(l => {
+     *   console.log(`${l.label}: BMI hasta ${l.bmi}, peso hasta ${l.weight} kg`);
+     * });
+     * ```
+     */
+    getBMILimitsForHeight(): Array<{ label: string; bmi: number; weight: number; alert: string; }> {
         const height = this.user()?.height;
         if (!height || height <= 0) return [];
 

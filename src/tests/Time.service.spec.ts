@@ -3,7 +3,7 @@ import { expect } from '@jest/globals';
 import { TimeService } from '../app/services/Time.service';
 import { environment } from '@envs/environment';
 
-describe('TimeService (Expanded Unit Tests with Jest)', () => {
+describe('TimeService (Unit Tests with Jest)', () => {
     let service: TimeService;
 
     beforeEach(() => {
@@ -11,14 +11,12 @@ describe('TimeService (Expanded Unit Tests with Jest)', () => {
     });
 
     it('should return the fixed date when environment.testing is true', () => {
-        // @ts-ignore
         environment.testing = true;
         const result = service.now();
         expect(result.toISOString()).toBe('2025-05-30T17:54:12.535Z');
     });
 
     it('should return the current date when environment.testing is false', () => {
-        // @ts-ignore
         environment.testing = false;
         const result = service.now();
         const now = new Date();
@@ -27,7 +25,6 @@ describe('TimeService (Expanded Unit Tests with Jest)', () => {
 
     it('should always return a valid Date instance', () => {
         for (const flag of [true, false]) {
-            // @ts-ignore
             environment.testing = flag;
             const result = service.now();
             expect(result instanceof Date).toBe(true);
@@ -36,7 +33,6 @@ describe('TimeService (Expanded Unit Tests with Jest)', () => {
     });
 
     it('should be consistent during testing: multiple calls return same date', () => {
-        // @ts-ignore
         environment.testing = true;
         const first = service.now();
         const second = service.now();
@@ -44,7 +40,6 @@ describe('TimeService (Expanded Unit Tests with Jest)', () => {
     });
 
     it('should return increasing times during real mode', () => {
-        // @ts-ignore
         environment.testing = false;
         const first = service.now();
         const delay = 10;

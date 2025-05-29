@@ -45,6 +45,9 @@ export class RegisterPage {
                     {
                         text: 'OK',
                         role: 'cancel',
+                        handler: () => {
+                            cancelCallback();
+                        },
                     },
                 ],
             });

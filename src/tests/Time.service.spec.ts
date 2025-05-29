@@ -11,13 +11,13 @@ describe('TimeService (Unit Tests with Jest)', () => {
     });
 
     it('should return the fixed date when environment.testing is true', () => {
-        environment.testing = true;
+        environment.test = true;
         const result = service.now();
         expect(result.toISOString()).toBe('2025-05-30T17:54:12.535Z');
     });
 
     it('should return the current date when environment.testing is false', () => {
-        environment.testing = false;
+        environment.test = false;
         const result = service.now();
         const now = new Date();
         expect(Math.abs(result.getTime() - now.getTime()) < 1000).toBe(true);
@@ -25,7 +25,7 @@ describe('TimeService (Unit Tests with Jest)', () => {
 
     it('should always return a valid Date instance', () => {
         for (const flag of [true, false]) {
-            environment.testing = flag;
+            environment.test = flag;
             const result = service.now();
             expect(result instanceof Date).toBe(true);
             expect(result.toString()).not.toBe('Invalid Date');
@@ -33,14 +33,14 @@ describe('TimeService (Unit Tests with Jest)', () => {
     });
 
     it('should be consistent during testing: multiple calls return same date', () => {
-        environment.testing = true;
+        environment.test = true;
         const first = service.now();
         const second = service.now();
         expect(first.getTime()).toBe(second.getTime());
     });
 
     it('should return increasing times during real mode', () => {
-        environment.testing = false;
+        environment.test = false;
         const first = service.now();
         const delay = 10;
         return new Promise<Date>((resolve) => setTimeout(() => resolve(service.now()), delay))
@@ -66,10 +66,13 @@ describe('TimeService (Unit Tests with Jest)', () => {
     });
 
     it('isSameDay should identify same and different days', () => {
-        const date1 = new Date('2024-05-30T10:00:00');
-        const date2 = new Date('2024-05-30T23:59:59');
-        const date3 = new Date('2024-05-31T00:00:00');
-        const date4 = new Date('2023-05-30T10:00:00');
+        environment.test = true;
+        const date1 = new Date('2025-05-30T10:00:00');
+        const date2 = new Date('2025-05-30T23:59:59');
+        const date3 = new Date('2025-05-31T00:00:00');
+        const date4 = new Date('2024-05-30T10:00:00');
+        console.log(date1.toLocaleDateString());
+        console.log(date4.toLocaleDateString());
 
         expect(service.isSameDay(date1, date2)).toBe(true);
         expect(service.isSameDay(date1, date3)).toBe(false);

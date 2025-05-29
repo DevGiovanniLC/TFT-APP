@@ -55,7 +55,7 @@ export class TimeService {
      * @returns {Date} Instancia de Date representando el "ahora" real o simulado.
      */
     now(): Date {
-        return environment.testing
+        return environment.test
             ? new Date('2025-05-30T17:54:12.535Z')
             : new Date();
     }
@@ -66,7 +66,11 @@ export class TimeService {
      * @returns {boolean} `true` si es la msima fechas; `false` en caso contrario.
      */
     isSameDay(...dates: Date[]): boolean {
-        return dates.every(date => date.getDate() === this.now().getDate());
+        return dates.every(date =>
+            date?.getDay() === this.now().getDay() &&
+            date?.getMonth() === this.now().getMonth() &&
+            date?.getFullYear() === this.now().getFullYear()
+        );
     }
 
     /**

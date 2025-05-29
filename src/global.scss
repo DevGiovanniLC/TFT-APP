@@ -86,7 +86,7 @@ ion-datetime::part(wheel-item) {
     }
 
     .alert-wrapper {
-        @apply border-tertiary border-2 rounded-xl;
+        @apply border-secondary border-4 rounded-xl;
         --width: 500px;
 
         background: var(--color-tertiary);
@@ -108,6 +108,7 @@ ion-datetime::part(wheel-item) {
         display: flex;
         flex-direction: row;
         align-items: center;
+        padding-bottom: 1.5em;
     }
 
 
@@ -137,7 +138,7 @@ ion-datetime::part(wheel-item) {
         background: #f4f4f4;
 
         .alert-button {
-            @apply bg-tertiary;
+            @apply bg-tertiary border-tertiary border-2;
             border-radius: 0.75rem;
             width: 80%;
             font-weight: bold;
@@ -163,7 +164,7 @@ ion-datetime::part(wheel-item) {
     }
 
     .alert-wrapper {
-        @apply border-yellow-500 border-2 rounded-xl;
+        @apply border-yellow-500 border-4 rounded-xl;
         background: #fcf68c;
 
         .alert-button {
@@ -193,7 +194,7 @@ ion-datetime::part(wheel-item) {
 
 .alert-danger {
     .alert-wrapper {
-        @apply border-red-400 border-2 rounded-xl;
+        @apply border-red-900 border-4 rounded-xl;
         background: #ffb2b2;
         text-align: center;
     }

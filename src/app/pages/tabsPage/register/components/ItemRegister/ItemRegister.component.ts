@@ -40,9 +40,11 @@ export class ItemRegisterComponent implements AfterViewInit, OnDestroy {
 
     //Outputs
     entryClick = output<Weight>();
-    deleteWeight = output<number>();
+    deleteWeight = output<{ deleteCallback: () => void, id: number, cancelCallback: () => void }>();
 
     color = signal('');
+
+    isDestroyed = signal(false);
 
     constructor(
         private readonly gestureCtrl: GestureController,
@@ -91,8 +93,19 @@ export class ItemRegisterComponent implements AfterViewInit, OnDestroy {
 
     private deleteRegister(card: HTMLElement): void {
         this.renderer.setStyle(card, 'transition', 'transform 0.2s ease-out');
-        this.renderer.setStyle(card, 'transform', 'translateX(0)');
-        this.deleteWeight.emit(this.weight().id ?? NaN);
+        this.renderer.setStyle(card, 'transform', 'translateX(-22%)');
+        this.deleteWeight.emit({
+            id: this.weight().id ?? NaN,
+            cancelCallback: () => {
+                this.renderer.setStyle(card, 'transform', 'translateX(0)');
+            },
+            deleteCallback: () => {
+                this.isDestroyed.set(true)
+                this.renderer.setStyle(card, 'transition', 'transform 0.5s ease-out');
+                this.renderer.setStyle(card, 'transform', 'translateX(100%)');
+            }
+        });
+
     }
 
     cardClick(): void {
@@ -100,6 +113,7 @@ export class ItemRegisterComponent implements AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+
         this.swipeGesture.destroy();
     }
 

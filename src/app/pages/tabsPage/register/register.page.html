@@ -7,7 +7,7 @@
                 [id]="weight.id ?? 0"
                 [weight]="weight"
                 [progress]="weight.progress"
-                (deleteWeight)="confirmDelete($event)"
+                (deleteWeight)="confirmDelete($event.id, $event.deleteCallback, $event.cancelCallback)"
                 (entryClick)="openWeightModal($event)"
             />
             }

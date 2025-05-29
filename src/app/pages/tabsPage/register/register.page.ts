@@ -5,6 +5,7 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { WeightRegisterComponent } from '../../../components/modals/WeightRegisterModal/WeightRegisterModal.component';
 import { Weight } from '@models/types/Weight.type';
+import { set } from 'cypress/types/lodash';
 
 @Component({
     selector: 'app-tab2',
@@ -27,9 +28,9 @@ export class RegisterPage {
         private readonly weightTracker: WeightTrackerService,
         private readonly modalCtrl: ModalController,
         private readonly alertCtrl: AlertController
-    ) {}
+    ) { }
 
-    async confirmDelete(id: number) {
+    async confirmDelete(id: number, deleteCallback: () => void, cancelCallback: () => void) {
         if (this.isPressingButton()) return;
         this.isPressingButton.set(true);
 
@@ -56,12 +57,16 @@ export class RegisterPage {
                     {
                         text: 'Cancel',
                         role: 'cancel',
+                        handler: () => {
+                            cancelCallback();
+                        },
                     },
                     {
                         text: 'Delete',
                         role: 'confirm',
                         handler: () => {
-                            this.deleteWeight(id);
+                            deleteCallback();
+                            setTimeout(() => this.deleteWeight(id), 450);
                         },
                     },
                 ],

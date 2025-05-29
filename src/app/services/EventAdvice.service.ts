@@ -130,6 +130,7 @@ export class EventAdviceService {
                 ['BMI_ALERT_35']
             );
         }
+        this.weightTracker.EventTrigger.ADD
     }
 
     /**
@@ -175,6 +176,7 @@ export class EventAdviceService {
         }
 
         this.history.push(lastWeight);
+        this.weightTracker.EventTrigger.NONE
     }
 
     /**
@@ -188,11 +190,11 @@ export class EventAdviceService {
 
             this.alert(
                 "Set a Goal You Can Achieve 🎯",
-                "Your current goal may be too ambitious for the timeframe."
+                "Your current goal may be too ambitious for the timeframe. The maximum goal recommended is 4 kg per month and 1 kg per week. You can change it anytime."
             );
-
-            this.userConfig.eventTriggered = this.userConfig.EventTrigger.NONE;
         }
+
+        this.userConfig.eventTriggered = this.userConfig.EventTrigger.NONE;
     }
 
     /**

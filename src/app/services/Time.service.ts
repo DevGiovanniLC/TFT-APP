@@ -62,9 +62,8 @@ export class TimeService {
 
     /**
      * Comprueba si los dos ultimos registros son de la fecha actual.
-     * @param {Date} date1 - Primera fecha a comparar.
-     * @param {Date} date2 - Segunda fecha a comparar.
-     * @returns {boolean} `true` si día, mes y año coinciden; `false` en caso contrario.
+     * @param {Date[]} dates - Fechas a comprobar.
+     * @returns {boolean} `true` si es la msima fechas; `false` en caso contrario.
      */
     isSameDay(...dates: Date[]): boolean {
         return dates.every(date => date.getDate() === this.now().getDate());

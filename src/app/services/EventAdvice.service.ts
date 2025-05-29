@@ -170,7 +170,7 @@ export class EventAdviceService {
         } else if (isDuplicateToday && this.weightTracker.isLastEvent(this.weightTracker.EventTrigger.ADD)) {
             this.alert(
                 "A Friendly Reminder😊",
-                "You've registered weight multiple times today—once daily is sufficient."
+                "You've registered weight multiple times today. once daily is sufficient."
             );
         }
 

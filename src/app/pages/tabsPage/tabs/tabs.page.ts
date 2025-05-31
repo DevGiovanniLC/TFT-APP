@@ -11,6 +11,7 @@ import {
 } from '@ionic/angular/standalone';
 import { ModalWeightButtonComponent } from './components/ModalWeightButton/ModalWeightButton.component';
 import { ModalUserButtonComponent } from './components/ModalUserButton/ModalUserButton.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-tabs',
@@ -24,13 +25,16 @@ import { ModalUserButtonComponent } from './components/ModalUserButton/ModalUser
     IonHeader,
     IonTitle,
     ModalWeightButtonComponent,
-    ModalUserButtonComponent
+    ModalUserButtonComponent,
+    TranslateModule
 ],
 })
 export class TabsPage {
     public environmentInjector = inject(EnvironmentInjector);
 
-    constructor(public router: Router) {}
+    constructor(
+        public readonly router: Router
+    ) {}
 
     isCurrentTab(tab: string): boolean {
         return this.router.url.includes(tab);

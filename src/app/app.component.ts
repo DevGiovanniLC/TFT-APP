@@ -7,6 +7,8 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 import { EventAdviceService } from '@services/EventAdvice.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceInfoService } from '@services/DeviceInfo.service';
+import { setTranslate } from '@services/translate-holder';
+
 
 
 @Component({
@@ -20,9 +22,10 @@ export class AppComponent {
         private readonly navCtrl: NavController,
         private readonly config: UserConfigService,
         private readonly weightTracker: WeightTrackerService,
-        private readonly deviceInfo: DeviceInfoService,
         private readonly translate: TranslateService,
-        private readonly eventAdvice: EventAdviceService, // No quitar necesario para inicializar constructor
+        // No quitar necesario para inicializar constructor
+        private readonly deviceInfo: DeviceInfoService,
+        private readonly eventAdvice: EventAdviceService,
     ) {
         this.initApp();
     }
@@ -37,7 +40,7 @@ export class AppComponent {
     }
 
     private initTranslate() {
-        this.translate.setDefaultLang(this.deviceInfo.getLanguage());
+        setTranslate(this.translate);
     }
 
     private initData() {

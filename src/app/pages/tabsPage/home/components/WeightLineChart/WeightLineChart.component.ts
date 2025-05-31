@@ -11,12 +11,13 @@ import { Goal } from '@models/types/Goal.type';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartZoomButtonComponent } from '../ChartZoomButton/ChartZoomButton.component';
 import zoomPlugin from 'chartjs-plugin-zoom';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
 @Component({
     selector: 'app-weight-graphic',
-    imports: [ChartModule, IonSelect, IonSelectOption, ChartZoomButtonComponent],
+    imports: [ChartModule, IonSelect, IonSelectOption, ChartZoomButtonComponent, TranslateModule],
     styleUrl: './WeightLineChart.component.css',
     templateUrl: './WeightLineChart.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,

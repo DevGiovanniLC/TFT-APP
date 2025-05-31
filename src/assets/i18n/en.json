@@ -6,7 +6,8 @@
         "DATE_TIME": "Date and Time",
         "WEIGHT_UNITS": "Weight Units",
         "GOAL": "Goal",
-        "BMI": "BMI"
+        "BMI": "BMI",
+        "TREND": "Trend"
     },
     "TABS": {
         "HOME": "Home",
@@ -18,6 +19,7 @@
         "PROGRESSION": "Progression",
         "STARTING_WEIGHT": "Starting Weight",
         "GOAL_WIEGHT": "Goal Weight",
+        "NO_GOAL_SELECTED": "No goal selected",
         "REGISTER_WEIGHT": "Register Weight",
         "CHART": {
             "TOTAL": "Total",

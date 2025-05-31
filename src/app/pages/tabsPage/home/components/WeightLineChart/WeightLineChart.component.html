@@ -11,12 +11,12 @@
 
             (ionChange)="setChartMode($event.target.value)"
             >
-            <ion-select-option value="total">Total</ion-select-option>
+            <ion-select-option value="total">{{ 'TAB1.CHART.TOTAL' | translate }}</ion-select-option>
             @if (validateGoalDate()) {
-                <ion-select-option value="viewGoal">View Goal</ion-select-option>
+                <ion-select-option value="viewGoal">{{ 'TAB1.CHART.VIEW_GOAL' | translate }}</ion-select-option>
             }
-            <ion-select-option value="week">Last Week</ion-select-option>
-                <ion-select-option value="month">Last Month</ion-select-option>
+            <ion-select-option value="week">{{ 'TAB1.CHART.LAST_WEEK' | translate }}</ion-select-option>
+                <ion-select-option value="month">{{ 'TAB1.CHART.LAST_MONTH' | translate }}</ion-select-option>
             </ion-select>
             <app-weight-graphic-zoom-button/>
         </div>

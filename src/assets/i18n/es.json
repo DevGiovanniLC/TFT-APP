@@ -6,7 +6,8 @@
         "DATE_TIME": "Fecha y hora",
         "WEIGHT_UNITS": "Unidades de peso",
         "GOAL": "Meta",
-        "BMI": "IMC"
+        "BMI": "IMC",
+        "TREND": "Tendencia"
     },
     "TABS": {
         "HOME": "Inicio",
@@ -18,6 +19,7 @@
         "PROGRESSION": "Progresión",
         "STARTING_WEIGHT": "Peso inicial",
         "GOAL_WIEGHT": "Meta de peso",
+        "NO_GOAL_SELECTED": "No hay meta seleccionada",
         "REGISTER_WEIGHT": "Registrar peso",
         "CHART": {
             "TOTAL": "Total",

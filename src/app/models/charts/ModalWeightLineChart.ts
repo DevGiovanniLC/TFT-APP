@@ -1,11 +1,14 @@
 import { Goal } from '@models/types/Goal.type';
 import { Weight } from '@models/types/Weight.type';
 import { TimeService } from '@services/Time.service';
+import { getTranslate } from '@services/translate-holder';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { AnnotationOptions, LineAnnotationOptions } from 'chartjs-plugin-annotation';
 
 type Category = { label: string; bmi: number; weight: number; alert: string; };
+
+const translateService = getTranslate();
 
 export default class ModalWeightLineChart {
     private readonly weights: Weight[];
@@ -31,7 +34,7 @@ export default class ModalWeightLineChart {
             labels,
             datasets: [
                 {
-                    label: 'Weight (kg)',
+                    label: `${translateService.instant('KEY_WORDS.WEIGHT')} (kg)`,
                     data: this.weights.map(w => w.weight),
                     fill: false,
                     borderColor: '#00BD7E',
@@ -39,7 +42,7 @@ export default class ModalWeightLineChart {
                     pointRadius: 4,
                 },
                 {
-                    label: 'Trend',
+                    label: `${translateService.instant('KEY_WORDS.TREND')}`,
                     data: this.trendData,
                     parsing: false,
                     fill: false,
@@ -68,7 +71,7 @@ export default class ModalWeightLineChart {
             borderDash: [5, 5],
             label: {
                 display: true,
-                content: 'Goal',
+                content: `${translateService.instant('KEY_WORDS.GOAL')}`,
                 position: 'end',
                 backgroundColor: 'rgba(0, 167, 20, 0.9)',
                 color: '#fff',
@@ -105,7 +108,6 @@ export default class ModalWeightLineChart {
         goalDate: Date
     ): Record<string, AnnotationOptions> {
         return {
-            // 1️⃣ Marcador (punto)
             goalPoint: {
                 type: 'point',
                 xScaleID: 'x',
@@ -124,8 +126,8 @@ export default class ModalWeightLineChart {
                 xValue: goalDate.getTime(),
                 yValue: goalWeight + 0.8,
                 content: [
-                    `Goal: ${goalWeight.toFixed(2)} kg`,
-                    `Date: ${goalDate.toLocaleDateString('en-GB')}`
+                    `${translateService.instant('KEY_WORDS.GOAL')}: ${goalWeight.toFixed(2)} kg`,
+                    `${translateService.instant('KEY_WORDS.DATE')}: ${goalDate.toLocaleDateString('en-GB')}`
                 ],
                 color: '#00BD7E',
                 font: {
@@ -231,14 +233,14 @@ export default class ModalWeightLineChart {
                     type: 'time',
                     time: {
                         unit: 'day',
-                        displayFormats: { day: 'dd MMM' },
+                        displayFormats: { day: 'dd/MM/yy' },
                     },
                     title: { display: false, text: 'Date' },
                     ticks: {
                         padding: 15,
                         color: '#343a40',
                         maxTicksLimit: 6,
-                        font: { size: 15 },
+                        font: { size: 13 },
                     },
                 },
                 y: {

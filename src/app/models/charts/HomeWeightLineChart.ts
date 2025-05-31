@@ -2,14 +2,20 @@ import { Signal } from '@angular/core';
 import { Goal } from '@models/types/Goal.type';
 import { Weight } from '@models/types/Weight.type';
 import { TimeService } from '@services/Time.service';
+import { getTranslate } from '@services/translate-holder';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { LineAnnotationOptions } from 'chartjs-plugin-annotation';
+
+
+
 
 type point = {
     x: number;
     y: number;
 }
+
+const translateService = getTranslate();
 
 export default class HomeWeightLineChart {
     private readonly chartMode: string;
@@ -81,7 +87,7 @@ export default class HomeWeightLineChart {
             borderDash: [5, 5],
             label: {
                 display: true,
-                content: 'Goal',
+                content: `${ translateService.instant('KEY_WORDS.GOAL') }`,
                 position: `${chartMode === 'viewGoal' ? 'end' : 'center'}`,
                 backgroundColor: 'rgba(0, 167, 20, 0.9)',
                 color: '#fff',
@@ -137,6 +143,7 @@ export default class HomeWeightLineChart {
                 },
             },
             animation: { duration: 0 },
+            locale: translateService.currentLang,
             scales: {
                 x: {
                     type: 'time',
@@ -144,7 +151,7 @@ export default class HomeWeightLineChart {
                     max: goalDateMaxRange,
                     time: {
                         unit: 'day',
-                        displayFormats: { day: 'dd MMM' },
+                        displayFormats: { day: 'dd/MM/yy' },
                     },
                     title: { display: false, text: 'Date' },
                     ticks: { padding: 15, color: '#343a40', maxTicksLimit: 6 },
@@ -152,7 +159,7 @@ export default class HomeWeightLineChart {
                 y: {
                     min: Math.round(goalWeight ? Math.min(minWeight, goalWeight) - marginY : minWeight - marginY),
                     max: Math.round(goalWeight ? Math.max(maxWeight, goalWeight) + marginY : maxWeight + marginY),
-                    title: { display: false, text: 'Weights (kg)' },
+                    title: { display: false, text: `${ translateService.instant('KEY_WORDS.WEIGHT') } (${ translateService.instant('KEY_WORDS.WEIGHT_UNITS') })` },
                     ticks: { font: { size: 13 }, color: '#343a40', maxTicksLimit: 8 },
                 },
             },

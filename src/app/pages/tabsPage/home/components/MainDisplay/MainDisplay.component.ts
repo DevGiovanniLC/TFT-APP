@@ -20,11 +20,12 @@ import { ChartData, ChartOptions, Plugin } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
 import { Goal } from '@models/types/Goal.type';
 import { DatePipe } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-main-display',
     standalone: true,
-    imports: [IonCard, IonButton, ChartModule, DatePipe],
+    imports: [IonCard, IonButton, ChartModule, DatePipe, TranslateModule],
     styleUrl: './MainDisplay.component.css',
     templateUrl: './MainDisplay.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,

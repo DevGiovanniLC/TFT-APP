@@ -1,11 +1,14 @@
 import { Injector, Signal } from '@angular/core';
 import { Weight } from '@models/types/Weight.type';
+import { TranslateService } from '@ngx-translate/core';
 import { TimeService } from '@services/Time.service';
+import { getTranslate } from '@services/translate-holder';
 import { Chart } from 'chart.js';
 import type { ArcElement } from 'chart.js';
 
 const injector = Injector.create({ providers: [TimeService] });
 const timeService = injector.get(TimeService);
+const translateService = getTranslate();
 
 const loadSVG = (src: string) => {
     const img = new Image();
@@ -57,15 +60,15 @@ export const SVGIconsPlugin = () => ({
 });
 
 const getProgressionText = (progress: number) => {
-    if (progress >= 100) return { text: 'Completed✅', offset: -38, color: '#343a40' };
-    if (progress >= 90) return { text: 'Just a little bit more 👍', offset: -38, color: '#343a40' };
-    if (progress >= 80) return { text: 'Just a bit more 👍', offset: -38, color: '#343a40' };
-    if (progress >= 50) return { text: 'Wonderfully done 🎉', offset: -38, color: '#1E8260' };
-    if (progress >= 20) return { text: 'Good job 😁', offset: -38, color: '#343a40' };
-    if (progress >= 5) return { text: 'Keep going 💪', offset: -38, color: '#343a40' };
-    if (progress >= 0) return { text: "Let's start👍", offset: -38, color: '#343a40' };
+    if (progress >= 100) return { text: `${translateService.instant('TAB1.MESSAGES.COMPLETED')}✅`, offset: -38, color: '#343a40' };
+    if (progress >= 90) return { text: `${translateService.instant('TAB1.MESSAGES.JUST_A_LITTLE')}👍`, offset: -38, color: '#343a40' };
+    if (progress >= 80) return { text: `${translateService.instant('TAB1.MESSAGES.JUST_A_BIT')}👍`, offset: -38, color: '#343a40' };
+    if (progress >= 50) return { text: `${translateService.instant('TAB1.MESSAGES.WONDERFULLY_DONE')}🎉`, offset: -38, color: '#1E8260' };
+    if (progress >= 20) return { text: `${translateService.instant('TAB1.MESSAGES.GOOD_JOB')}😁`, offset: -38, color: '#343a40' };
+    if (progress >= 5) return { text: `${translateService.instant('TAB1.MESSAGES.KEEP_GOING')}💪`, offset: -38, color: '#343a40' };
+    if (progress >= 0) return { text: `${translateService.instant('TAB1.MESSAGES.LETS_START')}👍`, offset: -38, color: '#343a40' };
     if (isNaN(progress)) return { text: "", offset: -38, color: '#343a40' };
-    return { text: 'You can do better', offset: -35, color: '#C7B85A' };
+    return { text: `${translateService.instant('TAB1.MESSAGES.DO_BETTER')}`, offset: -35, color: '#C7B85A' };
 };
 
 export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weight | undefined>) => ({
@@ -84,7 +87,7 @@ export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weigh
 
         ctx.font = 'bold 13px system-ui';
         ctx.fillStyle = '#343a40';
-        if (progress <= 100) ctx.fillText(`Progression ${isNaN(progress) ? 0 : progress.toFixed(0)} %`, centerX, centerY - 60);
+        if (progress <= 100) ctx.fillText(`${translateService.instant('TAB1.PROGRESSION')} ${isNaN(progress) ? 0 : progress.toFixed(0)} %`, centerX, centerY - 60);
 
         ctx.font = '13px system-ui';
         ctx.fillStyle = '#343a40';
@@ -117,10 +120,10 @@ export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weigh
 
 function differenceTime(dateStart: Date, dateEnd: Date) {
     const days = timeService.dayDifference(new Date(dateStart), new Date(dateEnd));
-    if (days > 365) return `${Math.floor(days / 365)} years ago`;
-    if (days > 30) return `${Math.floor(days / 30)} months ago`;
-    if (days > 7) return `${Math.floor(days / 7)} weeks ago`;
-    if (days > 2) return `${Math.floor(days)} days ago`;
-    if (days > 1) return 'Yesterday';
-    return 'Today';
+    if (days > 365) return `${Math.floor(days / 365)} ${translateService.instant('TAB1.TIME.YEARS_AGO')}`;
+    if (days > 30) return `${Math.floor(days / 30)} ${translateService.instant('TAB1.TIME.MONTHS_AGO')}`;
+    if (days > 7) return `${Math.floor(days / 7)} ${translateService.instant('TAB1.TIME.WEEKS_AGO')}`;
+    if (days > 2) return `${Math.floor(days)} ${translateService.instant('TAB1.TIME.DAYS_AGO')}`;
+    if (days > 1) return translateService.instant('TAB1.TIME.YESTERDAY');
+    return translateService.instant('TAB1.TIME.TODAY');
 }

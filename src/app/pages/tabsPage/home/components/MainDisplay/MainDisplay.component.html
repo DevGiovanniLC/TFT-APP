@@ -6,7 +6,7 @@
     <article class="flex justify-center items-center space-x-10 pb-4">
         <ion-card
             class="bg-tertiary rounded-xl text-center space-y-1 w-36 h-[6.8rem] shadow-md border-secondary border-2 flex flex-col items-center justify-center">
-            <h1 class="text-teal-800 font-sans text-xs font-bold m-0">Starting Weight</h1>
+            <h1 class="text-teal-800 font-sans text-xs font-bold m-0">{{ 'TAB1.STARTING_WEIGHT' | translate }}</h1>
             <p id="startingWeight" class="text-xl text-gray-900 font-bold">
                 {{firstWeight()?.weight}}
                 {{firstWeight()?.weight_units}}
@@ -18,7 +18,7 @@
 
         <ion-card
             class=" bg-tertiary rounded-xl text-center space-y-1 w-36 h-[6.8rem] shadow-md border-secondary border-2 flex flex-col items-center justify-center">
-            <h1 class="text-teal-800 font-sans text-xs font-bold m-0">Goal Weight</h1>
+            <h1 class="text-teal-800 font-sans text-xs font-bold m-0">{{ 'TAB1.GOAL_WIEGHT' | translate }}</h1>
             @if (goal()?.weight) {
             <p id="goalWeight" class="text-xl text-gray-900 font-bold">
                 {{goal()?.weight}}
@@ -28,14 +28,14 @@
                 {{ goal()?.date ? (goal()?.date | date: 'dd/MM/yyyy') : 'No deadline' }}
             </span>
             }@else{
-            <p class="text-base text-teal-900 text text-balance">No Goal<br>Selected</p>
+            <p class="text-base text-teal-900 text text-balance mx-8">{{ 'TAB1.NO_GOAL_SELECTED' | translate }}</p>
             }
         </ion-card>
     </article>
 
     <ion-button id="registerBtn" class="button-shadow w-40 h-12" style="--border-radius: 18px" (click)="openModal()"
         (keypress)="openModal()" [disabled]="isButtonActive()">
-        Register Weight
+        {{ 'TAB1.REGISTER_WEIGHT' | translate }}
     </ion-button>
 
 </section>

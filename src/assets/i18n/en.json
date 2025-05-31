@@ -1,0 +1,47 @@
+{
+    "KEY_WORDS": {
+        "WEIGHT": "Weight",
+        "DATE": "Date",
+        "TIME": "Time",
+        "DATE_TIME": "Date and Time",
+        "WEIGHT_UNITS": "Weight Units",
+        "GOAL": "Goal",
+        "BMI": "BMI"
+    },
+    "TABS": {
+        "HOME": "Home",
+        "REGISTERS": "Registers",
+        "BMI": "BMI",
+        "ANALYTICS": "Analytics"
+    },
+    "TAB1": {
+        "PROGRESSION": "Progression",
+        "STARTING_WEIGHT": "Starting Weight",
+        "GOAL_WIEGHT": "Goal Weight",
+        "REGISTER_WEIGHT": "Register Weight",
+        "CHART": {
+            "TOTAL": "Total",
+            "VIEW_GOAL": "View Goal",
+            "LAST_WEEK": "Last Week",
+            "LAST_MONTH": "Last Month"
+        },
+        "MESSAGES": {
+            "DO_BETTER": "You can do better",
+            "LETS_START": "Let's start",
+            "KEEP_GOING": "Keep going",
+            "GOOD_JOB": "Good job",
+            "WONDERFULLY_DONE": "Wonderfully done",
+            "JUST_A_BIT": "Just a bit more",
+            "JUST_A_LITTLE": "Just a little bit more",
+            "COMPLETED": "Completed"
+        },
+        "TIME": {
+            "DAYS_AGO": "days ago",
+            "WEEKS_AGO": "weeks ago",
+            "MONTHS_AGO": "months ago",
+            "YEARS_AGO": "years ago",
+            "YESTERDAY": "Yesterday",
+            "TODAY": "Today"
+        }
+    }
+}

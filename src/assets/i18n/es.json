@@ -1,0 +1,47 @@
+{
+    "KEY_WORDS": {
+        "WEIGHT": "Peso",
+        "DATE": "Fecha",
+        "TIME": "Hora",
+        "DATE_TIME": "Fecha y hora",
+        "WEIGHT_UNITS": "Unidades de peso",
+        "GOAL": "Meta",
+        "BMI": "IMC"
+    },
+    "TABS": {
+        "HOME": "Inicio",
+        "REGISTERS": "Registros",
+        "BMI": "IMC",
+        "ANALYTICS": "Análisis"
+    },
+    "TAB1": {
+        "PROGRESSION": "Progresión",
+        "STARTING_WEIGHT": "Peso inicial",
+        "GOAL_WIEGHT": "Meta de peso",
+        "REGISTER_WEIGHT": "Registrar peso",
+        "CHART": {
+            "TOTAL": "Total",
+            "VIEW_GOAL": "Ver meta",
+            "LAST_WEEK": "Última semana",
+            "LAST_MONTH": "Último mes"
+        },
+        "MESSAGES": {
+            "DO_BETTER": "Puedes hacerlo mejor",
+            "LETS_START": "Empecemos",
+            "KEEP_GOING": "Sigue así",
+            "GOOD_JOB": "Buen trabajo",
+            "WONDERFULLY_DONE": "Excelente trabajo",
+            "JUST_A_BIT": "Solo un poco más",
+            "JUST_A_LITTLE": "Solo un poquito más",
+            "COMPLETED": "Completado"
+        },
+        "TIME": {
+            "DAYS_AGO": "hace días",
+            "WEEKS_AGO": "hace semanas",
+            "MONTHS_AGO": "hace meses",
+            "YEARS_AGO": "hace años",
+            "YESTERDAY": "Ayer",
+            "TODAY": "Hoy"
+        }
+    }
+}

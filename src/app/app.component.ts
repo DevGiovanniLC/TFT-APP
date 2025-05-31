@@ -17,7 +17,7 @@ export class AppComponent {
         private readonly navCtrl: NavController,
         private readonly config: UserConfigService,
         private readonly weightTracker: WeightTrackerService,
-        private readonly eventAdvice: EventAdviceService,
+        private readonly eventAdvice: EventAdviceService, // No quitar necesario para inicializar constructor
     ) {
         this.initApp();
     }

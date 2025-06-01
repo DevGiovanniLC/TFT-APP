@@ -7,13 +7,13 @@
         <div class="p-3 flex flex-col items-center space-y-3">
             @if (user()?.goal_weight) {
                 <div class="flex items-center pl-6">
-                    <p>Weight goal: {{ user()?.goal_weight }} {{ user()?.goal_units }}</p>
+                    <p>{{ 'MODALS.USER_MODAL.WEIGHT_GOAL' | translate }}: {{ user()?.goal_weight }} {{ user()?.goal_units }}</p>
                     <button (click)="deleteGoal()" (keypress)="deleteGoal()" class="h-5 w-5 rounded-md ml-2 bg-red-600">
                         <ion-icon name="add" class="text-red-50 text-sm p-0" src="assets/icons/trash.svg"></ion-icon>
                     </button>
                 </div>
                 @if (isGoalDate()) {
-                    <p>Date: {{ user()?.goal_date | date: 'dd/MM/yyyy' }}</p>
+                    <p>{{ 'KEY_WORDS.DATE' | translate }}: {{ user()?.goal_date | date: 'dd/MM/yyyy' }}</p>
                 }
             }
             <ion-button id="goalBtn" class="w-40 my-4" style="--border-radius: 18px"
@@ -21,7 +21,7 @@
                 (click)="openModal()"
                 (keypress)="openModal()"
                 [disabled]="isButtonActive()">
-                Set weight Goal
+                {{ 'MODALS.USER_MODAL.SET_WEIGHT_GOAL' | translate }}
             </ion-button>
         </div>
     </section>

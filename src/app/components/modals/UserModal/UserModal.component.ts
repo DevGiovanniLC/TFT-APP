@@ -8,9 +8,10 @@ import { User } from '@models/types/User.type';
 import { Weight } from '@models/types/Weight.type';
 import { GoalModalComponent } from '@components/modals/GoalModal/GoalModal.component';
 import { DatePipe } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    imports: [IonContent, IonButton, IonIcon, ModalHeaderComponent, UserFormComponent, DatePipe],
+    imports: [IonContent, IonButton, IonIcon, ModalHeaderComponent, UserFormComponent, DatePipe, TranslateModule],
     templateUrl: './UserModal.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

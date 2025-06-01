@@ -3,9 +3,9 @@
 <ion-content #modalContainer style="--ion-background-color: linear-gradient(to top right, #d1fae5, #6ee7b7);">
     <div class="h-fit min-h-full flex flex-col items-center bg-transparent">
         <header class="text-center mt-8 mb-4 flex flex-col">
-            <h1 class="text-3xl font-semibold font-sans text-gray-800 mb-0">Set Your Weight Goal</h1>
-            <h2 class="text-gray-700 text-lg text-balance">
-                Define your target to stay focused and track your progress
+            <h1 class="text-3xl font-semibold font-sans text-gray-800 mb-0">{{ 'MODALS.GOAL_MODAL.TITLE' | translate }}</h1>
+            <h2 class="text-gray-700 text-lg text-pretty">
+                {{ 'MODALS.GOAL_MODAL.MESSAGE' | translate }}
             </h2>
         </header>
         <form
@@ -14,14 +14,14 @@
                 (outputWeightValue)="updateActualWeight($event)"></app-weight-form>
 
             <div class="flex space-x-3 p-5 justify-center items-center align-middle">
-                <ion-toggle id="dateToggle" [checked]="isWithDate()" (ionChange)="toggleDate()">Set a date</ion-toggle>
+                <ion-toggle id="dateToggle" [checked]="isWithDate()" (ionChange)="toggleDate()">{{ 'MODALS.GOAL_MODAL.DATE' | translate }}</ion-toggle>
             </div>
             @if (isWithDate()) {
             <ion-datetime-button id="date-button" datetime="datetime" />
 
             <ion-modal [keepContentsMounted]="true" [breakpoints]="[0, 1]" initialBreakpoint="1">
                 <ng-template>
-                    <ion-datetime id="datetime" presentation="date" locale="en-GB" hour-cycle="h23"
+                    <ion-datetime id="datetime" presentation="date" [locale]="language()" hour-cycle="h23"
                         display-format="DD/MM/YYYY"
                         picker-format="DD/MM/YYYY"
                         [value]="nextDeadlineGoal.toISOString().substring(0, 16)" max="2099-12-31"

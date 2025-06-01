@@ -8,6 +8,8 @@ import { WeightFormComponent } from '@components/forms/WeightForm/WeightForm.com
 import { TimeService } from '@services/Time.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { DeviceInfoService } from '@services/DeviceInfo.service';
 
 @Component({
     imports: [
@@ -18,6 +20,7 @@ import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/
         FormsModule,
         WeightFormComponent,
         ModalHeaderComponent,
+        TranslateModule
     ],
     templateUrl: './WeightRegisterModal.component.html',
     styleUrl: './WeightRegisterModal.component.css',
@@ -33,14 +36,18 @@ export class WeightRegisterComponent implements OnInit {
     private readonly nextWeight = signal(0);
     private readonly nextDate = signal<Date>(this.timeService.now());
 
+    readonly language = signal<string>('en-GB');
+
 
     constructor(
+        private readonly deviceInfo: DeviceInfoService,
         private readonly weightTracker: WeightTrackerService,
         private readonly timeService: TimeService,
         private readonly modalCtrl: ModalController,
     ) { }
 
     ngOnInit(): void {
+        this.language.set(this.deviceInfo.getLanguage());
         const last = this.lastWeight();
         const input = this.inputWeight;
 

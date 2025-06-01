@@ -13,6 +13,8 @@ import { Weight, WeightUnits } from '@models/types/Weight.type';
 import { WeightFormComponent } from '@components/forms/WeightForm/WeightForm.component';
 import { TimeService } from '@services/Time.service';
 import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { DeviceInfoService } from '@services/DeviceInfo.service';
 
 @Component({
     imports: [
@@ -24,6 +26,7 @@ import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/
         IonModal,
         IonDatetime,
         ModalHeaderComponent,
+        TranslateModule
     ],
     templateUrl: './GoalModal.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,16 +38,19 @@ export class GoalModalComponent {
     readonly lastWeight = signal<number>(70);
     readonly lastWeightUnit = signal<WeightUnits>(WeightUnits.KG);
     readonly actualDate = this.timeService.now();
+    readonly language = signal<string>('en-GB');
 
     nextDeadlineGoal: Date = this.timeService.now();
     nextWeightGoal = 70;
 
     constructor(
+        private readonly deviceInfo: DeviceInfoService,
         private readonly timeService: TimeService,
         private readonly modalCtrl: ModalController
     ) { }
 
     ngOnInit(): void {
+        this.language.set(this.deviceInfo.getLanguage());
         const weight = this.inputWeight?.weight ?? 70;
         const weightUnit = this.inputWeight?.weight_units ?? WeightUnits.KG;
         const date = this.inputWeight?.date;

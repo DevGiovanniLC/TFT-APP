@@ -11,8 +11,18 @@
         "CANCEL": "Cancel",
         "OK": "Ok",
         "CONFIRM": "Confirm",
+        "BACK": "Back",
+        "NEXT": "Next",
         "EXPORT": "Export",
-        "DELETE": "Delete"
+        "DELETE": "Delete",
+        "NAME": "Name",
+        "AGE": "Age",
+        "GENDER": "Gender",
+        "HEIGHT": "Height",
+        "OPTIONAL": "Optional",
+        "FEMALE": "Female",
+        "MALE": "Male",
+        "OTHER": "Other"
     },
     "TABS": {
         "HOME": "Home",
@@ -94,5 +104,21 @@
             "TITLE": "Delte Weight",
             "MESSAGE": "Are you sure you want to delete this weight entry? \n This action cannot be undone."
         }
+    },
+    "MODALS": {
+        "WEIGHT_REGISTER": {
+            "TITLE": "Set Your Weight",
+            "MESSAGE": "Every step counts. Let’s reach your goal together."
+        },
+        "GOAL_MODAL": {
+            "TITLE": "Set Your Weight Goal",
+            "MESSAGE": "Define your target to stay focused and track your progress",
+            "DATE": "Set a date"
+        },
+        "USER_MODAL": {
+            "WEIGHT_GOAL": "Weight goal",
+            "SET_WEIGHT_GOAL": "Set weight goal"
+        }
+
     }
 }

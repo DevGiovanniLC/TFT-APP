@@ -3,9 +3,9 @@
 <ion-content scrollY="false" style="--ion-background-color: linear-gradient(to top right, #d1fae5, #6ee7b7);">
     <section class="h-full flex flex-col items-center space-y-5">
         <header class="ion-text-center bg-inherit mt-10">
-            <h1 class="font-sans font-semibold text-4xl mb-5">Set Your Weight</h1>
+            <h1 class="font-sans font-semibold text-4xl mb-5">{{ 'MODALS.WEIGHT_REGISTER.TITLE' | translate }}</h1>
             <h2 class="text-center text-gray-700 text-lg mt-2 text-pretty">
-                Every step counts. <br />Let’s reach your goal together.
+                {{ 'MODALS.WEIGHT_REGISTER.MESSAGE' | translate }}
             </h2>
         </header>
         <form
@@ -17,7 +17,7 @@
 
             <ion-modal [keepContentsMounted]="true" [breakpoints]="[0, 1]" initialBreakpoint="1">
                 <ng-template>
-                    <ion-datetime id="datetime" presentation="date-time" locale="en-GB" hour-cycle="h23"
+                    <ion-datetime id="datetime" presentation="date-time" [locale]="language()" hour-cycle="h23"
                         display-format="DD/MM/YYYY" picker-format="DD/MM/YYYY" [value]="selectedDate()"
                         (ionChange)="updateNextDate($event.detail.value)" class="bg-transparent w-full text-lg" />
                 </ng-template>

@@ -25,4 +25,8 @@ export class DeviceInfoService {
         this.translate.use(this.language);
     }
 
+    getLanguage(): string {
+        return this.language;
+    }
+
 }

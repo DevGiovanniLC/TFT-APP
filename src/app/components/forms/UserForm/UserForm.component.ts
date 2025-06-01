@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { FormsModule } from '@angular/forms';
 import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { User } from '@models/types/User.type';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-user-form',
-    imports: [FormsModule, IonSelect, IonSelectOption],
+    imports: [FormsModule, IonSelect, IonSelectOption, TranslateModule],
     templateUrl: './UserForm.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

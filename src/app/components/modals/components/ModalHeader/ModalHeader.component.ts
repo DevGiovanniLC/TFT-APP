@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { IonHeader, IonToolbar, IonButtons, IonButton } from '@ionic/angular/standalone';
+import { TranslateModule } from '@ngx-translate/core';
 
 enum HeaderEnum {
     Static,
@@ -9,7 +10,7 @@ enum HeaderEnum {
 
 @Component({
     selector: 'app-modal-header',
-    imports: [IonHeader, IonToolbar, IonButtons, IonButton],
+    imports: [IonHeader, IonToolbar, IonButtons, IonButton, TranslateModule],
     templateUrl: './ModalHeader.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -11,8 +11,18 @@
         "CANCEL": "Cancelar",
         "OK": "Aceptar",
         "CONFIRM": "Confirmar",
+        "BACK": "Atrás",
+        "NEXT": "Siguiente",
         "EXPORT": "Exportar",
-        "DELETE": "Eliminar"
+        "DELETE": "Eliminar",
+        "NAME": "Nombre",
+        "AGE": "Edad",
+        "GENDER": "Género",
+        "HEIGHT": "Altura",
+        "OPTIONAL": "Opcional",
+        "FEMALE": "Femenino",
+        "MALE": "Masculino",
+        "OTHER": "Otro"
     },
     "TABS": {
         "HOME": "Inicio",
@@ -93,6 +103,21 @@
         "ALERT_DELETE_CONFIRM": {
             "TITLE": "Eliminar peso",
             "MESSAGE": "¿Estás seguro de que deseas eliminar esta entrada de peso? \n Esta acción no se puede deshacer."
+        }
+    },
+    "MODALS": {
+        "WEIGHT_REGISTER": {
+            "TITLE": "Registra tu peso",
+            "MESSAGE": "Cada paso cuenta. ¡Vamos a alcanzar tu objetivo juntos."
+        },
+        "GOAL_MODAL": {
+            "TITLE": "Establece tu peso objetivo",
+            "MESSAGE": "Define tu meta para mantenerte enfocado y analizar tu progreso",
+            "DATE": "Establecer una fecha"
+        },
+        "USER_MODAL": {
+            "WEIGHT_GOAL": "Peso objetivo",
+            "SET_WEIGHT_GOAL": "Establecer peso objetivo"
         }
     }
 }

@@ -6,6 +6,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { WeightRegisterComponent } from '../../../components/modals/WeightRegisterModal/WeightRegisterModal.component';
 import { Weight } from '@models/types/Weight.type';
 import { set } from 'cypress/types/lodash';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-tab2',
@@ -25,6 +26,7 @@ export class RegisterPage {
     });
 
     constructor(
+        private readonly translateService: TranslateService,
         private readonly weightTracker: WeightTrackerService,
         private readonly modalCtrl: ModalController,
         private readonly alertCtrl: AlertController
@@ -38,12 +40,12 @@ export class RegisterPage {
 
         if (this.reversedRegisters()?.length === 1) {
             alert = await this.alertCtrl.create({
-                header: 'Deletion Not Allowed',
-                message: `This is the only weight entry in your register. At least one entry must be kept`,
+                header:  this.translateService.instant('TAB4.ALERT_DELETE_NOT_ALLOWED.TITLE'),
+                message:  this.translateService.instant('TAB4.ALERT_DELETE_NOT_ALLOWED.MESSAGE'),
                 cssClass: 'small-alert',
                 buttons: [
                     {
-                        text: 'OK',
+                        text: this.translateService.instant('KEY_WORDS.OK'),
                         role: 'cancel',
                         handler: () => {
                             cancelCallback();
@@ -53,19 +55,19 @@ export class RegisterPage {
             });
         } else {
             alert = await this.alertCtrl.create({
-                header: 'DELETE WEIGHT',
-                message: `Are you sure you want to delete this weight entry? \n This action cannot be undone.`,
+                header:  this.translateService.instant('TAB4.ALERT_DELETE_CONFIRM.TITLE'),
+                message:  this.translateService.instant('TAB4.ALERT_DELETE_CONFIRM.MESSAGE'),
                 cssClass: 'small-alert',
                 buttons: [
                     {
-                        text: 'Cancel',
+                        text: this.translateService.instant('KEY_WORDS.CANCEL'),
                         role: 'cancel',
                         handler: () => {
                             cancelCallback();
                         },
                     },
                     {
-                        text: 'Delete',
+                        text: this.translateService.instant('KEY_WORDS.DELETE'),
                         role: 'confirm',
                         handler: () => {
                             deleteCallback();

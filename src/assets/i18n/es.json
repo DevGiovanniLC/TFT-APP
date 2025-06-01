@@ -12,9 +12,7 @@
         "OK": "Aceptar",
         "CONFIRM": "Confirmar",
         "EXPORT": "Exportar",
-        "WEEK": "Semana",
-        "MONTH": "Mes",
-        "YEAR": "Año"
+        "DELETE": "Eliminar"
     },
     "TABS": {
         "HOME": "Inicio",
@@ -85,6 +83,16 @@
         "INFO_ALERT": {
             "TITLE": "Comprender la tendencia de pérdida de peso",
             "MESSAGE": "La tendencia de pérdida de peso muestra cuánto peso estás perdiendo (o ganando) por semana y por mes, según los datos registrados. Si ves \"No Logic\", significa que aún no hay suficientes datos para calcular una tendencia confiable. ¡Mantén registrando tu peso para obtener información precisa!"
+        }
+    },
+    "TAB4": {
+        "ALERT_DELETE_NOT_ALLOWED": {
+            "TITLE": "Eliminación no permitida",
+            "MESSAGE": "Esta es la única entrada de peso en tu registro. Al menos una entrada debe ser mantenida"
+        },
+        "ALERT_DELETE_CONFIRM": {
+            "TITLE": "Eliminar peso",
+            "MESSAGE": "¿Estás seguro de que deseas eliminar esta entrada de peso? \n Esta acción no se puede deshacer."
         }
     }
 }

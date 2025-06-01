@@ -6,12 +6,13 @@ import { ModalUserComponent } from '../../../components/modals/UserModal/UserMod
 import { BMIService } from '@services/BMI.service';
 import { UserConfigService } from '@services/UserConfig.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-tab3',
     templateUrl: 'bmi.page.html',
     standalone: true,
-    imports: [IonContent, IonButton, BMIChartComponent, BMICategoriesComponent],
+    imports: [IonContent, IonButton, BMIChartComponent, BMICategoriesComponent, TranslateModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BMIPage {

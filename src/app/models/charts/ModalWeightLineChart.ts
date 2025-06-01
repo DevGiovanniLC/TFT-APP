@@ -1,26 +1,26 @@
 import { Goal } from '@models/types/Goal.type';
 import { Weight } from '@models/types/Weight.type';
+import { BMICategory } from '@services/BMI.service';
+import { ServiceHolder } from '@services/ServiceHolder';
 import { TimeService } from '@services/Time.service';
-import { getTranslate } from '@services/translate-holder';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { AnnotationOptions, LineAnnotationOptions } from 'chartjs-plugin-annotation';
 
-type Category = { label: string; bmi: number; weight: number; alert: string; };
 
-const translateService = getTranslate();
+const translateService = ServiceHolder.translateService;
 
 export default class ModalWeightLineChart {
     private readonly weights: Weight[];
     private readonly goal?: Goal;
     private readonly trendData: { x: number; y: number }[];
-    private readonly categories: Category[];
+    private readonly categories: BMICategory[];
 
     constructor(
         analysisService: WeightAnalysisService,
         weights: Weight[],
         goal: Goal | undefined,
-        categories: Category[]
+        categories: BMICategory[]
     ) {
         this.weights = weights;
         this.goal = goal;
@@ -84,23 +84,29 @@ export default class ModalWeightLineChart {
         }
     }
 
-    private getCategoryLines(): (LineAnnotationOptions & { type: 'line' })[] {
-        return this.categories.map(cat => ({
-            type: 'line',
-            yMin: cat.weight,
-            yMax: cat.weight,
-            borderColor: cat.alert,
-            borderWidth: 2,
-            borderDash: [5, 5],
-            label: {
-                display: true,
-                content: cat.label,
-                position: 'end',
-                backgroundColor: cat.alert,
-                color: '#fff',
-                font: { weight: 'bold', size: 10 }
+    private getCategoryLines(): (LineAnnotationOptions & { type: 'line' } | undefined)[] {
+        return this.categories.map(cat => {
+
+            if (cat.maxWeightLimit === Infinity) return undefined;
+            return {
+                type: 'line',
+                yMin: cat.maxWeightLimit,
+                yMax: cat.maxWeightLimit,
+                borderColor: cat.color,
+                borderWidth: 2,
+                borderDash: [5, 5],
+                label: {
+                    display: true,
+                    content: cat.label,
+                    position: 'end',
+                    backgroundColor: cat.color,
+                    color: '#fff',
+                    font: { weight: 'bold', size: 10 }
+                }
             }
-        }));
+
+        }
+        );
     }
 
     private getGoalAnnotations(
@@ -148,6 +154,7 @@ export default class ModalWeightLineChart {
         ];
         const annotations: Record<string, AnnotationOptions> = {};
         lines.forEach((line, i) => {
+            if (!line) return;
             if (line.type !== 'line') return;
             annotations[`line${i}`] = line;
         });

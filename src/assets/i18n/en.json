@@ -45,5 +45,22 @@
             "YESTERDAY": "Yesterday",
             "TODAY": "Today"
         }
+    },
+    "TAB2": {
+        "BMI_CATEGORIES": "BMI Categories",
+        "CATEGORIES": {
+            "OBESITY_CLASS_III": "Obesity Class III",
+            "OBESITY_CLASS_II": "Obesity Class II",
+            "OBESITY_CLASS_I": "Obesity Class I",
+            "OVERWEIGHT": "Overweight",
+            "NORMAL": "Normal",
+            "SEVERE_THINNING": "Severe Thinning",
+            "MODERATE_THINNING": "Moderate Thinning",
+            "MILD_THINNING": "Mild Thinning"
+        },
+        "MESSAGE": "BMI measures weight relative to height but ignores body composition, often misclassifying muscular or high-fat individuals. It is useful for general screening but not for accurately assessing health.",
+        "ALERT": "Height is required to calculate your BMI. Please provide it.",
+        "INFO_TITLE": "What is BMI?",
+        "INFO": "BMI (Body Mass Index) is a simple index of weight-for-height used to classify underweight, overweight, and obesity in adults. It is calculated by dividing a person's weight in kilograms by the square of their height in meters."
     }
 }

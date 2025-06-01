@@ -5,7 +5,7 @@
         "TIME": "Hora",
         "DATE_TIME": "Fecha y hora",
         "WEIGHT_UNITS": "Unidades de peso",
-        "GOAL": "Meta",
+        "GOAL": "Objetivo",
         "BMI": "IMC",
         "TREND": "Tendencia"
     },
@@ -17,8 +17,8 @@
     },
     "TAB1": {
         "PROGRESSION": "Progresión",
-        "STARTING_WEIGHT": "Peso inicial",
-        "GOAL_WIEGHT": "Meta de peso",
+        "STARTING_WEIGHT": "Peso Inicial",
+        "GOAL_WIEGHT": "Peso Objetivo",
         "NO_GOAL_SELECTED": "No hay meta seleccionada",
         "REGISTER_WEIGHT": "Registrar peso",
         "CHART": {
@@ -38,12 +38,29 @@
             "COMPLETED": "Completado"
         },
         "TIME": {
-            "DAYS_AGO": "hace días",
-            "WEEKS_AGO": "hace semanas",
-            "MONTHS_AGO": "hace meses",
-            "YEARS_AGO": "hace años",
+            "DAYS_AGO": "días",
+            "WEEKS_AGO": "semanas",
+            "MONTHS_AGO": "meses",
+            "YEARS_AGO": "años",
             "YESTERDAY": "Ayer",
             "TODAY": "Hoy"
         }
+    },
+    "TAB2": {
+        "BMI_CATEGORIES": "Categorías IMC",
+        "CATEGORIES": {
+            "OBESITY_CLASS_III": "Obesidad Clase III",
+            "OBESITY_CLASS_II": "Obesidad Clase II",
+            "OBESITY_CLASS_I": "Obesidad Clase I",
+            "OVERWEIGHT": "Sobrepeso",
+            "NORMAL": "Normal",
+            "SEVERE_THINNING": "Delgadez Severa",
+            "MODERATE_THINNING": "Delgadez Moderada",
+            "MILD_THINNING": "Delgadez Leve"
+        },
+        "MESSAGE": "El IMC mide el peso relativo a la altura, pero ignora la composición del cuerpo, a menudo clasificando a personas musculares o altas en grasa. Es útil para la revisión general, pero no para una evaluación precisa de la salud.",
+        "ALERT": "La altura es necesaria para calcular tu IMC. Por favor, proporciona la altura.",
+        "INFO_TITLE": "¿Que es el IMC?",
+        "INFO": "IMC (Índice de Masa Corporal) es un índice sencillo de peso en relación con la altura, utilizado para clasificar bajo peso, sobrepeso y obesidad en adultos. Se calcula dividiendo el peso de una persona en kilogramos por el cuadrado de su altura en metros."
     }
 }

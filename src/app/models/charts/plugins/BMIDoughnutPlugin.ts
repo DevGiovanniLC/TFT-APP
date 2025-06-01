@@ -1,23 +1,18 @@
+import { ServiceHolder } from '@services/ServiceHolder';
 import { Chart } from 'chart.js';
 import type { ArcElement } from 'chart.js';
 
 const BODY_IMG_SRC = 'assets/icons/body.svg';
 const MAX_BMI = 40;
 
-const BMI_LEVELS = [
-    { max: 16, text: 'Severe Thinness', color: '#f15757' },
-    { max: 16.99, text: 'Moderate Thinness', color: '#cdc827' },
-    { max: 18.49, text: 'Mild Thinness', color: '#cdc827' },
-    { max: 24.9, text: 'Normal', color: '#4caf50' },
-    { max: 27.9, text: 'Pre-obese', color: '#cdc827' },
-    { max: 29.9, text: 'High Overweight', color: '#cdc827' },
-    { max: 34.9, text: 'Obesity Class I', color: '#f15757' },
-    { max: 39.9, text: 'Obesity Class II', color: '#f15757' },
-    { max: Infinity, text: 'Obesity Class III', color: '#f15757' },
-];
+const translateService = ServiceHolder.translateService;
 
-function getBMILevel(bmi: number) {
-    return BMI_LEVELS.find(level => bmi <= level.max) ?? BMI_LEVELS[BMI_LEVELS.length - 1];
+const bmiService = ServiceHolder.BMIService;
+
+function getBMICategory(bmi: number) {
+    const bmiCategories = bmiService.BMI_CATEGORIES
+    const category = bmiCategories.find(cat => bmi < cat.max && bmi > cat.min) ?? bmiCategories[0]
+    return category
 }
 
 const bodyImg = new Image();
@@ -55,7 +50,7 @@ export const BMIPluginDoughnut = (bmi: number) => ({
 
         const fillHeight = imgSize * Math.min(bmi, MAX_BMI) / MAX_BMI;
         const fillY = imgSize - fillHeight;
-        const { color, text } = getBMILevel(bmi);
+        const { color, label } = getBMICategory(bmi);
 
         tempCtx.fillStyle = color;
         tempCtx.fillRect(0, fillY, imgSize, fillHeight);
@@ -67,13 +62,13 @@ export const BMIPluginDoughnut = (bmi: number) => ({
         ctx.font = 'bold 25px sans-serif';
         ctx.fillStyle = '#343a40';
         ctx.textAlign = 'center';
-        ctx.fillText('BMI', centerX, centerY - 20);
+        ctx.fillText(translateService.instant('KEY_WORDS.BMI'), centerX, centerY - 20);
 
         ctx.font = 'bold 45px sans-serif';
         ctx.fillText(bmi.toFixed(1), centerX, centerY + 40);
 
         ctx.font = 'bold 16px sans-serif';
         ctx.fillStyle = color;
-        ctx.fillText(text, centerX, centerY + 80);
+        ctx.fillText(label, centerX, centerY + 80);
     },
 });

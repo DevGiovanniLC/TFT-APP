@@ -1,8 +1,8 @@
 import { Signal } from '@angular/core';
 import { Goal } from '@models/types/Goal.type';
 import { Weight } from '@models/types/Weight.type';
+import { ServiceHolder } from '@services/ServiceHolder';
 import { TimeService } from '@services/Time.service';
-import { getTranslate } from '@services/translate-holder';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { LineAnnotationOptions } from 'chartjs-plugin-annotation';
@@ -15,7 +15,7 @@ type point = {
     y: number;
 }
 
-const translateService = getTranslate();
+const translateService = ServiceHolder.translateService;
 
 export default class HomeWeightLineChart {
     private readonly chartMode: string;
@@ -154,12 +154,12 @@ export default class HomeWeightLineChart {
                         displayFormats: { day: 'dd/MM/yy' },
                     },
                     title: { display: false, text: 'Date' },
-                    ticks: { padding: 15, color: '#343a40', maxTicksLimit: 6 },
+                    ticks: { padding: 15, color: '#343a40', maxTicksLimit: 5 },
                 },
                 y: {
                     min: Math.round(goalWeight ? Math.min(minWeight, goalWeight) - marginY : minWeight - marginY),
                     max: Math.round(goalWeight ? Math.max(maxWeight, goalWeight) + marginY : maxWeight + marginY),
-                    title: { display: false, text: `${ translateService.instant('KEY_WORDS.WEIGHT') } (${ translateService.instant('KEY_WORDS.WEIGHT_UNITS') })` },
+                    title: { display: false, text: `${ translateService.instant('KEY_WORDS.WEIGHT') } (kg)` },
                     ticks: { font: { size: 13 }, color: '#343a40', maxTicksLimit: 8 },
                 },
             },

@@ -7,7 +7,8 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 import { EventAdviceService } from '@services/EventAdvice.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceInfoService } from '@services/DeviceInfo.service';
-import { setTranslate } from '@services/translate-holder';
+import { ServiceHolder } from '@services/ServiceHolder';
+import { BMIService } from '@services/BMI.service';
 
 
 
@@ -23,24 +24,21 @@ export class AppComponent {
         private readonly config: UserConfigService,
         private readonly weightTracker: WeightTrackerService,
         private readonly translate: TranslateService,
+        private readonly bmiService: BMIService,
         // No quitar necesario para inicializar constructor
         private readonly deviceInfo: DeviceInfoService,
         private readonly eventAdvice: EventAdviceService,
     ) {
+        this.initServices();
         this.initApp();
     }
 
     private initApp() {
         this.dataProvider.initialize().then((connectionStatus) => {
             if (!connectionStatus) throw new Error('Connection to database failed, please try again or reinstall the app');
-            this.initTranslate();
             this.initData();
             this.hideSplash();
         });
-    }
-
-    private initTranslate() {
-        setTranslate(this.translate);
     }
 
     private initData() {
@@ -51,6 +49,15 @@ export class AppComponent {
                 this.navCtrl.navigateRoot('/initial');
             }
         });
+    }
+
+    private initServices() {
+        ServiceHolder.init(
+            {
+                translateService: this.translate,
+                BMIService: this.bmiService
+            }
+        );
     }
 
     private hideSplash() {

@@ -11,7 +11,7 @@ import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { UserConfigService } from '@services/UserConfig.service';
 import ModalWeightLineChart from '@models/charts/ModalWeightLineChart';
-import { BMIService } from '@services/BMI.service';
+import { BMICategory, BMIService } from '@services/BMI.service';
 
 
 
@@ -40,11 +40,11 @@ export class ModalWeightLineChartComponent {
         Chart.register(zoomPlugin);
 
         effect(() => {
-            this.updateWeightChart(this.weights(), this.goal(), this.BMIService.getBMILimitsForHeight());
+            this.updateWeightChart(this.weights(), this.goal(), this.BMIService.BMI_CATEGORIES);
         });
     }
 
-    updateWeightChart(weights: Weight[] | undefined, goal: Goal | undefined, categories: { label: string; bmi: number; weight: number; alert: string; }[]) {
+    updateWeightChart(weights: Weight[] | undefined, goal: Goal | undefined, categories: BMICategory[]) {
         if (!weights) return;
         const weightChart = new ModalWeightLineChart(this.calculateFunctionsService, weights, goal, categories);
         this.data = weightChart.getData();

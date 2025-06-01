@@ -1,14 +1,13 @@
 import { Injector, Signal } from '@angular/core';
 import { Weight } from '@models/types/Weight.type';
-import { TranslateService } from '@ngx-translate/core';
+import { ServiceHolder } from '@services/ServiceHolder';
 import { TimeService } from '@services/Time.service';
-import { getTranslate } from '@services/translate-holder';
 import { Chart } from 'chart.js';
 import type { ArcElement } from 'chart.js';
 
 const injector = Injector.create({ providers: [TimeService] });
 const timeService = injector.get(TimeService);
-const translateService = getTranslate();
+const translateService = ServiceHolder.translateService;
 
 const loadSVG = (src: string) => {
     const img = new Image();

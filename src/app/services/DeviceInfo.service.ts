@@ -9,28 +9,20 @@ export class DeviceInfoService {
     private readonly AVAILABLE_LANGUAGES = ['en', 'es'];
     private readonly DEFAULT_LANGUAGE = 'en';
 
-    private language!: string;
+    private language: string;
 
     constructor(
         private readonly translate: TranslateService
     ) {
-        this.init();
+        this.language = this.AVAILABLE_LANGUAGES.includes(this.translate.currentLang) ? this.translate.currentLang : this.DEFAULT_LANGUAGE;
     }
 
-    private init() {
-        Device.getLanguageCode().then(languageCode => {
-            this.language = this.AVAILABLE_LANGUAGES.includes(languageCode.value) ? languageCode.value : this.DEFAULT_LANGUAGE;
-            this.translate.setDefaultLang(this.language);
-        }).catch(() => {
-            const languageCode = this.translate.getBrowserLang() ?? this.DEFAULT_LANGUAGE;
-            this.language = this.AVAILABLE_LANGUAGES.includes(languageCode) ? languageCode : this.DEFAULT_LANGUAGE;
-        });
+    async init(): Promise<void> {
+        const languageCode = await Device.getLanguageCode()
+        this.language = this.AVAILABLE_LANGUAGES.includes(languageCode.value) ? languageCode.value : this.DEFAULT_LANGUAGE;
+        this.translate.setDefaultLang(this.language);
+
+        this.translate.use(this.language);
     }
-
-    getLanguage(): string {
-        return this.language
-    }
-
-
 
 }

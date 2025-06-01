@@ -1,39 +1,105 @@
-import { Injectable } from '@angular/core';
+import { effect, Injectable } from '@angular/core';
 import { UserConfigService } from './UserConfig.service';
 import { WeightTrackerService } from './WeightTracker.service';
 import { combineLatest, map, Observable } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { TranslateService } from '@ngx-translate/core';
+import { User } from '@models/types/User.type';
+
+export type BMICategory = {
+    translateLabel: string;
+    label: string;
+    max: number;
+    min: number;
+    color: string;
+    maxWeightLimit: number | undefined;
+    emoji: string;
+}
+
 
 @Injectable({ providedIn: 'root' })
-/**
- * Servicio para el cálculo y gestión del Índice de Masa Corporal (BMI).
- * @export
- * @class BMIService
- */
+
 export class BMIService {
-    /**
-     * Señal que mantiene el usuario actual (puede ser `null` si aún no se ha cargado).
-     * @private
-     * @readonly
-     */
+
+    BMI_CATEGORIES: BMICategory[] = [
+        {
+            translateLabel: 'TAB2.CATEGORIES.OBESITY_CLASS_III',
+            label: '',
+            max: Infinity,
+            min: 40,
+            color: '#f2adad',
+            maxWeightLimit: undefined,
+            emoji: '🔴'
+        },
+        {
+            translateLabel: 'TAB2.CATEGORIES.OBESITY_CLASS_II',
+            label: '',
+            max: 39.9,
+            min: 35,
+            color: '#f2adad',
+            maxWeightLimit: undefined,
+            emoji: '🔴'
+        },
+        {
+            translateLabel: 'TAB2.CATEGORIES.OBESITY_CLASS_I',
+            label: '',
+            max: 34.9,
+            min: 30,
+            color: '#f2adad',
+            maxWeightLimit: undefined,
+            emoji: '🟡'
+        },
+        {
+            translateLabel: 'TAB2.CATEGORIES.OVERWEIGHT',
+            label: '',
+            max: 29.9,
+            min: 25,
+            color: '#c7b85a',
+            maxWeightLimit: undefined,
+            emoji: '🟡'
+        },
+        {
+            translateLabel: 'TAB2.CATEGORIES.NORMAL',
+            label: '',
+            max: 24.9,
+            min: 18.5,
+            color: '#4caf50',
+            maxWeightLimit: undefined,
+            emoji: '🟢'
+        },
+        {
+            translateLabel: 'TAB2.CATEGORIES.MILD_THINNING',
+            label: '',
+            max: 18.49,
+            min: 17,
+            color: '#c7b85a',
+            maxWeightLimit: undefined,
+            emoji: '🟡'
+        },
+        {
+            translateLabel: 'TAB2.CATEGORIES.MODERATE_THINNING',
+            label: '',
+            max: 16.9,
+            min: 16,
+            color: '#c7b85a',
+            maxWeightLimit: undefined,
+            emoji: '🟡'
+        },
+        {
+            translateLabel: 'TAB2.CATEGORIES.SEVERE_THINNING',
+            label: '',
+            max: 15.9,
+            min: -Infinity,
+            color: '#f2adad',
+            maxWeightLimit: undefined,
+            emoji: '🔴'
+        },
+    ]
+
+
     private readonly user = toSignal(this.userConfig.user$, { initialValue: null });
 
-    /**
-     * Observable que emite el BMI calculado a partir de la altura del usuario
-     * y su último peso registrado. Emite `null` si faltan datos.
-     * @readonly
-     * @type {Observable<number | null>}
-     * @example
-     * ```ts
-     * this.bmiService.bmi$.subscribe(bmi => {
-     *   if (bmi !== null) {
-     *     console.log(`Tu BMI es ${bmi}`);
-     *   } else {
-     *     console.warn('Datos insuficientes para calcular BMI');
-     *   }
-     * });
-     * ```
-     */
+
     readonly bmi$: Observable<number | null> = combineLatest([
         this.userConfig.user$,
         this.weightTracker.lastWeight$
@@ -47,55 +113,41 @@ export class BMIService {
         })
     );
 
-    /**
-     * Crea una instancia de BMIService.
-     * @param {UserConfigService} userConfig - Servicio para obtener la configuración del usuario.
-     * @param {WeightTrackerService} weightTracker - Servicio para obtener el último peso registrado.
-     */
+
     constructor(
+        private readonly translateService: TranslateService,
         private readonly userConfig: UserConfigService,
         private readonly weightTracker: WeightTrackerService
-    ) { }
+    ) {
+        effect(() => {
+            this.updateMaxWeightLimit(this.user());
+            this.updateLabels();
+        })
+    }
 
-    /**
-     * Genera los límites de BMI para la altura actual del usuario,
-     * devolviendo un array de categorías con su BMI máximo, peso
-     * correspondiente y color de alerta.
-     * @returns {Array<{ label: string; bmi: number; weight: number; alert: string }>}
-     *   Array de objetos con:
-     *   - `label`: nombre de la categoría
-     *   - `bmi`: valor máximo de BMI
-     *   - `weight`: peso en kg para ese BMI con la altura del usuario
-     *   - `alert`: color asociado a la categoría
-     * @example
-     * ```ts
-     * const limits = this.bmiService.getBMILimitsForHeight();
-     * limits.forEach(l => {
-     *   console.log(`${l.label}: BMI hasta ${l.bmi}, peso hasta ${l.weight} kg`);
-     * });
-     * ```
-     */
-    getBMILimitsForHeight(): Array<{ label: string; bmi: number; weight: number; alert: string; }> {
-        const height = this.user()?.height;
-        if (!height || height <= 0) return [];
+    private updateLabels() {
+        const bmiCategories = this.BMI_CATEGORIES
+        this.translateService.get(
+            bmiCategories.map(cat => cat.translateLabel)
+        ).subscribe(translations => {
+            this.BMI_CATEGORIES.map(cat => {
+                cat.label = translations[cat.translateLabel];
+                return { ...cat };
+            })
+        })
+    }
 
-        const h2 = (height / 100) ** 2;
-        const bmiCategories = [
-            { label: 'Severe Thinness', max: 15.99, alert: '#f2adad' },
-            { label: 'Moderate Thinness', max: 16.99, alert: '#c7b85a' },
-            { label: 'Mild Thinness', max: 18.49, alert: '#c7b85a' },
-            { label: 'Normal', max: 24.9, alert: '#4caf50' },
-            { label: 'Pre-obese', max: 27.9, alert: '#c7b85a' },
-            { label: 'High Overweight', max: 29.9, alert: '#c7b85a' },
-            { label: 'Obesity Class I', max: 34.9, alert: '#f2adad' },
-            { label: 'Obesity Class II', max: 39.9, alert: '#f2adad' }
-        ];
+    updateMaxWeightLimit(user: User | undefined | null): void {
+        if (!user) return;
 
-        return bmiCategories.map(({ label, max, alert }) => ({
-            label,
-            bmi: max,
-            weight: +(max * h2).toFixed(1),
-            alert
-        }));
+        const height = user.height;
+        if (!height || height <= 0) return;
+
+        this.BMI_CATEGORIES.map(cat => {
+            const h2 = (height / 100) ** 2;
+            cat.maxWeightLimit = Number((cat.max * h2).toFixed(1))
+            cat.label = this.translateService.instant(cat.translateLabel);
+            return { ...cat };
+        })
     }
 }

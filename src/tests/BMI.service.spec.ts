@@ -90,7 +90,7 @@ describe('BMIService (Unit Tests with Jest)', () => {
         (interop.toSignal as jest.Mock).mockReturnValue(() => mockUser);
         service = new BMIService(userConfigMock, weightTrackerMock);
 
-        const limits = service.getBMILimitsForHeight();
+        const limits = service.updateMaxWeightLimit();
         expect(limits.length).toBeGreaterThan(0);
         limits.forEach(item => {
             expect(item).toHaveProperty('label');
@@ -106,7 +106,7 @@ describe('BMIService (Unit Tests with Jest)', () => {
         (interop.toSignal as jest.Mock).mockReturnValue(() => noHeight);
         service = new BMIService({ user$: of(noHeight) } as any, weightTrackerMock);
 
-        expect(service.getBMILimitsForHeight()).toEqual([]);
+        expect(service.updateMaxWeightLimit()).toEqual([]);
     });
 
     it('should return empty array for BMI limits if height is 0', () => {
@@ -115,7 +115,7 @@ describe('BMIService (Unit Tests with Jest)', () => {
         (interop.toSignal as jest.Mock).mockReturnValue(() => zeroHeight);
         service = new BMIService({ user$: of(zeroHeight) } as any, weightTrackerMock);
 
-        expect(service.getBMILimitsForHeight()).toEqual([]);
+        expect(service.updateMaxWeightLimit()).toEqual([]);
     });
 
 });

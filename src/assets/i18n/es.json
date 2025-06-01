@@ -7,7 +7,14 @@
         "WEIGHT_UNITS": "Unidades de peso",
         "GOAL": "Objetivo",
         "BMI": "IMC",
-        "TREND": "Tendencia"
+        "TREND": "Tendencia",
+        "CANCEL": "Cancelar",
+        "OK": "Aceptar",
+        "CONFIRM": "Confirmar",
+        "EXPORT": "Exportar",
+        "WEEK": "Semana",
+        "MONTH": "Mes",
+        "YEAR": "Año"
     },
     "TABS": {
         "HOME": "Inicio",
@@ -62,5 +69,18 @@
         "ALERT": "La altura es necesaria para calcular tu IMC. Por favor, proporciona la altura.",
         "INFO_TITLE": "¿Que es el IMC?",
         "INFO": "IMC (Índice de Masa Corporal) es un índice sencillo de peso en relación con la altura, utilizado para clasificar bajo peso, sobrepeso y obesidad en adultos. Se calcula dividiendo el peso de una persona en kilogramos por el cuadrado de su altura en metros."
+    },
+    "TAB3": {
+        "BUTTON_EXPORT": "Exportar datos a CSV",
+        "EXPORT_ALERT": {
+            "TITLE": " Exportar CSV",
+            "MESSAGE": "¿Estás seguro de que deseas exportar tus datos a CSV?"
+        },
+        "TITLE": "Tendencia de pérdida de peso",
+        "INFO": "Su cambio promedio de peso a lo largo del tiempo",
+        "WEEKLY": "Semanal",
+        "MONTHLY": "Mensual",
+        "GOAL_MONTHLY": "Objetivo mensual",
+        "GOAL_WEEKLY": "Objetivo semanal"
     }
 }

@@ -2,7 +2,7 @@
     <header class="flex flex-col justify-center items-center mb-2">
         <div class="flex flex-row items-center  mb-2">
             <h1 class="font-semibold text-2xl m-0 ml-7">
-                Your Weight Loss Trend
+                {{ 'TAB3.TITLE' | translate }}
             </h1>
             <ion-button fill="clear" class="pb-3" size="small" (click)="openInfoPopover()" (keypress)="openInfoPopover()"
                 style="--border-radius: 50%">
@@ -11,7 +11,7 @@
             </ion-button>
         </div>
         <h2 class="text-center text-lg text-accent text-pretty ">
-            Your average weight change over time
+            {{ 'TAB3.INFO' | translate }}
         </h2>
     </header>
 
@@ -19,7 +19,7 @@
 
         <ion-card
             class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center">
-            <ion-card-subtitle class="text-teal-800 font-sans ">Months</ion-card-subtitle>
+            <ion-card-subtitle class="text-teal-800 font-sans ">{{ 'TAB3.MONTHLY' | translate }}</ion-card-subtitle>
             <ion-card-title class="text-secondary text-2xl font-bold">{{
                 validateTrendPace(trendPaceMonth(), 50)
                 }} </ion-card-title>
@@ -27,7 +27,7 @@
 
         <ion-card
             class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center">
-            <ion-card-subtitle class="text-teal-800 font-sans">Weeks</ion-card-subtitle>
+            <ion-card-subtitle class="text-teal-800 font-sans">{{ 'TAB3.WEEKLY' | translate }}</ion-card-subtitle>
             <ion-card-title class="text-secondary text-2xl font-bold">
                 {{
                 validateTrendPace(trendPaceWeek(), 25)
@@ -39,7 +39,7 @@
 
             <ion-card
                 class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center">
-                <ion-card-subtitle class="text-teal-800 font-sans ">Goal per Month</ion-card-subtitle>
+                <ion-card-subtitle class="text-teal-800 font-sans ">{{ 'TAB3.GOAL_MONTHLY' | translate }}</ion-card-subtitle>
                 <ion-card-title class="text-secondary text-2xl font-bold">{{ goalPaceMonth() * -1 }} {{
                     weightUnits()
                     }}</ion-card-title>
@@ -47,11 +47,10 @@
 
             <ion-card
                 class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center">
-                <ion-card-subtitle class="text-teal-800 font-sans ">Goal per Week</ion-card-subtitle>
+                <ion-card-subtitle class="text-teal-800 font-sans ">{{ 'TAB3.GOAL_WEEKLY' | translate }}</ion-card-subtitle>
                 <ion-card-title class="text-secondary text-2xl font-bold">{{ goalPaceWeek() * -1 }} {{ weightUnits()
                     }}</ion-card-title>
             </ion-card>
-
         }
     </div>
 </section>

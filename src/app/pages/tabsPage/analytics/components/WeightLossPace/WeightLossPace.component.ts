@@ -4,10 +4,11 @@ import { Goal } from '@models/types/Goal.type';
 import { Weight, WeightUnits } from '@models/types/Weight.type';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { WeightLossPaceInfoPopoverComponent } from '../WeightLossPaceInfoPopover/WeightLossPaceInfoPopover.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-weight-loss-pace',
-    imports: [IonButton, IonIcon, IonCard, IonCardTitle, IonCardSubtitle],
+    imports: [IonButton, IonIcon, IonCard, IonCardTitle, IonCardSubtitle, TranslateModule],
     templateUrl: './WeightLossPace.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

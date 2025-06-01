@@ -7,7 +7,14 @@
         "WEIGHT_UNITS": "Weight Units",
         "GOAL": "Goal",
         "BMI": "BMI",
-        "TREND": "Trend"
+        "TREND": "Trend",
+        "CANCEL": "Cancel",
+        "OK": "Ok",
+        "CONFIRM": "Confirm",
+        "EXPORT": "Export",
+        "WEEK": "Week",
+        "MONTH": "Month",
+        "YEAR": "Year"
     },
     "TABS": {
         "HOME": "Home",
@@ -62,5 +69,18 @@
         "ALERT": "Height is required to calculate your BMI. Please provide it.",
         "INFO_TITLE": "What is BMI?",
         "INFO": "BMI (Body Mass Index) is a simple index of weight-for-height used to classify underweight, overweight, and obesity in adults. It is calculated by dividing a person's weight in kilograms by the square of their height in meters."
+    },
+    "TAB3": {
+        "BUTTON_EXPORT": "Export data to CSV",
+        "EXPORT_ALERT": {
+            "TITLE": "Export CSV",
+            "MESSAGE": "Are you sure you want to export your data to CSV?"
+        },
+        "TITLE": "Your Weight Loss Trend",
+        "INFO": "Your average weight change over time",
+        "WEEKLY": "Weekly",
+        "MONTHLY": "Monthly",
+        "GOAL_MONTHLY": "Goal per Month",
+        "GOAL_WEEKLY": "Goal per Week"
     }
 }

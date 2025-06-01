@@ -45,7 +45,7 @@ export default class HomeWeightLineChart {
             labels: weights.map(w => new Date(w.date).getTime()),
             datasets: [
                 {
-                    label: 'Weight (kg)',
+                    label: `${translateService.instant('KEY_WORDS.WEIGHT')} (kg)`,
                     data: weights.map(w => w.weight),
                     fill: false,
                     borderColor: '#00BD7E',
@@ -57,7 +57,7 @@ export default class HomeWeightLineChart {
                     pointHitRadius: isCompact ? 0 : 4,
                 },
                 {
-                    label: 'Trend',
+                    label: `${translateService.instant('KEY_WORDS.TREND')}`,
                     data: viewTrend ? trendData : [],
                     parsing: false,
                     fill: false,
@@ -87,7 +87,7 @@ export default class HomeWeightLineChart {
             borderDash: [5, 5],
             label: {
                 display: true,
-                content: `${ translateService.instant('KEY_WORDS.GOAL') }`,
+                content: `${translateService.instant('KEY_WORDS.GOAL')}`,
                 position: `${chartMode === 'viewGoal' ? 'end' : 'center'}`,
                 backgroundColor: 'rgba(0, 167, 20, 0.9)',
                 color: '#fff',
@@ -159,7 +159,7 @@ export default class HomeWeightLineChart {
                 y: {
                     min: Math.round(goalWeight ? Math.min(minWeight, goalWeight) - marginY : minWeight - marginY),
                     max: Math.round(goalWeight ? Math.max(maxWeight, goalWeight) + marginY : maxWeight + marginY),
-                    title: { display: false, text: `${ translateService.instant('KEY_WORDS.WEIGHT') } (kg)` },
+                    title: { display: false, text: `${translateService.instant('KEY_WORDS.WEIGHT')} (kg)` },
                     ticks: { font: { size: 13 }, color: '#343a40', maxTicksLimit: 8 },
                 },
             },

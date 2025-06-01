@@ -108,16 +108,16 @@
     "MODALS": {
         "WEIGHT_REGISTER": {
             "TITLE": "Registra tu peso",
-            "MESSAGE": "Cada paso cuenta. ¡Vamos a alcanzar tu objetivo juntos."
+            "MESSAGE": "Cada paso cuenta. ¡Vamos a alcanzar tu objetivo juntos!"
         },
         "GOAL_MODAL": {
             "TITLE": "Establece tu peso objetivo",
             "MESSAGE": "Define tu meta para mantenerte enfocado y analizar tu progreso",
-            "DATE": "Establecer una fecha"
+            "DATE": "Fecha objetivo"
         },
         "USER_MODAL": {
             "WEIGHT_GOAL": "Peso objetivo",
-            "SET_WEIGHT_GOAL": "Establecer peso objetivo"
+            "SET_WEIGHT_GOAL": "Establecer objetivo"
         }
     }
 }

@@ -81,6 +81,10 @@
         "WEEKLY": "Weekly",
         "MONTHLY": "Monthly",
         "GOAL_MONTHLY": "Goal per Month",
-        "GOAL_WEEKLY": "Goal per Week"
+        "GOAL_WEEKLY": "Goal per Week",
+        "INFO_ALERT": {
+            "TITLE": "Understanding Your Weight Loss Trend",
+            "MESSAGE": "Your weight loss trend shows how much weight you’re losing (or gaining) per week and per month, based on your recorded data. If you see \"Not Logic\", it means there’s not enough data yet to calculate a reliable trend. Keep registering your weight to get accurate insights!"
+        }
     }
 }

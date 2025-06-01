@@ -81,6 +81,10 @@
         "WEEKLY": "Semanal",
         "MONTHLY": "Mensual",
         "GOAL_MONTHLY": "Objetivo mensual",
-        "GOAL_WEEKLY": "Objetivo semanal"
+        "GOAL_WEEKLY": "Objetivo semanal",
+        "INFO_ALERT": {
+            "TITLE": "Comprender la tendencia de pérdida de peso",
+            "MESSAGE": "La tendencia de pérdida de peso muestra cuánto peso estás perdiendo (o ganando) por semana y por mes, según los datos registrados. Si ves \"No Logic\", significa que aún no hay suficientes datos para calcular una tendencia confiable. ¡Mantén registrando tu peso para obtener información precisa!"
+        }
     }
 }

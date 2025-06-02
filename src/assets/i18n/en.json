@@ -119,6 +119,35 @@
             "WEIGHT_GOAL": "Weight goal",
             "SET_WEIGHT_GOAL": "Set weight goal"
         }
-
+    },
+    "ALERTS": {
+        "BMI_VERY_LOW": {
+            "TITLE": "Very Low BMI!⚠️",
+            "MESSAGE": "Your BMI is significantly below the healthy range. Please consider consulting a healthcare provider."
+        },
+        "BMI_LOW": {
+            "TITLE": "Low BMI!⚠️",
+            "MESSAGE": "Your current BMI suggests you might be underweight. A health check-up could help."
+        },
+        "BMI_VERY_HIGH": {
+            "TITLE": "Very High BMI!⚠️",
+            "MESSAGE": "Your BMI is over 40, a high-risk range. We recommend consulting a professional."
+        },
+        "BMI_HIGH": {
+            "TITLE": "High BMI!⚠️",
+            "MESSAGE": "Your BMI suggests elevated risk. Gradual healthy changes can make a big difference."
+        },
+        "WEIGHT_NOT_REGISTERED": {
+            "TITLE": "Keep Your Progress Going!🕐",
+            "MESSAGE": "Try to register your weight every week to track progress."
+        },
+        "WEIGHT_REGISTERED": {
+            "TITLE": "A Friendly Reminder😊",
+            "MESSAGE": "You've registered weight multiple times today. once daily is sufficient."
+        },
+        "GOAL_PROBLEM": {
+            "TITLE": "Set a Goal You Can Achieve 🎯",
+            "MESSAGE": "Your current goal may be too ambitious for the timeframe. The maximum goal recommended is 4 kg per month and 1 kg per week. You can change it anytime."
+        }
     }
 }

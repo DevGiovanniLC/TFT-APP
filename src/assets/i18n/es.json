@@ -119,5 +119,35 @@
             "WEIGHT_GOAL": "Peso objetivo",
             "SET_WEIGHT_GOAL": "Establecer objetivo"
         }
+    },
+    "ALERTS": {
+        "BMI_VERY_LOW": {
+            "TITLE": "¡Alto IMC!⚠️",
+            "MESSAGE": "Tu IMC es significativamente por debajo del rango de salud. Por favor, considera consultar a un profesional de la salud."
+        },
+        "BMI_LOW": {
+            "TITLE": "¡Bajo IMC!⚠️",
+            "MESSAGE": "Tu IMC actual sugiere que puedes estar bajo peso. Una revisión de salud puede ayudar."
+        },
+        "BMI_VERY_HIGH": {
+            "TITLE": "¡Alto IMC!⚠️",
+            "MESSAGE": "Tu IMC es por encima de 40, un rango alto de riesgo. Recomendamos consultar a un profesional."
+        },
+        "BMI_HIGH": {
+            "TITLE": "¡Alto IMC!⚠️",
+            "MESSAGE": "Tu IMC sugiere un riesgo elevado. Los cambios graduales en la salud pueden hacer una gran diferencia."
+        },
+        "WEIGHT_NOT_REGISTERED": {
+            "TITLE": "¡Mantén tu progreso!🕐",
+            "MESSAGE": "Intenta registrar tu peso cada semana para rastrear tu progreso."
+        },
+        "WEIGHT_REGISTERED": {
+            "TITLE": "¡Un recordatorio amigable😊",
+            "MESSAGE": "Has registrado peso varias veces hoy. Una vez al día es suficiente."
+        },
+        "GOAL_PROBLEM": {
+            "TITLE": "Establece un objetivo que puedas lograr 🎯",
+            "MESSAGE": "Tu objetivo actual puede ser demasiado ambicioso para el período elegido. El objetivo máximo recomendado es 4 kg al mes y 1 kg al semana. Puedes cambiarlo en cualquier momento."
+        }
     }
 }

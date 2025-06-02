@@ -12,6 +12,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { UserFormComponent } from '@components/forms/UserForm/UserForm.component';
 import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
 import { Goal } from '@models/types/Goal.type';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-initial-modal',
@@ -24,6 +25,7 @@ import { Goal } from '@models/types/Goal.type';
         FormsModule,
         UserFormComponent,
         CommonModule,
+        TranslateModule
     ],
     templateUrl: './Initial.page.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,6 +51,7 @@ export class InitialPage {
     isGoal = signal(false);
 
     constructor(
+        readonly translate: TranslateService,
         private readonly modalCtrl: ModalController,
         private readonly config: UserConfigService,
         private readonly weightTracker: WeightTrackerService,

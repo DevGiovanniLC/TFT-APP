@@ -24,6 +24,45 @@
         "MALE": "Masculino",
         "OTHER": "Otro"
     },
+    "INITIAL_MODAL": {
+        "PAGE1": {
+            "TITLE": "Tu viaje a un tú más saludable comienza ahora! 🚀",
+            "TIPS": [
+                "Sigue tu progreso",
+                "Establece metas alcanzables",
+                "Visualiza análisis y gráficas",
+                "Cultiva hábitos saludables",
+                "Celebra tus hitos"
+            ]
+        },
+        "PAGE2": {
+            "TITLE": "Registra tu peso",
+            "TIPS": [
+                "Establece tu peso actual",
+                "Mantente consistente y monitora tu progreso!"
+            ]
+        },
+        "PAGE3": {
+            "TITLE": "Establece tu meta",
+            "TIPS": [
+                "Define tus metas personales para mantenerte motivado y enfocado en tu viaje de fitness. Aquí hay algunas ideas:",
+                "Perder peso y permanecer fit",
+                "Aumenta tu fuerza",
+                "Mejora la resistencia",
+                "Mejora la flexibilidad",
+                "Adopta una dieta saludable"
+            ],
+            "BUTTON": "Establecer objetivo",
+            "INFO": "Es opcional, pero recomendado",
+            "CHECK": "Ya tienes un objetivo de peso ✅"
+        },
+        "PAGE4": {
+            "TITLE": "Información Personal",
+            "TIPS": [
+                "Por favor, rellena con tu datos."
+            ]
+        }
+    },
     "TABS": {
         "HOME": "Inicio",
         "REGISTERS": "Registros",

@@ -24,6 +24,45 @@
         "MALE": "Male",
         "OTHER": "Other"
     },
+    "INITIAL_MODAL": {
+        "PAGE1": {
+            "TITLE": "Your Journey to a Healthier You Starts Now! 🚀",
+            "TIPS": [
+                "Track your progress",
+                "Set achievable goals",
+                "View analysis",
+                "Build healthy habits",
+                "Celebrate your milestones"
+            ]
+        },
+        "PAGE2": {
+            "TITLE": "Track Your Weight",
+            "TIPS": [
+                "Set your actual weight",
+                "Stay consistent and monitor your progress!"
+            ]
+        },
+        "PAGE3": {
+            "TITLE": "Set Your Goal",
+            "TIPS": [
+                "Define your personal goals to stay motivated and focused on your fitness journey. Here are some ideas:",
+                "Lose weight and stay fit",
+                "Increase your strength",
+                "Improve endurance",
+                "Enhance flexibility",
+                "Adopt a healthier diet"
+            ],
+            "BUTTON": "Set weight Goal",
+            "INFO": "It's optional, but recommended",
+            "CHECK": "You already have a weight goal ✅"
+        },
+        "PAGE4": {
+            "TITLE": "Personal Information",
+            "TIPS": [
+                "Please fill in your information."
+            ]
+        }
+    },
     "TABS": {
         "HOME": "Home",
         "REGISTERS": "Registers",

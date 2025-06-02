@@ -35,6 +35,7 @@
         "STARTING_WEIGHT": "Peso Inicial",
         "GOAL_WIEGHT": "Peso Objetivo",
         "NO_GOAL_SELECTED": "No hay meta seleccionada",
+        "NO_DEADLINE": "Sin fecha límite",
         "REGISTER_WEIGHT": "Registrar peso",
         "CHART": {
             "TOTAL": "Total",
@@ -76,7 +77,8 @@
         "MESSAGE": "El IMC mide el peso relativo a la altura, pero ignora la composición del cuerpo, a menudo clasificando a personas musculares o altas en grasa. Es útil para la revisión general, pero no para una evaluación precisa de la salud.",
         "ALERT": "La altura es necesaria para calcular tu IMC. Por favor, proporciona la altura.",
         "INFO_TITLE": "¿Que es el IMC?",
-        "INFO": "IMC (Índice de Masa Corporal) es un índice sencillo de peso en relación con la altura, utilizado para clasificar bajo peso, sobrepeso y obesidad en adultos. Se calcula dividiendo el peso de una persona en kilogramos por el cuadrado de su altura en metros."
+        "INFO": "IMC (Índice de Masa Corporal) es un índice sencillo de peso en relación con la altura, utilizado para clasificar bajo peso, sobrepeso y obesidad en adultos. Se calcula dividiendo el peso de una persona en kilogramos por el cuadrado de su altura en metros.",
+        "BUTTON_HEIGHT": "Establecer altura"
     },
     "TAB3": {
         "BUTTON_EXPORT": "Exportar datos a CSV",

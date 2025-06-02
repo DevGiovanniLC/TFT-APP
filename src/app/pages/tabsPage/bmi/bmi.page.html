@@ -12,7 +12,9 @@
         <p class="w-64 text-center text-2xl text-slate-600 font-semibold text-pretty">
             {{ 'TAB2.ALERT' | translate }}
         </p>
-        <ion-button class="mt-4" (click)="openModal()" (keypress)="openModal()"> Set Height </ion-button>
+        <ion-button class="mt-6 button-shadow w-40 h-12" (click)="openModal()" (keypress)="openModal()" style="--border-radius: 18px">
+            {{ 'TAB2.BUTTON_HEIGHT' | translate }}
+        </ion-button>
     </section>
     }
 </ion-content>

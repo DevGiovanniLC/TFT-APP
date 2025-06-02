@@ -35,6 +35,7 @@
         "STARTING_WEIGHT": "Starting Weight",
         "GOAL_WIEGHT": "Goal Weight",
         "NO_GOAL_SELECTED": "No goal selected",
+        "NO_DEADLINE": "No deadline",
         "REGISTER_WEIGHT": "Register Weight",
         "CHART": {
             "TOTAL": "Total",
@@ -76,7 +77,8 @@
         "MESSAGE": "BMI measures weight relative to height but ignores body composition, often misclassifying muscular or high-fat individuals. It is useful for general screening but not for accurately assessing health.",
         "ALERT": "Height is required to calculate your BMI. Please provide it.",
         "INFO_TITLE": "What is BMI?",
-        "INFO": "BMI (Body Mass Index) is a simple index of weight-for-height used to classify underweight, overweight, and obesity in adults. It is calculated by dividing a person's weight in kilograms by the square of their height in meters."
+        "INFO": "BMI (Body Mass Index) is a simple index of weight-for-height used to classify underweight, overweight, and obesity in adults. It is calculated by dividing a person's weight in kilograms by the square of their height in meters.",
+        "BUTTON_HEIGHT": "Set Height"
     },
     "TAB3": {
         "BUTTON_EXPORT": "Export data to CSV",

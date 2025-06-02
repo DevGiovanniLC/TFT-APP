@@ -6,8 +6,9 @@
             <label for="name" class="text-sm font-medium text-teal-600">
                 {{ 'KEY_WORDS.NAME' | translate }} ({{'KEY_WORDS.OPTIONAL' | translate }})
             </label>
-            <input id="name" type="text" name="name" autocomplete="name" placeholder="Enter your name"
-                [(ngModel)]="user.name" (input)="onNameChange($event)"
+            <input id="name" type="text" name="name" autocomplete="name"
+                [placeholder]="'MODALS.USER_MODAL.PLACEHOLDER.NAME' | translate" [(ngModel)]="user.name"
+                (input)="onNameChange($event)"
                 class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm" />
         </div>
 
@@ -16,8 +17,8 @@
             <label for="age" class="text-sm font-medium text-teal-600">
                 {{ 'KEY_WORDS.AGE' | translate }} ({{'KEY_WORDS.OPTIONAL' | translate }})
             </label>
-            <input id="age" name="age" type="number" placeholder="Enter your age" [(ngModel)]="user.age"
-                (input)="onAgeChange($event)"
+            <input id="age" name="age" type="number" [placeholder]="'MODALS.USER_MODAL.PLACEHOLDER.AGE' | translate"
+                [(ngModel)]="user.age" (input)="onAgeChange($event)"
                 class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm" />
         </div>
 
@@ -26,8 +27,9 @@
             <label for="height" class="text-sm font-medium text-teal-600">
                 {{ 'KEY_WORDS.HEIGHT' | translate }} ({{'KEY_WORDS.OPTIONAL' | translate }})
             </label>
-            <input id="height" name="height" type="number" placeholder="Enter your height (cm)"
-                [(ngModel)]="user.height" (input)="onHeightChange($event)"
+            <input id="height" name="height" type="number"
+                [placeholder]="'MODALS.USER_MODAL.PLACEHOLDER.HEIGHT' | translate" [(ngModel)]="user.height"
+                (input)="onHeightChange($event)"
                 class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm" />
         </div>
 
@@ -36,8 +38,8 @@
             <label for="gender" class="text-sm font-medium text-teal-600">
                 {{ 'KEY_WORDS.GENDER' | translate }} ({{'KEY_WORDS.OPTIONAL' | translate }})
             </label>
-            <ion-select id="gender" name="gender" placeholder="Select your gender" [(ngModel)]="user.gender"
-                (ionChange)="onGenderChange()"
+            <ion-select id="gender" name="gender" [placeholder]=" 'MODALS.USER_MODAL.PLACEHOLDER.GENDER' | translate"
+                [(ngModel)]="user.gender" (ionChange)="onGenderChange()"
                 class="px-4 py-1 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm">
                 <ion-select-option value="female">{{ 'KEY_WORDS.FEMALE' | translate }}</ion-select-option>
                 <ion-select-option value="male">{{ 'KEY_WORDS.MALE' | translate }}</ion-select-option>

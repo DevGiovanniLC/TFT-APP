@@ -158,7 +158,13 @@
         },
         "USER_MODAL": {
             "WEIGHT_GOAL": "Peso objetivo",
-            "SET_WEIGHT_GOAL": "Establecer objetivo"
+            "SET_WEIGHT_GOAL": "Establecer objetivo",
+            "PLACEHOLDER": {
+                "NAME": "Ingresa tu nombre",
+                "AGE": "Ingresa tu edad",
+                "HEIGHT": "Ingresa tu altura (cm)",
+                "GENDER": "Elige tu género"
+            }
         }
     },
     "ALERTS": {

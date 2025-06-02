@@ -158,7 +158,13 @@
         },
         "USER_MODAL": {
             "WEIGHT_GOAL": "Weight goal",
-            "SET_WEIGHT_GOAL": "Set weight goal"
+            "SET_WEIGHT_GOAL": "Set weight goal",
+            "PLACEHOLDER": {
+                "NAME": "Enter your name",
+                "AGE": "Enter your age",
+                "HEIGHT": "Enter your height (cm)",
+                "GENDER": "Select your gender"
+            }
         }
     },
     "ALERTS": {

@@ -26,14 +26,12 @@ export class ModalHeaderComponent {
     step = 0;
 
     nextStep() {
-        this.step++;
-        this.outputStep.emit(this.step);
+        this.outputStep.emit(++this.step);
         return this.step;
     }
 
     backStep(): number {
-        this.step--;
-        this.outputStep.emit(this.step);
+        this.outputStep.emit(--this.step);
         return this.step;
     }
 }

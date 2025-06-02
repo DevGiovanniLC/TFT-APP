@@ -4,7 +4,7 @@
         @if (step !== 0 && headerMode() === headerEnum.Sequence || headerMode() === headerEnum.Back) {
                 <ion-button
                     id="backBtn"
-                    class="w-25 h-10 text-sm"
+                    class="w-28 h-10 text-sm"
                     style="--border-radius: 15px"
                     (click)="backStep()"
                     (keypress)="backStep()"
@@ -13,7 +13,7 @@
         } @else if (step == 0 && headerMode() === headerEnum.Static) {
                 <ion-button
                     id="backBtn"
-                    class="w-25 h-10 text-xs"
+                    class="w-28 h-10 text-xs"
                     style="--border-radius: 15px"
                     (click)="backStep()"
                     (keypress)="backStep()"
@@ -23,21 +23,21 @@
         @else {
                 <ion-button
                     id="BackBtnDisabled"
-                    class="w-25 h-10 text-xs"
+                    class="w-28 h-10"
                     style="--border-radius: 15px"
                     disabled="true"
-                ></ion-button>
+                >{{''}}</ion-button>
             }
         </ion-buttons>
-        <div class="flex flex-row justify-center items-center mb-2">
+        <div class="flex flex-row justify-center items-center mb-2 mr-2">
             <img src="assets/icons/app/icon-app.png" alt="icon app" class="w-10 h-10" />
-            <h1 class="text-center font-sans font-bold text-base m-0">Vita Weight</h1>
+            <h1 class="text-center font-sans font-bold text-sm m-0">Vita Weight</h1>
         </div>
         <ion-buttons slot="end" class="mx-1">
             @if (headerMode() == headerEnum.Back) {
                 <ion-button
                     [id]="step === MAX_STEPS() ? 'confirmBtn' : 'nextBtn'"
-                    class="w-25 h-10 text-xs"
+                    class="w-24 h-10 text-xs"
                     style="--border-radius: 15px"
                     color="primary"
                     strong="true"
@@ -50,13 +50,13 @@
             @else {
                 <ion-button
                     [id]="step === MAX_STEPS() ? 'confirmBtn' : 'nextBtn'"
-                    class="w-25 h-10 text-xs"
+                    class="w-28 h-10 text-xs"
                     style="--border-radius: 15px"
                     color="primary"
                     strong="true"
                     (click)="nextStep()"
                     (keypress)="nextStep()"
-                    >{{ (step < MAX_STEPS() ?   'KEY_WORDS.NEXT' : 'KEY_WORDS.CONFIRM') | translate }}</ion-button
+                    >{{ (step < MAX_STEPS() && step != -1 ?   'KEY_WORDS.NEXT' : 'KEY_WORDS.CONFIRM') | translate }}</ion-button
                 >
             }
         </ion-buttons>

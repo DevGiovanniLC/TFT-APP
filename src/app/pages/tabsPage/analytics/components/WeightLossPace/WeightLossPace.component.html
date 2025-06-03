@@ -3,22 +3,22 @@
         <div class="flex flex-row items-center mb-1 flex-wrap justify-center">
             <h1 class="font-semibold text-2xl m-0 ml-7 text-center text-pretty mx-2">
                 {{ 'TAB3.TITLE' | translate }}
+                <ion-button
+                    fill="clear"
+                    class="mb-6"
+                    size="small"
+                    (click)="openInfoPopover()"
+                    (keypress)="openInfoPopover()"
+                    style="--border-radius: 50%"
+                >
+                    <ion-icon
+                        slot="icon-only"
+                        name="information-circle-outline"
+                        src="assets/icons/info.svg"
+                        class="w-4 h-4 text-accent"
+                    ></ion-icon>
+                </ion-button>
             </h1>
-            <ion-button
-                fill="clear"
-                class="pb-3"
-                size="small"
-                (click)="openInfoPopover()"
-                (keypress)="openInfoPopover()"
-                style="--border-radius: 50%"
-            >
-                <ion-icon
-                    slot="icon-only"
-                    name="information-circle-outline"
-                    src="assets/icons/info.svg"
-                    class="w-4 h-4 text-accent"
-                ></ion-icon>
-            </ion-button>
         </div>
         <h2 class="text-center text-lg text-accent text-pretty">
             {{ 'TAB3.INFO' | translate }}

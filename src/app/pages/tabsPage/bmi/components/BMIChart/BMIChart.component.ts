@@ -4,6 +4,8 @@ import { BMIDoughnutChart } from '@models/charts/BMIDoghnoutChart';
 import { BMIPluginDoughnut } from '@models/charts/plugins/BMIDoughnutPlugin';
 import { ChartData, ChartOptions, Plugin } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { BMIService } from '@services/BMI.service';
 
 @Component({
     selector: 'app-bmichart',
@@ -19,6 +21,8 @@ export class BMIChartComponent {
     plugins: Plugin[] = [];
 
     constructor(
+        private readonly translateService: TranslateService,
+        private readonly bmiService: BMIService,
         private readonly cdr: ChangeDetectorRef,
         private readonly route: ActivatedRoute
     ) {
@@ -42,7 +46,7 @@ export class BMIChartComponent {
         this.data = chart.getData();
         this.options = chart.getOptions();
         this.plugins.pop();
-        this.plugins.push(BMIPluginDoughnut(bmi));
+        this.plugins.push(BMIPluginDoughnut(this.translateService, this.bmiService, bmi));
 
         this.cdr.detectChanges();
     }

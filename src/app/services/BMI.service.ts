@@ -119,6 +119,7 @@ export class BMIService {
         private readonly userConfig: UserConfigService,
         private readonly weightTracker: WeightTrackerService
     ) {
+
         effect(() => {
             this.updateMaxWeightLimit(this.user());
             this.updateLabels();
@@ -130,9 +131,8 @@ export class BMIService {
         this.translateService.get(
             bmiCategories.map(cat => cat.translateLabel)
         ).subscribe(translations => {
-            this.BMI_CATEGORIES.map(cat => {
+            this.BMI_CATEGORIES.forEach(cat => {
                 cat.label = translations[cat.translateLabel];
-                return { ...cat };
             })
         })
     }
@@ -143,11 +143,9 @@ export class BMIService {
         const height = user.height;
         if (!height || height <= 0) return;
 
-        this.BMI_CATEGORIES.map(cat => {
+        this.BMI_CATEGORIES.forEach(cat => {
             const h2 = (height / 100) ** 2;
             cat.maxWeightLimit = Number((cat.max * h2).toFixed(1))
-            cat.label = this.translateService.instant(cat.translateLabel);
-            return { ...cat };
         })
     }
 }

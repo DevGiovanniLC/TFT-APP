@@ -20,7 +20,8 @@ import { ChartData, ChartOptions, Plugin } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
 import { Goal } from '@models/types/Goal.type';
 import { DatePipe } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TimeService } from '@services/Time.service';
 
 @Component({
     selector: 'app-main-display',
@@ -52,13 +53,15 @@ export class MainDisplayComponent {
     readonly plugins = signal<Plugin[]>([]);
 
     constructor(
+        private readonly translateService: TranslateService,
+        private readonly timeService: TimeService,
         private readonly calculationFunctionsService: WeightAnalysisService,
         private readonly modalCtrl: ModalController,
         private readonly cdr: ChangeDetectorRef,
         private readonly route: ActivatedRoute
     ) {
         this.plugins.update((p: Plugin[]) => {
-            p.push(TextPlugin(this.progression, this.lastWeight));
+            p.push(TextPlugin(this.translateService, this.timeService, this.progression, this.lastWeight));
             return p;
         });
 

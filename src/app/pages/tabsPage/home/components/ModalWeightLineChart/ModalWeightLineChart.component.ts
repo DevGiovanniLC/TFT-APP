@@ -12,6 +12,7 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 import { UserConfigService } from '@services/UserConfig.service';
 import ModalWeightLineChart from '@models/charts/ModalWeightLineChart';
 import { BMICategory, BMIService } from '@services/BMI.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -31,8 +32,9 @@ export class ModalWeightLineChartComponent {
 
 
     constructor(
+        private readonly translateService: TranslateService,
         private readonly modalCtrl: ModalController,
-        private readonly calculateFunctionsService: WeightAnalysisService,
+        private readonly weightAnalysis: WeightAnalysisService,
         private readonly weightTrackerService: WeightTrackerService,
         private readonly userService: UserConfigService,
         private readonly BMIService: BMIService
@@ -46,7 +48,7 @@ export class ModalWeightLineChartComponent {
 
     updateWeightChart(weights: Weight[] | undefined, goal: Goal | undefined, categories: BMICategory[]) {
         if (!weights) return;
-        const weightChart = new ModalWeightLineChart(this.calculateFunctionsService, weights, goal, categories);
+        const weightChart = new ModalWeightLineChart(this.translateService, this.weightAnalysis, weights, goal, categories);
         this.data = weightChart.getData();
         this.options = weightChart.getOptions();
     }

@@ -1,13 +1,9 @@
-import { Injector, Signal } from '@angular/core';
+import { Signal } from '@angular/core';
 import { Weight } from '@models/types/Weight.type';
-import { ServiceHolder } from '@services/ServiceHolder';
+import { TranslateService } from '@ngx-translate/core';
 import { TimeService } from '@services/Time.service';
 import { Chart } from 'chart.js';
 import type { ArcElement } from 'chart.js';
-
-const injector = Injector.create({ providers: [TimeService] });
-const timeService = injector.get(TimeService);
-const translateService = ServiceHolder.translateService;
 
 const loadSVG = (src: string) => {
     const img = new Image();
@@ -24,8 +20,6 @@ export const SVGIconsPlugin = () => ({
         const meta = chart.getDatasetMeta(0);
         if (!meta?.data?.length) return;
 
-
-        // Usa el tipo ArcElement de Chart.js para tipar correctamente
         const { x: cx, y: cy, innerRadius, startAngle, endAngle } = meta.data[0] as ArcElement;
         const radius = innerRadius + 2;
 
@@ -58,7 +52,7 @@ export const SVGIconsPlugin = () => ({
     },
 });
 
-const getProgressionText = (progress: number) => {
+const getProgressionText = (translateService: TranslateService, progress: number) => {
     if (progress >= 100) return { text: `${translateService.instant('TAB1.MESSAGES.COMPLETED')}✅`, offset: -38, color: '#343a40' };
     if (progress >= 90) return { text: `${translateService.instant('TAB1.MESSAGES.JUST_A_LITTLE')}👍`, offset: -38, color: '#343a40' };
     if (progress >= 80) return { text: `${translateService.instant('TAB1.MESSAGES.JUST_A_BIT')}👍`, offset: -38, color: '#343a40' };
@@ -70,7 +64,7 @@ const getProgressionText = (progress: number) => {
     return { text: `${translateService.instant('TAB1.MESSAGES.DO_BETTER')}`, offset: -35, color: '#C7B85A' };
 };
 
-export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weight | undefined>) => ({
+export const TextPlugin = (translateService: TranslateService, timeService: TimeService, progression: Signal<number>, lastWeight: Signal<Weight | undefined>) => ({
     id: 'centerText',
     afterDraw: (chart: Chart) => {
         const { ctx, chartArea } = chart;
@@ -82,7 +76,7 @@ export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weigh
         const centerX = (chartArea.left + chartArea.right) / 2;
         const centerY = (chartArea.top + chartArea.bottom) / 2;
         const progress = Number(Math.min(100, progression()));
-        const { text, offset, color } = getProgressionText(progress);
+        const { text, offset, color } = getProgressionText(translateService,progress);
 
         ctx.font = 'bold 13px system-ui';
         ctx.fillStyle = '#343a40';
@@ -108,7 +102,7 @@ export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weigh
         ctx.font = '16px system-ui';
         ctx.fillStyle = '#1e8260';
         ctx.fillText(
-            differenceTime(weight?.date ?? timeService.now(), timeService.now()),
+            differenceTime(translateService, timeService, weight?.date ?? timeService.now(), timeService.now()),
             centerX,
             centerY + 62
         );
@@ -117,7 +111,7 @@ export const TextPlugin = (progression: Signal<number>, lastWeight: Signal<Weigh
     },
 });
 
-function differenceTime(dateStart: Date, dateEnd: Date) {
+function differenceTime(translateService: TranslateService, timeService: TimeService, dateStart: Date, dateEnd: Date) {
     const days = timeService.dayDifference(new Date(dateStart), new Date(dateEnd));
     if (days > 365) return `${Math.floor(days / 365)} ${translateService.instant('TAB1.TIME.YEARS_AGO')}`;
     if (days > 30) return `${Math.floor(days / 30)} ${translateService.instant('TAB1.TIME.MONTHS_AGO')}`;

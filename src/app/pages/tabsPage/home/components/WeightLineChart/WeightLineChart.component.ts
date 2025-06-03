@@ -11,7 +11,7 @@ import { Goal } from '@models/types/Goal.type';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartZoomButtonComponent } from '../ChartZoomButton/ChartZoomButton.component';
 import zoomPlugin from 'chartjs-plugin-zoom';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 
 
@@ -33,8 +33,9 @@ export class WeightLineChartComponent {
     isEmpty = signal(false);
 
     constructor(
+        private readonly translateService: TranslateService,
+        private readonly weightAnalysisService: WeightAnalysisService,
         private readonly timeService: TimeService,
-        private readonly calculateFunctionsService: WeightAnalysisService
     ) {
         Chart.register(annotationPlugin);
         Chart.register(zoomPlugin);
@@ -67,7 +68,7 @@ export class WeightLineChartComponent {
         if (weights().length == 0) this.isEmpty.set(true);
         else this.isEmpty.set(false);
 
-        const weightChart = new HomeWeightLineChart(this.calculateFunctionsService, this.chartMode, weights, this.goal);
+        const weightChart = new HomeWeightLineChart(this.translateService ,this.weightAnalysisService, this.chartMode, weights, this.goal);
 
         this.data = weightChart.getData();
         this.options = weightChart.getOptions();

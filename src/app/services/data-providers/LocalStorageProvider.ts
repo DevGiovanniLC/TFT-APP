@@ -26,7 +26,7 @@ export default class LocalStorageProvider implements DataProvider {
         localStorage.setItem(key, JSON.stringify(value));
     }
 
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private getWeightsRaw(): any[] {
         return this.getItem<Weight[]>(WEIGHTS_KEY) || [];
     }

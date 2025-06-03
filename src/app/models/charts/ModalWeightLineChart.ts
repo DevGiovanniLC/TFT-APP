@@ -1,14 +1,11 @@
 import { Goal } from '@models/types/Goal.type';
 import { Weight } from '@models/types/Weight.type';
+import { TranslateService } from '@ngx-translate/core';
 import { BMICategory } from '@services/BMI.service';
-import { ServiceHolder } from '@services/ServiceHolder';
 import { TimeService } from '@services/Time.service';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { AnnotationOptions, LineAnnotationOptions } from 'chartjs-plugin-annotation';
-
-
-const translateService = ServiceHolder.translateService;
 
 export default class ModalWeightLineChart {
     private readonly weights: Weight[];
@@ -16,12 +13,17 @@ export default class ModalWeightLineChart {
     private readonly trendData: { x: number; y: number }[];
     private readonly categories: BMICategory[];
 
+    private readonly translateService: TranslateService;
+
     constructor(
+        translateService: TranslateService,
         analysisService: WeightAnalysisService,
         weights: Weight[],
         goal: Goal | undefined,
         categories: BMICategory[]
     ) {
+        this.translateService = translateService;
+
         this.weights = weights;
         this.goal = goal;
         this.trendData = analysisService.getTrendData(weights);
@@ -34,7 +36,7 @@ export default class ModalWeightLineChart {
             labels,
             datasets: [
                 {
-                    label: `${translateService.instant('KEY_WORDS.WEIGHT')} (kg)`,
+                    label: `${this.translateService.instant('KEY_WORDS.WEIGHT')} (kg)`,
                     data: this.weights.map(w => w.weight),
                     fill: false,
                     borderColor: '#00BD7E',
@@ -42,7 +44,7 @@ export default class ModalWeightLineChart {
                     pointRadius: 4,
                 },
                 {
-                    label: `${translateService.instant('KEY_WORDS.TREND')}`,
+                    label: `${this.translateService.instant('KEY_WORDS.TREND')}`,
                     data: this.trendData,
                     parsing: false,
                     fill: false,
@@ -71,7 +73,7 @@ export default class ModalWeightLineChart {
             borderDash: [5, 5],
             label: {
                 display: true,
-                content: `${translateService.instant('KEY_WORDS.GOAL')}`,
+                content: `${this.translateService.instant('KEY_WORDS.GOAL')}`,
                 position: 'end',
                 backgroundColor: 'rgba(0, 167, 20, 0.9)',
                 color: '#fff',
@@ -132,8 +134,8 @@ export default class ModalWeightLineChart {
                 xValue: goalDate.getTime(),
                 yValue: goalWeight + 0.8,
                 content: [
-                    `${translateService.instant('KEY_WORDS.GOAL')}: ${goalWeight.toFixed(2)} kg`,
-                    `${translateService.instant('KEY_WORDS.DATE')}: ${goalDate.toLocaleDateString('en-GB')}`
+                    `${this.translateService.instant('KEY_WORDS.GOAL')}: ${goalWeight.toFixed(2)} kg`,
+                    `${this.translateService.instant('KEY_WORDS.DATE')}: ${goalDate.toLocaleDateString('en-GB')}`
                 ],
                 color: '#00BD7E',
                 font: {

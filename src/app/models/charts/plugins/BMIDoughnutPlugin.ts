@@ -1,15 +1,14 @@
-import { ServiceHolder } from '@services/ServiceHolder';
+import { TranslateService } from '@ngx-translate/core';
+import { BMIService } from '@services/BMI.service';
 import { Chart } from 'chart.js';
 import type { ArcElement } from 'chart.js';
 
 const BODY_IMG_SRC = 'assets/icons/body.svg';
 const MAX_BMI = 40;
 
-const translateService = ServiceHolder.translateService;
 
-const bmiService = ServiceHolder.BMIService;
 
-function getBMICategory(bmi: number) {
+function getBMICategory(bmiService: BMIService, bmi: number) {
     const bmiCategories = bmiService.BMI_CATEGORIES
     const category = bmiCategories.find(cat => bmi < cat.max && bmi > cat.min) ?? bmiCategories[0]
     return category
@@ -18,7 +17,7 @@ function getBMICategory(bmi: number) {
 const bodyImg = new Image();
 bodyImg.src = BODY_IMG_SRC;
 
-export const BMIPluginDoughnut = (bmi: number) => ({
+export const BMIPluginDoughnut = (translateService: TranslateService, bmiService: BMIService, bmi: number) => ({
     id: 'bmiHumanFill',
     afterDraw(chart: Chart) {
         if (!bodyImg.complete) return;
@@ -50,7 +49,7 @@ export const BMIPluginDoughnut = (bmi: number) => ({
 
         const fillHeight = imgSize * Math.min(bmi, MAX_BMI) / MAX_BMI;
         const fillY = imgSize - fillHeight;
-        const { color, label } = getBMICategory(bmi);
+        const { color, label } = getBMICategory(bmiService, bmi);
 
         tempCtx.fillStyle = color;
         tempCtx.fillRect(0, fillY, imgSize, fillHeight);

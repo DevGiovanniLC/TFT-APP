@@ -5,10 +5,7 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { UserConfigService } from '@services/UserConfig.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { EventAdviceService } from '@services/EventAdvice.service';
-import { TranslateService } from '@ngx-translate/core';
 import { DeviceInfoService } from '@services/DeviceInfo.service';
-import { ServiceHolder } from '@services/ServiceHolder';
-import { BMIService } from '@services/BMI.service';
 
 
 
@@ -23,13 +20,10 @@ export class AppComponent {
         private readonly navCtrl: NavController,
         private readonly config: UserConfigService,
         private readonly weightTracker: WeightTrackerService,
-        private readonly translate: TranslateService,
-        private readonly bmiService: BMIService,
         // No quitar necesario para inicializar constructor
         private readonly deviceInfo: DeviceInfoService,
         private readonly eventAdvice: EventAdviceService,
     ) {
-        this.initServices();
         this.initApp();
     }
 
@@ -49,15 +43,6 @@ export class AppComponent {
                 this.navCtrl.navigateRoot('/initial');
             }
         });
-    }
-
-    private initServices() {
-        ServiceHolder.init(
-            {
-                translateService: this.translate,
-                BMIService: this.bmiService
-            }
-        );
     }
 
     private hideSplash() {

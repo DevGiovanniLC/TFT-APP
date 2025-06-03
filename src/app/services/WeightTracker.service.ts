@@ -54,73 +54,41 @@ export class WeightTrackerService {
         map(weights => weights[0])
     );
 
-    /**
-     * Constructor del servicio.
-     * @param dataProvider Servicio que accede al almacenamiento persistente de datos.
-     */
+
     constructor(private readonly dataProvider: DataProviderService) { }
 
-    /**
-     * Refresca el array de registros de peso desde el proveedor de datos.
-     * @private
-     */
+
     private refreshWeights(): void {
         this.dataProvider.getWeights().then(weights => {
             this.weightsSubject.next(weights);
         });
     }
 
-    /**
-     * Inicia la carga de registros de peso y devuelve el Observable para suscripción.
-     * @returns Observable que emite el array de registros de peso.
-     * @example
-     * ```ts
-     * this.weightTracker.getWeights().subscribe(weights => console.log(weights));
-     * ```
-     */
+
     getWeights(): Observable<Weight[]> {
         this.refreshWeights();
         return this.weights$;
     }
 
-    /**
-     * Añade un nuevo registro de peso y refresca el listado.
-     * Dispara el evento ADD.
-     * @param weight Objeto Weight a añadir.
-     */
+
     addWeight(weight: Weight): void {
         this.eventTriggered = EventTrigger.ADD;
         this.dataProvider.addWeight(weight);
         this.refreshWeights();
     }
 
-    /**
-     * Elimina un registro de peso por su identificador y refresca el listado.
-     * Dispara el evento DELETE.
-     * @param id Identificador del registro a eliminar.
-     */
     deleteWeight(id: number): void {
         this.eventTriggered = EventTrigger.DELETE;
         this.dataProvider.deleteWeight(id);
         this.refreshWeights();
     }
 
-    /**
-     * Actualiza un registro de peso existente y refresca el listado.
-     * Dispara el evento UPDATE.
-     * @param weight Objeto Weight con datos actualizados.
-     */
     updateWeight(weight: Weight): void {
         this.eventTriggered = EventTrigger.UPDATE;
         this.dataProvider.updateWeight(weight);
         this.refreshWeights();
     }
 
-    /**
-     * Comprueba si el último evento disparado coincide con el proporcionado.
-     * @param event Evento a verificar (ADD, DELETE, UPDATE, NONE).
-     * @returns true si coincide, false en caso contrario.
-     */
     isLastEvent(event: EventTrigger): boolean {
         return this.eventTriggered === event;
     }

@@ -43,31 +43,14 @@ export class UserConfigService {
     /** Observable público que emite el objetivo actual */
     readonly goal$ = this.goalSubject.asObservable();
 
-    /**
-     * Constructor del servicio.
-     * @param dataProvider Servicio para acceso a datos persistentes.
-     */
     constructor(private readonly dataProvider: DataProviderService) { }
 
-    /**
-     * Obtiene el usuario desde el DataProvider y actualiza el subject.
-     * @returns Observable que emite el `User` o `undefined` si no existe.
-     * @example
-     * ```ts
-     * this.userConfigService.getUser().subscribe(u => console.log(u));
-     * ```
-     */
     getUser(): Observable<User | undefined> {
         return from(this.dataProvider.getUser()).pipe(
             tap(user => this.userSubject.next(user ?? undefined))
         );
     }
 
-    /**
-     * Obtiene el objetivo (Goal) y convierte la fecha a objeto Date.
-     * Actualiza el subject correspondiente.
-     * @returns Observable que emite `Goal` o `undefined`.
-     */
     getGoal(): Observable<Goal | undefined> {
         return from(this.dataProvider.getGoal()).pipe(
             map(goal =>
@@ -79,14 +62,6 @@ export class UserConfigService {
         );
     }
 
-    /**
-     * Persiste un nuevo `User`, marca evento CHANGED y recarga streams.
-     * @param user Objeto `User` con los datos actualizados.
-     * @example
-     * ```ts
-     * this.userConfigService.setUser({name:'Ana', ...});
-     * ```
-     */
     setUser(user: User): void {
         this.eventTriggered = EventTrigger.CHANGED;
         this.dataProvider.setUser(user);

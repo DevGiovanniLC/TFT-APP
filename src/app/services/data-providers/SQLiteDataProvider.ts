@@ -30,11 +30,7 @@ export default class SQLiteDataProvider implements DataProvider {
         readonly: false,
     };
 
-    /**
-     * Inicializa la conexión a SQLite, crea tablas si es necesario.
-     * @async
-     * @returns {Promise<boolean>} true si la conexión se abrió correctamente.
-     */
+
     async initializeConnection(): Promise<boolean> {
         try {
             this.db = await this.sqlite.createConnection(
@@ -52,11 +48,7 @@ export default class SQLiteDataProvider implements DataProvider {
         }
     }
 
-    /**
-     * Crea la estructura de tablas para registros y usuario.
-     * @private
-     * @async
-     */
+
     private async setDBStructure(): Promise<void> {
         const schema = `
       CREATE TABLE IF NOT EXISTS registers (
@@ -81,12 +73,7 @@ export default class SQLiteDataProvider implements DataProvider {
         await this.db.execute(schema);
     }
 
-    /**
-     * Maneja errores de la base de datos lanzando alerta.
-     * @private
-     * @param {*} err - Objeto de error.
-     * @throws {Error}
-     */
+
     private handleDBError(err: unknown): never {
         const errorMessage = `❌ Database error: ${err}`;
         alert(errorMessage);
@@ -110,12 +97,7 @@ export default class SQLiteDataProvider implements DataProvider {
         }));
     }
 
-    /**
-     * Inserta un nuevo registro de peso.
-     * @async
-     * @param {Weight} value - Registro de peso.
-     * @returns {Promise<boolean>} true si la inserción fue exitosa.
-     */
+
     async addWeight(value: Weight): Promise<boolean> {
         try {
             await this.db.query(
@@ -128,12 +110,7 @@ export default class SQLiteDataProvider implements DataProvider {
         }
     }
 
-    /**
-     * Actualiza un registro de peso existente.
-     * @async
-     * @param {Weight} value - Registro con datos actualizados.
-     * @returns {Promise<boolean>} true si la actualización fue exitosa.
-     */
+
     async updateWeight(value: Weight): Promise<boolean> {
         try {
             await this.db.query(
@@ -146,12 +123,7 @@ export default class SQLiteDataProvider implements DataProvider {
         }
     }
 
-    /**
-     * Elimina un registro de peso por su ID.
-     * @async
-     * @param {number} id - Identificador del registro.
-     * @returns {Promise<boolean>} true si la eliminación fue exitosa.
-     */
+
     async deleteWeight(id: number): Promise<boolean> {
         try {
             await this.db.query(`DELETE FROM registers WHERE id = ?`, [id]);
@@ -161,11 +133,7 @@ export default class SQLiteDataProvider implements DataProvider {
         }
     }
 
-    /**
-     * Recupera el objetivo actual basado en el último usuario guardado.
-     * @async
-     * @returns {Promise<Goal | undefined>} Goal o undefined si no hay usuario.
-     */
+
     async getGoal(): Promise<Goal | undefined> {
         const user = await this.getUser();
         if (!user) return undefined;
@@ -176,11 +144,7 @@ export default class SQLiteDataProvider implements DataProvider {
         };
     }
 
-    /**
-     * Recupera el último usuario registrado.
-     * @async
-     * @returns {Promise<User | undefined>} User o undefined si no hay registros.
-     */
+
     async getUser(): Promise<User | undefined> {
         const { values } = await this.db.query(
             `SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)`
@@ -199,12 +163,7 @@ export default class SQLiteDataProvider implements DataProvider {
         };
     }
 
-    /**
-     * Inserta un nuevo usuario.
-     * @async
-     * @param {User} value - Datos del usuario.
-     * @returns {Promise<boolean>} true si la inserción fue exitosa.
-     */
+
     async setUser(value: User): Promise<boolean> {
         try {
             await this.db.query(
@@ -226,11 +185,7 @@ export default class SQLiteDataProvider implements DataProvider {
         }
     }
 
-    /**
-     * Exporta datos CSV a un archivo y lanza el diálogo de compartir.
-     * @async
-     * @param {string} csv - Contenido CSV.
-     */
+
     async exportDataCSV(csv: string): Promise<void> {
         const fileName = `weights-history-${Date.now()}.csv`;
         await Filesystem.writeFile({
@@ -242,12 +197,7 @@ export default class SQLiteDataProvider implements DataProvider {
         await this.shareCSVFile(fileName);
     }
 
-    /**
-     * Comparte el archivo CSV mediante el plugin de compartir.
-     * @private
-     * @async
-     * @param {string} filePath - Nombre del archivo en caché.
-     */
+
     private async shareCSVFile(filePath: string): Promise<void> {
         const { uri } = await Filesystem.getUri({
             directory: Directory.Cache,

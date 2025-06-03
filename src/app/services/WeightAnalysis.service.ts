@@ -15,21 +15,9 @@ import { TimeService } from './Time.service';
  * @class WeightAnalysisService
  */
 export class WeightAnalysisService {
-    /**
-     * Constructor que recibe el servicio de utilidades de tiempo.
-     * @param timeService Servicio para cálculos de diferencia entre fechas.
-     */
+
     constructor(private readonly timeService: TimeService) { }
 
-    /**
-     * Calcula el ritmo de pérdida de peso en kg/semana.
-     * Si el intervalo es menor a 1 semana, devuelve la diferencia simple de peso.
-     * @param {number} weight - Peso inicial (kg).
-     * @param {number} goal - Peso objetivo (kg).
-     * @param {Date} start - Fecha de inicio.
-     * @param {Date} end - Fecha de fin.
-     * @returns {number} Ritmo de pérdida en kg/semana (2 decimales).
-     */
     weekWeightLossPace(
         weight: number,
         goal: number,
@@ -43,15 +31,7 @@ export class WeightAnalysisService {
         return this.weightLossPace(weight, goal, weeks);
     }
 
-    /**
-     * Calcula el ritmo de pérdida de peso en kg/mes.
-     * Si el intervalo es menor a 1 mes, devuelve la diferencia simple de peso.
-     * @param {number} weight - Peso inicial (kg).
-     * @param {number} goal - Peso objetivo (kg).
-     * @param {Date} start - Fecha de inicio.
-     * @param {Date} end - Fecha de fin.
-     * @returns {number} Ritmo de pérdida en kg/mes (2 decimales).
-     */
+
     monthWeightLossPace(weight: number, goal: number, start: Date, end: Date): number {
         const months = this.timeService.monthDifference(start, end);
         if (months < 1) {
@@ -60,14 +40,6 @@ export class WeightAnalysisService {
         return this.weightLossPace(weight, goal, months);
     }
 
-    /**
-     * Método interno que calcula el ritmo de pérdida dado un factor de tiempo.
-     * @private
-     * @param {number} weight - Peso inicial.
-     * @param {number} goal - Peso objetivo.
-     * @param {number} diff - Número de unidades de tiempo (semanas o meses).
-     * @returns {number} Ritmo de pérdida (kg/unidad de tiempo).
-     */
     private weightLossPace(
         weight: number,
         goal: number,
@@ -77,11 +49,6 @@ export class WeightAnalysisService {
         return Number(((weight - goal) / diff).toFixed(2));
     }
 
-    /**
-     * Calcula la tendencia de pérdida de peso (kg/semana y kg/mes) mediante regresión lineal.
-     * @param {Weight[]} weights - Array de registros de peso ordenados cronológicamente.
-     * @returns {{ weightPerWeek: number; weightPerMonth: number }} Objeto con ritmo semanal y mensual.
-     */
     trendWeightPace(weights: Weight[]): { weightPerWeek: number; weightPerMonth: number; } {
         if (!weights?.length) return { weightPerWeek: 0, weightPerMonth: 0 };
         const lastDate = TimeService.getTime(
@@ -94,11 +61,6 @@ export class WeightAnalysisService {
         };
     }
 
-    /**
-     * Construye los datos de la línea de tendencia para gráfico.
-     * @param {Weight[]} weights - Array de registros de peso.
-     * @returns {{ x: number; y: number }[]} Array con dos puntos de la tendencia.
-     */
     getTrendData(weights: Weight[]): { x: number; y: number; }[] {
         if (!weights?.length) return [];
         const last = weights[0];
@@ -117,13 +79,6 @@ export class WeightAnalysisService {
         ];
     }
 
-    /**
-     * Calcula la regresión lineal (slope, intercept) sobre los datos proporcionados.
-     * @private
-     * @param {Weight[]} weights - Registros de peso.
-     * @param {number} refDate - Timestamp de referencia (ms).
-     * @returns {{ slope: number; intercept: number }} Coeficientes de la línea.
-     */
     private calculateTrend(
         weights: Weight[],
         refDate: number
@@ -167,13 +122,6 @@ export class WeightAnalysisService {
         return { slope, intercept };
     }
 
-    /**
-     * Calcula el porcentaje de avance entre dos pesos respecto a la meta.
-     * @param {number} first - Peso inicial.
-     * @param {number} last - Peso más reciente.
-     * @param {number} goal - Peso objetivo.
-     * @returns {number} Porcentaje de progreso (0-100) o NaN si datos inválidos.
-     */
     weightProgression(first: number, last: number, goal: number): number {
         if (!first || !last || !goal || goal === first) return NaN;
         return Number(

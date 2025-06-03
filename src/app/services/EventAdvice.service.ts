@@ -114,7 +114,7 @@ export class EventAdviceService {
                 ['BMI_ALERT_35']
             );
         }
-        this.weightTracker.EventTrigger.ADD
+        this.weightTracker.eventTriggered =  this.weightTracker.EventTrigger.NONE;
     }
 
 
@@ -152,7 +152,7 @@ export class EventAdviceService {
         }
 
         this.history.push(lastWeight);
-        this.weightTracker.EventTrigger.NONE
+        this.weightTracker.eventTriggered =  this.weightTracker.EventTrigger.NONE;
     }
 
 

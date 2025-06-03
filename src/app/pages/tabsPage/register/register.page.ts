@@ -5,7 +5,6 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { WeightRegisterComponent } from '../../../components/modals/WeightRegisterModal/WeightRegisterModal.component';
 import { Weight } from '@models/types/Weight.type';
-import { set } from 'cypress/types/lodash';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({

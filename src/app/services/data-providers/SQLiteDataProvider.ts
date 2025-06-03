@@ -102,7 +102,7 @@ export default class SQLiteDataProvider implements DataProvider {
         const { values } = await this.db.query(
             'SELECT * FROM registers ORDER BY date DESC'
         );
-        return (values ?? []).map((r: any) => ({
+        return (values ?? []).map((r: Weight) => ({
             id: r.id,
             date: new Date(r.date),
             weight: r.weight,
@@ -186,7 +186,7 @@ export default class SQLiteDataProvider implements DataProvider {
             `SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)`
         );
         if (!values?.length) return undefined;
-        const u: any = values[0];
+        const u: User = values[0];
         return {
             name: u.name,
             age: u.age,

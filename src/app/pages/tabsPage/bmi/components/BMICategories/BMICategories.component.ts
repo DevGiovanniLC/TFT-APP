@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { IonButton, IonIcon, PopoverController } from '@ionic/angular/standalone';
 import { BMIInfoPopoverComponent } from '../BMIInfoPopover/ BMIInfoPopover.component';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { BMIService } from '@services/BMI.service';
 
 @Component({

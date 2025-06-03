@@ -71,9 +71,9 @@
     },
     "TAB1": {
         "PROGRESSION": "Progresión",
-        "STARTING_WEIGHT": "Peso Inicial",
-        "GOAL_WIEGHT": "Peso Objetivo",
-        "NO_GOAL_SELECTED": "No hay meta seleccionada",
+        "STARTING_WEIGHT": "Peso inicial",
+        "GOAL_WIEGHT": "Peso objetivo",
+        "NO_GOAL_SELECTED": "No hay meta",
         "NO_DEADLINE": "Sin fecha límite",
         "REGISTER_WEIGHT": "Registrar peso",
         "CHART": {
@@ -142,7 +142,7 @@
             "MESSAGE": "Esta es la única entrada de peso en tu registro. Al menos una entrada debe ser mantenida"
         },
         "ALERT_DELETE_CONFIRM": {
-            "TITLE": "Eliminar peso",
+            "TITLE": "Eliminar registro",
             "MESSAGE": "¿Estás seguro de que deseas eliminar esta entrada de peso? \n Esta acción no se puede deshacer."
         }
     },
@@ -189,7 +189,7 @@
             "MESSAGE": "Intenta registrar tu peso cada semana para rastrear tu progreso."
         },
         "WEIGHT_REGISTERED": {
-            "TITLE": "¡Un recordatorio amigable😊",
+            "TITLE": "¡Un recordatorio amigable😊!",
             "MESSAGE": "Has registrado peso varias veces hoy. Una vez al día es suficiente."
         },
         "GOAL_PROBLEM": {

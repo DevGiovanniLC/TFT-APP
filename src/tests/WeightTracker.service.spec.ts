@@ -13,7 +13,7 @@ describe('WeightTrackerService (Unit Tests with Jest)', () => {
     // Muestra de datos de peso para pruebas
     const sampleWeights: Weight[] = [
         { id: 1, date: new Date('2024-01-01'), weight: 80, weight_units: WeightUnits.KG },
-        { id: 2, date: new Date('2024-02-01'), weight: 78, weight_units: WeightUnits.KG }
+        { id: 2, date: new Date('2024-02-01'), weight: 78, weight_units: WeightUnits.KG },
     ];
 
     beforeEach(() => {
@@ -38,7 +38,7 @@ describe('WeightTrackerService (Unit Tests with Jest)', () => {
     it('should fetch weights and update weightsSubject on getWeights()', async () => {
         // Llamada a getWeights() debe invocar al provider y actualizar weights$
         service.getWeights();
-        const weights = await firstValueFrom(service.weights$.pipe(filter(w => w.length > 0)));
+        const weights = await firstValueFrom(service.weights$.pipe(filter((w) => w.length > 0)));
         expect(dataProviderMock.getWeights).toHaveBeenCalled();
         expect(weights).toEqual(sampleWeights);
     });
@@ -74,8 +74,8 @@ describe('WeightTrackerService (Unit Tests with Jest)', () => {
     it('should correctly emit firstWeight$ and lastWeight$', async () => {
         // Tras getWeights(), lastWeight$ emite primer elemento, firstWeight$ el último
         service.getWeights();
-        const lastWeight = await firstValueFrom(service.lastWeight$.pipe(filter(w => w !== undefined)));
-        const firstWeight = await firstValueFrom(service.firstWeight$.pipe(filter(w => w !== undefined)));
+        const lastWeight = await firstValueFrom(service.lastWeight$.pipe(filter((w) => w !== undefined)));
+        const firstWeight = await firstValueFrom(service.firstWeight$.pipe(filter((w) => w !== undefined)));
         expect(lastWeight).toEqual(sampleWeights[0]);
         expect(firstWeight).toEqual(sampleWeights[1]);
     });
@@ -84,7 +84,12 @@ describe('WeightTrackerService (Unit Tests with Jest)', () => {
         // Si getWeights retorna array vacío, weights$ emite []
         dataProviderMock.getWeights.mockResolvedValueOnce([]);
         service.getWeights();
-        const weights = await firstValueFrom(service.weights$.pipe(filter(w => w !== null), take(1)));
+        const weights = await firstValueFrom(
+            service.weights$.pipe(
+                filter((w) => w !== null),
+                take(1)
+            )
+        );
         expect(weights).toEqual([]);
     });
 
@@ -93,7 +98,7 @@ describe('WeightTrackerService (Unit Tests with Jest)', () => {
         const newWeight: Weight = { id: 3, date: new Date('2024-03-01'), weight: 76, weight_units: WeightUnits.KG };
         dataProviderMock.getWeights.mockResolvedValueOnce([...sampleWeights, newWeight]);
         service.addWeight(newWeight);
-        const weights = await firstValueFrom(service.weights$.pipe(filter(w => w.length > 2)));
+        const weights = await firstValueFrom(service.weights$.pipe(filter((w) => w.length > 2)));
         expect(weights).toContainEqual(newWeight);
     });
 
@@ -101,7 +106,7 @@ describe('WeightTrackerService (Unit Tests with Jest)', () => {
         // Eliminar peso provoca emisión sin ese elemento
         dataProviderMock.getWeights.mockResolvedValueOnce(sampleWeights.slice(1));
         service.deleteWeight(sampleWeights[0].id ?? 0);
-        const weights = await firstValueFrom(service.weights$.pipe(filter(w => w.length === 1)));
+        const weights = await firstValueFrom(service.weights$.pipe(filter((w) => w.length === 1)));
         expect(weights).toEqual([sampleWeights[1]]);
     });
 
@@ -110,7 +115,7 @@ describe('WeightTrackerService (Unit Tests with Jest)', () => {
         const updatedWeight: Weight = { ...sampleWeights[0], weight: 85 };
         dataProviderMock.getWeights.mockResolvedValueOnce([updatedWeight, sampleWeights[1]]);
         service.updateWeight(updatedWeight);
-        const weights = await firstValueFrom(service.weights$.pipe(filter(w => w[0]?.weight === 85)));
+        const weights = await firstValueFrom(service.weights$.pipe(filter((w) => w[0]?.weight === 85)));
         expect(weights[0]).toEqual(updatedWeight);
     });
 
@@ -120,12 +125,12 @@ describe('WeightTrackerService (Unit Tests with Jest)', () => {
         const updatedWeights = [...sampleWeights, newWeight];
         dataProviderMock.getWeights.mockResolvedValueOnce(updatedWeights);
         service.addWeight(newWeight);
-        const weightsAfterAdd = await firstValueFrom(service.weights$.pipe(filter(w => w.length === 3)));
+        const weightsAfterAdd = await firstValueFrom(service.weights$.pipe(filter((w) => w.length === 3)));
         expect(weightsAfterAdd).toEqual(updatedWeights);
 
-        dataProviderMock.getWeights.mockResolvedValueOnce(updatedWeights.filter(w => w.id !== newWeight.id));
+        dataProviderMock.getWeights.mockResolvedValueOnce(updatedWeights.filter((w) => w.id !== newWeight.id));
         service.deleteWeight(newWeight.id ?? 0);
-        const weightsAfterDelete = await firstValueFrom(service.weights$.pipe(filter(w => w.length === 2)));
+        const weightsAfterDelete = await firstValueFrom(service.weights$.pipe(filter((w) => w.length === 2)));
         expect(weightsAfterDelete).toEqual(sampleWeights);
     });
 });

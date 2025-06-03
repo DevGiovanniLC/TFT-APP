@@ -2,34 +2,38 @@
     @if (goal()) {
         <div class="flex justify-between items-center w-full px-2">
             <ion-select
-            id="chartMode"
-            class="w-fit"
-            interface="popover"
-            aria-label="Chart Mode"
-            placeholder="Chart Mode"
-            value="total"
-
-            (ionChange)="setChartMode($event.target.value)"
+                id="chartMode"
+                class="w-fit"
+                interface="popover"
+                aria-label="Chart Mode"
+                placeholder="Chart Mode"
+                value="total"
+                (ionChange)="setChartMode($event.target.value)"
             >
-            <ion-select-option value="total">{{ 'TAB1.CHART.TOTAL' | translate }}</ion-select-option>
-            @if (validateGoalDate()) {
-                <ion-select-option value="viewGoal">{{ 'TAB1.CHART.VIEW_GOAL' | translate }}</ion-select-option>
-            }
-            <ion-select-option value="week">{{ 'TAB1.CHART.LAST_WEEK' | translate }}</ion-select-option>
+                <ion-select-option value="total">{{ 'TAB1.CHART.TOTAL' | translate }}</ion-select-option>
+                @if (validateGoalDate()) {
+                    <ion-select-option value="viewGoal">{{ 'TAB1.CHART.VIEW_GOAL' | translate }}</ion-select-option>
+                }
+                <ion-select-option value="week">{{ 'TAB1.CHART.LAST_WEEK' | translate }}</ion-select-option>
                 <ion-select-option value="month">{{ 'TAB1.CHART.LAST_MONTH' | translate }}</ion-select-option>
             </ion-select>
-            <app-weight-graphic-zoom-button/>
+            <app-weight-graphic-zoom-button />
         </div>
     }
 
     @if (isEmpty()) {
-        <div class="flex w-full justify-center items-center flex-col mt-4 rounded-xl bg-slate-100 border-secondary shadow-md p-2 py-4">
-            <p class="w-full text-pretty  text-center font-sans font-bold text-accent">
-                No weight registered <br> in {{ chartMode() }} period
+        <div
+            class="flex w-full justify-center items-center flex-col mt-4 rounded-xl bg-slate-100 border-secondary shadow-md p-2 py-4"
+        >
+            <p class="w-full text-pretty text-center font-sans font-bold text-accent">
+                No weight registered <br />
+                in {{ chartMode() }} period
             </p>
         </div>
     } @else {
-        <div class="w-full pt-2 shadow-xl rounded-lg border-tertiary border-2 flex items-center justify-center align-middle">
+        <div
+            class="w-full pt-2 shadow-xl rounded-lg border-tertiary border-2 flex items-center justify-center align-middle"
+        >
             <p-chart id="lineChart" class="w-full h-full ml-1 mt-1" type="line" [data]="data" [options]="options" />
         </div>
     }

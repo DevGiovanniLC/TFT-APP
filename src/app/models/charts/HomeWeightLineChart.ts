@@ -10,7 +10,7 @@ import { LineAnnotationOptions } from 'chartjs-plugin-annotation';
 type point = {
     x: number;
     y: number;
-}
+};
 
 export default class HomeWeightLineChart {
     private readonly chartMode: string;
@@ -44,11 +44,11 @@ export default class HomeWeightLineChart {
         const { weights, chartMode, viewTrend, trendData } = this;
         const isCompact = (chartMode === 'viewGoal' || chartMode === 'total') && weights.length > 1;
         return {
-            labels: weights.map(w => new Date(w.date).getTime()),
+            labels: weights.map((w) => new Date(w.date).getTime()),
             datasets: [
                 {
                     label: `${this.translateService.instant('KEY_WORDS.WEIGHT')} (kg)`,
-                    data: weights.map(w => w.weight),
+                    data: weights.map((w) => w.weight),
                     fill: false,
                     borderColor: '#00BD7E',
                     tension: 0.1,
@@ -96,10 +96,10 @@ export default class HomeWeightLineChart {
                 padding: { x: 5, y: 2 },
                 font: {
                     weight: 'bold',
-                    size: 9
-                }
-            }
-        }
+                    size: 9,
+                },
+            },
+        };
 
         return { goalLine };
     }
@@ -110,11 +110,13 @@ export default class HomeWeightLineChart {
 
         const goalWeight = goal?.weight ?? NaN;
         const goalDate = goal?.date;
-        const minWeight = Math.min(...weights.map(w => w.weight));
-        const maxWeight = Math.max(...weights.map(w => w.weight));
-        const marginY = ((goalWeight ? Math.max(maxWeight, goalWeight) - Math.min(minWeight, goalWeight) : maxWeight - minWeight) * 0.2) || 1;
+        const minWeight = Math.min(...weights.map((w) => w.weight));
+        const maxWeight = Math.max(...weights.map((w) => w.weight));
+        const marginY =
+            (goalWeight ? Math.max(maxWeight, goalWeight) - Math.min(minWeight, goalWeight) : maxWeight - minWeight) *
+                0.2 || 1;
 
-        const dates = weights.map(w => new Date(w.date).getTime());
+        const dates = weights.map((w) => new Date(w.date).getTime());
         const minDate = Math.min(...dates) - TimeService.MS_PER_DAY;
         const maxDate = Math.max(...dates);
 
@@ -140,7 +142,7 @@ export default class HomeWeightLineChart {
                 },
                 legend: {
                     display: viewTrend && trendData.length > 1,
-                    onClick: () => { },
+                    onClick: () => {},
                     position: 'top',
                 },
             },

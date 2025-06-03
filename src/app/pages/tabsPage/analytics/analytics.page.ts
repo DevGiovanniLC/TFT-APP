@@ -14,11 +14,10 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     imports: [IonButton, IonContent, WeightLossPaceComponent, TranslateModule],
 })
 export class AnaliticsPage {
-
     weights = toSignal(this.weightTracker.weights$);
     lastWeight = toSignal(this.weightTracker.lastWeight$);
     goal = toSignal(this.userConfig.goal$);
-    isButtonActive = false
+    isButtonActive = false;
 
     constructor(
         private readonly translateService: TranslateService,
@@ -26,12 +25,12 @@ export class AnaliticsPage {
         private readonly userConfig: UserConfigService,
         private readonly documentService: DocumentsService,
         private readonly alertCtrl: AlertController
-    ) { }
+    ) {}
 
     async alertExport() {
         this.isButtonActive = true;
         const alert = await this.alertCtrl.create({
-            header:  this.translateService.instant('TAB3.EXPORT_ALERT.TITLE'),
+            header: this.translateService.instant('TAB3.EXPORT_ALERT.TITLE'),
             message: this.translateService.instant('TAB3.EXPORT_ALERT.MESSAGE'),
             cssClass: 'small-alert export-alert',
             buttons: [

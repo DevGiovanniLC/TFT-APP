@@ -43,10 +43,9 @@ describe('TimeService (Unit Tests with Jest)', () => {
         environment.test = false;
         const first = service.now();
         const delay = 10;
-        return new Promise<Date>((resolve) => setTimeout(() => resolve(service.now()), delay))
-            .then((later) => {
-                expect(later.getTime()).toBeGreaterThanOrEqual(first.getTime());
-            });
+        return new Promise<Date>((resolve) => setTimeout(() => resolve(service.now()), delay)).then((later) => {
+            expect(later.getTime()).toBeGreaterThanOrEqual(first.getTime());
+        });
     });
 
     it('should define MS_PER_DAY, MS_PER_WEEK, and MS_PER_MONTH correctly', () => {

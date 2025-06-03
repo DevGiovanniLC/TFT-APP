@@ -40,12 +40,13 @@ export class MainDisplayComponent {
 
     // Signals
     isButtonActive = signal(false);
-    progression: Signal<number> = computed(() => this.calculationFunctionsService.weightProgression(
-        this.firstWeight()?.weight ?? NaN,
-        this.lastWeight()?.weight ?? NaN,
-        this.goal()?.weight ?? NaN
-    ));
-
+    progression: Signal<number> = computed(() =>
+        this.calculationFunctionsService.weightProgression(
+            this.firstWeight()?.weight ?? NaN,
+            this.lastWeight()?.weight ?? NaN,
+            this.goal()?.weight ?? NaN
+        )
+    );
 
     // Chart data
     data!: ChartData<'doughnut'>;
@@ -66,9 +67,9 @@ export class MainDisplayComponent {
         });
 
         effect(() => {
-            this.firstWeight()
-            this.lastWeight()
-            this.updateChart(this.progression)
+            this.firstWeight();
+            this.lastWeight();
+            this.updateChart(this.progression);
         });
     }
 

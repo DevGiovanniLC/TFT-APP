@@ -1,35 +1,50 @@
 <app-modal-header (outputStep)="controlSteps($event)" />
 
-<ion-content #modalContainer style="--ion-background-color: linear-gradient(to top right, #d1fae5, #6ee7b7);">
+<ion-content #modalContainer style="--ion-background-color: linear-gradient(to top right, #d1fae5, #6ee7b7)">
     <div class="h-fit min-h-full flex flex-col items-center bg-transparent">
         <header class="text-center mt-8 mb-4 flex flex-col">
-            <h1 class="text-3xl font-semibold font-sans text-gray-800 mb-0">{{ 'MODALS.GOAL_MODAL.TITLE' | translate }}</h1>
+            <h1 class="text-3xl font-semibold font-sans text-gray-800 mb-0">
+                {{ 'MODALS.GOAL_MODAL.TITLE' | translate }}
+            </h1>
             <h2 class="text-gray-700 text-lg text-pretty">
                 {{ 'MODALS.GOAL_MODAL.MESSAGE' | translate }}
             </h2>
         </header>
         <form
-            class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10">
-            <app-weight-form [inputWeightValue]="lastWeight()" [inputWeightUnit]="lastWeightUnit()"
-                (outputWeightValue)="updateActualWeight($event)"></app-weight-form>
+            class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10"
+        >
+            <app-weight-form
+                [inputWeightValue]="lastWeight()"
+                [inputWeightUnit]="lastWeightUnit()"
+                (outputWeightValue)="updateActualWeight($event)"
+            ></app-weight-form>
 
             <div class="flex space-x-3 p-5 justify-center items-center align-middle">
-                <ion-toggle id="dateToggle" [checked]="isWithDate()" (ionChange)="toggleDate()">{{ 'MODALS.GOAL_MODAL.DATE' | translate }}</ion-toggle>
+                <ion-toggle id="dateToggle" [checked]="isWithDate()" (ionChange)="toggleDate()">{{
+                    'MODALS.GOAL_MODAL.DATE' | translate
+                }}</ion-toggle>
             </div>
             @if (isWithDate()) {
-            <ion-datetime-button id="date-button" datetime="datetime" />
+                <ion-datetime-button id="date-button" datetime="datetime" />
 
-            <ion-modal [keepContentsMounted]="true" [breakpoints]="[0, 1]" initialBreakpoint="1">
-                <ng-template>
-                    <ion-datetime id="datetime" presentation="date" [locale]="language()" hour-cycle="h23"
-                        display-format="DD/MM/YYYY"
-                        picker-format="DD/MM/YYYY"
-                        [value]="nextDeadlineGoal.toISOString().substring(0, 16)" max="2099-12-31"
-                        [min]="actualDate.toISOString().substring(0, 16)"
-                        (ionChange)="updateActualDate($event.detail.value)">
-                        ></ion-datetime>
-                </ng-template>
-            </ion-modal>
+                <ion-modal [keepContentsMounted]="true" [breakpoints]="[0, 1]" initialBreakpoint="1">
+                    <ng-template>
+                        <ion-datetime
+                            id="datetime"
+                            presentation="date"
+                            [locale]="language()"
+                            hour-cycle="h23"
+                            display-format="DD/MM/YYYY"
+                            picker-format="DD/MM/YYYY"
+                            [value]="nextDeadlineGoal.toISOString().substring(0, 16)"
+                            max="2099-12-31"
+                            [min]="actualDate.toISOString().substring(0, 16)"
+                            (ionChange)="updateActualDate($event.detail.value)"
+                        >
+                            ></ion-datetime
+                        >
+                    </ng-template>
+                </ion-modal>
             }
         </form>
     </div>

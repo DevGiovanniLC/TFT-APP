@@ -7,8 +7,6 @@ import { WeightTrackerService } from '@services/WeightTracker.service';
 import { EventAdviceService } from '@services/EventAdvice.service';
 import { DeviceInfoService } from '@services/DeviceInfo.service';
 
-
-
 @Component({
     selector: 'app-root',
     templateUrl: 'app.component.html',
@@ -22,14 +20,15 @@ export class AppComponent {
         private readonly weightTracker: WeightTrackerService,
         // No quitar necesario para inicializar constructor
         private readonly deviceInfo: DeviceInfoService,
-        private readonly eventAdvice: EventAdviceService,
+        private readonly eventAdvice: EventAdviceService
     ) {
         this.initApp();
     }
 
     private initApp() {
         this.dataProvider.initialize().then((connectionStatus) => {
-            if (!connectionStatus) throw new Error('Connection to database failed, please try again or reinstall the app');
+            if (!connectionStatus)
+                throw new Error('Connection to database failed, please try again or reinstall the app');
             this.initData();
             this.hideSplash();
         });

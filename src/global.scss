@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 /*
  * App Global CSS
  * ----------------------------------------------------------------------------
@@ -59,15 +57,7 @@
     --ion-tab-bar-background-color: var(--color-tertiary);
     --ion-tab-bar-background-color-selected: var(--color-secondary);
 
-    font-family:
-        'Segoe UI',
-        Roboto,
-        Oxygen,
-        Ubuntu,
-        Cantarell,
-        'Open Sans',
-        'Helvetica Neue',
-        sans-serif;
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
     margin: 0;
     padding: 0;
@@ -94,7 +84,7 @@ ion-datetime::part(wheel-item) {
     }
 
     .alert-message {
-        @apply text-balance ;
+        @apply text-balance;
         font-size: 0.9rem;
         color: #f0fdfa;
         margin: 0.4rem;
@@ -111,7 +101,6 @@ ion-datetime::part(wheel-item) {
         padding-bottom: 1.5em;
     }
 
-
     .alert-button {
         border-radius: 0.75rem;
         font-weight: bold;
@@ -127,7 +116,6 @@ ion-datetime::part(wheel-item) {
         }
     }
 }
-
 
 .alert-info {
     .alert-title {
@@ -188,8 +176,6 @@ ion-datetime::part(wheel-item) {
             text-align: center;
         }
     }
-
-
 }
 
 .alert-danger {
@@ -225,7 +211,6 @@ ion-datetime::part(wheel-item) {
         border-radius: 0.75rem;
         font-weight: bold;
         display: flex;
-
 
         &:first-child {
             background: var(--ion-color-danger);

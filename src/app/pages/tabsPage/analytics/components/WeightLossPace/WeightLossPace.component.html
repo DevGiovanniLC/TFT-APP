@@ -1,55 +1,70 @@
-<section class="flex flex-col space-y-4  mt-28">
+<section class="flex flex-col space-y-4 mt-28">
     <header class="flex flex-col justify-center items-center mb-2">
-        <div class="flex flex-row items-center  mb-1 flex-wrap justify-center">
+        <div class="flex flex-row items-center mb-1 flex-wrap justify-center">
             <h1 class="font-semibold text-2xl m-0 ml-7 text-center text-pretty mx-2">
                 {{ 'TAB3.TITLE' | translate }}
             </h1>
-            <ion-button fill="clear" class="pb-3" size="small" (click)="openInfoPopover()" (keypress)="openInfoPopover()"
-                style="--border-radius: 50%">
-                <ion-icon slot="icon-only" name="information-circle-outline" src="assets/icons/info.svg"
-                    class="w-4 h-4 text-accent"></ion-icon>
+            <ion-button
+                fill="clear"
+                class="pb-3"
+                size="small"
+                (click)="openInfoPopover()"
+                (keypress)="openInfoPopover()"
+                style="--border-radius: 50%"
+            >
+                <ion-icon
+                    slot="icon-only"
+                    name="information-circle-outline"
+                    src="assets/icons/info.svg"
+                    class="w-4 h-4 text-accent"
+                ></ion-icon>
             </ion-button>
         </div>
-        <h2 class="text-center text-lg text-accent text-pretty ">
+        <h2 class="text-center text-lg text-accent text-pretty">
             {{ 'TAB3.INFO' | translate }}
         </h2>
     </header>
 
     <div class="flex flex-row flex-wrap items-center justify-center gap-6">
-
         <ion-card
-            class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center">
-            <ion-card-subtitle class="text-teal-800 font-sans ">{{ 'TAB3.MONTHLY' | translate }}</ion-card-subtitle>
-            <ion-card-title class="text-secondary text-2xl font-bold">{{
-                validateTrendPace(trendPaceMonth(), 50)
-                }} </ion-card-title>
+            class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center"
+        >
+            <ion-card-subtitle class="text-teal-800 font-sans">{{ 'TAB3.MONTHLY' | translate }}</ion-card-subtitle>
+            <ion-card-title class="text-secondary text-2xl font-bold"
+                >{{ validateTrendPace(trendPaceMonth(), 50) }}
+            </ion-card-title>
         </ion-card>
 
         <ion-card
-            class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center">
+            class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center"
+        >
             <ion-card-subtitle class="text-teal-800 font-sans">{{ 'TAB3.WEEKLY' | translate }}</ion-card-subtitle>
             <ion-card-title class="text-secondary text-2xl font-bold">
-                {{
-                validateTrendPace(trendPaceWeek(), 25)
-                }}
+                {{ validateTrendPace(trendPaceWeek(), 25) }}
             </ion-card-title>
         </ion-card>
 
         @if (isGoal()) {
-
             <ion-card
-                class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center">
-                <ion-card-subtitle class="text-teal-800 font-sans ">{{ 'TAB3.GOAL_MONTHLY' | translate }}</ion-card-subtitle>
-                <ion-card-title class="text-secondary text-2xl font-bold">{{ goalPaceMonth() * -1 }} {{
-                    weightUnits()
-                    }}</ion-card-title>
+                class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center"
+            >
+                <ion-card-subtitle class="text-teal-800 font-sans">{{
+                    'TAB3.GOAL_MONTHLY' | translate
+                }}</ion-card-subtitle>
+                <ion-card-title class="text-secondary text-2xl font-bold"
+                    >{{ goalPaceMonth() * -1 }} {{ weightUnits() }}</ion-card-title
+                >
             </ion-card>
 
             <ion-card
-                class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center">
-                <ion-card-subtitle class="text-teal-800 font-sans ">{{ 'TAB3.GOAL_WEEKLY' | translate }}</ion-card-subtitle>
-                <ion-card-title class="text-secondary text-2xl font-bold">{{ goalPaceWeek() * -1 }} {{ weightUnits()
-                    }}</ion-card-title>
+                class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center"
+            >
+                <ion-card-subtitle class="text-teal-800 font-sans">{{
+                    'TAB3.GOAL_WEEKLY' | translate
+                }}</ion-card-subtitle>
+                <ion-card-title class="text-secondary text-2xl font-bold"
+                    >{{ goalPaceWeek() * -1 }} {{ weightUnits() }}</ion-card-title
+                >
             </ion-card>
         }
     </div>

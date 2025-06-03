@@ -31,13 +31,13 @@ export default class ModalWeightLineChart {
     }
 
     getData(): ChartData<'line'> {
-        const labels = this.weights.map(w => new Date(w.date).getTime());
+        const labels = this.weights.map((w) => new Date(w.date).getTime());
         return {
             labels,
             datasets: [
                 {
                     label: `${this.translateService.instant('KEY_WORDS.WEIGHT')} (kg)`,
-                    data: this.weights.map(w => w.weight),
+                    data: this.weights.map((w) => w.weight),
                     fill: false,
                     borderColor: '#00BD7E',
                     tension: 0.1,
@@ -80,15 +80,14 @@ export default class ModalWeightLineChart {
                 padding: { x: 5, y: 2 },
                 font: {
                     weight: 'bold',
-                    size: 9
-                }
-            }
-        }
+                    size: 9,
+                },
+            },
+        };
     }
 
-    private getCategoryLines(): (LineAnnotationOptions & { type: 'line' } | undefined)[] {
-        return this.categories.map(cat => {
-
+    private getCategoryLines(): ((LineAnnotationOptions & { type: 'line' }) | undefined)[] {
+        return this.categories.map((cat) => {
             if (cat.maxWeightLimit === Infinity) return undefined;
             return {
                 type: 'line',
@@ -103,18 +102,13 @@ export default class ModalWeightLineChart {
                     position: 'end',
                     backgroundColor: cat.color,
                     color: '#fff',
-                    font: { weight: 'bold', size: 10 }
-                }
-            }
-
-        }
-        );
+                    font: { weight: 'bold', size: 10 },
+                },
+            };
+        });
     }
 
-    private getGoalAnnotations(
-        goalWeight: number,
-        goalDate: Date
-    ): Record<string, AnnotationOptions> {
+    private getGoalAnnotations(goalWeight: number, goalDate: Date): Record<string, AnnotationOptions> {
         return {
             goalPoint: {
                 type: 'point',
@@ -135,7 +129,7 @@ export default class ModalWeightLineChart {
                 yValue: goalWeight + 0.8,
                 content: [
                     `${this.translateService.instant('KEY_WORDS.GOAL')}: ${goalWeight.toFixed(2)} kg`,
-                    `${this.translateService.instant('KEY_WORDS.DATE')}: ${goalDate.toLocaleDateString('en-GB')}`
+                    `${this.translateService.instant('KEY_WORDS.DATE')}: ${goalDate.toLocaleDateString('en-GB')}`,
                 ],
                 color: '#00BD7E',
                 font: {
@@ -148,11 +142,10 @@ export default class ModalWeightLineChart {
         };
     }
 
-
     private buildAnnotations(goalWeight: number, goalDate?: Date) {
         const lines = [
             ...(goalWeight && !isNaN(goalWeight) ? [this.getGoalLine(goalWeight)] : []),
-            ...this.getCategoryLines()
+            ...this.getCategoryLines(),
         ];
         const annotations: Record<string, AnnotationOptions> = {};
         lines.forEach((line, i) => {
@@ -173,12 +166,14 @@ export default class ModalWeightLineChart {
         const goalWeight = this.goal?.weight ?? NaN;
 
         // Rango Y
-        const minWeight = Math.min(...weights.map(w => w.weight));
-        const maxWeight = Math.max(...weights.map(w => w.weight));
-        const marginY = ((goalWeight ? Math.max(maxWeight, goalWeight) - Math.min(minWeight, goalWeight) : maxWeight - minWeight) * 0.2) || 1;
+        const minWeight = Math.min(...weights.map((w) => w.weight));
+        const maxWeight = Math.max(...weights.map((w) => w.weight));
+        const marginY =
+            (goalWeight ? Math.max(maxWeight, goalWeight) - Math.min(minWeight, goalWeight) : maxWeight - minWeight) *
+                0.2 || 1;
 
         // Rango X
-        const dates = weights.map(w => new Date(w.date).getTime());
+        const dates = weights.map((w) => new Date(w.date).getTime());
         const minDate = Math.min(...dates) - 15 * TimeService.MS_PER_DAY;
         const maxDate = Math.max(...dates) + 15 * TimeService.MS_PER_DAY;
         const goalDate = (this.goal?.date?.getTime() ?? NaN) + 3 * TimeService.MS_PER_MONTH;
@@ -196,7 +191,7 @@ export default class ModalWeightLineChart {
                 },
                 legend: {
                     display: this.trendData.length > 1,
-                    onClick: () => { },
+                    onClick: () => {},
                     position: 'top',
                 },
                 zoom: {
@@ -204,13 +199,13 @@ export default class ModalWeightLineChart {
                         x: {
                             min: minDate,
                             max: Math.max(maxDate, goalDate),
-                            minRange: 3 * TimeService.MS_PER_DAY // mínimo 3 días visibles al hacer zoom
+                            minRange: 3 * TimeService.MS_PER_DAY, // mínimo 3 días visibles al hacer zoom
                         },
                         y: {
                             minRange: 2,
                             max: 260,
-                            min: 0
-                        }
+                            min: 0,
+                        },
                     },
                     zoom: {
                         wheel: { enabled: true },
@@ -231,7 +226,7 @@ export default class ModalWeightLineChart {
                                 minute: '2-digit',
                             });
                         },
-                    }
+                    },
                 },
             },
             animation: { duration: 0 },

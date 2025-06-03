@@ -3,7 +3,7 @@ import { Device } from '@capacitor/device';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class DeviceInfoService {
     private readonly AVAILABLE_LANGUAGES = ['en', 'es'];
@@ -11,15 +11,17 @@ export class DeviceInfoService {
 
     private language: string;
 
-    constructor(
-        private readonly translate: TranslateService
-    ) {
-        this.language = this.AVAILABLE_LANGUAGES.includes(this.translate.currentLang) ? this.translate.currentLang : this.DEFAULT_LANGUAGE;
+    constructor(private readonly translate: TranslateService) {
+        this.language = this.AVAILABLE_LANGUAGES.includes(this.translate.currentLang)
+            ? this.translate.currentLang
+            : this.DEFAULT_LANGUAGE;
     }
 
     async init(): Promise<void> {
-        const languageCode = await Device.getLanguageCode()
-        this.language = this.AVAILABLE_LANGUAGES.includes(languageCode.value) ? languageCode.value : this.DEFAULT_LANGUAGE;
+        const languageCode = await Device.getLanguageCode();
+        this.language = this.AVAILABLE_LANGUAGES.includes(languageCode.value)
+            ? languageCode.value
+            : this.DEFAULT_LANGUAGE;
         this.translate.setDefaultLang(this.language);
 
         this.translate.use(this.language);
@@ -28,5 +30,4 @@ export class DeviceInfoService {
     getLanguage(): string {
         return this.language;
     }
-
 }

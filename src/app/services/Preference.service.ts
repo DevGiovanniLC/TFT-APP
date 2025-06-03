@@ -1,10 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 
-export type Preference = Record<
-    'BMI_ALERT_40' | 'BMI_ALERT_35' | 'BMI_ALERT_18_5' | 'BMI_ALERT_16',
-    boolean
->;
+export type Preference = Record<'BMI_ALERT_40' | 'BMI_ALERT_35' | 'BMI_ALERT_18_5' | 'BMI_ALERT_16', boolean>;
 
 const DEFAULTS: Preference = {
     BMI_ALERT_40: true,
@@ -27,11 +24,9 @@ export class PreferenceService {
     private readonly _preferences = signal<Preference>(DEFAULTS);
     readonly preferences = this._preferences.asReadonly();
 
-
     constructor() {
         this.init();
     }
-
 
     private init(): void {
         Preferences.get({ key: this.STORAGE_KEY }).then(({ value }) => {
@@ -39,7 +34,6 @@ export class PreferenceService {
             this._preferences.set({ ...DEFAULTS, ...JSON.parse(value) });
         });
     }
-
 
     async set<K extends keyof Preference>(key: K, value: Preference[K]): Promise<void> {
         const updated: Preference = { ...this._preferences(), [key]: value };
@@ -49,7 +43,6 @@ export class PreferenceService {
             value: JSON.stringify(updated),
         });
     }
-
 
     get<K extends keyof Preference>(key: K): Preference[K] {
         return this._preferences()[key];

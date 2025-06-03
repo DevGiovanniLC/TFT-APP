@@ -10,7 +10,7 @@ import { Weight, WeightUnits } from '@models/types/Weight.type';
 
 // Mock de toSignal para controlar el comportamiento de las señales en los tests
 jest.mock('@angular/core/rxjs-interop', () => ({
-    toSignal: jest.fn()
+    toSignal: jest.fn(),
 }));
 
 describe('BMIService (Unit Tests with Jest)', () => {
@@ -27,7 +27,7 @@ describe('BMIService (Unit Tests with Jest)', () => {
         email: 'test@test.com',
         goal_weight: 65,
         goal_units: WeightUnits.KG,
-        goal_date: new Date('2024-12-31')
+        goal_date: new Date('2024-12-31'),
     };
 
     // Peso de prueba
@@ -35,7 +35,7 @@ describe('BMIService (Unit Tests with Jest)', () => {
         id: 1,
         weight: 75,
         date: new Date(),
-        weight_units: WeightUnits.KG
+        weight_units: WeightUnits.KG,
     };
 
     beforeEach(() => {
@@ -47,39 +47,39 @@ describe('BMIService (Unit Tests with Jest)', () => {
         weightTrackerMock = { lastWeight$: of(mockWeight) } as any;
     });
 
-    it('should calculate BMI correctly from user and weight', done => {
+    it('should calculate BMI correctly from user and weight', (done) => {
         // toSignal devuelve nuestro usuario simulado para calcular el BMI
         (interop.toSignal as jest.Mock).mockReturnValue(() => mockUser);
         service = new BMIService(userConfigMock, weightTrackerMock);
 
-        service.bmi$.subscribe(bmi => {
+        service.bmi$.subscribe((bmi) => {
             // Cálculo manual redondeado a un decimal para comparación
-            const expected = Math.round((mockWeight.weight / ((mockUser.height! / 100) ** 2)) * 10) / 10;
+            const expected = Math.round((mockWeight.weight / (mockUser.height! / 100) ** 2) * 10) / 10;
             expect(bmi).toBe(expected);
             done();
         });
     });
 
-    it('should return null BMI if height is missing', done => {
+    it('should return null BMI if height is missing', (done) => {
         // Simulamos usuario sin altura para verificar que retorne null
         const noHeight = { ...mockUser, height: undefined };
         userConfigMock = { user$: of(noHeight) } as any;
         (interop.toSignal as jest.Mock).mockReturnValue(() => noHeight);
         service = new BMIService(userConfigMock, weightTrackerMock);
 
-        service.bmi$.subscribe(bmi => {
+        service.bmi$.subscribe((bmi) => {
             expect(bmi).toBeNull();
             done();
         });
     });
 
-    it('should return null BMI if weight is missing', done => {
+    it('should return null BMI if weight is missing', (done) => {
         // Usuario válido pero peso indefinido, resultado debe ser null
         (interop.toSignal as jest.Mock).mockReturnValue(() => mockUser);
         weightTrackerMock = { lastWeight$: of(undefined) } as any;
         service = new BMIService(userConfigMock, weightTrackerMock);
 
-        service.bmi$.subscribe(bmi => {
+        service.bmi$.subscribe((bmi) => {
             expect(bmi).toBeNull();
             done();
         });
@@ -92,7 +92,7 @@ describe('BMIService (Unit Tests with Jest)', () => {
 
         const limits = service.updateMaxWeightLimit();
         expect(limits.length).toBeGreaterThan(0);
-        limits.forEach(item => {
+        limits.forEach((item) => {
             expect(item).toHaveProperty('label');
             expect(item).toHaveProperty('bmi');
             expect(item).toHaveProperty('weight');
@@ -117,5 +117,4 @@ describe('BMIService (Unit Tests with Jest)', () => {
 
         expect(service.updateMaxWeightLimit()).toEqual([]);
     });
-
 });

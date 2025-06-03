@@ -7,4 +7,4 @@ import { TranslateModule } from '@ngx-translate/core';
     templateUrl: './WeightLossPaceInfoPopover.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WeightLossPaceInfoPopoverComponent { }
+export class WeightLossPaceInfoPopoverComponent {}

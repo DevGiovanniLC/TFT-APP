@@ -19,8 +19,21 @@ describe('DataProviderService (Unit Tests with Jest)', () => {
 
     // Datos de prueba para peso, usuario y objetivo
     const mockWeight: Weight = { id: 1, weight: 80, date: new Date(), weight_units: WeightUnits.KG };
-    const mockUser: User = { name: 'Test', age: 30, email: 'test@test.com', height: 170, gender: Gender.MALE, goal_weight: 75, goal_units: WeightUnits.KG, goal_date: new Date('2024-12-31') };
-    const mockGoal: Goal = { weight: mockUser.goal_weight, weight_units: mockUser.goal_units, date: new Date(mockUser.goal_date ?? Date.now()) };
+    const mockUser: User = {
+        name: 'Test',
+        age: 30,
+        email: 'test@test.com',
+        height: 170,
+        gender: Gender.MALE,
+        goal_weight: 75,
+        goal_units: WeightUnits.KG,
+        goal_date: new Date('2024-12-31'),
+    };
+    const mockGoal: Goal = {
+        weight: mockUser.goal_weight,
+        weight_units: mockUser.goal_units,
+        date: new Date(mockUser.goal_date ?? Date.now()),
+    };
 
     beforeEach(() => {
         // Limpiamos los mocks y forzamos entorno de desarrollo por defecto

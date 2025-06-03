@@ -13,8 +13,6 @@ import { ChartZoomButtonComponent } from '../ChartZoomButton/ChartZoomButton.com
 import zoomPlugin from 'chartjs-plugin-zoom';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-
-
 @Component({
     selector: 'app-weight-graphic',
     imports: [ChartModule, IonSelect, IonSelectOption, ChartZoomButtonComponent, TranslateModule],
@@ -35,7 +33,7 @@ export class WeightLineChartComponent {
     constructor(
         private readonly translateService: TranslateService,
         private readonly weightAnalysisService: WeightAnalysisService,
-        private readonly timeService: TimeService,
+        private readonly timeService: TimeService
     ) {
         Chart.register(annotationPlugin);
         Chart.register(zoomPlugin);
@@ -54,13 +52,17 @@ export class WeightLineChartComponent {
         if (this.chartMode() == 'week') {
             weights.set(
                 this.weights().filter(
-                    (w) => w.date.getTime() > this.timeService.now().getTime() - TimeService.MS_PER_WEEK && w.date.getTime() < this.timeService.now().getTime()
+                    (w) =>
+                        w.date.getTime() > this.timeService.now().getTime() - TimeService.MS_PER_WEEK &&
+                        w.date.getTime() < this.timeService.now().getTime()
                 )
             );
         } else if (this.chartMode() == 'month') {
             weights.set(
                 this.weights().filter(
-                    (w) => w.date.getTime() > this.timeService.now().getTime() - TimeService.MS_PER_MONTH && w.date.getTime() < this.timeService.now().getTime()
+                    (w) =>
+                        w.date.getTime() > this.timeService.now().getTime() - TimeService.MS_PER_MONTH &&
+                        w.date.getTime() < this.timeService.now().getTime()
                 )
             );
         }
@@ -68,7 +70,13 @@ export class WeightLineChartComponent {
         if (weights().length == 0) this.isEmpty.set(true);
         else this.isEmpty.set(false);
 
-        const weightChart = new HomeWeightLineChart(this.translateService ,this.weightAnalysisService, this.chartMode, weights, this.goal);
+        const weightChart = new HomeWeightLineChart(
+            this.translateService,
+            this.weightAnalysisService,
+            this.chartMode,
+            weights,
+            this.goal
+        );
 
         this.data = weightChart.getData();
         this.options = weightChart.getOptions();

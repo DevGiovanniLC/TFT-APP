@@ -25,13 +25,13 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
         FormsModule,
         UserFormComponent,
         CommonModule,
-        TranslateModule
+        TranslateModule,
     ],
     templateUrl: './Initial.page.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InitialPage {
-    readonly HeaderEnum = ModalHeaderComponent.HeaderEnum
+    readonly HeaderEnum = ModalHeaderComponent.HeaderEnum;
     readonly FINAL_STEP = 3;
 
     step = 0;
@@ -57,7 +57,7 @@ export class InitialPage {
         private readonly weightTracker: WeightTrackerService,
         private readonly navCtrl: NavController,
         private readonly timeService: TimeService
-    ) { }
+    ) {}
 
     controlSteps(step: number) {
         this.step = step;
@@ -74,7 +74,7 @@ export class InitialPage {
             date: this.timeService.now(),
         };
 
-        this.user.update(user => ({
+        this.user.update((user) => ({
             ...user,
             goal_weight: this.goal?.weight,
             goal_units: this.goal?.weight_units,

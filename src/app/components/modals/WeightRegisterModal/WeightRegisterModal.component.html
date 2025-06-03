@@ -1,6 +1,6 @@
 <app-modal-header (outputStep)="controlSteps($event)" />
 
-<ion-content scrollY="false" style="--ion-background-color: linear-gradient(to top right, #d1fae5, #6ee7b7);">
+<ion-content scrollY="false" style="--ion-background-color: linear-gradient(to top right, #d1fae5, #6ee7b7)">
     <section class="h-full flex flex-col items-center space-y-5">
         <header class="ion-text-center bg-inherit mt-10">
             <h1 class="font-sans font-semibold text-4xl mb-5">{{ 'MODALS.WEIGHT_REGISTER.TITLE' | translate }}</h1>
@@ -9,17 +9,29 @@
             </h2>
         </header>
         <form
-            class="w-10/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10">
-            <app-weight-form [inputWeightValue]="inputWeight?.weight ?? lastWeight()?.weight"
-                [inputWeightUnit]="lastWeightUnit()" (outputWeightValue)="updateNextWeight($event)" />
+            class="w-10/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10"
+        >
+            <app-weight-form
+                [inputWeightValue]="inputWeight?.weight ?? lastWeight()?.weight"
+                [inputWeightUnit]="lastWeightUnit()"
+                (outputWeightValue)="updateNextWeight($event)"
+            />
 
             <ion-datetime-button datetime="datetime" class="mt-5" />
 
             <ion-modal [keepContentsMounted]="true" [breakpoints]="[0, 1]" initialBreakpoint="1">
                 <ng-template>
-                    <ion-datetime id="datetime" presentation="date-time" [locale]="language()" hour-cycle="h23"
-                        display-format="DD/MM/YYYY" picker-format="DD/MM/YYYY" [value]="selectedDate()"
-                        (ionChange)="updateNextDate($event.detail.value)" class="bg-transparent w-full text-lg" />
+                    <ion-datetime
+                        id="datetime"
+                        presentation="date-time"
+                        [locale]="language()"
+                        hour-cycle="h23"
+                        display-format="DD/MM/YYYY"
+                        picker-format="DD/MM/YYYY"
+                        [value]="selectedDate()"
+                        (ionChange)="updateNextDate($event.detail.value)"
+                        class="bg-transparent w-full text-lg"
+                    />
                 </ng-template>
             </ion-modal>
         </form>

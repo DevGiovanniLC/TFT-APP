@@ -30,7 +30,6 @@ export default class SQLiteDataProvider implements DataProvider {
         readonly: false,
     };
 
-
     async initializeConnection(): Promise<boolean> {
         try {
             this.db = await this.sqlite.createConnection(
@@ -47,7 +46,6 @@ export default class SQLiteDataProvider implements DataProvider {
             this.handleDBError(err);
         }
     }
-
 
     private async setDBStructure(): Promise<void> {
         const schema = `
@@ -73,7 +71,6 @@ export default class SQLiteDataProvider implements DataProvider {
         await this.db.execute(schema);
     }
 
-
     private handleDBError(err: unknown): never {
         const errorMessage = `❌ Database error: ${err}`;
         alert(errorMessage);
@@ -86,9 +83,7 @@ export default class SQLiteDataProvider implements DataProvider {
      * @returns {Promise<Weight[]>} Array de registros con fecha convertida a Date.
      */
     async getWeights(): Promise<Weight[]> {
-        const { values } = await this.db.query(
-            'SELECT * FROM registers ORDER BY date DESC'
-        );
+        const { values } = await this.db.query('SELECT * FROM registers ORDER BY date DESC');
         return (values ?? []).map((r: Weight) => ({
             id: r.id,
             date: new Date(r.date),
@@ -97,32 +92,32 @@ export default class SQLiteDataProvider implements DataProvider {
         }));
     }
 
-
     async addWeight(value: Weight): Promise<boolean> {
         try {
-            await this.db.query(
-                `INSERT INTO registers (date, weight, weight_units) VALUES (?, ?, ?)`,
-                [value.date.getTime(), value.weight, value.weight_units]
-            );
+            await this.db.query(`INSERT INTO registers (date, weight, weight_units) VALUES (?, ?, ?)`, [
+                value.date.getTime(),
+                value.weight,
+                value.weight_units,
+            ]);
             return true;
         } catch (err) {
             this.handleDBError(err);
         }
     }
-
 
     async updateWeight(value: Weight): Promise<boolean> {
         try {
-            await this.db.query(
-                `UPDATE registers SET date = ?, weight = ?, weight_units = ? WHERE id = ?`,
-                [value.date.getTime(), value.weight, value.weight_units, value.id]
-            );
+            await this.db.query(`UPDATE registers SET date = ?, weight = ?, weight_units = ? WHERE id = ?`, [
+                value.date.getTime(),
+                value.weight,
+                value.weight_units,
+                value.id,
+            ]);
             return true;
         } catch (err) {
             this.handleDBError(err);
         }
     }
-
 
     async deleteWeight(id: number): Promise<boolean> {
         try {
@@ -132,7 +127,6 @@ export default class SQLiteDataProvider implements DataProvider {
             this.handleDBError(err);
         }
     }
-
 
     async getGoal(): Promise<Goal | undefined> {
         const user = await this.getUser();
@@ -144,11 +138,8 @@ export default class SQLiteDataProvider implements DataProvider {
         };
     }
 
-
     async getUser(): Promise<User | undefined> {
-        const { values } = await this.db.query(
-            `SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)`
-        );
+        const { values } = await this.db.query(`SELECT * FROM user WHERE UniqueID = (SELECT MAX(UniqueID) FROM user)`);
         if (!values?.length) return undefined;
         const u: User = values[0];
         return {
@@ -162,7 +153,6 @@ export default class SQLiteDataProvider implements DataProvider {
             goal_date: u.goal_date ? new Date(Number(u.goal_date)) : undefined,
         };
     }
-
 
     async setUser(value: User): Promise<boolean> {
         try {
@@ -185,7 +175,6 @@ export default class SQLiteDataProvider implements DataProvider {
         }
     }
 
-
     async exportDataCSV(csv: string): Promise<void> {
         const fileName = `weights-history-${Date.now()}.csv`;
         await Filesystem.writeFile({
@@ -196,7 +185,6 @@ export default class SQLiteDataProvider implements DataProvider {
         });
         await this.shareCSVFile(fileName);
     }
-
 
     private async shareCSVFile(filePath: string): Promise<void> {
         const { uri } = await Filesystem.getUri({

@@ -13,12 +13,12 @@ import { BMIService } from '@services/BMI.service';
 export class BMICategoriesComponent {
     bmi = input.required<number>();
 
-    bmiCategories = this.bmiService.BMI_CATEGORIES
+    bmiCategories = this.bmiService.BMI_CATEGORIES;
 
     constructor(
         private readonly bmiService: BMIService,
         private readonly popoverController: PopoverController
-    ) { }
+    ) {}
 
     getTextColor(bmiValue: number): string {
         if (bmiValue < 16) return 'text-red-600';

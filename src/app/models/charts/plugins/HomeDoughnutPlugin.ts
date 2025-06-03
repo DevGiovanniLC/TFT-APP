@@ -23,10 +23,7 @@ export const SVGIconsPlugin = () => ({
         const { x: cx, y: cy, innerRadius, startAngle, endAngle } = meta.data[0] as ArcElement;
         const radius = innerRadius + 2;
 
-        const getCoords = (angle: number) => [
-            cx + radius * Math.cos(angle),
-            cy + radius * Math.sin(angle),
-        ];
+        const getCoords = (angle: number) => [cx + radius * Math.cos(angle), cy + radius * Math.sin(angle)];
 
         const [startX, startY] = getCoords(startAngle);
         const [progressX, progressY] = getCoords(endAngle);
@@ -53,18 +50,34 @@ export const SVGIconsPlugin = () => ({
 });
 
 const getProgressionText = (translateService: TranslateService, progress: number) => {
-    if (progress >= 100) return { text: `${translateService.instant('TAB1.MESSAGES.COMPLETED')}✅`, offset: -38, color: '#343a40' };
-    if (progress >= 90) return { text: `${translateService.instant('TAB1.MESSAGES.JUST_A_LITTLE')}👍`, offset: -38, color: '#343a40' };
-    if (progress >= 80) return { text: `${translateService.instant('TAB1.MESSAGES.JUST_A_BIT')}👍`, offset: -38, color: '#343a40' };
-    if (progress >= 50) return { text: `${translateService.instant('TAB1.MESSAGES.WONDERFULLY_DONE')}🎉`, offset: -38, color: '#1E8260' };
-    if (progress >= 20) return { text: `${translateService.instant('TAB1.MESSAGES.GOOD_JOB')}😁`, offset: -38, color: '#343a40' };
-    if (progress >= 5) return { text: `${translateService.instant('TAB1.MESSAGES.KEEP_GOING')}💪`, offset: -38, color: '#343a40' };
-    if (progress >= 0) return { text: `${translateService.instant('TAB1.MESSAGES.LETS_START')}👍`, offset: -38, color: '#343a40' };
-    if (isNaN(progress)) return { text: "", offset: -38, color: '#343a40' };
+    if (progress >= 100)
+        return { text: `${translateService.instant('TAB1.MESSAGES.COMPLETED')}✅`, offset: -38, color: '#343a40' };
+    if (progress >= 90)
+        return { text: `${translateService.instant('TAB1.MESSAGES.JUST_A_LITTLE')}👍`, offset: -38, color: '#343a40' };
+    if (progress >= 80)
+        return { text: `${translateService.instant('TAB1.MESSAGES.JUST_A_BIT')}👍`, offset: -38, color: '#343a40' };
+    if (progress >= 50)
+        return {
+            text: `${translateService.instant('TAB1.MESSAGES.WONDERFULLY_DONE')}🎉`,
+            offset: -38,
+            color: '#1E8260',
+        };
+    if (progress >= 20)
+        return { text: `${translateService.instant('TAB1.MESSAGES.GOOD_JOB')}😁`, offset: -38, color: '#343a40' };
+    if (progress >= 5)
+        return { text: `${translateService.instant('TAB1.MESSAGES.KEEP_GOING')}💪`, offset: -38, color: '#343a40' };
+    if (progress >= 0)
+        return { text: `${translateService.instant('TAB1.MESSAGES.LETS_START')}👍`, offset: -38, color: '#343a40' };
+    if (isNaN(progress)) return { text: '', offset: -38, color: '#343a40' };
     return { text: `${translateService.instant('TAB1.MESSAGES.DO_BETTER')}`, offset: -35, color: '#C7B85A' };
 };
 
-export const TextPlugin = (translateService: TranslateService, timeService: TimeService, progression: Signal<number>, lastWeight: Signal<Weight | undefined>) => ({
+export const TextPlugin = (
+    translateService: TranslateService,
+    timeService: TimeService,
+    progression: Signal<number>,
+    lastWeight: Signal<Weight | undefined>
+) => ({
     id: 'centerText',
     afterDraw: (chart: Chart) => {
         const { ctx, chartArea } = chart;
@@ -76,11 +89,16 @@ export const TextPlugin = (translateService: TranslateService, timeService: Time
         const centerX = (chartArea.left + chartArea.right) / 2;
         const centerY = (chartArea.top + chartArea.bottom) / 2;
         const progress = Number(Math.min(100, progression()));
-        const { text, offset, color } = getProgressionText(translateService,progress);
+        const { text, offset, color } = getProgressionText(translateService, progress);
 
         ctx.font = 'bold 13px system-ui';
         ctx.fillStyle = '#343a40';
-        if (progress <= 100) ctx.fillText(`${translateService.instant('TAB1.PROGRESSION')} ${isNaN(progress) ? 0 : progress.toFixed(0)} %`, centerX, centerY - 60);
+        if (progress <= 100)
+            ctx.fillText(
+                `${translateService.instant('TAB1.PROGRESSION')} ${isNaN(progress) ? 0 : progress.toFixed(0)} %`,
+                centerX,
+                centerY - 60
+            );
 
         ctx.font = '13px system-ui';
         ctx.fillStyle = '#343a40';

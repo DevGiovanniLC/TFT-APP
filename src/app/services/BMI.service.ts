@@ -14,13 +14,10 @@ export type BMICategory = {
     color: string;
     maxWeightLimit: number | undefined;
     emoji: string;
-}
-
+};
 
 @Injectable({ providedIn: 'root' })
-
 export class BMIService {
-
     BMI_CATEGORIES: BMICategory[] = [
         {
             translateLabel: 'TAB2.CATEGORIES.OBESITY_CLASS_III',
@@ -29,7 +26,7 @@ export class BMIService {
             min: 40,
             color: '#f2adad',
             maxWeightLimit: undefined,
-            emoji: '🔴'
+            emoji: '🔴',
         },
         {
             translateLabel: 'TAB2.CATEGORIES.OBESITY_CLASS_II',
@@ -38,7 +35,7 @@ export class BMIService {
             min: 35,
             color: '#f2adad',
             maxWeightLimit: undefined,
-            emoji: '🔴'
+            emoji: '🔴',
         },
         {
             translateLabel: 'TAB2.CATEGORIES.OBESITY_CLASS_I',
@@ -47,7 +44,7 @@ export class BMIService {
             min: 30,
             color: '#f2adad',
             maxWeightLimit: undefined,
-            emoji: '🟡'
+            emoji: '🟡',
         },
         {
             translateLabel: 'TAB2.CATEGORIES.OVERWEIGHT',
@@ -56,7 +53,7 @@ export class BMIService {
             min: 25,
             color: '#c7b85a',
             maxWeightLimit: undefined,
-            emoji: '🟡'
+            emoji: '🟡',
         },
         {
             translateLabel: 'TAB2.CATEGORIES.NORMAL',
@@ -65,7 +62,7 @@ export class BMIService {
             min: 18.5,
             color: '#4caf50',
             maxWeightLimit: undefined,
-            emoji: '🟢'
+            emoji: '🟢',
         },
         {
             translateLabel: 'TAB2.CATEGORIES.MILD_THINNING',
@@ -74,7 +71,7 @@ export class BMIService {
             min: 17,
             color: '#c7b85a',
             maxWeightLimit: undefined,
-            emoji: '🟡'
+            emoji: '🟡',
         },
         {
             translateLabel: 'TAB2.CATEGORIES.MODERATE_THINNING',
@@ -83,7 +80,7 @@ export class BMIService {
             min: 16,
             color: '#c7b85a',
             maxWeightLimit: undefined,
-            emoji: '🟡'
+            emoji: '🟡',
         },
         {
             translateLabel: 'TAB2.CATEGORIES.SEVERE_THINNING',
@@ -92,49 +89,43 @@ export class BMIService {
             min: -Infinity,
             color: '#f2adad',
             maxWeightLimit: undefined,
-            emoji: '🔴'
+            emoji: '🔴',
         },
-    ]
-
+    ];
 
     private readonly user = toSignal(this.userConfig.user$, { initialValue: null });
 
-
     readonly bmi$: Observable<number | null> = combineLatest([
         this.userConfig.user$,
-        this.weightTracker.lastWeight$
+        this.weightTracker.lastWeight$,
     ]).pipe(
         map(([user, weight]) => {
             const height = user?.height;
             const w = weight?.weight;
             if (!height || !w) return null;
-            const bmi = w / ((height / 100) ** 2);
+            const bmi = w / (height / 100) ** 2;
             return Math.round(bmi * 10) / 10;
         })
     );
-
 
     constructor(
         private readonly translateService: TranslateService,
         private readonly userConfig: UserConfigService,
         private readonly weightTracker: WeightTrackerService
     ) {
-
         effect(() => {
             this.updateMaxWeightLimit(this.user());
             this.updateLabels();
-        })
+        });
     }
 
     private updateLabels() {
-        const bmiCategories = this.BMI_CATEGORIES
-        this.translateService.get(
-            bmiCategories.map(cat => cat.translateLabel)
-        ).subscribe(translations => {
-            this.BMI_CATEGORIES.forEach(cat => {
+        const bmiCategories = this.BMI_CATEGORIES;
+        this.translateService.get(bmiCategories.map((cat) => cat.translateLabel)).subscribe((translations) => {
+            this.BMI_CATEGORIES.forEach((cat) => {
                 cat.label = translations[cat.translateLabel];
-            })
-        })
+            });
+        });
     }
 
     updateMaxWeightLimit(user: User | undefined | null): void {
@@ -143,9 +134,9 @@ export class BMIService {
         const height = user.height;
         if (!height || height <= 0) return;
 
-        this.BMI_CATEGORIES.forEach(cat => {
+        this.BMI_CATEGORIES.forEach((cat) => {
             const h2 = (height / 100) ** 2;
-            cat.maxWeightLimit = Number((cat.max * h2).toFixed(1))
-        })
+            cat.maxWeightLimit = Number((cat.max * h2).toFixed(1));
+        });
     }
 }

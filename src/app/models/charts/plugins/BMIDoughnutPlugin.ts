@@ -6,12 +6,10 @@ import type { ArcElement } from 'chart.js';
 const BODY_IMG_SRC = 'assets/icons/body.svg';
 const MAX_BMI = 40;
 
-
-
 function getBMICategory(bmiService: BMIService, bmi: number) {
-    const bmiCategories = bmiService.BMI_CATEGORIES
-    const category = bmiCategories.find(cat => bmi < cat.max && bmi > cat.min) ?? bmiCategories[0]
-    return category
+    const bmiCategories = bmiService.BMI_CATEGORIES;
+    const category = bmiCategories.find((cat) => bmi < cat.max && bmi > cat.min) ?? bmiCategories[0];
+    return category;
 }
 
 const bodyImg = new Image();
@@ -47,7 +45,7 @@ export const BMIPluginDoughnut = (translateService: TranslateService, bmiService
         tempCtx.drawImage(bodyImg, 0, 0, imgSize, imgSize);
         tempCtx.globalCompositeOperation = 'source-in';
 
-        const fillHeight = imgSize * Math.min(bmi, MAX_BMI) / MAX_BMI;
+        const fillHeight = (imgSize * Math.min(bmi, MAX_BMI)) / MAX_BMI;
         const fillY = imgSize - fillHeight;
         const { color, label } = getBMICategory(bmiService, bmi);
 

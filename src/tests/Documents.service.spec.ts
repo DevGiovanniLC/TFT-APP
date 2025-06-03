@@ -22,12 +22,12 @@ describe('DocumentsService(Unit Tests with Jest)', () => {
         email: 'test@example.com',
         goal_weight: 65,
         goal_units: WeightUnits.KG,
-        goal_date: new Date('2024-12-31')
+        goal_date: new Date('2024-12-31'),
     };
 
     const mockWeights: Weight[] = [
         { id: 1, date: new Date('2024-01-01'), weight: 80, weight_units: WeightUnits.KG },
-        { id: 2, date: new Date('2024-02-01'), weight: 78, weight_units: WeightUnits.KG }
+        { id: 2, date: new Date('2024-02-01'), weight: 78, weight_units: WeightUnits.KG },
     ];
 
     beforeEach(() => {
@@ -38,7 +38,7 @@ describe('DocumentsService(Unit Tests with Jest)', () => {
         dataProviderMock = {
             getUser: jest.fn(),
             getWeights: jest.fn(),
-            exportDataCSV: jest.fn()
+            exportDataCSV: jest.fn(),
         } as unknown as jest.Mocked<DataProviderService>;
 
         // Simulamos Papa.unparse para devolver JSON de los datos

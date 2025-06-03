@@ -112,7 +112,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
         const refDate = Date.now();
         const weights: Weight[] = [
             { id: 1, date: new Date(refDate - 86400000 * 10), weight: 80, weight_units: WeightUnits.KG },
-            { id: 2, date: new Date(refDate), weight: 75, weight_units: WeightUnits.KG }
+            { id: 2, date: new Date(refDate), weight: 75, weight_units: WeightUnits.KG },
         ];
         const result = (service as any).calculateTrend(weights, refDate);
         expect(typeof result.slope).toBe('number');
@@ -124,7 +124,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
         const weights: Weight[] = [
             { id: 1, date: new Date('2023-01-01'), weight: 85, weight_units: WeightUnits.KG },
             { id: 2, date: new Date('2023-01-02'), weight: 84, weight_units: WeightUnits.KG },
-            { id: 3, date: new Date('2024-01-01'), weight: 80, weight_units: WeightUnits.KG }
+            { id: 3, date: new Date('2024-01-01'), weight: 80, weight_units: WeightUnits.KG },
         ];
         const result = (service as any).calculateTrend(weights, TimeService.getTime(new Date('2024-01-01')));
         expect(typeof result.slope).toBe('number');
@@ -134,7 +134,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
         // Fechas idénticas generan slope=0 => pace=0
         const weights: Weight[] = [
             { id: 1, date: new Date('2024-01-01'), weight: 80, weight_units: WeightUnits.KG },
-            { id: 2, date: new Date('2024-01-01'), weight: 75, weight_units: WeightUnits.KG }
+            { id: 2, date: new Date('2024-01-01'), weight: 75, weight_units: WeightUnits.KG },
         ];
         const result = service.trendWeightPace(weights);
         expect(result.weightPerWeek).toBe(0);
@@ -145,7 +145,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
         // Si todos los x son iguales, no hay datos de tendencia
         const weights: Weight[] = [
             { id: 1, date: new Date('2024-01-01'), weight: 80, weight_units: WeightUnits.KG },
-            { id: 2, date: new Date('2024-01-01'), weight: 78, weight_units: WeightUnits.KG }
+            { id: 2, date: new Date('2024-01-01'), weight: 78, weight_units: WeightUnits.KG },
         ];
         const result = service.getTrendData(weights);
         expect(result.length).toBe(0);
@@ -153,9 +153,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
 
     it('calculateTrend should handle only one data point', () => {
         // Con un solo punto, slope/intercept = 0
-        const weights: Weight[] = [
-            { id: 1, date: new Date('2024-01-01'), weight: 80, weight_units: WeightUnits.KG }
-        ];
+        const weights: Weight[] = [{ id: 1, date: new Date('2024-01-01'), weight: 80, weight_units: WeightUnits.KG }];
         const result = (service as any).calculateTrend(weights, TimeService.getTime(new Date('2024-01-01')));
         expect(result).toEqual({ slope: 0, intercept: 0 });
     });
@@ -164,7 +162,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
         // Menos de 3 registros totales devuelve pace cero
         const weights: Weight[] = [
             { id: 1, date: new Date('2024-01-01'), weight: 90, weight_units: WeightUnits.KG },
-            { id: 2, date: new Date('2024-02-01'), weight: 80, weight_units: WeightUnits.KG }
+            { id: 2, date: new Date('2024-02-01'), weight: 80, weight_units: WeightUnits.KG },
         ];
         const result = service.trendWeightPace(weights);
         expect(result.weightPerWeek).toEqual(0);
@@ -175,7 +173,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
         // Se espera y válido y x creciente para segundo punto
         const weights: Weight[] = [
             { id: 1, date: new Date('2024-01-01'), weight: 80, weight_units: WeightUnits.KG },
-            { id: 2, date: new Date('2024-02-01'), weight: 78, weight_units: WeightUnits.KG }
+            { id: 2, date: new Date('2024-02-01'), weight: 78, weight_units: WeightUnits.KG },
         ];
         const result = service.getTrendData(weights);
         if (result.length === 2) {
@@ -217,7 +215,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
             id: i + 1,
             date: new Date(2024, 0, i + 1),
             weight: 100 - i,
-            weight_units: WeightUnits.KG
+            weight_units: WeightUnits.KG,
         }));
         const result = service.trendWeightPace(weights);
         expect(typeof result.weightPerWeek).toBe('number');
@@ -230,7 +228,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
             id: i + 1,
             date: new Date(2024, 0, i + 1),
             weight: 100 - i,
-            weight_units: WeightUnits.KG
+            weight_units: WeightUnits.KG,
         }));
         const result = service.getTrendData(weights);
         expect(result.length).toBe(2);
@@ -246,7 +244,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
             id: i + 1,
             date: new Date(2024, 0, i + 1),
             weight: 100 - i,
-            weight_units: WeightUnits.KG
+            weight_units: WeightUnits.KG,
         }));
         const refDate = TimeService.getTime(new Date(2024, 0, 20));
         const result = (service as any).calculateTrend(weights, refDate);
@@ -260,7 +258,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
             id: i + 1,
             date: new Date(2024, 0, 1),
             weight: 100 - i,
-            weight_units: WeightUnits.KG
+            weight_units: WeightUnits.KG,
         }));
         const result = service.trendWeightPace(weights);
         expect(result.weightPerWeek).toBe(-0);
@@ -273,7 +271,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
             id: i + 1,
             date: new Date(2024, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1),
             weight: 50 + Math.random() * 50,
-            weight_units: WeightUnits.KG
+            weight_units: WeightUnits.KG,
         }));
         const result = service.trendWeightPace(weights);
         expect(typeof result.weightPerWeek).toBe('number');

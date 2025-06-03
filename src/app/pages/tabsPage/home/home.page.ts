@@ -23,7 +23,7 @@ export class HomePage {
     constructor(
         private readonly weightTracker: WeightTrackerService,
         private readonly userConfig: UserConfigService
-    ) { }
+    ) {}
 
     addWeight($event: Weight) {
         this.weightTracker.addWeight($event);

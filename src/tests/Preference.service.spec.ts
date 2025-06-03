@@ -8,7 +8,7 @@ jest.mock('@capacitor/preferences', () => ({
     Preferences: {
         get: jest.fn(),
         set: jest.fn(),
-    }
+    },
 }));
 
 describe('PreferenceService (Unit Tests with Jest)', () => {
@@ -75,11 +75,11 @@ describe('PreferenceService (Unit Tests with Jest)', () => {
         // Verificamos que se persistan en Preferences con el objeto completo
         const expected = {
             ...DEFAULTS,
-            BMI_ALERT_35: false
+            BMI_ALERT_35: false,
         };
         expect(Preferences.set).toHaveBeenCalledWith({
             key: 'user_preferences',
-            value: JSON.stringify(expected)
+            value: JSON.stringify(expected),
         });
     });
 
@@ -94,5 +94,4 @@ describe('PreferenceService (Unit Tests with Jest)', () => {
         await svc.set('BMI_ALERT_16', false);
         expect(svc.get('BMI_ALERT_16')).toBe(false);
     });
-
 });

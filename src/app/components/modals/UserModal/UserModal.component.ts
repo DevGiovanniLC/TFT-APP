@@ -24,7 +24,7 @@ export class ModalUserComponent {
     constructor(
         private readonly userConfig: UserConfigService,
         private readonly modalCtrl: ModalController
-    ) { }
+    ) {}
 
     ngOnInit(): void {
         const user = this.inputUser();
@@ -34,9 +34,8 @@ export class ModalUserComponent {
         }
     }
 
-
     controlSteps(step: number) {
-        if (step == -1)  this.cancel();
+        if (step == -1) this.cancel();
         if (step == 1) this.confirm();
     }
 
@@ -62,10 +61,8 @@ export class ModalUserComponent {
     }
 
     deleteGoal() {
-        this.user.update(user =>
-            user
-                ? { ...user, goal_weight: undefined, goal_units: undefined, goal_date: undefined }
-                : user
+        this.user.update((user) =>
+            user ? { ...user, goal_weight: undefined, goal_units: undefined, goal_date: undefined } : user
         );
         this.isGoalDate.set(false);
     }
@@ -92,14 +89,14 @@ export class ModalUserComponent {
 
         if (role === 'confirm' && data) {
             const goalData = data as Weight;
-            this.user.update(user =>
+            this.user.update((user) =>
                 user
                     ? {
-                        ...user,
-                        goal_weight: goalData.weight,
-                        goal_units: goalData.weight_units,
-                        goal_date: goalData.date,
-                    }
+                          ...user,
+                          goal_weight: goalData.weight,
+                          goal_units: goalData.weight_units,
+                          goal_date: goalData.date,
+                      }
                     : user
             );
             this.isGoalDate.set(this.isValidDate(goalData.date));

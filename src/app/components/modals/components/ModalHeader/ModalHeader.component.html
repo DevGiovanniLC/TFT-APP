@@ -1,7 +1,7 @@
 <ion-header class="bg-transparent pt-4">
     <ion-toolbar class="bg-transparent">
         <ion-buttons slot="start" class="mx-1">
-        @if (step !== 0 && headerMode() === headerEnum.Sequence || headerMode() === headerEnum.Back) {
+            @if ((step !== 0 && headerMode() === headerEnum.Sequence) || headerMode() === headerEnum.Back) {
                 <ion-button
                     id="backBtn"
                     class="w-28 h-10 text-sm"
@@ -10,7 +10,7 @@
                     (keypress)="backStep()"
                     >{{ 'KEY_WORDS.BACK' | translate }}</ion-button
                 >
-        } @else if (step == 0 && headerMode() === headerEnum.Static) {
+            } @else if (step == 0 && headerMode() === headerEnum.Static) {
                 <ion-button
                     id="backBtn"
                     class="w-28 h-10 text-xs"
@@ -19,14 +19,10 @@
                     (keypress)="backStep()"
                     >{{ 'KEY_WORDS.CANCEL' | translate }}</ion-button
                 >
-        }
-        @else {
-                <ion-button
-                    id="BackBtnDisabled"
-                    class="w-28 h-10"
-                    style="--border-radius: 15px"
-                    disabled="true"
-                >{{''}}</ion-button>
+            } @else {
+                <ion-button id="BackBtnDisabled" class="w-28 h-10" style="--border-radius: 15px" disabled="true">{{
+                    ''
+                }}</ion-button>
             }
         </ion-buttons>
         <div class="flex flex-row justify-center items-center mb-4 mr-5">
@@ -46,8 +42,7 @@
                     (keypress)="nextStep()"
                     >{{ '' }}</ion-button
                 >
-            }
-            @else {
+            } @else {
                 <ion-button
                     [id]="step === MAX_STEPS() ? 'confirmBtn' : 'nextBtn'"
                     class="w-28 h-10 text-xs"
@@ -56,7 +51,9 @@
                     strong="true"
                     (click)="nextStep()"
                     (keypress)="nextStep()"
-                    >{{ (step < MAX_STEPS() && step != -1 ?   'KEY_WORDS.NEXT' : 'KEY_WORDS.CONFIRM') | translate }}</ion-button
+                    >{{
+                        (step < MAX_STEPS() && step != -1 ? 'KEY_WORDS.NEXT' : 'KEY_WORDS.CONFIRM') | translate
+                    }}</ion-button
                 >
             }
         </ion-buttons>

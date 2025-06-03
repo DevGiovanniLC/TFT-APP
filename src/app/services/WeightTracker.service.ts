@@ -45,31 +45,23 @@ export class WeightTrackerService {
     readonly weights$: Observable<Weight[]> = this.weightsSubject.asObservable();
 
     /** Observable que emite el registro más antiguo (al final del array) */
-    readonly firstWeight$: Observable<Weight | undefined> = this.weights$.pipe(
-        map(weights => weights.at(-1))
-    );
+    readonly firstWeight$: Observable<Weight | undefined> = this.weights$.pipe(map((weights) => weights.at(-1)));
 
     /** Observable que emite el registro más reciente (al inicio del array) */
-    readonly lastWeight$: Observable<Weight | undefined> = this.weights$.pipe(
-        map(weights => weights[0])
-    );
+    readonly lastWeight$: Observable<Weight | undefined> = this.weights$.pipe(map((weights) => weights[0]));
 
-
-    constructor(private readonly dataProvider: DataProviderService) { }
-
+    constructor(private readonly dataProvider: DataProviderService) {}
 
     private refreshWeights(): void {
-        this.dataProvider.getWeights().then(weights => {
+        this.dataProvider.getWeights().then((weights) => {
             this.weightsSubject.next(weights);
         });
     }
-
 
     getWeights(): Observable<Weight[]> {
         this.refreshWeights();
         return this.weights$;
     }
-
 
     addWeight(weight: Weight): void {
         this.eventTriggered = EventTrigger.ADD;

@@ -11,9 +11,9 @@ import { PreferenceService, Preference } from './Preference.service';
 import { TranslateService } from '@ngx-translate/core';
 
 enum AlertMode {
-    INFO = "info",
-    WARNING = "warning",
-    DANGER = "danger",
+    INFO = 'info',
+    WARNING = 'warning',
+    DANGER = 'danger',
 }
 
 @Injectable({ providedIn: 'root' })
@@ -39,7 +39,6 @@ export class EventAdviceService {
     /** Histórico de registros de peso para comparaciones */
     private readonly history: Weight[] = [];
 
-
     constructor(
         private readonly translateService: TranslateService,
         private readonly bmiService: BMIService,
@@ -48,7 +47,7 @@ export class EventAdviceService {
         private readonly weightAnalysis: WeightAnalysisService,
         private readonly alertCtrl: AlertController,
         private readonly timeService: TimeService,
-        private readonly preference: PreferenceService,
+        private readonly preference: PreferenceService
     ) {
         effect(() => this.checkBMI(this.bmi()));
         effect(() => this.checkLastWeight(this.lastWeight()));
@@ -60,29 +59,18 @@ export class EventAdviceService {
         const goal = this.goal();
         if (!goal?.weight || !goal.date || !lastWeight?.weight) return NaN;
         return type === 'month'
-            ? this.weightAnalysis.monthWeightLossPace(
-                lastWeight.weight,
-                goal.weight,
-                lastWeight.date,
-                goal.date
-            )
-            : this.weightAnalysis.weekWeightLossPace(
-                lastWeight.weight,
-                goal.weight,
-                lastWeight.date,
-                goal.date
-            );
+            ? this.weightAnalysis.monthWeightLossPace(lastWeight.weight, goal.weight, lastWeight.date, goal.date)
+            : this.weightAnalysis.weekWeightLossPace(lastWeight.weight, goal.weight, lastWeight.date, goal.date);
     }
-
 
     private checkBMI(bmi?: number | null): void {
         if (!bmi || !this.weightTracker.isLastEvent(this.weightTracker.EventTrigger.ADD)) return;
 
         const prefs = {
-            'BMI_ALERT_40': this.preference.get('BMI_ALERT_40'),
-            'BMI_ALERT_35': this.preference.get('BMI_ALERT_35'),
-            'BMI_ALERT_18_5': this.preference.get('BMI_ALERT_18_5'),
-            'BMI_ALERT_16': this.preference.get('BMI_ALERT_16'),
+            BMI_ALERT_40: this.preference.get('BMI_ALERT_40'),
+            BMI_ALERT_35: this.preference.get('BMI_ALERT_35'),
+            BMI_ALERT_18_5: this.preference.get('BMI_ALERT_18_5'),
+            BMI_ALERT_16: this.preference.get('BMI_ALERT_16'),
         } as Record<keyof Preference, boolean>;
 
         if (bmi < 16 && prefs.BMI_ALERT_16) {
@@ -114,18 +102,12 @@ export class EventAdviceService {
                 ['BMI_ALERT_35']
             );
         }
-        this.weightTracker.eventTriggered =  this.weightTracker.EventTrigger.NONE;
+        this.weightTracker.eventTriggered = this.weightTracker.EventTrigger.NONE;
     }
 
-
-    private async showBMIAlert(
-        header: string,
-        message: string,
-        mode: AlertMode,
-        keysToDisable: (keyof Preference)[]
-    ) {
+    private async showBMIAlert(header: string, message: string, mode: AlertMode, keysToDisable: (keyof Preference)[]) {
         await this.alert(header, message, mode);
-        keysToDisable.forEach(key => this.preference.set(key, false));
+        keysToDisable.forEach((key) => this.preference.set(key, false));
     }
 
     private checkLastWeight(lastWeight?: Weight): void {
@@ -133,16 +115,17 @@ export class EventAdviceService {
 
         const prev = this.history[this.history.length - 1];
         const isRecent = this.timeService.weekDifference(lastWeight.date, this.timeService.now()) < 1;
-        const isDuplicateToday = prev &&
-            this.timeService.isSameDay(lastWeight.date, prev.date) &&
-            lastWeight.id !== prev.id;
+        const isDuplicateToday =
+            prev && this.timeService.isSameDay(lastWeight.date, prev.date) && lastWeight.id !== prev.id;
 
         if (!isRecent && this.weightTracker.isLastEvent(this.weightTracker.EventTrigger.NONE)) {
-            setTimeout(() =>
-                this.alert(
-                    this.translateService.instant('ALERTS.WEIGHT_NOT_REGISTERED.TITLE'),
-                    this.translateService.instant('ALERTS.WEIGHT_NOT_REGISTERED.MESSAGE')
-                ), 1500
+            setTimeout(
+                () =>
+                    this.alert(
+                        this.translateService.instant('ALERTS.WEIGHT_NOT_REGISTERED.TITLE'),
+                        this.translateService.instant('ALERTS.WEIGHT_NOT_REGISTERED.MESSAGE')
+                    ),
+                1500
             );
         } else if (isDuplicateToday && this.weightTracker.isLastEvent(this.weightTracker.EventTrigger.ADD)) {
             this.alert(
@@ -152,14 +135,14 @@ export class EventAdviceService {
         }
 
         this.history.push(lastWeight);
-        this.weightTracker.eventTriggered =  this.weightTracker.EventTrigger.NONE;
+        this.weightTracker.eventTriggered = this.weightTracker.EventTrigger.NONE;
     }
 
-
     private checkGoal(monthsPaceLoss: number, weeksPaceLoss: number): void {
-        if ((monthsPaceLoss > 4 || weeksPaceLoss > 1) &&
-            this.userConfig.eventTriggered === this.userConfig.EventTrigger.CHANGED) {
-
+        if (
+            (monthsPaceLoss > 4 || weeksPaceLoss > 1) &&
+            this.userConfig.eventTriggered === this.userConfig.EventTrigger.CHANGED
+        ) {
             this.alert(
                 this.translateService.instant('ALERTS.GOAL_PROBLEM.TITLE'),
                 this.translateService.instant('ALERTS.GOAL_PROBLEM.MESSAGE')
@@ -169,11 +152,7 @@ export class EventAdviceService {
         this.userConfig.eventTriggered = this.userConfig.EventTrigger.NONE;
     }
 
-    private async alert(
-        header: string,
-        message: string,
-        alertMode: AlertMode = AlertMode.INFO
-    ): Promise<void> {
+    private async alert(header: string, message: string, alertMode: AlertMode = AlertMode.INFO): Promise<void> {
         const alertModal = await this.alertCtrl.create({
             header,
             message,

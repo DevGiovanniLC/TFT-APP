@@ -29,7 +29,7 @@ export class RegisterPage {
         private readonly weightTracker: WeightTrackerService,
         private readonly modalCtrl: ModalController,
         private readonly alertCtrl: AlertController
-    ) { }
+    ) {}
 
     async confirmDelete(id: number, deleteCallback: () => void, cancelCallback: () => void) {
         if (this.isPressingButton()) return;
@@ -39,8 +39,8 @@ export class RegisterPage {
 
         if (this.reversedRegisters()?.length === 1) {
             alert = await this.alertCtrl.create({
-                header:  this.translateService.instant('TAB4.ALERT_DELETE_NOT_ALLOWED.TITLE'),
-                message:  this.translateService.instant('TAB4.ALERT_DELETE_NOT_ALLOWED.MESSAGE'),
+                header: this.translateService.instant('TAB4.ALERT_DELETE_NOT_ALLOWED.TITLE'),
+                message: this.translateService.instant('TAB4.ALERT_DELETE_NOT_ALLOWED.MESSAGE'),
                 cssClass: 'small-alert',
                 buttons: [
                     {
@@ -54,8 +54,8 @@ export class RegisterPage {
             });
         } else {
             alert = await this.alertCtrl.create({
-                header:  this.translateService.instant('TAB4.ALERT_DELETE_CONFIRM.TITLE'),
-                message:  this.translateService.instant('TAB4.ALERT_DELETE_CONFIRM.MESSAGE'),
+                header: this.translateService.instant('TAB4.ALERT_DELETE_CONFIRM.TITLE'),
+                message: this.translateService.instant('TAB4.ALERT_DELETE_CONFIRM.MESSAGE'),
                 cssClass: 'small-alert',
                 buttons: [
                     {

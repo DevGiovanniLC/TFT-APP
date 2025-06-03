@@ -1,46 +1,70 @@
 <section class="flex flex-col items-center justify-center">
-    <form id="form"
-        class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10 space-y-2">
+    <form
+        id="form"
+        class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10 space-y-2"
+    >
         <!-- Name -->
         <div class="flex flex-col space-y-1">
             <label for="name" class="text-sm font-medium text-teal-600">
-                {{ 'KEY_WORDS.NAME' | translate }} ({{'KEY_WORDS.OPTIONAL' | translate }})
+                {{ 'KEY_WORDS.NAME' | translate }} ({{ 'KEY_WORDS.OPTIONAL' | translate }})
             </label>
-            <input id="name" type="text" name="name" autocomplete="name"
-                [placeholder]="'MODALS.USER_MODAL.PLACEHOLDER.NAME' | translate" [(ngModel)]="user.name"
+            <input
+                id="name"
+                type="text"
+                name="name"
+                autocomplete="name"
+                [placeholder]="'MODALS.USER_MODAL.PLACEHOLDER.NAME' | translate"
+                [(ngModel)]="user.name"
                 (input)="onNameChange($event)"
-                class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm" />
+                class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm"
+            />
         </div>
 
         <!-- Age -->
         <div class="flex flex-col space-y-1">
             <label for="age" class="text-sm font-medium text-teal-600">
-                {{ 'KEY_WORDS.AGE' | translate }} ({{'KEY_WORDS.OPTIONAL' | translate }})
+                {{ 'KEY_WORDS.AGE' | translate }} ({{ 'KEY_WORDS.OPTIONAL' | translate }})
             </label>
-            <input id="age" name="age" type="number" [placeholder]="'MODALS.USER_MODAL.PLACEHOLDER.AGE' | translate"
-                [(ngModel)]="user.age" (input)="onAgeChange($event)"
-                class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm" />
+            <input
+                id="age"
+                name="age"
+                type="number"
+                [placeholder]="'MODALS.USER_MODAL.PLACEHOLDER.AGE' | translate"
+                [(ngModel)]="user.age"
+                (input)="onAgeChange($event)"
+                class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm"
+            />
         </div>
 
         <!-- Height -->
         <div class="flex flex-col space-y-1">
             <label for="height" class="text-sm font-medium text-teal-600">
-                {{ 'KEY_WORDS.HEIGHT' | translate }} ({{'KEY_WORDS.OPTIONAL' | translate }})
+                {{ 'KEY_WORDS.HEIGHT' | translate }} ({{ 'KEY_WORDS.OPTIONAL' | translate }})
             </label>
-            <input id="height" name="height" type="number"
-                [placeholder]="'MODALS.USER_MODAL.PLACEHOLDER.HEIGHT' | translate" [(ngModel)]="user.height"
+            <input
+                id="height"
+                name="height"
+                type="number"
+                [placeholder]="'MODALS.USER_MODAL.PLACEHOLDER.HEIGHT' | translate"
+                [(ngModel)]="user.height"
                 (input)="onHeightChange($event)"
-                class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm" />
+                class="px-4 py-3 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm"
+            />
         </div>
 
         <!-- Gender -->
         <div class="flex flex-col space-y-1">
             <label for="gender" class="text-sm font-medium text-teal-600">
-                {{ 'KEY_WORDS.GENDER' | translate }} ({{'KEY_WORDS.OPTIONAL' | translate }})
+                {{ 'KEY_WORDS.GENDER' | translate }} ({{ 'KEY_WORDS.OPTIONAL' | translate }})
             </label>
-            <ion-select id="gender" name="gender" [placeholder]=" 'MODALS.USER_MODAL.PLACEHOLDER.GENDER' | translate"
-                [(ngModel)]="user.gender" (ionChange)="onGenderChange()"
-                class="px-4 py-1 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm">
+            <ion-select
+                id="gender"
+                name="gender"
+                [placeholder]="'MODALS.USER_MODAL.PLACEHOLDER.GENDER' | translate"
+                [(ngModel)]="user.gender"
+                (ionChange)="onGenderChange()"
+                class="px-4 py-1 border border-teal-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ease-in-out duration-300 shadow-sm"
+            >
                 <ion-select-option value="female">{{ 'KEY_WORDS.FEMALE' | translate }}</ion-select-option>
                 <ion-select-option value="male">{{ 'KEY_WORDS.MALE' | translate }}</ion-select-option>
                 <ion-select-option value="other">{{ 'KEY_WORDS.OTHER' | translate }}</ion-select-option>

@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 enum HeaderEnum {
     Static,
     Sequence,
-    Back
+    Back,
 }
 
 @Component({
@@ -15,7 +15,7 @@ enum HeaderEnum {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalHeaderComponent {
-    static readonly HeaderEnum = HeaderEnum
+    static readonly HeaderEnum = HeaderEnum;
 
     headerEnum = HeaderEnum;
     MAX_STEPS = input<number>(0);
@@ -35,5 +35,3 @@ export class ModalHeaderComponent {
         return this.step;
     }
 }
-
-

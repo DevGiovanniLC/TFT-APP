@@ -1,76 +1,89 @@
 <app-modal-header [headerMode]="HeaderEnum.Sequence" [MAX_STEPS]="FINAL_STEP" (outputStep)="controlSteps($event)" />
 
-<ion-content style="--ion-background-color: linear-gradient(to top right, #d1fae5, #6ee7b7);">
+<ion-content style="--ion-background-color: linear-gradient(to top right, #d1fae5, #6ee7b7)">
     <div class="h-full min-h-full flex flex-col items-center text-center px-6 py-5 space-y-5 w-full bg-transparent">
-        @switch (step) {
-        @case (0) {
-        <h1 class="text-3xl font-bold text-gray-800 text-balance mb-0">{{ 'INITIAL_MODAL.PAGE1.TITLE' | translate }}
+        @switch (step) { @case (0) {
+        <h1 class="text-3xl font-bold text-gray-800 text-balance mb-0">
+            {{ 'INITIAL_MODAL.PAGE1.TITLE' | translate }}
         </h1>
         <ul class="mt-6 space-y-3 text-left bg-teal-100 p-6 rounded-3xl shadow-xl bg-opacity-30 font-system">
-            <li *ngFor="let tip of [
+            <li
+                *ngFor="let tip of [
                         {icon:'💡', text: translate.instant('INITIAL_MODAL.PAGE1.TIPS')[0]},
                         {icon:'📊', text: translate.instant('INITIAL_MODAL.PAGE1.TIPS')[1]},
                         {icon:'📈', text: translate.instant('INITIAL_MODAL.PAGE1.TIPS')[2]},
                         {icon:'🍎', text: translate.instant('INITIAL_MODAL.PAGE1.TIPS')[3]},
                         {icon:'🎉', text: translate.instant('INITIAL_MODAL.PAGE1.TIPS')[4]}
-                    ]" class="flex items-center gap-2">
+                    ]"
+                class="flex items-center gap-2"
+            >
                 {{tip.icon}} <span class="text-lg font-medium">{{tip.text}}</span>
             </li>
         </ul>
-        <img alt="Cartoon Woman with a mobile phone" src="assets/images/initial-image-cartoon.png"
-            class="flex-grow h-1/6 max-h-80 drop-shadow-2xl" />
-        }
-        @case (1) {
+        <img
+            alt="Cartoon Woman with a mobile phone"
+            src="assets/images/initial-image-cartoon.png"
+            class="flex-grow h-1/6 max-h-80 drop-shadow-2xl"
+        />
+        } @case (1) {
         <h1 class="text-3xl font-bold text-gray-800 mb-0">{{ 'INITIAL_MODAL.PAGE2.TITLE' | translate }}</h1>
         <header class="space-y-2">
             <p class="text-lg text-gray-700">{{translate.instant('INITIAL_MODAL.PAGE2.TIPS')[0]}}</p>
             <p class="text-sm text-gray-700">{{translate.instant('INITIAL_MODAL.PAGE2.TIPS')[1]}}</p>
         </header>
         <form
-            class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10">
+            class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10"
+        >
             <div class="flex flex-col items-center">
-                <app-weight-form [inputWeightValue]="actualWeight()" [inputWeightUnit]="lastWeightUnit"
-                    (outputWeightValue)="updateActualWeight($event)">
+                <app-weight-form
+                    [inputWeightValue]="actualWeight()"
+                    [inputWeightUnit]="lastWeightUnit"
+                    (outputWeightValue)="updateActualWeight($event)"
+                >
                 </app-weight-form>
             </div>
         </form>
-        }
-        @case (2) {
+        } @case (2) {
         <h1 class="text-3xl font-bold text-gray-800 mb-0">{{ 'INITIAL_MODAL.PAGE3.TITLE' | translate }}</h1>
-        <p class="text-lg text-gray-700">
-            {{translate.instant('INITIAL_MODAL.PAGE3.TIPS')[0]}}
-        </p>
+        <p class="text-lg text-gray-700">{{translate.instant('INITIAL_MODAL.PAGE3.TIPS')[0]}}</p>
         <ul class="space-y-3 text-left bg-teal-100 p-5 rounded-2xl shadow-xl bg-opacity-30 font-system">
-            <li *ngFor="let goalTip of [
+            <li
+                *ngFor="let goalTip of [
                         {icon:'🎯', text: translate.instant('INITIAL_MODAL.PAGE3.TIPS')[1]},
                         {icon:'💪', text: translate.instant('INITIAL_MODAL.PAGE3.TIPS')[2]},
                         {icon:'🏃', text: translate.instant('INITIAL_MODAL.PAGE3.TIPS')[3]},
                         {icon:'🧘', text: translate.instant('INITIAL_MODAL.PAGE3.TIPS')[4]},
                         {icon:'🥗', text: translate.instant('INITIAL_MODAL.PAGE3.TIPS')[5]}
-                    ]" class="flex items-center gap-2">
+                    ]"
+                class="flex items-center gap-2"
+            >
                 {{goalTip.icon}} <span class="text-lg font-medium">{{goalTip.text}}</span>
             </li>
         </ul>
         <div class="p-3 flex flex-col items-center space-y-3">
             @if (!isGoal()) {
-                <ion-button id="goalBtn" class="button-shadow w-40 h-12" color="primary" (click)="openModal()" (keypress)="openModal()" style="--border-radius: 18px">
-                    {{ 'INITIAL_MODAL.PAGE3.BUTTON' | translate }}
-                </ion-button>
-                <p class="text-xs text-teal-500">{{ 'INITIAL_MODAL.PAGE3.INFO' | translate }}</p>
+            <ion-button
+                id="goalBtn"
+                class="button-shadow w-40 h-12"
+                color="primary"
+                (click)="openModal()"
+                (keypress)="openModal()"
+                style="--border-radius: 18px"
+            >
+                {{ 'INITIAL_MODAL.PAGE3.BUTTON' | translate }}
+            </ion-button>
+            <p class="text-xs text-teal-500">{{ 'INITIAL_MODAL.PAGE3.INFO' | translate }}</p>
             } @else {
-                <p>{{ 'INITIAL_MODAL.PAGE3.CHECK' | translate }}</p>
-                <p>{{ 'MODALS.USER_MODAL.WEIGHT_GOAL' | translate }}: {{ goal?.weight }} {{ goal?.weight_units }}</p>
+            <p>{{ 'INITIAL_MODAL.PAGE3.CHECK' | translate }}</p>
+            <p>{{ 'MODALS.USER_MODAL.WEIGHT_GOAL' | translate }}: {{ goal?.weight }} {{ goal?.weight_units }}</p>
             @if (validateGoalDate()) {
-                <p>{{ 'KEY_WORDS.DATE' | translate }}: {{ goal?.date | date: 'dd/MM/yyyy' }}</p>
-                }
-            }
+            <p>{{ 'KEY_WORDS.DATE' | translate }}: {{ goal?.date | date: 'dd/MM/yyyy' }}</p>
+            } }
         </div>
-        }
-        @case (3) {
+        } @case (3) {
         <h1 class="text-3xl font-bold text-gray-800 mb-0">{{ 'INITIAL_MODAL.PAGE4.TITLE' | translate }}</h1>
-        <p class="text-gray-700 text-lg p-0 m-0"> {{ 'INITIAL_MODAL.PAGE4.TIPS' | translate }}</p>
+        <p class="text-gray-700 text-lg p-0 m-0">{{ 'INITIAL_MODAL.PAGE4.TIPS' | translate }}</p>
         <app-user-form (setUser)="updateUser($event)"></app-user-form>
-        }
-        }
+        } }
     </div>
 </ion-content>

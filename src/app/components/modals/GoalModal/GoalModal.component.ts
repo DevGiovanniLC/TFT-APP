@@ -26,7 +26,7 @@ import { DeviceInfoService } from '@services/DeviceInfo.service';
         IonModal,
         IonDatetime,
         ModalHeaderComponent,
-        TranslateModule
+        TranslateModule,
     ],
     templateUrl: './GoalModal.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,7 +47,7 @@ export class GoalModalComponent {
         private readonly deviceInfo: DeviceInfoService,
         private readonly timeService: TimeService,
         private readonly modalCtrl: ModalController
-    ) { }
+    ) {}
 
     ngOnInit(): void {
         this.language.set(this.deviceInfo.getLanguage());
@@ -68,7 +68,7 @@ export class GoalModalComponent {
     }
 
     controlSteps(step: number) {
-        if (step == -1)  this.cancel();
+        if (step == -1) this.cancel();
         if (step == 1) this.confirm();
     }
 

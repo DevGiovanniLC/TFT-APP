@@ -15,22 +15,15 @@ import { TimeService } from './Time.service';
  * @class WeightAnalysisService
  */
 export class WeightAnalysisService {
+    constructor(private readonly timeService: TimeService) {}
 
-    constructor(private readonly timeService: TimeService) { }
-
-    weekWeightLossPace(
-        weight: number,
-        goal: number,
-        start: Date,
-        end: Date
-    ): number {
+    weekWeightLossPace(weight: number, goal: number, start: Date, end: Date): number {
         const weeks = this.timeService.weekDifference(start, end);
         if (weeks < 1) {
             return Number((weight - goal).toFixed(2));
         }
         return this.weightLossPace(weight, goal, weeks);
     }
-
 
     monthWeightLossPace(weight: number, goal: number, start: Date, end: Date): number {
         const months = this.timeService.monthDifference(start, end);
@@ -40,20 +33,14 @@ export class WeightAnalysisService {
         return this.weightLossPace(weight, goal, months);
     }
 
-    private weightLossPace(
-        weight: number,
-        goal: number,
-        diff: number
-    ): number {
+    private weightLossPace(weight: number, goal: number, diff: number): number {
         if (!diff) return 0;
         return Number(((weight - goal) / diff).toFixed(2));
     }
 
-    trendWeightPace(weights: Weight[]): { weightPerWeek: number; weightPerMonth: number; } {
+    trendWeightPace(weights: Weight[]): { weightPerWeek: number; weightPerMonth: number } {
         if (!weights?.length) return { weightPerWeek: 0, weightPerMonth: 0 };
-        const lastDate = TimeService.getTime(
-            weights[weights.length - 1].date
-        );
+        const lastDate = TimeService.getTime(weights[weights.length - 1].date);
         const { slope } = this.calculateTrend(weights, lastDate);
         return {
             weightPerWeek: slope * TimeService.MS_PER_WEEK,
@@ -61,42 +48,30 @@ export class WeightAnalysisService {
         };
     }
 
-    getTrendData(weights: Weight[]): { x: number; y: number; }[] {
+    getTrendData(weights: Weight[]): { x: number; y: number }[] {
         if (!weights?.length) return [];
         const last = weights[0];
         const lastDate = TimeService.getTime(last.date);
-        const { slope, intercept } = this.calculateTrend(
-            weights,
-            lastDate
-        );
-        const twoYears =
-            lastDate + 2 * 365 * TimeService.MS_PER_DAY;
+        const { slope, intercept } = this.calculateTrend(weights, lastDate);
+        const twoYears = lastDate + 2 * 365 * TimeService.MS_PER_DAY;
         const y = slope * twoYears + intercept;
         if (!y) return [];
         return [
             { x: lastDate, y: last.weight },
-            { x: twoYears, y }
+            { x: twoYears, y },
         ];
     }
 
-    private calculateTrend(
-        weights: Weight[],
-        refDate: number
-    ): { slope: number; intercept: number; } {
+    private calculateTrend(weights: Weight[], refDate: number): { slope: number; intercept: number } {
         // Últimos 14 días
         const minDate = refDate - TimeService.MS_PER_DAY * 14;
-        let recent = weights.filter(
-            (w) => TimeService.getTime(w.date) >= minDate
-        );
+        let recent = weights.filter((w) => TimeService.getTime(w.date) >= minDate);
 
         // Fallback: últimos 2 registros si no hay suficientes datos recientes
         if (recent.length < 2 && weights.length > 2) {
             recent = weights
                 .slice()
-                .sort(
-                    (a, b) =>
-                        TimeService.getTime(b.date) - TimeService.getTime(a.date)
-                )
+                .sort((a, b) => TimeService.getTime(b.date) - TimeService.getTime(a.date))
                 .slice(0, 2)
                 .reverse();
         }
@@ -108,10 +83,7 @@ export class WeightAnalysisService {
 
         const sumX = x.reduce((sum, xi) => sum + xi, 0);
         const sumY = y.reduce((sum, yi) => sum + yi, 0);
-        const sumXY = x.reduce(
-            (sum, xi, i) => sum + xi * y[i],
-            0
-        );
+        const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
         const sumX2 = x.reduce((sum, xi) => sum + xi * xi, 0);
 
         const denominator = n * sumX2 - sumX * sumX;
@@ -124,8 +96,6 @@ export class WeightAnalysisService {
 
     weightProgression(first: number, last: number, goal: number): number {
         if (!first || !last || !goal || goal === first) return NaN;
-        return Number(
-            (((last - first) / (goal - first)) * 100).toFixed(2)
-        );
+        return Number((((last - first) / (goal - first)) * 100).toFixed(2));
     }
 }

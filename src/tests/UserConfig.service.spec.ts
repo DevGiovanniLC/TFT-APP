@@ -21,20 +21,20 @@ describe('UserConfigService (Unit Tests with Jest)', () => {
         email: 'user@test.com',
         goal_weight: 65,
         goal_units: WeightUnits.KG,
-        goal_date: new Date('2024-05-01')
+        goal_date: new Date('2024-05-01'),
     };
 
     // Objetivo crudo simulado que devuelve el proveedor (fecha como string)
     const rawGoal = {
         weight: mockUser.goal_weight,
         weight_units: mockUser.goal_units,
-        date: '2024-05-01'
+        date: '2024-05-01',
     };
     // Objetivo parseado esperado (fecha como Date)
     const mockGoal: Goal = {
         weight: rawGoal.weight,
         weight_units: rawGoal.weight_units,
-        date: new Date(rawGoal.date)
+        date: new Date(rawGoal.date),
     };
 
     beforeEach(() => {
@@ -42,7 +42,7 @@ describe('UserConfigService (Unit Tests with Jest)', () => {
         dpMock = {
             getUser: jest.fn().mockResolvedValue(mockUser),
             getGoal: jest.fn().mockResolvedValue(rawGoal as any),
-            setUser: jest.fn()
+            setUser: jest.fn(),
         } as unknown as jest.Mocked<DataProviderService>;
         service = new UserConfigService(dpMock);
     });

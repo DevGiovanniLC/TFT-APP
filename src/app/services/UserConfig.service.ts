@@ -13,7 +13,7 @@ enum EventTrigger {
     /** No se ha disparado ningún evento */
     NONE,
     /** La configuración ha sido actualizada */
-    CHANGED
+    CHANGED,
 }
 
 @Injectable({ providedIn: 'root' })
@@ -43,22 +43,16 @@ export class UserConfigService {
     /** Observable público que emite el objetivo actual */
     readonly goal$ = this.goalSubject.asObservable();
 
-    constructor(private readonly dataProvider: DataProviderService) { }
+    constructor(private readonly dataProvider: DataProviderService) {}
 
     getUser(): Observable<User | undefined> {
-        return from(this.dataProvider.getUser()).pipe(
-            tap(user => this.userSubject.next(user ?? undefined))
-        );
+        return from(this.dataProvider.getUser()).pipe(tap((user) => this.userSubject.next(user ?? undefined)));
     }
 
     getGoal(): Observable<Goal | undefined> {
         return from(this.dataProvider.getGoal()).pipe(
-            map(goal =>
-                goal
-                    ? { ...goal, date: goal.date ? new Date(goal.date) : undefined }
-                    : undefined
-            ),
-            tap(parsedGoal => this.goalSubject.next(parsedGoal))
+            map((goal) => (goal ? { ...goal, date: goal.date ? new Date(goal.date) : undefined } : undefined)),
+            tap((parsedGoal) => this.goalSubject.next(parsedGoal))
         );
     }
 

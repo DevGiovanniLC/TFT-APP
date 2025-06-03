@@ -20,7 +20,7 @@ import { DeviceInfoService } from '@services/DeviceInfo.service';
         FormsModule,
         WeightFormComponent,
         ModalHeaderComponent,
-        TranslateModule
+        TranslateModule,
     ],
     templateUrl: './WeightRegisterModal.component.html',
     styleUrl: './WeightRegisterModal.component.css',
@@ -38,13 +38,12 @@ export class WeightRegisterComponent implements OnInit {
 
     readonly language = signal<string>('en-GB');
 
-
     constructor(
         private readonly deviceInfo: DeviceInfoService,
         private readonly weightTracker: WeightTrackerService,
         private readonly timeService: TimeService,
-        private readonly modalCtrl: ModalController,
-    ) { }
+        private readonly modalCtrl: ModalController
+    ) {}
 
     ngOnInit(): void {
         this.language.set(this.deviceInfo.getLanguage());
@@ -56,15 +55,13 @@ export class WeightRegisterComponent implements OnInit {
 
         if (input) {
             const date = input.date;
-            const localISO = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-                .toISOString()
-                .substring(0, 16);
+            const localISO = new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().substring(0, 16);
             this.selectedDate.set(localISO);
         }
     }
 
     controlSteps(step: number) {
-        if (step == -1)  this.cancel();
+        if (step == -1) this.cancel();
         if (step == 1) this.confirm();
     }
 

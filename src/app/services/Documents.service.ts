@@ -11,14 +11,10 @@ import { DataProviderService } from './data-providers/DataProvider.service';
  * @class DocumentsService
  */
 export class DocumentsService {
-
-    constructor(private readonly dataProvider: DataProviderService) { }
+    constructor(private readonly dataProvider: DataProviderService) {}
 
     async exportAllDataToCSV(): Promise<void> {
-        const [user, weights] = await Promise.all([
-            this.dataProvider.getUser(),
-            this.dataProvider.getWeights()
-        ]);
+        const [user, weights] = await Promise.all([this.dataProvider.getUser(), this.dataProvider.getWeights()]);
         if (!user || !weights?.length) return;
 
         const csv = this.buildCSV(user, weights);
@@ -35,26 +31,20 @@ export class DocumentsService {
                 Gender: user.gender,
                 GoalDate: user.goal_date?.toISOString().slice(0, 10) ?? '',
                 GoalWeight: user.goal_weight,
-                GoalUnits: user.goal_units
-            }
+                GoalUnits: user.goal_units,
+            },
         ]);
 
         // Sección de datos de peso
         const weightsCSV = Papa.unparse(
-            weights.map(w => ({
+            weights.map((w) => ({
                 Date: w.date.toISOString().slice(0, 10),
                 Weight: w.weight,
-                Units: w.weight_units
+                Units: w.weight_units,
             }))
         );
 
         // Combina ambas secciones con títulos
-        return [
-            '# User Data',
-            userCSV,
-            '',
-            '# Weights Data',
-            weightsCSV
-        ].join('\n');
+        return ['# User Data', userCSV, '', '# Weights Data', weightsCSV].join('\n');
     }
 }

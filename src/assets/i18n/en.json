@@ -37,10 +37,7 @@
         },
         "PAGE2": {
             "TITLE": "Track Your Weight",
-            "TIPS": [
-                "Set your actual weight",
-                "Stay consistent and monitor your progress!"
-            ]
+            "TIPS": ["Set your actual weight", "Stay consistent and monitor your progress!"]
         },
         "PAGE3": {
             "TITLE": "Set Your Goal",
@@ -58,9 +55,7 @@
         },
         "PAGE4": {
             "TITLE": "Personal Information",
-            "TIPS": [
-                "Please fill in your information."
-            ]
+            "TIPS": ["Please fill in your information."]
         }
     },
     "TABS": {

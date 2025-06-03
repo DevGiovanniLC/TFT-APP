@@ -16,7 +16,6 @@ const USER_KEY = 'user_data';
  * @implements {DataProvider}
  */
 export default class LocalStorageProvider implements DataProvider {
-
     private getItem<T>(key: string): T | undefined {
         const item = localStorage.getItem(key);
         return item ? JSON.parse(item) : undefined;
@@ -31,21 +30,18 @@ export default class LocalStorageProvider implements DataProvider {
         return this.getItem<Weight[]>(WEIGHTS_KEY) || [];
     }
 
-
     async getUser(): Promise<User | undefined> {
         return this.getItem<User>(USER_KEY);
     }
-
 
     async setUser(value: User): Promise<boolean> {
         this.setItem(USER_KEY, value);
         return true;
     }
 
-
     async addWeight(value: Weight): Promise<boolean> {
         const weights = this.getWeightsRaw();
-        const id = weights.length ? Math.max(...weights.map(w => w.id || 0)) + 1 : 1;
+        const id = weights.length ? Math.max(...weights.map((w) => w.id || 0)) + 1 : 1;
         weights.push({ ...value, date: new Date(value.date).getTime(), id });
         this.setItem(WEIGHTS_KEY, weights);
         return true;
@@ -61,7 +57,6 @@ export default class LocalStorageProvider implements DataProvider {
             return false;
         }
     }
-
 
     async updateWeight(value: Weight): Promise<boolean> {
         try {
@@ -88,16 +83,14 @@ export default class LocalStorageProvider implements DataProvider {
         };
     }
 
-
     async getWeights(): Promise<Weight[]> {
         return this.getWeightsRaw()
-            .map(w => ({
+            .map((w) => ({
                 ...w,
                 date: new Date(w.date),
             }))
             .sort((a, b) => b.date.getTime() - a.date.getTime());
     }
-
 
     async exportDataCSV(csv: string): Promise<void> {
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -108,7 +101,6 @@ export default class LocalStorageProvider implements DataProvider {
         a.click();
         URL.revokeObjectURL(url);
     }
-
 
     async initializeConnection(): Promise<boolean> {
         try {

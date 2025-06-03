@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IonButtons, IonButton, IonIcon, ModalController } from "@ionic/angular/standalone";
+import { IonButtons, IonButton, IonIcon, ModalController } from '@ionic/angular/standalone';
 import { ModalWeightLineChartComponent } from '../ModalWeightLineChart/ModalWeightLineChart.component';
 
 @Component({
@@ -9,7 +9,6 @@ import { ModalWeightLineChartComponent } from '../ModalWeightLineChart/ModalWeig
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChartZoomButtonComponent {
-
     isPressingButton: boolean;
 
     constructor(private readonly modalCtrl: ModalController) {

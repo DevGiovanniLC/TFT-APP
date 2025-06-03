@@ -11,7 +11,7 @@ import { ModalUserComponent } from '@components/modals/UserModal/UserModal.compo
 export class ModalUserButtonComponent {
     readonly isPressingButton = signal(false);
 
-    constructor(private readonly modalCtrl: ModalController) { }
+    constructor(private readonly modalCtrl: ModalController) {}
 
     async openModal() {
         if (this.isPressingButton()) return;

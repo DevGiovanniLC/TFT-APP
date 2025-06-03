@@ -19,41 +19,31 @@ export class TimeService {
     }
 
     now(): Date {
-        return environment.test
-            ? new Date('2025-05-30T17:54:12.535Z')
-            : new Date();
+        return environment.test ? new Date('2025-05-30T17:54:12.535Z') : new Date();
     }
-
 
     isSameDay(...dates: Date[]): boolean {
-        return dates.every(date =>
-            date?.getDay() === this.now().getDay() &&
-            date?.getMonth() === this.now().getMonth() &&
-            date?.getFullYear() === this.now().getFullYear()
+        return dates.every(
+            (date) =>
+                date?.getDay() === this.now().getDay() &&
+                date?.getMonth() === this.now().getMonth() &&
+                date?.getFullYear() === this.now().getFullYear()
         );
     }
-
 
     weekDifference(start: Date, end: Date): number {
         return this.dateDifference(start, end, TimeService.MS_PER_WEEK);
     }
 
-
     monthDifference(start: Date, end: Date): number {
         return this.dateDifference(start, end, TimeService.MS_PER_MONTH);
     }
-
 
     dayDifference(start: Date, end: Date): number {
         return this.dateDifference(start, end, TimeService.MS_PER_DAY);
     }
 
-
-    private dateDifference(
-        start: Date,
-        end: Date,
-        divisor: number
-    ): number {
+    private dateDifference(start: Date, end: Date, divisor: number): number {
         if (!start || !end) return 0;
         return (end.getTime() - start.getTime()) / divisor;
     }

@@ -32,7 +32,7 @@ bootstrapApplication(AppComponent, {
             provide: APP_INITIALIZER,
             useFactory: initApp,
             deps: [DeviceInfoService],
-            multi: true
+            multi: true,
         },
         provideHttpClient(),
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
@@ -49,9 +49,9 @@ bootstrapApplication(AppComponent, {
                 loader: {
                     provide: TranslateLoader,
                     useFactory: HttpLoaderFactory,
-                    deps: [HttpClient]
-                }
+                    deps: [HttpClient],
+                },
             })
-        )
+        ),
     ],
 });

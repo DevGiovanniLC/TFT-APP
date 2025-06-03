@@ -42,8 +42,8 @@ export class BMIDoughnutChart {
                 mode: 'x',
             },
             animations: {
-                x: {duration: 0},
-                y: {duration: 0},
+                x: { duration: 0 },
+                y: { duration: 0 },
             },
             animation: {
                 animateScale: false,

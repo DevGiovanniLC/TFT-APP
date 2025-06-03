@@ -16,7 +16,7 @@ export class ModalWeightButtonComponent {
     constructor(
         private readonly modalCtrl: ModalController,
         private readonly weightTracker: WeightTrackerService
-    ) { }
+    ) {}
 
     async openModal() {
         if (this.isPressingButton()) return;
@@ -37,7 +37,7 @@ export class ModalWeightButtonComponent {
     }
 
     private confirmAction(role: string | undefined, data: Weight) {
-        if (role !== 'confirm') return
+        if (role !== 'confirm') return;
         this.weightTracker.addWeight(data);
     }
 }

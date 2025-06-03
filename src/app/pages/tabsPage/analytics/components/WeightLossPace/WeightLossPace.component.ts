@@ -1,5 +1,12 @@
 import { ChangeDetectionStrategy, Component, effect, input, signal } from '@angular/core';
-import { IonCard, IonCardTitle, IonCardSubtitle, IonIcon, IonButton, PopoverController } from '@ionic/angular/standalone';
+import {
+    IonCard,
+    IonCardTitle,
+    IonCardSubtitle,
+    IonIcon,
+    IonButton,
+    PopoverController,
+} from '@ionic/angular/standalone';
 import { Goal } from '@models/types/Goal.type';
 import { Weight, WeightUnits } from '@models/types/Weight.type';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
@@ -103,7 +110,4 @@ export class WeightLossPaceComponent {
         if (value >= -range && value <= range) return `${value.toFixed(2)} ${this.weightUnits()}`;
         return 'Not Logic';
     }
-
-
-
 }

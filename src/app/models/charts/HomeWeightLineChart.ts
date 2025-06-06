@@ -147,8 +147,8 @@ export default class HomeWeightLineChart {
                         labels: {
                         font: { size: 14 },
                         padding: 10,
-                        boxWidth: 35,
-                        boxHeight: 3,
+                        boxWidth: 32.5,
+                        boxHeight: 1,
                     }
                 },
             },

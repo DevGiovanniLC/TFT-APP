@@ -44,7 +44,7 @@ export class BMIService {
             min: 30,
             color: '#f2adad',
             maxWeightLimit: undefined,
-            emoji: '🟡',
+            emoji: '🔴',
         },
         {
             translateLabel: 'TAB2.CATEGORIES.OVERWEIGHT',
@@ -119,6 +119,13 @@ export class BMIService {
         });
     }
 
+    getBMICategory(bmi: number | null): BMICategory {
+        const bmiCategories = this.BMI_CATEGORIES;
+        if (!bmi) return bmiCategories[0];
+        const category = bmiCategories.find((cat) => bmi <= cat.max && bmi >= cat.min) ?? bmiCategories[0];
+        return category;
+    }
+
     private updateLabels() {
         const bmiCategories = this.BMI_CATEGORIES;
         this.translateService.get(bmiCategories.map((cat) => cat.translateLabel)).subscribe((translations) => {
@@ -128,7 +135,7 @@ export class BMIService {
         });
     }
 
-    updateMaxWeightLimit(user: User | undefined | null): void {
+    private updateMaxWeightLimit(user: User | undefined | null): void {
         if (!user) return;
 
         const height = user.height;

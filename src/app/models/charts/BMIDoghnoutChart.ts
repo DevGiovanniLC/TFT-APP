@@ -24,7 +24,7 @@ export class BMIDoughnutChart {
             labels: ['BMI', 'Remaining'],
             datasets: [
                 {
-                    data: [this.bmi, Math.max(0, 40 - this.bmi)],
+                    data: [100, 0],
                     backgroundColor: [bmiColor, accentColor],
                     borderWidth: 0,
                 },
@@ -46,10 +46,7 @@ export class BMIDoughnutChart {
                 y: { duration: 0 },
             },
             animation: {
-                animateScale: false,
-                animateRotate: true,
-                duration: 1000,
-                easing: 'easeOutQuart',
+                duration: 0,
             },
             plugins: {
                 legend: { display: false },

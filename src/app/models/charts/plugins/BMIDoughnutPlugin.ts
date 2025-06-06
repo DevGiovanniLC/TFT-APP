@@ -6,16 +6,16 @@ import type { ArcElement } from 'chart.js';
 const BODY_IMG_SRC = 'assets/icons/body.svg';
 const MAX_BMI = 40;
 
-function getBMICategory(bmiService: BMIService, bmi: number) {
-    const bmiCategories = bmiService.BMI_CATEGORIES;
-    const category = bmiCategories.find((cat) => bmi < cat.max && bmi > cat.min) ?? bmiCategories[0];
-    return category;
-}
-
 const bodyImg = new Image();
 bodyImg.src = BODY_IMG_SRC;
+let animationFrameId: number | null = null;
+let animatedBMI = 0
 
-export const BMIPluginDoughnut = (translateService: TranslateService, bmiService: BMIService, bmi: number) => ({
+export const BMIPluginDoughnut = (
+    translateService: TranslateService,
+    bmiService: BMIService,
+    bmi: number
+) => ({
     id: 'bmiHumanFill',
     afterDraw(chart: Chart) {
         if (!bodyImg.complete) return;
@@ -36,36 +36,53 @@ export const BMIPluginDoughnut = (translateService: TranslateService, bmiService
         ctx.drawImage(bodyImg, imgX, imgY, imgSize, imgSize);
         ctx.restore();
 
-        // Prepara el canvas temporal
+        // Canvas temporal
         const tempCanvas = document.createElement('canvas');
         tempCanvas.width = imgSize;
         tempCanvas.height = imgSize;
         const tempCtx = tempCanvas.getContext('2d')!;
-
         tempCtx.drawImage(bodyImg, 0, 0, imgSize, imgSize);
         tempCtx.globalCompositeOperation = 'source-in';
 
-        const fillHeight = (imgSize * Math.min(bmi, MAX_BMI)) / MAX_BMI;
+        // Animación del valor actual
+        const clampedBMI = Math.min(bmi, MAX_BMI);
+        const animationSpeed = 0.2;
+
+        if (animatedBMI < clampedBMI) {
+            animatedBMI = Math.min(animatedBMI + animationSpeed, clampedBMI);
+        } else if (animatedBMI > clampedBMI) {
+            animatedBMI = Math.max(animatedBMI - animationSpeed, clampedBMI);
+        }
+
+        const { color: labelColor, label } = bmiService.getBMICategory(bmi);
+        const { color: silhouetteColor } = bmiService.getBMICategory(animatedBMI);
+
+        // Dibujar la silueta base
+        const fillHeight = (imgSize * animatedBMI) / MAX_BMI;
         const fillY = imgSize - fillHeight;
-        const { color, label } = getBMICategory(bmiService, bmi);
-
-        tempCtx.fillStyle = color;
+        tempCtx.fillStyle = silhouetteColor;
         tempCtx.fillRect(0, fillY, imgSize, fillHeight);
-
-        tempCtx.globalCompositeOperation = 'source-over';
         ctx.drawImage(tempCanvas, imgX, imgY, imgSize, imgSize);
 
-        // Dibuja el texto BMI
+        // Dibujar textos
         ctx.font = 'bold 25px sans-serif';
         ctx.fillStyle = '#343a40';
         ctx.textAlign = 'center';
         ctx.fillText(translateService.instant('KEY_WORDS.BMI'), centerX, centerY - 20);
 
         ctx.font = 'bold 45px sans-serif';
-        ctx.fillText(bmi.toFixed(1), centerX, centerY + 40);
+        ctx.fillText(animatedBMI.toFixed(1), centerX, centerY + 40);
 
         ctx.font = 'bold 16px sans-serif';
-        ctx.fillStyle = color;
+        ctx.fillStyle = labelColor;
         ctx.fillText(label, centerX, centerY + 80);
+
+        // Solicitar siguiente frame si aún no hemos llegado al objetivo
+        if (animatedBMI !== clampedBMI && !animationFrameId) {
+            animationFrameId = requestAnimationFrame(() => {
+                animationFrameId = null;
+                chart.draw();
+            });
+        }
     },
 });

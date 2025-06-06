@@ -144,6 +144,12 @@ export default class HomeWeightLineChart {
                     display: viewTrend && trendData.length > 1,
                     onClick: () => {},
                     position: 'top',
+                        labels: {
+                        font: { size: 14 },
+                        padding: 10,
+                        boxWidth: 35,
+                        boxHeight: 3,
+                    }
                 },
             },
             animation: { duration: 0 },

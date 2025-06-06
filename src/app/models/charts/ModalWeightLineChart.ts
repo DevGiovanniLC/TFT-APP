@@ -170,12 +170,15 @@ export default class ModalWeightLineChart {
         const maxWeight = Math.max(...weights.map((w) => w.weight));
         const marginY =
             (goalWeight ? Math.max(maxWeight, goalWeight) - Math.min(minWeight, goalWeight) : maxWeight - minWeight) *
-                0.2 || 1;
+            0.2 || 1;
 
         // Rango X
         const dates = weights.map((w) => new Date(w.date).getTime());
         const minDate = Math.min(...dates) - 15 * TimeService.MS_PER_DAY;
         const maxDate = Math.max(...dates) + 15 * TimeService.MS_PER_DAY;
+
+        const initialMinDate = Math.max(...dates) - 1 * TimeService.MS_PER_MONTH;
+        const initialMaxDate = Math.max(...dates) + 15 * TimeService.MS_PER_DAY;
         const goalDate = (this.goal?.date?.getTime() ?? NaN) + 3 * TimeService.MS_PER_MONTH;
 
         return {
@@ -183,7 +186,7 @@ export default class ModalWeightLineChart {
             maintainAspectRatio: false,
             backgroundColor: '#00BD7E',
             elements: {
-                point: { hitRadius: 6, hoverRadius: 7 },
+                point: { hitRadius: 7, hoverRadius: 8 },
             },
             plugins: {
                 annotation: {
@@ -191,8 +194,13 @@ export default class ModalWeightLineChart {
                 },
                 legend: {
                     display: this.trendData.length > 1,
-                    onClick: () => {},
                     position: 'top',
+                    labels: {
+                        font: { size: 14 },
+                        padding: 10,
+                        boxWidth: 35,
+                        boxHeight: 3,
+                    }
                 },
                 zoom: {
                     limits: {
@@ -232,8 +240,8 @@ export default class ModalWeightLineChart {
             animation: { duration: 0 },
             scales: {
                 x: {
-                    min: minDate,
-                    max: maxDate,
+                    min: initialMinDate,
+                    max: initialMaxDate,
                     type: 'time',
                     time: {
                         unit: 'day',
@@ -241,10 +249,11 @@ export default class ModalWeightLineChart {
                     },
                     title: { display: false, text: 'Date' },
                     ticks: {
+                        autoSkip: false,
                         padding: 15,
                         color: '#343a40',
-                        maxTicksLimit: 6,
-                        font: { size: 13 },
+                        maxTicksLimit: 5,
+                        font: { size: 14 },
                     },
                 },
                 y: {
@@ -256,8 +265,10 @@ export default class ModalWeightLineChart {
                         : Math.round(maxWeight + marginY),
                     title: { display: false, text: 'Weights (kg)' },
                     ticks: {
+                        autoSkip: false,
                         font: { size: 16 },
                         color: '#343a40',
+                        callback: (value) => Number.isInteger(value) ? value : Number(value).toFixed(0),
                     },
                 },
             },

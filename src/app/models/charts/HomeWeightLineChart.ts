@@ -35,7 +35,7 @@ export default class HomeWeightLineChart {
         this.weights = weights();
         this.goal = goal();
 
-        this.viewTrend = this.chartMode === 'viewGoal' && this.weights.length >= 7;
+        this.viewTrend = this.chartMode === 'viewGoal' && this.weights.length > 1;
 
         this.trendData = this.viewTrend ? analysisService.getTrendData(this.weights) : [];
     }

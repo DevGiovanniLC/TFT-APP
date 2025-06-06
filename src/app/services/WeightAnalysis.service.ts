@@ -15,7 +15,7 @@ import { TimeService } from './Time.service';
  * @class WeightAnalysisService
  */
 export class WeightAnalysisService {
-    constructor(private readonly timeService: TimeService) {}
+    constructor(private readonly timeService: TimeService) { }
 
     weekWeightLossPace(weight: number, goal: number, start: Date, end: Date): number {
         const weeks = this.timeService.weekDifference(start, end);
@@ -41,7 +41,7 @@ export class WeightAnalysisService {
     trendWeightPace(weights: Weight[]): { weightPerWeek: number; weightPerMonth: number } {
         if (!weights?.length) return { weightPerWeek: 0, weightPerMonth: 0 };
         const lastDate = TimeService.getTime(weights[weights.length - 1].date);
-        const { slope } = this.calculateTrend(weights, lastDate);
+        const { slope } = this.calculateWeightedTrend(weights, lastDate);
         return {
             weightPerWeek: slope * TimeService.MS_PER_WEEK,
             weightPerMonth: slope * TimeService.MS_PER_MONTH,
@@ -52,7 +52,7 @@ export class WeightAnalysisService {
         if (!weights?.length) return [];
         const last = weights[0];
         const lastDate = TimeService.getTime(last.date);
-        const { slope, intercept } = this.calculateTrend(weights, lastDate);
+        const { slope, intercept } = this.calculateWeightedTrend(weights, lastDate);
         const twoYears = lastDate + 2 * 365 * TimeService.MS_PER_DAY;
         const y = slope * twoYears + intercept;
         if (!y) return [];
@@ -61,14 +61,12 @@ export class WeightAnalysisService {
             { x: twoYears, y },
         ];
     }
+    private calculateWeightedTrend(weights: Weight[], refDate: number): { slope: number; intercept: number } {
 
-    private calculateTrend(weights: Weight[], refDate: number): { slope: number; intercept: number } {
-        // Últimos 14 días
-        const minDate = refDate - TimeService.MS_PER_DAY * 14;
-        let recent = weights.filter((w) => TimeService.getTime(w.date) >= minDate);
+        const minDate = refDate -  TimeService.MS_PER_MONTH;
+        let recent = weights.filter(w => TimeService.getTime(w.date) >= minDate);
 
-        // Fallback: últimos 2 registros si no hay suficientes datos recientes
-        if (recent.length < 2 && weights.length > 2) {
+        if (recent.length <= 2 && weights.length >= 2) {
             recent = weights
                 .slice()
                 .sort((a, b) => TimeService.getTime(b.date) - TimeService.getTime(a.date))
@@ -76,21 +74,30 @@ export class WeightAnalysisService {
                 .reverse();
         }
 
-        const x = recent.map((w) => TimeService.getTime(w.date));
-        const y = recent.map((w) => w.weight);
-        const n = x.length;
-        if (n === 0) return { slope: 0, intercept: 0 };
+        const now = refDate;
+        const x = recent.map(w => TimeService.getTime(w.date));
+        const y = recent.map(w => w.weight);
+        const w = x.map(xi => {
+            const daysAgo = (now - xi) / TimeService.MS_PER_MONTH;;
+            return 1 / (1 + daysAgo); // Peso: más reciente = más peso
+        });
 
-        const sumX = x.reduce((sum, xi) => sum + xi, 0);
-        const sumY = y.reduce((sum, yi) => sum + yi, 0);
-        const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
-        const sumX2 = x.reduce((sum, xi) => sum + xi * xi, 0);
+        const sumW = w.reduce((s, wi) => s + wi, 0);
+        const meanX = w.reduce((s, wi, i) => s + wi * x[i], 0) / sumW;
+        const meanY = w.reduce((s, wi, i) => s + wi * y[i], 0) / sumW;
 
-        const denominator = n * sumX2 - sumX * sumX;
-        if (!denominator) return { slope: 0, intercept: 0 };
+        let num = 0;
+        let den = 0;
+        for (let i = 0; i < x.length; i++) {
+            const dx = x[i] - meanX;
+            num += w[i] * dx * (y[i] - meanY);
+            den += w[i] * dx * dx;
+        }
 
-        const slope = (n * sumXY - sumX * sumY) / denominator;
-        const intercept = (sumY - slope * sumX) / n;
+        if (!den) return { slope: 0, intercept: meanY };
+
+        const slope = num / den;
+        const intercept = meanY - slope * meanX;
         return { slope, intercept };
     }
 

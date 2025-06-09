@@ -1,13 +1,15 @@
-<ion-content class="opacity-0 animate-fade-in">
-    <section class="h-full w-full flex flex-col px-3 pt-14 items-center">
-        <div class="h-full flex flex-col space-y-5">
-            <app-main-display
-                [goal]="goal()"
-                [lastWeight]="lastWeight()"
-                (weightAdded)="addWeight($event)"
-                [firstWeight]="firstWeight()"
-            />
-            <app-weight-graphic [weights]="weights()" [goal]="goal()" class="p-3 pb-6" />
-        </div>
-    </section>
-</ion-content>
+@if (weights().length > 0) {
+    <ion-content class="opacity-0 animate-fade-in">
+        <section class="h-full w-full flex flex-col px-3 pt-14 items-center">
+            <div class="h-full flex flex-col space-y-5">
+                <app-main-display
+                    [goal]="goal()"
+                    [lastWeight]="lastWeight()"
+                    (weightAdded)="addWeight($event)"
+                    [firstWeight]="firstWeight()"
+                />
+                <app-weight-graphic [weights]="weights()" [goal]="goal()" class="p-3 pb-6" />
+            </div>
+        </section>
+    </ion-content>
+}

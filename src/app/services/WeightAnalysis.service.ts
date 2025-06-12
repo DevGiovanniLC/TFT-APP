@@ -42,9 +42,12 @@ export class WeightAnalysisService {
         if (!weights?.length) return { weightPerWeek: 0, weightPerMonth: 0 };
         const lastDate = TimeService.getTime(weights[weights.length - 1].date);
         const { slope } = this.calculateWeightedTrend(weights, lastDate);
+
+        const isEarly = weights.length < 7;
+
         return {
             weightPerWeek: slope * TimeService.MS_PER_WEEK,
-            weightPerMonth: slope * TimeService.MS_PER_MONTH,
+            weightPerMonth: slope * TimeService.MS_PER_MONTH * (isEarly ? 0.75 : 1),
         };
     }
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, OnInit, signal } from '@angular/core';
 import {
     IonCard,
     IonCardTitle,
@@ -19,16 +19,31 @@ import { TranslateModule } from '@ngx-translate/core';
     templateUrl: './WeightLossPace.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WeightLossPaceComponent {
+export class WeightLossPaceComponent implements OnInit {
     readonly lastWeight = input.required<Weight | undefined>();
     readonly goal = input.required<Goal | undefined>();
     readonly weights = input.required<Weight[] | undefined>();
 
-    goalPaceWeek = signal(0);
-    goalPaceMonth = signal(0);
+    goalPaceWeek = computed(() => {
+        return this.CalculationFunctionsService.weekWeightLossPace(
+            this.lastWeight()?.weight ?? NaN,
+            this.goal()?.weight ?? NaN,
+            this.lastWeight()?.date ?? new Date(NaN),
+            this.goal()?.date ?? new Date(NaN)
+        )
+    });
 
-    trendPaceWeek = signal(0);
-    trendPaceMonth = signal(0);
+    goalPaceMonth = computed(() => {
+        return this.CalculationFunctionsService.monthWeightLossPace(
+            this.lastWeight()?.weight ?? NaN,
+            this.goal()?.weight ?? NaN,
+            this.lastWeight()?.date ?? new Date(NaN),
+            this.goal()?.date ?? new Date(NaN)
+        )
+    });
+
+    trendPaceWeek = signal(NaN);
+    trendPaceMonth = signal(NaN);
 
     weightUnits = signal(WeightUnits.KG);
 
@@ -40,22 +55,14 @@ export class WeightLossPaceComponent {
         private readonly popoverController: PopoverController
     ) {
         effect(() => {
-            const goal = this.goal();
-            const lastWeight = this.lastWeight();
-            const weights = this.weights();
-            const lastWeightDate = new Date(lastWeight?.date ?? NaN);
-            const goalDate = new Date(goal?.date ?? NaN);
-
-            this.calculateTrendPace(weights);
-
-            if (!goal || !lastWeight || !goalDate || isNaN(goalDate.getTime()) || isNaN(lastWeightDate.getTime())) {
-                this.isGoal.set(false);
-                return;
-            }
-
-            this.calculateGoalPace(goal, lastWeight, goalDate, lastWeightDate);
-            this.weightUnits.set(lastWeight?.weight_units);
+            this.calculateTrendPace(this.weights());
         });
+    }
+
+    ngOnInit(): void {
+        if (this.goal()?.date) this.isGoal.set(true);
+        const weightUnits = this.lastWeight()?.weight_units ?? WeightUnits.KG;
+        this.weightUnits.set(weightUnits);
     }
 
     async openInfoPopover() {
@@ -71,38 +78,18 @@ export class WeightLossPaceComponent {
     }
 
     private calculateTrendPace(weights: Weight[] | undefined) {
-        if (weights) {
-            const { weightPerWeek, weightPerMonth } = this.CalculationFunctionsService.trendWeightPace(weights);
+        if (!weights) return
 
-            if (weightPerWeek && weightPerMonth) {
-                this.isTrend.set(true);
-                this.trendPaceWeek.set(weightPerWeek);
-                this.trendPaceMonth.set(weightPerMonth);
-            } else {
-                this.isTrend.set(false);
-            }
+        const { weightPerWeek, weightPerMonth } = this.CalculationFunctionsService.trendWeightPace(weights);
+
+        if (weightPerWeek && weightPerMonth) {
+            this.isTrend.set(true);
+            this.trendPaceWeek.set(weightPerWeek);
+            this.trendPaceMonth.set(weightPerMonth);
+            return;
         }
-    }
 
-    private calculateGoalPace(goal: Goal, lastWeight: Weight, goalDate: Date, lastWeightDate: Date) {
-        this.isGoal.set(true);
-
-        this.goalPaceWeek.set(
-            this.CalculationFunctionsService.weekWeightLossPace(
-                lastWeight?.weight,
-                goal.weight ?? NaN,
-                lastWeightDate,
-                goalDate
-            )
-        );
-        this.goalPaceMonth.set(
-            this.CalculationFunctionsService.monthWeightLossPace(
-                lastWeight?.weight,
-                goal.weight ?? NaN,
-                lastWeightDate,
-                goalDate
-            )
-        );
+        this.isTrend.set(false);
     }
 
     validateTrendPace(value: number, range: number): string {

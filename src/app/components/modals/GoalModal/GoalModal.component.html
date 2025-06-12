@@ -1,8 +1,8 @@
 <app-modal-header (outputStep)="controlSteps($event)" />
 
-<ion-content #modalContainer style="--ion-background-color: linear-gradient(to top right, #d1fae5, #6ee7b7)">
-    <div class="h-fit min-h-full flex flex-col items-center bg-transparent">
-        <header class="text-center mt-8 mb-4 flex flex-col">
+<ion-content #modalContainer style="--ion-background-color: linear-gradient(to top, #6ee7b7, #d1fae5)">
+    <section class="h-fit min-h-full flex flex-col items-center justify-center bg-transparent mx-3">
+        <header class="text-center  mb-4 flex flex-col">
             <h1 class="text-3xl font-semibold font-sans text-gray-800 mb-0">
                 {{ 'MODALS.GOAL_MODAL.TITLE' | translate }}
             </h1>
@@ -11,7 +11,7 @@
             </h2>
         </header>
         <form
-            class="w-11/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10"
+            class="w-[85%] bg-white rounded-3xl shadow-2xl border-t-[10px] border-b-[10px] border-r-[5px] border-l-[5px] border-tertiary p-5 mx-0"
         >
             <app-weight-form
                 [inputWeightValue]="lastWeight()"
@@ -52,5 +52,5 @@
                 </ion-modal>
             }
         </form>
-    </div>
+    </section>
 </ion-content>

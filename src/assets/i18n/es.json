@@ -152,6 +152,7 @@
             "DATE": "Fecha objetivo"
         },
         "USER_MODAL": {
+            "TITLE": "Perfil de usuario",
             "WEIGHT_GOAL": "Peso objetivo",
             "SET_WEIGHT_GOAL": "Establecer objetivo",
             "PLACEHOLDER": {

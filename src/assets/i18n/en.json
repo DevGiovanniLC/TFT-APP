@@ -152,6 +152,7 @@
             "DATE": "Set a date"
         },
         "USER_MODAL": {
+            "TITLE": "User Profile",
             "WEIGHT_GOAL": "Weight goal",
             "SET_WEIGHT_GOAL": "Set weight goal",
             "PLACEHOLDER": {

@@ -1,7 +1,7 @@
 <app-modal-header (outputStep)="controlSteps($event)" />
 
-<ion-content scrollY="false" style="--ion-background-color: linear-gradient(to top right, #d1fae5, #6ee7b7)">
-    <section class="h-full flex flex-col items-center space-y-5">
+<ion-content style="--ion-background-color: linear-gradient(to top, #6ee7b7, #d1fae5)">
+    <section class="h-full flex flex-col items-center justify-center space-y-5 pb-24">
         <header class="ion-text-center bg-inherit mt-10">
             <h1 class="font-sans font-semibold text-4xl mb-5">{{ 'MODALS.WEIGHT_REGISTER.TITLE' | translate }}</h1>
             <h2 class="text-center text-gray-700 text-lg mt-2 mx-2 text-pretty">
@@ -11,7 +11,7 @@
 
 
         <form
-            class="w-10/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10"
+            class="w-[75%] bg-white rounded-3xl shadow-2xl border-t-[10px] border-b-[10px] border-r-[5px] border-l-[5px] border-tertiary p-5 mx-0"
         >
             <app-weight-form
                 [inputWeightValue]="inputWeight?.weight ?? lastWeight()?.weight"

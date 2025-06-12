@@ -46,7 +46,7 @@ export const BMIPluginDoughnut = (
 
         // Animación del valor actual
         const clampedBMI = Math.min(bmi, MAX_BMI);
-        const animationSpeed = 0.2;
+        const animationSpeed = 0.3;
 
         if (animatedBMI < clampedBMI) {
             animatedBMI = Math.min(animatedBMI + animationSpeed, clampedBMI);

@@ -5,19 +5,11 @@ import { combineLatest, map, Observable } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '@models/types/User.type';
-
-export type BMICategory = {
-    translateLabel: string;
-    label: string;
-    max: number;
-    min: number;
-    color: string;
-    maxWeightLimit: number | undefined;
-    emoji: string;
-};
+import BMICategory from '@models/types/BMICategory';
 
 @Injectable({ providedIn: 'root' })
 export class BMIService {
+
     BMI_CATEGORIES: BMICategory[] = [
         {
             translateLabel: 'TAB2.CATEGORIES.OBESITY_CLASS_III',

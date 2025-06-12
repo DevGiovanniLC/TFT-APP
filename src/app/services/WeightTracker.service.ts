@@ -3,20 +3,10 @@ import { Weight } from '@models/types/Weight.type';
 import { DataProviderService } from './data-providers/DataProvider.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { WeightTrackerEvent } from '@models/enums/Events';
 
-/**
- * Enum que representa los eventos disparados tras operaciones en registros de peso.
- */
-enum EventTrigger {
-    /** No se ha disparado ningún evento */
-    NONE,
-    /** Se ha añadido un nuevo registro de peso */
-    ADD,
-    /** Se ha eliminado un registro de peso */
-    DELETE,
-    /** Se ha actualizado un registro de peso */
-    UPDATE,
-}
+
+
 
 @Injectable({
     providedIn: 'root',
@@ -32,11 +22,8 @@ enum EventTrigger {
  * @class WeightTrackerService
  */
 export class WeightTrackerService {
-    /** Acceso al enum de eventos dentro de la instancia */
-    readonly EventTrigger = EventTrigger;
-
     /** Evento disparado tras la última operación */
-    eventTriggered = EventTrigger.NONE;
+    eventTriggered = WeightTrackerEvent.NONE;
 
     /** Subject interno que mantiene el array de registros de peso */
     private readonly weightsSubject = new BehaviorSubject<Weight[]>([]);
@@ -64,24 +51,24 @@ export class WeightTrackerService {
     }
 
     addWeight(weight: Weight): void {
-        this.eventTriggered = EventTrigger.ADD;
+        this.eventTriggered = WeightTrackerEvent.ADD;
         this.dataProvider.addWeight(weight);
         this.refreshWeights();
     }
 
     deleteWeight(id: number): void {
-        this.eventTriggered = EventTrigger.DELETE;
+        this.eventTriggered = WeightTrackerEvent.DELETE;
         this.dataProvider.deleteWeight(id);
         this.refreshWeights();
     }
 
     updateWeight(weight: Weight): void {
-        this.eventTriggered = EventTrigger.UPDATE;
+        this.eventTriggered = WeightTrackerEvent.UPDATE;
         this.dataProvider.updateWeight(weight);
         this.refreshWeights();
     }
 
-    isLastEvent(event: EventTrigger): boolean {
+    isLastEvent(event: WeightTrackerEvent): boolean {
         return this.eventTriggered === event;
     }
 }

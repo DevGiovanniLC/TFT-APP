@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@envs/environment';
+import conf from '../conf';
 
 @Injectable({
     providedIn: 'root', // Esto permite que el servicio esté disponible en toda la aplicación.
@@ -19,7 +20,7 @@ export class TimeService {
     }
 
     now(): Date {
-        return environment.test ? new Date('2025-05-30T17:54:12.535Z') : new Date();
+        return environment.test ? new Date(conf.TEST_DATE) : new Date();
     }
 
     isSameDay(...dates: Date[]): boolean {

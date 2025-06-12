@@ -11,8 +11,9 @@ import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { UserConfigService } from '@services/UserConfig.service';
 import ModalWeightLineChart from '@models/charts/ModalWeightLineChart';
-import { BMICategory, BMIService } from '@services/BMI.service';
+import { BMIService } from '@services/BMI.service';
 import { TranslateService } from '@ngx-translate/core';
+import BMICategory from '@models/types/BMICategory';
 
 @Component({
     selector: 'app-weight-graphic-modal',

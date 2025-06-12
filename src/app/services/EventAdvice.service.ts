@@ -9,12 +9,10 @@ import { BMIService } from './BMI.service';
 import { TimeService } from './Time.service';
 import { PreferenceService, Preference } from './Preference.service';
 import { TranslateService } from '@ngx-translate/core';
+import { UserConfigEvent, WeightTrackerEvent } from '@models/enums/Events';
+import { AlertMode } from '@models/enums/AlertOverlay';
 
-enum AlertMode {
-    INFO = 'info',
-    WARNING = 'warning',
-    DANGER = 'danger',
-}
+
 
 @Injectable({ providedIn: 'root' })
 /**
@@ -64,7 +62,7 @@ export class EventAdviceService {
     }
 
     private checkBMI(bmi?: number | null): void {
-        if (!bmi || !this.weightTracker.isLastEvent(this.weightTracker.EventTrigger.ADD)) return;
+        if (!bmi || !this.weightTracker.isLastEvent(WeightTrackerEvent.ADD)) return;
 
         const prefs = {
             BMI_ALERT_40: this.preference.get('BMI_ALERT_40'),
@@ -102,7 +100,7 @@ export class EventAdviceService {
                 ['BMI_ALERT_35']
             );
         }
-        this.weightTracker.eventTriggered = this.weightTracker.EventTrigger.NONE;
+        this.weightTracker.eventTriggered = WeightTrackerEvent.NONE;
     }
 
     private async showBMIAlert(header: string, message: string, mode: AlertMode, keysToDisable: (keyof Preference)[]) {
@@ -118,7 +116,7 @@ export class EventAdviceService {
         const isDuplicateToday =
             prev && this.timeService.isSameDay(lastWeight.date, prev.date) && lastWeight.id !== prev.id;
 
-        if (!isRecent && this.weightTracker.isLastEvent(this.weightTracker.EventTrigger.NONE)) {
+        if (!isRecent && this.weightTracker.isLastEvent(WeightTrackerEvent.NONE)) {
             setTimeout(
                 () =>
                     this.alert(
@@ -127,7 +125,7 @@ export class EventAdviceService {
                     ),
                 1500
             );
-        } else if (isDuplicateToday && this.weightTracker.isLastEvent(this.weightTracker.EventTrigger.ADD)) {
+        } else if (isDuplicateToday && this.weightTracker.isLastEvent(WeightTrackerEvent.ADD)) {
             this.alert(
                 this.translateService.instant('ALERTS.WEIGHT_REGISTERED.TITLE'),
                 this.translateService.instant('ALERTS.WEIGHT_REGISTERED.MESSAGE')
@@ -135,13 +133,13 @@ export class EventAdviceService {
         }
 
         this.history.push(lastWeight);
-        this.weightTracker.eventTriggered = this.weightTracker.EventTrigger.NONE;
+        this.weightTracker.eventTriggered = WeightTrackerEvent.NONE;
     }
 
     private checkGoal(monthsPaceLoss: number, weeksPaceLoss: number): void {
         if (
             (monthsPaceLoss > 4 || weeksPaceLoss > 1) &&
-            this.userConfig.eventTriggered === this.userConfig.EventTrigger.CHANGED
+            this.userConfig.eventTriggered === UserConfigEvent.CHANGED
         ) {
             this.alert(
                 this.translateService.instant('ALERTS.GOAL_PROBLEM.TITLE'),
@@ -149,7 +147,7 @@ export class EventAdviceService {
             );
         }
 
-        this.userConfig.eventTriggered = this.userConfig.EventTrigger.NONE;
+        this.userConfig.eventTriggered = UserConfigEvent.NONE;
     }
 
     private async alert(header: string, message: string, alertMode: AlertMode = AlertMode.INFO): Promise<void> {

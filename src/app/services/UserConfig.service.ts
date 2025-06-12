@@ -4,17 +4,7 @@ import { User } from '@models/types/User.type';
 import { BehaviorSubject, Observable, from } from 'rxjs';
 import { Goal } from '@models/types/Goal.type';
 import { map, tap } from 'rxjs/operators';
-
-/**
- * Enum que representa los posibles desencadenantes de eventos
- * cuando la configuración del usuario cambia.
- */
-enum EventTrigger {
-    /** No se ha disparado ningún evento */
-    NONE,
-    /** La configuración ha sido actualizada */
-    CHANGED,
-}
+import { UserConfigEvent } from '@models/enums/Events';
 
 @Injectable({ providedIn: 'root' })
 /**
@@ -27,11 +17,9 @@ enum EventTrigger {
  * @class UserConfigService
  */
 export class UserConfigService {
-    /** Acceso al enum dentro de la instancia */
-    readonly EventTrigger = EventTrigger;
 
     /** Estado del último evento (NONE | CHANGED) */
-    eventTriggered = EventTrigger.NONE;
+    eventTriggered = UserConfigEvent.NONE;
 
     /** BehaviorSubject interno del usuario */
     private readonly userSubject = new BehaviorSubject<User | undefined>(undefined);
@@ -57,7 +45,7 @@ export class UserConfigService {
     }
 
     setUser(user: User): void {
-        this.eventTriggered = EventTrigger.CHANGED;
+        this.eventTriggered = UserConfigEvent.CHANGED;
         this.dataProvider.setUser(user);
         // Recarga valores
         this.getUser().subscribe();

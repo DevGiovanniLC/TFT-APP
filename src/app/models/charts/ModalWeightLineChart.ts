@@ -1,11 +1,12 @@
+import BMICategory from '@models/types/BMICategory';
 import { Goal } from '@models/types/Goal.type';
 import { Weight } from '@models/types/Weight.type';
 import { TranslateService } from '@ngx-translate/core';
-import { BMICategory } from '@services/BMI.service';
 import { TimeService } from '@services/Time.service';
 import { WeightAnalysisService } from '@services/WeightAnalysis.service';
 import { ChartData, ChartOptions } from 'chart.js';
 import { AnnotationOptions, LineAnnotationOptions } from 'chartjs-plugin-annotation';
+import Conf from 'src/app/conf';
 
 export default class ModalWeightLineChart {
     private readonly weights: Weight[];
@@ -211,8 +212,8 @@ export default class ModalWeightLineChart {
                         },
                         y: {
                             minRange: 2,
-                            max: 260,
-                            min: 0,
+                            max: Conf.MAX_WEIGHT,
+                            min: Conf.MIN_WEIGHT,
                         },
                     },
                     zoom: {

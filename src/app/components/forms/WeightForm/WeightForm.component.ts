@@ -10,6 +10,9 @@ import {
 } from '@angular/core';
 import { IonPicker, IonPickerColumn, IonPickerColumnOption, PickerColumn } from '@ionic/angular/standalone';
 import { WeightUnits } from '@models/types/Weight.type';
+import Conf from 'src/app/conf';
+
+const BOUND = 20;
 
 @Component({
     selector: 'app-weight-form',
@@ -18,30 +21,36 @@ import { WeightUnits } from '@models/types/Weight.type';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WeightFormComponent implements OnInit, AfterViewInit {
+
+
     inputWeightValue = input.required<number | undefined>();
     inputWeightUnit = input(WeightUnits.KG);
     outputWeightValue = output<number>();
 
-    lastWeight = signal(70);
+    lastWeight = signal(BOUND / 2);
     lastWeightDecimal = signal(0);
 
     weightOptions: number[] = [];
     weightOptionsDecimal: number[] = [];
 
-    constructor(private readonly cdr: ChangeDetectorRef) {
-        this.weightOptions.push(...this.generateRange(25, 100));
-    }
+    constructor(private readonly cdr: ChangeDetectorRef) { }
 
     ngOnInit(): void {
-        this.weightOptions.push(...this.generateRange(101, 176));
-        this.weightOptionsDecimal = this.generateRange(0, 9);
         const value = this.inputWeightValue() ?? 0;
-        this.lastWeight.set(Math.floor(value));
-        this.lastWeightDecimal.set(Math.round((value % 1) * 10));
+        const intValue = Math.floor(value);
+        const decimalValue = Math.round((value % 1) * 10);
+
+        this.weightOptions.push(...this.generateRange(intValue - BOUND, intValue + BOUND));
+        this.lastWeight.set(intValue);
+
+        this.weightOptionsDecimal = this.generateRange(0, 9);
+        this.lastWeightDecimal.set(decimalValue);
+        this.cdr.detectChanges();
     }
 
     ngAfterViewInit(): void {
-        this.weightOptions.push(...this.generateRange(177, 250));
+        this.weightOptions.unshift(...this.generateRange(Conf.MIN_WEIGHT, this.lastWeight() - BOUND - 1));
+        this.weightOptions.push(...this.generateRange(this.lastWeight() + BOUND + 1, Conf.MAX_WEIGHT));
         this.cdr.detectChanges();
     }
 
@@ -67,3 +76,4 @@ export class WeightFormComponent implements OnInit, AfterViewInit {
         return Array.from({ length: end - start + 1 }, (_, i) => start + i);
     }
 }
+

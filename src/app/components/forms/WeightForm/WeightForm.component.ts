@@ -21,13 +21,11 @@ const BOUND = 20;
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WeightFormComponent implements OnInit, AfterViewInit {
-
-
     inputWeightValue = input.required<number | undefined>();
     inputWeightUnit = input(WeightUnits.KG);
     outputWeightValue = output<number>();
 
-    lastWeight = signal(BOUND / 2);
+    lastWeight = signal(Conf.DEFAULT_WEIGHT);
     lastWeightDecimal = signal(0);
 
     weightOptions: number[] = [];
@@ -36,7 +34,7 @@ export class WeightFormComponent implements OnInit, AfterViewInit {
     constructor(private readonly cdr: ChangeDetectorRef) { }
 
     ngOnInit(): void {
-        const value = this.inputWeightValue() ?? 0;
+        const value = this.inputWeightValue() ?? Conf.DEFAULT_WEIGHT;
         const intValue = Math.floor(value);
         const decimalValue = Math.round((value % 1) * 10);
 
@@ -45,7 +43,6 @@ export class WeightFormComponent implements OnInit, AfterViewInit {
 
         this.weightOptionsDecimal = this.generateRange(0, 9);
         this.lastWeightDecimal.set(decimalValue);
-        this.cdr.detectChanges();
     }
 
     ngAfterViewInit(): void {

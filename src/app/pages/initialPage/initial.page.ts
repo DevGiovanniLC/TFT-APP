@@ -13,6 +13,7 @@ import { UserFormComponent } from '@components/forms/UserForm/UserForm.component
 import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
 import { Goal } from '@models/types/Goal.type';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import Conf from 'src/app/conf';
 
 @Component({
     selector: 'app-initial-modal',
@@ -35,17 +36,8 @@ export class InitialPage {
     readonly FINAL_STEP = 3;
 
     step = 0;
-    user = signal<User>({
-        name: undefined,
-        age: undefined,
-        height: undefined,
-        gender: undefined,
-        email: undefined,
-        goal_weight: undefined,
-        goal_units: undefined,
-        goal_date: undefined,
-    });
-    actualWeight = signal(80);
+    user = signal<User>({} as User);
+    actualWeight = signal(Conf.DEFAULT_WEIGHT);
     lastWeightUnit = WeightUnits.KG;
     goal?: Goal;
     isGoal = signal(false);

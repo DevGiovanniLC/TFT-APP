@@ -1,24 +1,19 @@
+import { BMIService } from '@services/BMI.service';
 import { ChartData, ChartOptions } from 'chart.js';
 
 export class BMIDoughnutChart {
     private readonly bmi: number;
+    private readonly bmiService: BMIService;
 
-    constructor(bmi: number) {
+    constructor(bmiService: BMIService, bmi: number) {
         this.bmi = bmi;
-    }
-
-    private getBmiColor(): string {
-        if (this.bmi < 16) return '#f2adad';
-        if (this.bmi < 18.5) return '#c7b85a';
-        if (this.bmi < 25) return '#4caf50';
-        if (this.bmi < 30) return '#c7b85a';
-        return '#f2adad';
+        this.bmiService = bmiService;
     }
 
     getData(): ChartData<'doughnut'> {
         const style = getComputedStyle(document.documentElement);
         const accentColor = style.getPropertyValue('--color-accent').trim();
-        const bmiColor = this.getBmiColor();
+        const bmiColor = this.bmiService.getBMICategory(this.bmi).color;
 
         return {
             labels: ['BMI', 'Remaining'],

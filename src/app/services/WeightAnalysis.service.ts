@@ -19,22 +19,22 @@ export class WeightAnalysisService {
 
     weekWeightLossPace(weight: number, goal: number, start: Date, end: Date): number {
         const weeks = this.timeService.weekDifference(start, end);
-        if (weeks < 1) {
-            return Number((weight - goal).toFixed(2));
-        }
+
+        if (weeks < 1) return Number((weight - goal).toFixed(2));
+
         return this.weightLossPace(weight, goal, weeks);
     }
 
     monthWeightLossPace(weight: number, goal: number, start: Date, end: Date): number {
         const months = this.timeService.monthDifference(start, end);
-        if (months < 1) {
-            return Number((weight - goal).toFixed(2));
-        }
+
+        if (months < 1) return Number((weight - goal).toFixed(2));
+
         return this.weightLossPace(weight, goal, months);
     }
 
     private weightLossPace(weight: number, goal: number, diff: number): number {
-        if (!diff) return 0;
+        if (!diff) return NaN;
         return Number(((weight - goal) / diff).toFixed(2));
     }
 

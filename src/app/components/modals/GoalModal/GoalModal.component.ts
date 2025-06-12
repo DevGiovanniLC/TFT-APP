@@ -15,6 +15,7 @@ import { TimeService } from '@services/Time.service';
 import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { DeviceInfoService } from '@services/DeviceInfo.service';
+import Conf from 'src/app/conf';
 
 @Component({
     imports: [
@@ -35,13 +36,13 @@ export class GoalModalComponent {
     @Input() inputWeight: Weight | null = null;
 
     readonly isWithDate = signal(false);
-    readonly lastWeight = signal<number>(70);
+    readonly lastWeight = signal<number>(Conf.DEFAULT_WEIGHT);
     readonly lastWeightUnit = signal<WeightUnits>(WeightUnits.KG);
     readonly actualDate = this.timeService.now();
-    readonly language = signal<string>('en-GB');
+    readonly language = signal<string>(Conf.DEFAULT_LANGUAGE);
 
     nextDeadlineGoal: Date = this.timeService.now();
-    nextWeightGoal = 70;
+    nextWeightGoal = Conf.DEFAULT_WEIGHT;
 
     constructor(
         private readonly deviceInfo: DeviceInfoService,
@@ -51,7 +52,7 @@ export class GoalModalComponent {
 
     ngOnInit(): void {
         this.language.set(this.deviceInfo.getLanguage());
-        const weight = this.inputWeight?.weight ?? 70;
+        const weight = this.inputWeight?.weight ?? Conf.DEFAULT_WEIGHT;
         const weightUnit = this.inputWeight?.weight_units ?? WeightUnits.KG;
         const date = this.inputWeight?.date;
 

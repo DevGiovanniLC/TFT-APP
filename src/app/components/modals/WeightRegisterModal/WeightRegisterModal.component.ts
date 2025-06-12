@@ -10,6 +10,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ModalHeaderComponent } from '@components/modals/components/ModalHeader/ModalHeader.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { DeviceInfoService } from '@services/DeviceInfo.service';
+import Conf from 'src/app/conf';
 
 @Component({
     imports: [
@@ -36,7 +37,7 @@ export class WeightRegisterComponent implements OnInit {
     private readonly nextWeight = signal(0);
     private readonly nextDate = signal<Date>(this.timeService.now());
 
-    readonly language = signal<string>('en-GB');
+    readonly language = signal<string>(Conf.DEFAULT_LANGUAGE);
 
     constructor(
         private readonly deviceInfo: DeviceInfoService,

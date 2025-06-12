@@ -27,12 +27,12 @@
                 [class.shadow-md]="bmi() >= category.min && bmi() <= category.max"
             >
                 <span
-                    [class]="bmi()! >= category.min && bmi()! <= category.max ? getTextColor(bmi()!) : 'text-slate-600'"
+                    [style.color]="bmi()! >= category.min && bmi()! <= category.max ? getTextColor(bmi()) : 'black'"
                 >
                     {{ category.emoji }} {{ category.label }}
                 </span>
                 <span
-                    [class]="bmi()! >= category.min && bmi()! <= category.max ? getTextColor(bmi()!) : 'text-slate-600'"
+                    [style.color]="bmi()! >= category.min && bmi()! <= category.max ? getTextColor(bmi()) : 'black'"
                 >
                     @if (category.min < -15.9) {
                         ≤ 15.9

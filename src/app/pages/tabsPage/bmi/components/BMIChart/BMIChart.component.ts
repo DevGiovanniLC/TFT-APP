@@ -46,7 +46,7 @@ export class BMIChartComponent {
     updateChart(bmi: number) {
 
 
-        const chart = new BMIDoughnutChart(bmi);
+        const chart = new BMIDoughnutChart(this.bmiService, bmi);
         this.data = chart.getData();
         this.options = chart.getOptions();
         this.plugins.update((p) => {

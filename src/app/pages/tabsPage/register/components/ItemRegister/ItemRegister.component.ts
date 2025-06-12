@@ -10,6 +10,7 @@ import {
     viewChild,
     ElementRef,
     Renderer2,
+    computed,
 } from '@angular/core';
 import { Gesture, GestureController } from '@ionic/angular';
 import { Weight } from '@models/types/Weight.type';
@@ -42,18 +43,14 @@ export class ItemRegisterComponent implements AfterViewInit, OnDestroy {
     entryClick = output<Weight>();
     deleteWeight = output<{ deleteCallback: () => void; id: number; cancelCallback: () => void }>();
 
-    color = signal('');
+    color = computed(() => this.checkColor(this.progress()));
 
     isDestroyed = signal(false);
 
     constructor(
         private readonly gestureCtrl: GestureController,
         private readonly renderer: Renderer2
-    ) {
-        effect(() => {
-            this.color.set(this.checkColor(this.progress()));
-        });
-    }
+    ) {}
 
     ngAfterViewInit(): void {
         const containerRef = this.swipeContainer();

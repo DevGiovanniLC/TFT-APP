@@ -24,7 +24,7 @@ export class ModalUserComponent {
     constructor(
         private readonly userConfig: UserConfigService,
         private readonly modalCtrl: ModalController
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         const user = this.inputUser();
@@ -92,11 +92,11 @@ export class ModalUserComponent {
             this.user.update((user) =>
                 user
                     ? {
-                          ...user,
-                          goal_weight: goalData.weight,
-                          goal_units: goalData.weight_units,
-                          goal_date: goalData.date,
-                      }
+                        ...user,
+                        goal_weight: goalData.weight,
+                        goal_units: goalData.weight_units,
+                        goal_date: goalData.date,
+                    }
                     : user
             );
             this.isGoalDate.set(this.isValidDate(goalData.date));

@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { User } from '@models/types/User.type';
 import { TranslateModule } from '@ngx-translate/core';
+import Conf from 'src/app/conf';
 
 @Component({
     selector: 'app-user-form',
@@ -14,16 +15,7 @@ export class UserFormComponent {
     inputUser = input<User | undefined>();
     setUser = output<User>();
 
-    user: User = {
-        name: undefined,
-        age: undefined,
-        height: undefined,
-        gender: undefined,
-        email: undefined,
-        goal_weight: undefined,
-        goal_units: undefined,
-        goal_date: undefined,
-    };
+    user: User = {} as User;
 
     ngOnInit(): void {
         const user = this.inputUser();

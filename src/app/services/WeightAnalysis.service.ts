@@ -50,6 +50,8 @@ export class WeightAnalysisService {
 
     getTrendData(weights: Weight[]): { x: number; y: number }[] {
         if (!weights?.length) return [];
+        if (weights.length === 1) return [{ x: TimeService.getTime(weights[0].date), y: weights[0].weight }];
+
         const last = weights[0];
         const lastDate = TimeService.getTime(last.date);
         const { slope, intercept } = this.calculateWeightedTrend(weights, lastDate);
@@ -61,11 +63,15 @@ export class WeightAnalysisService {
             { x: twoYears, y },
         ];
     }
-    private calculateWeightedTrend(weights: Weight[], refDate: number): { slope: number; intercept: number } {
 
-        const minDate = refDate -  TimeService.MS_PER_MONTH;
+    private calculateWeightedTrend(weights: Weight[], refDate: number): { slope: number; intercept: number } {
+        const MS_PER_MONTH = TimeService.MS_PER_MONTH;
+        const now = refDate;
+        const minDate = now - MS_PER_MONTH;
+
         let recent = weights.filter(w => TimeService.getTime(w.date) >= minDate);
 
+        // Fallback si hay pocos datos recientes
         if (recent.length <= 2 && weights.length >= 2) {
             recent = weights
                 .slice()
@@ -74,30 +80,42 @@ export class WeightAnalysisService {
                 .reverse();
         }
 
-        const now = refDate;
-        const x = recent.map(w => TimeService.getTime(w.date));
-        const y = recent.map(w => w.weight);
-        const w = x.map(xi => {
-            const daysAgo = (now - xi) / TimeService.MS_PER_MONTH;;
-            return 1 / (1 + daysAgo); // Peso: más reciente = más peso
+        if (recent.length === 0) return { slope: 0, intercept: 0 };
+
+        let sumW = 0, sumWX = 0, sumWY = 0;
+        let num = 0, den = 0;
+
+        // Precalcular valores
+        const timeWeights = recent.map(w => {
+            const xi = TimeService.getTime(w.date);
+            const yi = w.weight;
+            const daysAgo = (now - xi) / MS_PER_MONTH;
+            const wi = 1 / (1 + daysAgo); // Más peso a los más recientes
+            return { xi, yi, wi };
         });
 
-        const sumW = w.reduce((s, wi) => s + wi, 0);
-        const meanX = w.reduce((s, wi, i) => s + wi * x[i], 0) / sumW;
-        const meanY = w.reduce((s, wi, i) => s + wi * y[i], 0) / sumW;
-
-        let num = 0;
-        let den = 0;
-        for (let i = 0; i < x.length; i++) {
-            const dx = x[i] - meanX;
-            num += w[i] * dx * (y[i] - meanY);
-            den += w[i] * dx * dx;
+        // Medias ponderadas
+        for (const { xi, yi, wi } of timeWeights) {
+            sumW += wi;
+            sumWX += wi * xi;
+            sumWY += wi * yi;
         }
 
-        if (!den) return { slope: 0, intercept: meanY };
+        const meanX = sumWX / sumW;
+        const meanY = sumWY / sumW;
+
+        // Cálculo de pendiente y denominador
+        for (const { xi, yi, wi } of timeWeights) {
+            const dx = xi - meanX;
+            num += wi * dx * (yi - meanY);
+            den += wi * dx * dx;
+        }
+
+        if (den === 0) return { slope: 0, intercept: meanY };
 
         const slope = num / den;
         const intercept = meanY - slope * meanX;
+
         return { slope, intercept };
     }
 

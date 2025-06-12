@@ -8,6 +8,8 @@
                 {{ 'MODALS.WEIGHT_REGISTER.MESSAGE' | translate }}
             </h2>
         </header>
+
+
         <form
             class="w-10/12 bg-white rounded-3xl shadow-2xl border-t-8 border-b-8 border-r-4 border-l-4 border-emerald-500 p-10"
         >
@@ -17,23 +19,27 @@
                 (outputWeightValue)="updateNextWeight($event)"
             />
 
-            <ion-datetime-button datetime="datetime" class="mt-5" />
-
-            <ion-modal [keepContentsMounted]="true" [breakpoints]="[0, 1]" initialBreakpoint="1">
-                <ng-template>
-                    <ion-datetime
-                        id="datetime"
-                        presentation="date-time"
-                        [locale]="language()"
-                        hour-cycle="h23"
-                        display-format="DD/MM/YYYY"
-                        picker-format="DD/MM/YYYY"
-                        [value]="selectedDate()"
-                        (ionChange)="updateNextDate($event.detail.value)"
-                        class="bg-transparent w-full text-lg"
-                    />
-                </ng-template>
-            </ion-modal>
+            <ion-datetime-button datetime="datetime" class="mt-5" [translate]="language()" />
         </form>
+
+        <ion-modal [keepContentsMounted]="true" class="DateTimeModal">
+            <ng-template>
+                <ion-datetime
+                    showDefaultButtons ="true"
+                    [cancelText]="'KEY_WORDS.CANCEL' | translate"
+                    [doneText]="'KEY_WORDS.OK' | translate"
+
+                    id="datetime"
+                    [locale]="language()"
+                    hour-cycle="h23"
+                    display-format="DD/MM/YYYY"
+                    picker-format="DD/MM/YYYY"
+                    [value]="selectedDate()"
+                    (ionChange)="updateNextDate($event.detail.value)"
+                    class="DateTimeContent"
+                />
+            </ng-template>
+        </ion-modal>
+
     </section>
 </ion-content>

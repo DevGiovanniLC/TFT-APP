@@ -236,3 +236,21 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.DateTimeModal {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(15px);
+
+
+    &::part(content) {
+        @apply rounded-xl text-xl w-10/12 flex justify-center p-3 pt-4;
+    }
+}
+
+.DateTimeContent {
+    @apply bg-primary;
+
+    &::part(calendar-day) {
+        @apply  text-base font-semibold;
+    }
+}

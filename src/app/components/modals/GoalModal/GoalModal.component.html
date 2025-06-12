@@ -27,9 +27,13 @@
             @if (isWithDate()) {
                 <ion-datetime-button id="date-button" datetime="datetime" />
 
-                <ion-modal [keepContentsMounted]="true" [breakpoints]="[0, 1]" initialBreakpoint="1">
+                <ion-modal [keepContentsMounted]="true" class="DateTimeModal">
                     <ng-template>
                         <ion-datetime
+                            showDefaultButtons ="true"
+                            [cancelText]="'KEY_WORDS.CANCEL' | translate"
+                            [doneText]="'KEY_WORDS.OK' | translate"
+
                             id="datetime"
                             presentation="date"
                             [locale]="language()"
@@ -40,6 +44,7 @@
                             max="2099-12-31"
                             [min]="actualDate.toISOString().substring(0, 16)"
                             (ionChange)="updateActualDate($event.detail.value)"
+                            class="DateTimeContent"
                         >
                             ></ion-datetime
                         >

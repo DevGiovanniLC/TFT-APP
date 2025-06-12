@@ -43,7 +43,7 @@ export class WeightRegisterComponent implements OnInit {
         private readonly weightTracker: WeightTrackerService,
         private readonly timeService: TimeService,
         private readonly modalCtrl: ModalController
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.language.set(this.deviceInfo.getLanguage());

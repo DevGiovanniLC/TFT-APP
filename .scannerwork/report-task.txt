@@ -2,5 +2,5 @@ projectKey=vita-Weight
 serverUrl=http://localhost:9000
 serverVersion=25.3.0.104237
 dashboardUrl=http://localhost:9000/dashboard?id=vita-Weight
-ceTaskId=a331ca0f-ba54-45b3-a048-d846f08e45c1
-ceTaskUrl=http://localhost:9000/api/ce/task?id=a331ca0f-ba54-45b3-a048-d846f08e45c1
+ceTaskId=2e9f94f9-cd35-4310-b4e4-38ddd4841294
+ceTaskUrl=http://localhost:9000/api/ce/task?id=2e9f94f9-cd35-4310-b4e4-38ddd4841294

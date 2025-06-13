@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { User } from '@models/types/User.type';
 import { TranslateModule } from '@ngx-translate/core';
-import Conf from 'src/app/conf';
 
 @Component({
     selector: 'app-user-form',

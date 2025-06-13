@@ -165,28 +165,28 @@
     },
     "ALERTS": {
         "BMI_VERY_LOW": {
-            "TITLE": "¡Alto IMC!⚠️",
+            "TITLE": "Delgadez severa ⚠️",
             "MESSAGE": "Tu IMC es significativamente por debajo del rango de salud. Por favor, considera consultar a un profesional de la salud."
         },
         "BMI_LOW": {
-            "TITLE": "¡Bajo IMC!⚠️",
-            "MESSAGE": "Tu IMC actual sugiere que puedes estar bajo peso. Una revisión de salud puede ayudar."
+            "TITLE": "Delgadez moderada ⚠️",
+            "MESSAGE": "Tu IMC actual sugiere que puedes estar bajo de peso. Una revisión de salud puede ayudar."
         },
         "BMI_VERY_HIGH": {
-            "TITLE": "¡Alto IMC!⚠️",
-            "MESSAGE": "Tu IMC es por encima de 40, un rango alto de riesgo. Recomendamos consultar a un profesional."
+            "TITLE": " Obesidad tipo 3 ⚠️",
+            "MESSAGE": "Tu IMC es por encima de 40, un rango muy alto de riesgo. Recomendamos consultar a un profesional."
         },
         "BMI_HIGH": {
-            "TITLE": "¡Alto IMC!⚠️",
-            "MESSAGE": "Tu IMC sugiere un riesgo elevado. Los cambios graduales en la salud pueden hacer una gran diferencia."
+            "TITLE": "Obesidad tipo 2 ⚠️",
+            "MESSAGE": "Tu IMC es superior a 35, un riesgo alto. Los cambios graduales en la salud pueden hacer una gran diferencia."
         },
         "WEIGHT_NOT_REGISTERED": {
             "TITLE": "¡Mantén tu progreso!🕐",
-            "MESSAGE": "Intenta registrar tu peso cada semana para rastrear tu progreso."
+            "MESSAGE": "Intenta registrar tu peso al menos una vez por semana para realizar un mejor seguimiento."
         },
         "WEIGHT_REGISTERED": {
             "TITLE": "¡Un recordatorio amigable😊!",
-            "MESSAGE": "Has registrado peso varias veces hoy. Una vez al día es suficiente."
+            "MESSAGE": "Has registrado tu peso varias veces hoy. Una vez al día es más que suficiente."
         },
         "GOAL_PROBLEM": {
             "TITLE": "Establece un objetivo que puedas lograr 🎯",

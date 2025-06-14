@@ -98,7 +98,7 @@ export class WeightLossPaceComponent implements OnInit {
     }
 
     protected validateTrendPace(value: number, range: number): string {
-        if (isNaN(value) || !value) return 'Not Logic';
+        if (isNaN(value) || !value || !this.isTrend()) return 'Not Logic';
         if (value >= -range && value <= range) return `${value.toFixed(2)} ${this.weightUnits()}`;
         return 'Not Logic';
     }

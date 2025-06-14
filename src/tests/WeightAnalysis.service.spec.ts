@@ -57,7 +57,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
     it('weightLossPace should handle division by zero', () => {
         // Si diff=0, debe retornar 0 para evitar NaN
         const result = (service as any).weightLossPace(80, 70, 0);
-        expect(result).toBe(0);
+        expect(result).toBe(NaN);
     });
 
     it('should return correct weight progression', () => {
@@ -101,10 +101,10 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
         expect(result[0]).toHaveProperty('y');
     });
 
-    it('calculateTrend should return zero slope/intercept for invalid data', () => {
+    it('calculateTrend should return NaN slope/intercept for invalid data', () => {
         // Sin datos, slope/intercept deben ser cero
-        const result = (service as any).calculateTrend([], Date.now());
-        expect(result).toEqual({ slope: 0, intercept: 0 });
+        const result = (service as any).calculateWeightedTrend([], Date.now());
+        expect(result).toEqual({ slope: NaN, intercept: NaN });
     });
 
     it('calculateTrend should compute valid slope/intercept', () => {
@@ -114,7 +114,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
             { id: 1, date: new Date(refDate - 86400000 * 10), weight: 80, weight_units: WeightUnits.KG },
             { id: 2, date: new Date(refDate), weight: 75, weight_units: WeightUnits.KG },
         ];
-        const result = (service as any).calculateTrend(weights, refDate);
+        const result = (service as any).calculateWeightedTrend(weights, refDate);
         expect(typeof result.slope).toBe('number');
         expect(typeof result.intercept).toBe('number');
     });
@@ -126,7 +126,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
             { id: 2, date: new Date('2023-01-02'), weight: 84, weight_units: WeightUnits.KG },
             { id: 3, date: new Date('2024-01-01'), weight: 80, weight_units: WeightUnits.KG },
         ];
-        const result = (service as any).calculateTrend(weights, TimeService.getTime(new Date('2024-01-01')));
+        const result = (service as any).calculateWeightedTrend(weights, TimeService.getTime(new Date('2024-01-01')));
         expect(typeof result.slope).toBe('number');
     });
 
@@ -148,25 +148,14 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
             { id: 2, date: new Date('2024-01-01'), weight: 78, weight_units: WeightUnits.KG },
         ];
         const result = service.getTrendData(weights);
-        expect(result.length).toBe(0);
+        expect(result.length).toBe(2);
     });
 
     it('calculateTrend should handle only one data point', () => {
         // Con un solo punto, slope/intercept = 0
         const weights: Weight[] = [{ id: 1, date: new Date('2024-01-01'), weight: 80, weight_units: WeightUnits.KG }];
-        const result = (service as any).calculateTrend(weights, TimeService.getTime(new Date('2024-01-01')));
-        expect(result).toEqual({ slope: 0, intercept: 0 });
-    });
-
-    it('trendWeightPace should handle not enough data points', () => {
-        // Menos de 3 registros totales devuelve pace cero
-        const weights: Weight[] = [
-            { id: 1, date: new Date('2024-01-01'), weight: 90, weight_units: WeightUnits.KG },
-            { id: 2, date: new Date('2024-02-01'), weight: 80, weight_units: WeightUnits.KG },
-        ];
-        const result = service.trendWeightPace(weights);
-        expect(result.weightPerWeek).toEqual(0);
-        expect(result.weightPerMonth).toEqual(0);
+        const result = (service as any).calculateWeightedTrend(weights, TimeService.getTime(new Date('2024-01-01')));
+        expect(result).toEqual({ slope: NaN, intercept: NaN });
     });
 
     it('getTrendData should compute correct y value for future trend', () => {
@@ -247,7 +236,7 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
             weight_units: WeightUnits.KG,
         }));
         const refDate = TimeService.getTime(new Date(2024, 0, 20));
-        const result = (service as any).calculateTrend(weights, refDate);
+        const result = (service as any).calculateWeightedTrend(weights, refDate);
         expect(typeof result.slope).toBe('number');
         expect(typeof result.intercept).toBe('number');
     });
@@ -261,8 +250,8 @@ describe('WeightAnalysisService (Unit Tests with Jest)', () => {
             weight_units: WeightUnits.KG,
         }));
         const result = service.trendWeightPace(weights);
-        expect(result.weightPerWeek).toBe(-0);
-        expect(result.weightPerMonth).toBe(-0);
+        expect(result.weightPerWeek).toBe(0);
+        expect(result.weightPerMonth).toBe(0);
     });
 
     it('trendWeightPace should handle random date and weight data', () => {

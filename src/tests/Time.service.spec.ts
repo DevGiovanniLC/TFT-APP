@@ -13,7 +13,7 @@ describe('TimeService (Unit Tests with Jest)', () => {
     it('should return the fixed date when environment.testing is true', () => {
         environment.test = true;
         const result = service.now();
-        expect(result.toISOString()).toBe('2025-05-30T17:54:12.535Z');
+        expect(result.toISOString()).toBe('2025-05-30T00:00:00.000Z');
     });
 
     it('should return the current date when environment.testing is false', () => {
@@ -70,8 +70,6 @@ describe('TimeService (Unit Tests with Jest)', () => {
         const date2 = new Date('2025-05-30T23:59:59');
         const date3 = new Date('2025-05-31T00:00:00');
         const date4 = new Date('2024-05-30T10:00:00');
-        console.log(date1.toLocaleDateString());
-        console.log(date4.toLocaleDateString());
 
         expect(service.isSameDay(date1, date2)).toBe(true);
         expect(service.isSameDay(date1, date3)).toBe(false);

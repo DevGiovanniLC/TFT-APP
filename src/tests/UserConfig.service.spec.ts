@@ -7,6 +7,7 @@ import { DataProviderService } from '@services/data-providers/DataProvider.servi
 import { User, Gender } from '@models/types/User.type';
 import { Goal } from '@models/types/Goal.type';
 import { WeightUnits } from '@models/types/Weight.type';
+import { UserConfigEvent } from '@models/enums/Events';
 
 describe('UserConfigService (Unit Tests with Jest)', () => {
     let service: UserConfigService;
@@ -106,12 +107,12 @@ describe('UserConfigService (Unit Tests with Jest)', () => {
     it('should set eventTriggered to CHANGED on setUser', () => {
         // Al ejecutar setUser, eventTriggered debe cambiar a CHANGED
         service.setUser(mockUser);
-        expect(service.eventTriggered).toBe(service.EventTrigger.CHANGED);
+        expect(service.eventTriggered).toBe(UserConfigEvent.CHANGED);
     });
 
     it('should keep eventTriggered as NONE initially', () => {
         // Sin acciones, eventTriggered inicia en NONE
-        expect(service.eventTriggered).toBe(service.EventTrigger.NONE);
+        expect(service.eventTriggered).toBe(UserConfigEvent.NONE);
     });
 
     it('should handle errors from getUser gracefully', async () => {

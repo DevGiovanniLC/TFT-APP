@@ -83,7 +83,7 @@ export class WeightAnalysisService {
                 .reverse();
         }
 
-        if (recent.length === 0) return { slope: 0, intercept: 0 };
+        if (recent.length < 2) return { slope: NaN, intercept: NaN };
 
         let sumW = 0, sumWX = 0, sumWY = 0;
         let num = 0, den = 0;

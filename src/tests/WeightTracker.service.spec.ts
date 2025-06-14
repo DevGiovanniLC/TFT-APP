@@ -5,6 +5,7 @@ import { filter, firstValueFrom, take } from 'rxjs';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { DataProviderService } from '@services/data-providers/DataProvider.service';
 import { Weight, WeightUnits } from '@models/types/Weight.type';
+import { WeightTrackerEvent } from '@models/enums/Events';
 
 describe('WeightTrackerService (Unit Tests with Jest)', () => {
     let service: WeightTrackerService;
@@ -46,29 +47,29 @@ describe('WeightTrackerService (Unit Tests with Jest)', () => {
     it('should set eventTriggered to ADD when addWeight is called', async () => {
         // Al añadir peso, eventTriggered debe ser ADD y llamarse addWeight en provider
         service.addWeight(sampleWeights[0]);
-        expect(service.eventTriggered).toBe(service.EventTrigger.ADD);
+        expect(service.eventTriggered).toBe(WeightTrackerEvent.ADD);
         expect(dataProviderMock.addWeight).toHaveBeenCalledWith(sampleWeights[0]);
     });
 
     it('should set eventTriggered to DELETE when deleteWeight is called', async () => {
         // Al eliminar peso, eventTriggered debe ser DELETE
         service.deleteWeight(1);
-        expect(service.eventTriggered).toBe(service.EventTrigger.DELETE);
+        expect(service.eventTriggered).toBe(WeightTrackerEvent.DELETE);
         expect(dataProviderMock.deleteWeight).toHaveBeenCalledWith(1);
     });
 
     it('should set eventTriggered to UPDATE when updateWeight is called', async () => {
         // Al actualizar peso, eventTriggered debe ser UPDATE
         service.updateWeight(sampleWeights[0]);
-        expect(service.eventTriggered).toBe(service.EventTrigger.UPDATE);
+        expect(service.eventTriggered).toBe(WeightTrackerEvent.UPDATE);
         expect(dataProviderMock.updateWeight).toHaveBeenCalledWith(sampleWeights[0]);
     });
 
     it('should return true if the last event matches EventTrigger', () => {
         // isLastEvent refleja correctamente el último evento disparado
-        service.eventTriggered = service.EventTrigger.ADD;
-        expect(service.isLastEvent(service.EventTrigger.ADD)).toBe(true);
-        expect(service.isLastEvent(service.EventTrigger.DELETE)).toBe(false);
+        service.eventTriggered = WeightTrackerEvent.ADD;
+        expect(service.isLastEvent(WeightTrackerEvent.ADD)).toBe(true);
+        expect(service.isLastEvent(WeightTrackerEvent.DELETE)).toBe(false);
     });
 
     it('should correctly emit firstWeight$ and lastWeight$', async () => {

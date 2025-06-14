@@ -32,7 +32,7 @@ export class WeightTrackerService {
     readonly weights$: Observable<Weight[]> = this.weightsSubject.asObservable();
 
     /** Observable que emite el registro más antiguo (al final del array) */
-    readonly firstWeight$: Observable<Weight | undefined> = this.weights$.pipe(map((weights) => weights.at(-1)));
+    readonly firstWeight$: Observable<Weight | undefined> = this.weights$.pipe(map((weights) => weights.length > 0 ? weights[weights.length - 1] : undefined));
 
     /** Observable que emite el registro más reciente (al inicio del array) */
     readonly lastWeight$: Observable<Weight | undefined> = this.weights$.pipe(map((weights) => weights[0]));

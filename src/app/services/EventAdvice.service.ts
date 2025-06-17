@@ -47,9 +47,18 @@ export class EventAdviceService {
         private readonly timeService: TimeService,
         private readonly preference: PreferenceService
     ) {
-        effect(() => this.checkBMI(this.bmi()));
-        effect(() => this.checkLastWeight(this.lastWeight()));
-        effect(() => this.checkGoal(this.monthsPaceLossGoal(), this.weeksPaceLossGoal()));
+        effect(() => {
+            if (this.checkBMI(this.bmi())) return this.resetEvents();
+            this.checkLastWeight(this.lastWeight());
+            this.checkGoal(this.monthsPaceLossGoal(), this.weeksPaceLossGoal())
+            this.resetEvents();
+        })
+
+    }
+
+    private resetEvents(): void {
+        this.userConfig.eventTriggered = UserConfigEvent.NONE;
+        this.weightTracker.eventTriggered = WeightTrackerEvent.NONE;
     }
 
     private calcPace(type: 'month' | 'week'): number {
@@ -61,8 +70,8 @@ export class EventAdviceService {
             : this.weightAnalysis.weekWeightLossPace(lastWeight.weight, goal.weight, lastWeight.date, goal.date);
     }
 
-    private checkBMI(bmi?: number | null): void {
-        if (!bmi || !this.weightTracker.isLastEvent(WeightTrackerEvent.ADD)) return;
+    private checkBMI(bmi?: number | null): boolean {
+        if (!bmi || !this.weightTracker.isLastEvent(WeightTrackerEvent.ADD)) return false;
 
         const prefs = {
             BMI_ALERT_40: this.preference.get('BMI_ALERT_40'),
@@ -78,6 +87,7 @@ export class EventAdviceService {
                 AlertMode.DANGER,
                 ['BMI_ALERT_16', 'BMI_ALERT_18_5']
             );
+            return true;
         } else if (bmi < 18.5 && prefs.BMI_ALERT_18_5) {
             this.showBMIAlert(
                 this.translateService.instant('ALERTS.BMI_LOW.TITLE'),
@@ -85,6 +95,7 @@ export class EventAdviceService {
                 AlertMode.WARNING,
                 ['BMI_ALERT_18_5']
             );
+            return true;
         } else if (bmi >= 40 && prefs.BMI_ALERT_40) {
             this.showBMIAlert(
                 this.translateService.instant('ALERTS.BMI_VERY_HIGH.TITLE'),
@@ -92,6 +103,7 @@ export class EventAdviceService {
                 AlertMode.DANGER,
                 ['BMI_ALERT_40', 'BMI_ALERT_35']
             );
+            return true;
         } else if (bmi >= 35 && prefs.BMI_ALERT_35) {
             this.showBMIAlert(
                 this.translateService.instant('ALERTS.BMI_HIGH.TITLE'),
@@ -99,8 +111,10 @@ export class EventAdviceService {
                 AlertMode.WARNING,
                 ['BMI_ALERT_35']
             );
+            return true;
         }
-        this.weightTracker.eventTriggered = WeightTrackerEvent.NONE;
+
+        return false;
     }
 
     private async showBMIAlert(header: string, message: string, mode: AlertMode, keysToDisable: (keyof Preference)[]) {
@@ -133,7 +147,6 @@ export class EventAdviceService {
         }
 
         this.history.push(lastWeight);
-        this.weightTracker.eventTriggered = WeightTrackerEvent.NONE;
     }
 
     private checkGoal(monthsPaceLoss: number, weeksPaceLoss: number): void {
@@ -146,8 +159,6 @@ export class EventAdviceService {
                 this.translateService.instant('ALERTS.GOAL_PROBLEM.MESSAGE')
             );
         }
-
-        this.userConfig.eventTriggered = UserConfigEvent.NONE;
     }
 
     private async alert(header: string, message: string, alertMode: AlertMode = AlertMode.INFO): Promise<void> {

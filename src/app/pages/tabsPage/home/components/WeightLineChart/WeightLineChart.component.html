@@ -11,9 +11,7 @@
                 (ionChange)="setChartMode($event.target.value)"
             >
                 <ion-select-option value="total">{{ 'TAB1.CHART.TOTAL' | translate }}</ion-select-option>
-                @if (validateGoalDate()) {
-                    <ion-select-option value="viewGoal">{{ 'TAB1.CHART.VIEW_GOAL' | translate }}</ion-select-option>
-                }
+                <ion-select-option value="viewGoal">{{ (validateGoalDate() ? 'TAB1.CHART.VIEW_GOAL'  : 'TAB1.CHART.VIEW_TREND') | translate }}</ion-select-option>
                 <ion-select-option value="week">{{ 'TAB1.CHART.LAST_WEEK' | translate }}</ion-select-option>
                 <ion-select-option value="month">{{ 'TAB1.CHART.LAST_MONTH' | translate }}</ion-select-option>
             </ion-select>

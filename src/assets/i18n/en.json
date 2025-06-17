@@ -74,6 +74,7 @@
         "CHART": {
             "TOTAL": "Total",
             "VIEW_GOAL": "View Goal",
+            "VIEW_TREND": "View Trend",
             "LAST_WEEK": "Last Week",
             "LAST_MONTH": "Last Month"
         },

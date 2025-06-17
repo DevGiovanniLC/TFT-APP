@@ -106,10 +106,11 @@ export default class HomeWeightLineChart {
 
     getOptions(): ChartOptions<'line'> {
         const { weights, chartMode, goal, viewTrend, trendData } = this;
+
         if (!weights.length) return {};
 
         const goalWeight = goal?.weight ?? NaN;
-        const goalDate = goal?.date;
+        const goalDate = goal?.date ?? weights[0].date;
         const minWeight = Math.min(...weights.map((w) => w.weight));
         const maxWeight = Math.max(...weights.map((w) => w.weight));
         const marginY =
@@ -121,7 +122,7 @@ export default class HomeWeightLineChart {
         const maxDate = Math.max(...dates);
 
         let goalDateMaxRange: number = maxDate;
-        if (chartMode === 'viewGoal' && goalWeight > 0 && goalDate) {
+        if (chartMode === 'viewGoal' && goalDate) {
             goalDateMaxRange = Math.max(maxDate, goalDate.getTime()) + 15 * TimeService.MS_PER_DAY;
         } else if (chartMode === 'total') {
             goalDateMaxRange = maxDate + 15 * TimeService.MS_PER_DAY;

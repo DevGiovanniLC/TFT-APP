@@ -45,21 +45,18 @@ export class BMIChartComponent {
 
     updateChart(bmi: number) {
 
-
-        const chart = new BMIDoughnutChart(this.bmiService, bmi);
-        this.data = chart.getData();
-        this.options = chart.getOptions();
         this.plugins.update((p) => {
             p.pop();
             return p;
         });
 
-        this.cdr.detectChanges();
-
         this.plugins.update((p) => {
             p.push(BMIPluginDoughnut(this.translateService, this.bmiService, bmi));
             return p
         });
+        const chart = new BMIDoughnutChart(this.bmiService, bmi);
+        this.data = chart.getData();
+        this.options = chart.getOptions();
 
         this.cdr.detectChanges();
     }

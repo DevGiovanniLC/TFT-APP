@@ -67,6 +67,7 @@ export class MainDisplayComponent {
         ]);
 
         effect(() => {
+            this.lastWeight() // No quitar fuerza actualización cuando se agrega un peso
             this.updateChart(this.progression);
         });
     }

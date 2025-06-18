@@ -127,8 +127,7 @@ export class EventAdviceService {
 
         const prev = this.history[this.history.length - 1];
         const isRecent = this.timeService.weekDifference(lastWeight.date, this.timeService.now()) < 1;
-        const isDuplicateToday =
-            prev && this.timeService.isSameDay(lastWeight.date, prev.date) && lastWeight.id !== prev.id;
+        const isDuplicateToday = prev && this.timeService.isSameDay(lastWeight.date, prev.date) && lastWeight.id !== prev.id;
 
         if (!isRecent && this.weightTracker.isLastEvent(WeightTrackerEvent.NONE)) {
             setTimeout(

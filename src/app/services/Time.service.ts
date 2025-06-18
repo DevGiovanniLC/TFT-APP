@@ -26,7 +26,7 @@ export class TimeService {
     isSameDay(...dates: Date[]): boolean {
         return dates.every(
             (date) =>
-                date?.getDay() === this.now().getDay() &&
+                date?.getDate() === this.now().getDate() &&
                 date?.getMonth() === this.now().getMonth() &&
                 date?.getFullYear() === this.now().getFullYear()
         );

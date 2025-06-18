@@ -27,37 +27,29 @@ export class BMIChartComponent {
         private readonly route: ActivatedRoute
     ) {
         effect(() => {
-            const bmi = this.bmi();
-
-            if (Number.isNaN(this.bmi()) || !bmi) return;
-
-            this.updateChart(bmi);
+            this.updateChart(this.bmi());
         });
     }
 
     ngOnInit() {
         this.route.url.subscribe(() => {
-            const bmi = this.bmi();
-            if (Number.isNaN(bmi) || bmi === null) return;
-            this.updateChart(bmi);
+            this.updateChart(this.bmi());
         });
     }
 
-    updateChart(bmi: number) {
+    updateChart(bmiRaw: number | null) {
+        const bmi = bmiRaw;
+        if (Number.isNaN(bmi) || !bmi) return;
 
+        this.cdr.detectChanges();
+        const chart = new BMIDoughnutChart(this.bmiService, bmiRaw);
+        this.data = chart.getData();
+        this.options = chart.getOptions();
         this.plugins.update((p) => {
             p.pop();
-            return p;
-        });
-
-        this.plugins.update((p) => {
             p.push(BMIPluginDoughnut(this.translateService, this.bmiService, bmi));
             return p
         });
-        const chart = new BMIDoughnutChart(this.bmiService, bmi);
-        this.data = chart.getData();
-        this.options = chart.getOptions();
-
         this.cdr.detectChanges();
     }
 }

@@ -14,9 +14,11 @@ const loadSVG = (src: string) => {
 const svgStart = loadSVG('assets/icons/goal.svg');
 const svgProgress = loadSVG('assets/icons/runner.svg');
 
-export const SVGIconsPlugin = () => ({
+export const SVGIconsPlugin = ( progression: Signal<number>) => ({
     id: 'customSVG',
     afterDraw: (chart: Chart) => {
+        if (!progression()) return;
+
         const meta = chart.getDatasetMeta(0);
         if (!meta?.data?.length) return;
 
@@ -49,26 +51,26 @@ export const SVGIconsPlugin = () => ({
     },
 });
 
-const getProgressionText = (translateService: TranslateService, progress: number) => {
-    if (progress >= 100)
+const getProgressionText = (translateService: TranslateService, progression: number) => {
+    if (progression >= 100)
         return { text: `${translateService.instant('TAB1.MESSAGES.COMPLETED')}✅`, offset: -38, color: '#343a40' };
-    if (progress >= 90)
+    if (progression >= 90)
         return { text: `${translateService.instant('TAB1.MESSAGES.JUST_A_LITTLE')}👍`, offset: -38, color: '#343a40' };
-    if (progress >= 80)
+    if (progression >= 80)
         return { text: `${translateService.instant('TAB1.MESSAGES.JUST_A_BIT')}👍`, offset: -38, color: '#343a40' };
-    if (progress >= 50)
+    if (progression >= 50)
         return {
             text: `${translateService.instant('TAB1.MESSAGES.WONDERFULLY_DONE')}🎉`,
             offset: -38,
             color: '#1E8260',
         };
-    if (progress >= 20)
+    if (progression >= 20)
         return { text: `${translateService.instant('TAB1.MESSAGES.GOOD_JOB')}😁`, offset: -38, color: '#343a40' };
-    if (progress >= 5)
+    if (progression >= 5)
         return { text: `${translateService.instant('TAB1.MESSAGES.KEEP_GOING')}💪`, offset: -38, color: '#343a40' };
-    if (progress >= 0)
+    if (progression >= 0)
         return { text: `${translateService.instant('TAB1.MESSAGES.LETS_START')}👍`, offset: -38, color: '#343a40' };
-    if (isNaN(progress)) return { text: '', offset: -38, color: '#343a40' };
+    if (isNaN(progression)) return { text: translateService.instant('TAB1.MESSAGES.WELCOME'), offset: -55, color: '#343a40'};
     return { text: `${translateService.instant('TAB1.MESSAGES.DO_BETTER')}`, offset: -35, color: '#C7B85A' };
 };
 
@@ -96,7 +98,7 @@ export const TextPlugin = (
         if (progress <= 100)
             ctx.fillText(
                 `${translateService.instant('TAB1.PROGRESSION')} ${isNaN(progress) ? 0 : progress.toFixed(0)} %`,
-                centerX,
+                centerX+5,
                 centerY - 60
             );
 
@@ -104,7 +106,7 @@ export const TextPlugin = (
         ctx.fillStyle = '#343a40';
         if (text) {
             ctx.fillStyle = color;
-            ctx.fillText(text, centerX + 3, centerY + offset);
+            ctx.fillText(text, centerX + 5, centerY + offset);
         }
 
         ctx.font = 'bold 35px sans-serif';

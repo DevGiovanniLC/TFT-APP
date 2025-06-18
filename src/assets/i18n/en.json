@@ -79,6 +79,7 @@
             "LAST_MONTH": "Last Month"
         },
         "MESSAGES": {
+            "WELCOME": "Welcome! 😊",
             "DO_BETTER": "You can do better",
             "LETS_START": "Let's start",
             "KEEP_GOING": "Keep going",

@@ -61,14 +61,12 @@ export class MainDisplayComponent {
         private readonly cdr: ChangeDetectorRef,
         private readonly route: ActivatedRoute
     ) {
-        this.plugins.update((p: Plugin[]) => {
-            p.push(TextPlugin(this.translateService, this.timeService, this.progression, this.lastWeight));
-            return p;
-        });
+        this.plugins.set([
+            SVGIconsPlugin(this.progression),
+            TextPlugin(this.translateService, this.timeService, this.progression, this.lastWeight),
+        ]);
 
         effect(() => {
-            this.firstWeight();
-            this.lastWeight();
             this.updateChart(this.progression);
         });
     }
@@ -83,14 +81,6 @@ export class MainDisplayComponent {
         const doughnutChart = new HomeDoughnutChart(progression());
         this.data = doughnutChart.getData();
         this.options = doughnutChart.getOptions();
-
-        if (Number.isNaN(this.progression())) return;
-
-        this.plugins.update((p: Plugin[]) => {
-            p.push(SVGIconsPlugin());
-            return p;
-        });
-
         this.cdr.detectChanges();
     }
 

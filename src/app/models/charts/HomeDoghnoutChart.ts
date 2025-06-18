@@ -2,8 +2,10 @@ import { ChartData, ChartOptions } from 'chart.js';
 
 export default class HomeDoughnutChart {
     private readonly dataset: number[];
+    private readonly progression: number;
 
     constructor(progression: number) {
+        this.progression = progression;
         if (isNaN(progression)) {
             this.dataset = [100, 0];
             return;
@@ -26,6 +28,7 @@ export default class HomeDoughnutChart {
                 {
                     data: this.dataset,
                     backgroundColor,
+                    borderWidth: 0,
                 },
             ],
         };
@@ -35,7 +38,7 @@ export default class HomeDoughnutChart {
         return {
             responsive: true,
             maintainAspectRatio: false,
-            cutout: '92%',
+            cutout: '94%',
             radius: 110,
             hover: {
                 mode: 'x',
@@ -44,16 +47,25 @@ export default class HomeDoughnutChart {
                 x: { duration: 0 },
                 y: { duration: 0 },
             },
-            animation: {
-                animateScale: false,
-                animateRotate: true,
-                duration: 1000,
-                easing: 'easeOutQuart',
-            },
+            animation: this.checkAnimation(),
             plugins: {
                 legend: { display: false },
-                tooltip: { enabled: false },
+                tooltip: { enabled: false, intersect: false },
             },
         };
     }
+
+
+    private checkAnimation(): ChartOptions<'doughnut'>['animation'] {
+        if (!this.progression || isNaN(this.progression)) return { duration: 0 };
+
+        return {
+            animateScale: false,
+            animateRotate: true,
+            duration: 1000,
+            easing: 'easeOutQuart'
+        }
+    }
 }
+
+

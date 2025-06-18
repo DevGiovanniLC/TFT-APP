@@ -37,7 +37,10 @@
         },
         "PAGE2": {
             "TITLE": "Registra tu peso",
-            "TIPS": ["Establece tu peso actual", "Mantente consistente y monitora tu progreso!"]
+            "TIPS": [
+                "Establece tu peso actual",
+                "Mantente consistente y monitora tu progreso!"
+            ]
         },
         "PAGE3": {
             "TITLE": "Establece tu meta",
@@ -55,7 +58,9 @@
         },
         "PAGE4": {
             "TITLE": "Información Personal",
-            "TIPS": ["Por favor, rellena con tu datos."]
+            "TIPS": [
+                "Por favor, rellena con tu datos."
+            ]
         }
     },
     "TABS": {
@@ -79,6 +84,7 @@
             "LAST_MONTH": "Último mes"
         },
         "MESSAGES": {
+            "WELCOME": "¡Bienvenido! 😊",
             "DO_BETTER": "Puedes hacerlo mejor",
             "LETS_START": "Empecemos",
             "KEEP_GOING": "Sigue así",

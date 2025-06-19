@@ -67,33 +67,21 @@ export class WeightAnalysisService {
         ];
     }
 
-    private calculateWeightedTrend(weights: Weight[], refDate: number): { slope: number; intercept: number } {
+    private calculateWeightedTrend(weights: Weight[], refDate: number, alpha: number = 1): { slope: number; intercept: number } {
         const MS_PER_MONTH = TimeService.MS_PER_MONTH;
         const now = refDate;
-        const minDate = now - MS_PER_MONTH;
 
-        let recent = weights.filter(w => TimeService.getTime(w.date) >= minDate);
-
-        // Fallback si hay pocos datos recientes
-        if (recent.length <= 2 && weights.length >= 2) {
-            recent = weights
-                .slice()
-                .sort((a, b) => TimeService.getTime(b.date) - TimeService.getTime(a.date))
-                .slice(0, 2)
-                .reverse();
-        }
-
-        if (recent.length < 2) return { slope: NaN, intercept: NaN };
+        if (weights.length < 2) return { slope: NaN, intercept: NaN };
 
         let sumW = 0, sumWX = 0, sumWY = 0;
         let num = 0, den = 0;
 
         // Precalcular valores
-        const timeWeights = recent.map(w => {
+        const timeWeights = weights.map(w => {
             const xi = TimeService.getTime(w.date);
             const yi = w.weight;
             const daysAgo = (now - xi) / MS_PER_MONTH;
-            const wi = 1 / (1 + daysAgo); // Más peso a los más recientes
+            const wi = Math.exp(alpha * -daysAgo);  // Más peso a los más recientes
             return { xi, yi, wi };
         });
 

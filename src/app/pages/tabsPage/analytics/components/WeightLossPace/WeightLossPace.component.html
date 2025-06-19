@@ -27,20 +27,26 @@
 
     <div class="flex flex-row flex-wrap items-center justify-center gap-6">
         <ion-card
-            class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center"
+            class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-2 flex flex-col items-center justify-center"
+            [style.border-color]="checkBorderColor(trendPaceMonth())"
         >
-            <ion-card-subtitle class="text-teal-800 font-sans">{{ 'TAB3.MONTHLY' | translate }}</ion-card-subtitle>
-            <ion-card-title class="text-secondary text-2xl font-bold"
-                >{{ validateTrendPace(trendPaceMonth(), 50) }}
+            <ion-card-subtitle class="text-teal-800 font-sans" [style.color]="checkTextColor(trendPaceMonth(), goalPaceMonth()*-1)">
+                {{ 'TAB3.MONTHLY' | translate }}
+            </ion-card-subtitle>
+            <ion-card-title class="text-2xl font-bold" [style.color]="checkTextColor(trendPaceMonth(), goalPaceMonth()*-1)">
+                {{ validateTrendPace(trendPaceMonth(), 50) | signedNumber }} {{ checkTrendPace(trendPaceMonth()) ? weightUnits() : '' }}
             </ion-card-title>
         </ion-card>
 
         <ion-card
-            class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-tertiary border-2 flex flex-col items-center justify-center"
+            class="bg-slate-100 rounded-xl text-center space-y-2 w-40 h-28 shadow-md border-2 flex flex-col items-center justify-center"
+            [style.border-color]="checkBorderColor(trendPaceWeek())"
         >
-            <ion-card-subtitle class="text-teal-800 font-sans">{{ 'TAB3.WEEKLY' | translate }}</ion-card-subtitle>
-            <ion-card-title class="text-secondary text-2xl font-bold">
-                {{ validateTrendPace(trendPaceWeek(), 25) }}
+            <ion-card-subtitle class="text-teal-800 font-sans" [style.color]="checkTextColor(trendPaceWeek(), goalPaceWeek()*-1)">
+                {{ 'TAB3.WEEKLY' | translate }}
+            </ion-card-subtitle>
+            <ion-card-title class="text-2xl font-bold" [style.color]="checkTextColor(trendPaceWeek(), goalPaceWeek()*-1)">
+                {{ validateTrendPace(trendPaceWeek(), 25) | signedNumber }} {{ checkTrendPace(trendPaceWeek()) ? weightUnits() : '' }}
             </ion-card-title>
         </ion-card>
 
@@ -52,7 +58,7 @@
                     'TAB3.GOAL_MONTHLY' | translate
                 }}</ion-card-subtitle>
                 <ion-card-title class="text-secondary text-2xl font-bold"
-                    >{{ goalPaceMonth() * -1 }} {{ weightUnits() }}</ion-card-title
+                    >{{ goalPaceMonth() * -1 | signedNumber }} {{ weightUnits() }}</ion-card-title
                 >
             </ion-card>
 
@@ -63,7 +69,7 @@
                     'TAB3.GOAL_WEEKLY' | translate
                 }}</ion-card-subtitle>
                 <ion-card-title class="text-secondary text-2xl font-bold"
-                    >{{ goalPaceWeek() * -1 }} {{ weightUnits() }}</ion-card-title
+                    >{{ goalPaceWeek() * -1 | signedNumber }} {{ weightUnits() }}</ion-card-title
                 >
             </ion-card>
         }

@@ -193,6 +193,14 @@
         "GOAL_PROBLEM": {
             "TITLE": "Set a Goal You Can Achieve 🎯",
             "MESSAGE": "Your current goal may be too ambitious for the timeframe. The maximum goal recommended is 4 kg per month and 1 kg per week. You can change it anytime."
+        },
+        "GOAL_REACHED": {
+            "TITLE": "Congratulations! 🎉",
+            "MESSAGE": "You have reached your weight goal! Keep up the great work and continue maintaining your healthy lifestyle."
+        },
+        "GOAL_NOT_REACHED": {
+            "TITLE": "Goal Not Reached Yet! 🚫",
+            "MESSAGE": "You haven't reached your weight goal yet. Keep pushing forward!"
         }
     }
 }

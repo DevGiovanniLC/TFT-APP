@@ -11,6 +11,7 @@ import { PreferenceService, Preference } from './Preference.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UserConfigEvent, WeightTrackerEvent } from '@models/enums/Events';
 import { AlertMode } from '@models/enums/AlertOverlay';
+import { Goal } from '@models/types/Goal.type';
 
 
 
@@ -48,12 +49,14 @@ export class EventAdviceService {
         private readonly preference: PreferenceService
     ) {
         effect(() => {
-            if (this.checkBMI(this.bmi())) return this.resetEvents();
-            this.checkLastWeight(this.lastWeight());
-            this.checkGoal(this.monthsPaceLossGoal(), this.weeksPaceLossGoal())
+            if (
+                this.checkBMI(this.bmi()) ||
+                this.checkGoal() ||
+                this.checkLastWeight(this.lastWeight())
+            ) return this.resetEvents();
+
             this.resetEvents();
         })
-
     }
 
     private resetEvents(): void {
@@ -61,14 +64,7 @@ export class EventAdviceService {
         this.weightTracker.eventTriggered = WeightTrackerEvent.NONE;
     }
 
-    private calcPace(type: 'month' | 'week'): number {
-        const lastWeight = this.lastWeight();
-        const goal = this.goal();
-        if (!goal?.weight || !goal.date || !lastWeight?.weight) return NaN;
-        return type === 'month'
-            ? this.weightAnalysis.monthWeightLossPace(lastWeight.weight, goal.weight, lastWeight.date, goal.date)
-            : this.weightAnalysis.weekWeightLossPace(lastWeight.weight, goal.weight, lastWeight.date, goal.date);
-    }
+
 
     private checkBMI(bmi?: number | null): boolean {
         if (!bmi || !this.weightTracker.isLastEvent(WeightTrackerEvent.ADD)) return false;
@@ -117,47 +113,118 @@ export class EventAdviceService {
         return false;
     }
 
+
+
+    private checkLastWeight(lastWeight?: Weight): boolean {
+        if (!lastWeight) return false;
+        const prev = this.history[this.history.length - 1];
+
+        return (
+            this.checkLastWeightNotRegistered(lastWeight) ||
+            this.checkLastWeightDuplicated(lastWeight, prev)
+        )
+    }
+
+    private checkGoal(): boolean {
+        const lastWeight = this.lastWeight();
+        const goal = this.goal();
+
+        return (
+            this.checkGoalRecheable(this.monthsPaceLossGoal(), this.weeksPaceLossGoal()) ||
+            this.checkGoalReached(lastWeight, goal) ||
+            this.checkGoalNotReached(lastWeight, goal)
+        );
+
+    }
+
+
+    // LAST WEIGHT CHECKS
+    private checkLastWeightNotRegistered(lastWeight: Weight): boolean {
+        if (
+            !this.weightTracker.isLastEvent(WeightTrackerEvent.NONE) ||
+            this.timeService.weekDifference(lastWeight.date, this.timeService.now()) < 1
+        ) return false;
+
+        setTimeout(
+            () =>
+                this.alert(
+                    this.translateService.instant('ALERTS.WEIGHT_NOT_REGISTERED.TITLE'),
+                    this.translateService.instant('ALERTS.WEIGHT_NOT_REGISTERED.MESSAGE')
+                ),
+            1300
+        )
+
+        return true;
+    }
+
+    private checkLastWeightDuplicated(lastWeight: Weight, prev: Weight): boolean {
+        if (
+            !this.weightTracker.isLastEvent(WeightTrackerEvent.ADD) ||
+            !this.timeService.isSameDay(lastWeight.date, prev.date) ||
+            lastWeight.id === prev.id
+        ) {
+            this.history.push(lastWeight);
+            return false;
+        }
+
+        this.alert(
+            this.translateService.instant('ALERTS.WEIGHT_REGISTERED.TITLE'),
+            this.translateService.instant('ALERTS.WEIGHT_REGISTERED.MESSAGE')
+        );
+
+        return true;
+    }
+
+
+    // GOAL CHECKS
+    private checkGoalRecheable(monthsPaceLoss: number, weeksPaceLoss: number): boolean {
+        if (
+            (monthsPaceLoss < 4 && weeksPaceLoss < 1) ||
+            !(this.userConfig.eventTriggered === UserConfigEvent.CHANGED)
+        ) return false;
+
+        this.alert(
+            this.translateService.instant('ALERTS.GOAL_PROBLEM.TITLE'),
+            this.translateService.instant('ALERTS.GOAL_PROBLEM.MESSAGE')
+        );
+        return true
+    }
+
+    private checkGoalReached(lastWeight: Weight | undefined, goal: Goal | undefined): boolean {
+        if (
+            (!lastWeight || !goal || !goal.weight) ||
+            !this.weightTracker.isLastEvent(WeightTrackerEvent.ADD) ||
+            lastWeight.weight > goal.weight
+        ) return false;
+
+        this.alert(
+            this.translateService.instant('ALERTS.GOAL_REACHED.TITLE'),
+            this.translateService.instant('ALERTS.GOAL_REACHED.MESSAGE')
+        );
+
+        return true;
+    }
+
+    private checkGoalNotReached(lastWeight: Weight | undefined, goal: Goal | undefined): boolean {
+        if (
+            (!lastWeight || !goal || !goal.date) ||
+            !this.weightTracker.isLastEvent(WeightTrackerEvent.ADD) ||
+            goal.date.getTime() >= lastWeight.date.getTime()
+        ) return false;
+
+        this.alert(
+            this.translateService.instant('ALERTS.GOAL_NOT_REACHED.TITLE'),
+            this.translateService.instant('ALERTS.GOAL_NOT_REACHED.MESSAGE')
+        );
+
+        return true;
+    }
+
+
+    //ALERTS
     private async showBMIAlert(header: string, message: string, mode: AlertMode, keysToDisable: (keyof Preference)[]) {
         await this.alert(header, message, mode);
         keysToDisable.forEach((key) => this.preference.set(key, false));
-    }
-
-    private checkLastWeight(lastWeight?: Weight): void {
-        if (!lastWeight) return;
-
-        const prev = this.history[this.history.length - 1];
-        const isRecent = this.timeService.weekDifference(lastWeight.date, this.timeService.now()) < 1;
-        const isDuplicateToday = prev && this.timeService.isSameDay(lastWeight.date, prev.date) && lastWeight.id !== prev.id;
-
-        if (!isRecent && this.weightTracker.isLastEvent(WeightTrackerEvent.NONE)) {
-            setTimeout(
-                () =>
-                    this.alert(
-                        this.translateService.instant('ALERTS.WEIGHT_NOT_REGISTERED.TITLE'),
-                        this.translateService.instant('ALERTS.WEIGHT_NOT_REGISTERED.MESSAGE')
-                    ),
-                1500
-            );
-        } else if (isDuplicateToday && this.weightTracker.isLastEvent(WeightTrackerEvent.ADD)) {
-            this.alert(
-                this.translateService.instant('ALERTS.WEIGHT_REGISTERED.TITLE'),
-                this.translateService.instant('ALERTS.WEIGHT_REGISTERED.MESSAGE')
-            );
-        }
-
-        this.history.push(lastWeight);
-    }
-
-    private checkGoal(monthsPaceLoss: number, weeksPaceLoss: number): void {
-        if (
-            (monthsPaceLoss > 4 || weeksPaceLoss > 1) &&
-            this.userConfig.eventTriggered === UserConfigEvent.CHANGED
-        ) {
-            this.alert(
-                this.translateService.instant('ALERTS.GOAL_PROBLEM.TITLE'),
-                this.translateService.instant('ALERTS.GOAL_PROBLEM.MESSAGE')
-            );
-        }
     }
 
     private async alert(header: string, message: string, alertMode: AlertMode = AlertMode.INFO): Promise<void> {
@@ -168,5 +235,16 @@ export class EventAdviceService {
             buttons: [{ text: this.translateService.instant('KEY_WORDS.OK'), role: 'cancel' }],
         });
         await alertModal.present();
+    }
+
+
+    // PACE CALCULATIONS
+    private calcPace(type: 'month' | 'week'): number {
+        const lastWeight = this.lastWeight();
+        const goal = this.goal();
+        if (!goal?.weight || !goal.date || !lastWeight?.weight) return NaN;
+        return type === 'month'
+            ? this.weightAnalysis.monthWeightLossPace(lastWeight.weight, goal.weight, lastWeight.date, goal.date)
+            : this.weightAnalysis.weekWeightLossPace(lastWeight.weight, goal.weight, lastWeight.date, goal.date);
     }
 }

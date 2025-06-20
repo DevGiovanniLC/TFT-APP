@@ -198,6 +198,14 @@
         "GOAL_PROBLEM": {
             "TITLE": "Establece un objetivo que puedas lograr 🎯",
             "MESSAGE": "Tu objetivo actual puede ser demasiado ambicioso para el período elegido. El objetivo máximo recomendado es 4 kg al mes y 1 kg al semana. Puedes cambiarlo en cualquier momento."
+        },
+        "GOAL_REACHED": {
+            "TITLE": "¡Enhorabuena! 🎉",
+            "MESSAGE": "Has alcanzado tu objetivo de peso. ¡Sigue así!"
+        },
+        "GOAL_NOT_REACHED": {
+            "TITLE": "¡Objetivo no alcanzado aún! 🚫",
+            "MESSAGE": "No has alcanzado tu objetivo de peso todavía. ¡Sigue esforzándote!. Puedes cambiar tu objetivo en cualquier momento en el perfil de usuario."
         }
     }
 }

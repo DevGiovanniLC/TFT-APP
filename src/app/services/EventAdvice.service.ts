@@ -1,4 +1,4 @@
-import { computed, effect, Injectable } from '@angular/core';
+import { computed, effect, Injectable, signal } from '@angular/core';
 import { UserConfigService } from './UserConfig.service';
 import { WeightTrackerService } from './WeightTracker.service';
 import { WeightAnalysisService } from './WeightAnalysis.service';
@@ -7,7 +7,7 @@ import { Weight } from '@models/types/Weight.type';
 import { AlertController } from '@ionic/angular/standalone';
 import { BMIService } from './BMI.service';
 import { TimeService } from './Time.service';
-import { PreferenceService, Preference } from './Preference.service';
+import { PreferenceService, BMIPreferenceKey } from './Preference.service';
 import { TranslateService } from '@ngx-translate/core';
 import { UserConfigEvent, WeightTrackerEvent } from '@models/enums/Events';
 import { AlertMode } from '@models/enums/AlertOverlay';
@@ -38,6 +38,8 @@ export class EventAdviceService {
     /** Histórico de registros de peso para comparaciones */
     private readonly history: Weight[] = [];
 
+    private readonly alerted = signal(false);
+
     constructor(
         private readonly translateService: TranslateService,
         private readonly bmiService: BMIService,
@@ -48,18 +50,24 @@ export class EventAdviceService {
         private readonly timeService: TimeService,
         private readonly preference: PreferenceService
     ) {
+
         effect(() => {
             if (
                 this.checkBMI(this.bmi()) ||
-                this.checkGoal() ||
-                this.checkLastWeight(this.lastWeight())
+                this.checkGoal(this.lastWeight(), this.goal()) ||
+                this.checkLastWeight(this.lastWeight()) ||
+                true
             ) return this.resetEvents();
-
-            this.resetEvents();
         })
     }
 
     private resetEvents(): void {
+
+        if (this.userConfig.eventTriggered === UserConfigEvent.CHANGED) {
+            this.preference.setGoal('GOAL_REACHED', true);
+            this.preference.setGoal('GOAL_NOT_REACHED', true);
+        }
+
         this.userConfig.eventTriggered = UserConfigEvent.NONE;
         this.weightTracker.eventTriggered = WeightTrackerEvent.NONE;
     }
@@ -69,14 +77,7 @@ export class EventAdviceService {
     private checkBMI(bmi?: number | null): boolean {
         if (!bmi || !this.weightTracker.isLastEvent(WeightTrackerEvent.ADD)) return false;
 
-        const prefs = {
-            BMI_ALERT_40: this.preference.get('BMI_ALERT_40'),
-            BMI_ALERT_35: this.preference.get('BMI_ALERT_35'),
-            BMI_ALERT_18_5: this.preference.get('BMI_ALERT_18_5'),
-            BMI_ALERT_16: this.preference.get('BMI_ALERT_16'),
-        } as Record<keyof Preference, boolean>;
-
-        if (bmi < 16 && prefs.BMI_ALERT_16) {
+        if (bmi < 16 && this.preference.getBMI('BMI_ALERT_16')) {
             this.showBMIAlert(
                 this.translateService.instant('ALERTS.BMI_VERY_LOW.TITLE'),
                 this.translateService.instant('ALERTS.BMI_VERY_LOW.MESSAGE'),
@@ -84,7 +85,7 @@ export class EventAdviceService {
                 ['BMI_ALERT_16', 'BMI_ALERT_18_5']
             );
             return true;
-        } else if (bmi < 18.5 && prefs.BMI_ALERT_18_5) {
+        } else if (bmi < 18.5 && this.preference.getBMI('BMI_ALERT_18_5')) {
             this.showBMIAlert(
                 this.translateService.instant('ALERTS.BMI_LOW.TITLE'),
                 this.translateService.instant('ALERTS.BMI_LOW.MESSAGE'),
@@ -92,7 +93,7 @@ export class EventAdviceService {
                 ['BMI_ALERT_18_5']
             );
             return true;
-        } else if (bmi >= 40 && prefs.BMI_ALERT_40) {
+        } else if (bmi >= 40 && this.preference.getBMI('BMI_ALERT_40')) {
             this.showBMIAlert(
                 this.translateService.instant('ALERTS.BMI_VERY_HIGH.TITLE'),
                 this.translateService.instant('ALERTS.BMI_VERY_HIGH.MESSAGE'),
@@ -100,7 +101,7 @@ export class EventAdviceService {
                 ['BMI_ALERT_40', 'BMI_ALERT_35']
             );
             return true;
-        } else if (bmi >= 35 && prefs.BMI_ALERT_35) {
+        } else if (bmi >= 35 && this.preference.getBMI('BMI_ALERT_35')) {
             this.showBMIAlert(
                 this.translateService.instant('ALERTS.BMI_HIGH.TITLE'),
                 this.translateService.instant('ALERTS.BMI_HIGH.MESSAGE'),
@@ -117,6 +118,7 @@ export class EventAdviceService {
 
     private checkLastWeight(lastWeight?: Weight): boolean {
         if (!lastWeight) return false;
+
         const prev = this.history[this.history.length - 1];
 
         return (
@@ -125,10 +127,7 @@ export class EventAdviceService {
         )
     }
 
-    private checkGoal(): boolean {
-        const lastWeight = this.lastWeight();
-        const goal = this.goal();
-
+    private checkGoal(lastWeight?: Weight, goal?: Goal): boolean {
         return (
             this.checkGoalRecheable(this.monthsPaceLossGoal(), this.weeksPaceLossGoal()) ||
             this.checkGoalReached(lastWeight, goal) ||
@@ -141,9 +140,14 @@ export class EventAdviceService {
     // LAST WEIGHT CHECKS
     private checkLastWeightNotRegistered(lastWeight: Weight): boolean {
         if (
+            this.alerted() ||
             !this.weightTracker.isLastEvent(WeightTrackerEvent.NONE) ||
+            !this.preference.getWeight('WEIGHT_NOT_REGISTERED') ||
             this.timeService.weekDifference(lastWeight.date, this.timeService.now()) < 1
         ) return false;
+
+        this.preference.setWeight('WEIGHT_NOT_REGISTERED', false);
+        this.alerted.set(true);
 
         setTimeout(
             () =>
@@ -151,7 +155,7 @@ export class EventAdviceService {
                     this.translateService.instant('ALERTS.WEIGHT_NOT_REGISTERED.TITLE'),
                     this.translateService.instant('ALERTS.WEIGHT_NOT_REGISTERED.MESSAGE')
                 ),
-            1300
+            1000
         )
 
         return true;
@@ -160,12 +164,15 @@ export class EventAdviceService {
     private checkLastWeightDuplicated(lastWeight: Weight, prev: Weight): boolean {
         if (
             !this.weightTracker.isLastEvent(WeightTrackerEvent.ADD) ||
+            !this.preference.getWeight('WEIGHT_DUPLICATED') ||
             !this.timeService.isSameDay(lastWeight.date, prev.date) ||
             lastWeight.id === prev.id
         ) {
             this.history.push(lastWeight);
             return false;
         }
+
+        this.preference.setWeight('WEIGHT_DUPLICATED', false);
 
         this.alert(
             this.translateService.instant('ALERTS.WEIGHT_REGISTERED.TITLE'),
@@ -193,9 +200,12 @@ export class EventAdviceService {
     private checkGoalReached(lastWeight: Weight | undefined, goal: Goal | undefined): boolean {
         if (
             (!lastWeight || !goal || !goal.weight) ||
+            !this.preference.getGoal('GOAL_REACHED') ||
             !this.weightTracker.isLastEvent(WeightTrackerEvent.ADD) ||
             lastWeight.weight > goal.weight
         ) return false;
+
+        this.preference.setGoal('GOAL_REACHED', false);
 
         this.alert(
             this.translateService.instant('ALERTS.GOAL_REACHED.TITLE'),
@@ -208,9 +218,12 @@ export class EventAdviceService {
     private checkGoalNotReached(lastWeight: Weight | undefined, goal: Goal | undefined): boolean {
         if (
             (!lastWeight || !goal || !goal.date) ||
+            !this.preference.getGoal('GOAL_NOT_REACHED') ||
             !this.weightTracker.isLastEvent(WeightTrackerEvent.ADD) ||
             goal.date.getTime() >= lastWeight.date.getTime()
         ) return false;
+
+        this.preference.setGoal('GOAL_NOT_REACHED', false);
 
         this.alert(
             this.translateService.instant('ALERTS.GOAL_NOT_REACHED.TITLE'),
@@ -222,9 +235,9 @@ export class EventAdviceService {
 
 
     //ALERTS
-    private async showBMIAlert(header: string, message: string, mode: AlertMode, keysToDisable: (keyof Preference)[]) {
+    private async showBMIAlert(header: string, message: string, mode: AlertMode, keysToDisable: BMIPreferenceKey[]) {
         await this.alert(header, message, mode);
-        keysToDisable.forEach((key) => this.preference.set(key, false));
+        keysToDisable.forEach((key) => this.preference.setBMI(key, false));
     }
 
     private async alert(header: string, message: string, alertMode: AlertMode = AlertMode.INFO): Promise<void> {
@@ -232,7 +245,7 @@ export class EventAdviceService {
             header,
             message,
             cssClass: `small-alert alert-${alertMode}`,
-            buttons: [{ text: this.translateService.instant('KEY_WORDS.OK'), role: 'cancel' }],
+            buttons: [{ text: this.translateService.instant('KEY_WORDS.OK'), role: 'cancel', handler: () => setTimeout(() => this.alerted.set(false), 2000) }],
         });
         await alertModal.present();
     }

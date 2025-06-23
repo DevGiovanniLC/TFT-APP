@@ -102,6 +102,10 @@ export default class LocalStorageProvider implements DataProvider {
         URL.revokeObjectURL(url);
     }
 
+    async shareImage(image: Blob, title?: string, text?: string): Promise<void> {
+        throw new Error('Method not implemented.');
+    }
+
     async initializeConnection(): Promise<boolean> {
         try {
             localStorage.setItem('test', 'test');

@@ -37,7 +37,7 @@ export class WeightTrackerService {
     /** Observable que emite el registro más reciente (al inicio del array) */
     readonly lastWeight$: Observable<Weight | undefined> = this.weights$.pipe(map((weights) => weights[0]));
 
-    constructor(private readonly dataProvider: DataProviderService) {}
+    constructor(private readonly dataProvider: DataProviderService) { }
 
     private refreshWeights(): void {
         this.dataProvider.getWeights().then((weights) => {
@@ -66,6 +66,23 @@ export class WeightTrackerService {
         this.eventTriggered = WeightTrackerEvent.UPDATE;
         this.dataProvider.updateWeight(weight);
         this.refreshWeights();
+    }
+
+    getLostWeight(): number {
+        const weights = this.weightsSubject.getValue();
+        const initialWeight = weights[weights.length - 1]?.weight ?? 0;
+        const currentWeight = weights[0]?.weight ?? 0;
+        return initialWeight - currentWeight;
+    }
+
+    getInitialWeight(): number {
+        const weights = this.weightsSubject.getValue();
+        return weights[weights.length - 1]?.weight ?? 0;
+    }
+
+    getCurrentWeight(): number {
+        const weights = this.weightsSubject.getValue();
+        return weights[0]?.weight ?? 0;
     }
 
     isLastEvent(event: WeightTrackerEvent): boolean {

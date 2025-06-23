@@ -22,7 +22,8 @@
         "OPTIONAL": "Optional",
         "FEMALE": "Female",
         "MALE": "Male",
-        "OTHER": "Other"
+        "OTHER": "Other",
+        "SHARE": "Share"
     },
     "INITIAL_MODAL": {
         "PAGE1": {
@@ -67,6 +68,7 @@
     "TAB1": {
         "PROGRESSION": "Progression",
         "STARTING_WEIGHT": "Starting Weight",
+        "CURRENT_WEIGHT": "Current Weight",
         "GOAL_WIEGHT": "Goal Weight",
         "NO_GOAL_SELECTED": "No goal selected",
         "NO_DEADLINE": "No deadline",
@@ -196,7 +198,12 @@
         },
         "GOAL_REACHED": {
             "TITLE": "Congratulations! 🎉",
-            "MESSAGE": "You have reached your weight goal! Keep up the great work and continue maintaining your healthy lifestyle."
+            "MESSAGE": "You have reached your weight goal! Keep up the great work and continue maintaining your healthy lifestyle.",
+            "SHARED_MESSAGE": "I have reached my weight goal and I am very happy. Follow my example and reach your own with the Vita Weight app!",
+            "SHARED_IMAGE": {
+                "TITLE": "Goal Reached! 🎉",
+                "MESSAGE": "I have lost"
+            }
         },
         "GOAL_NOT_REACHED": {
             "TITLE": "Goal Not Reached Yet! 🚫",

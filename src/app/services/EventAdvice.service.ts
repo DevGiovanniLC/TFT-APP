@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UserConfigEvent, WeightTrackerEvent } from '@models/enums/Events';
 import { AlertMode } from '@models/enums/AlertOverlay';
 import { Goal } from '@models/types/Goal.type';
+import { DocumentsService } from './Documents.service';
 
 
 
@@ -48,7 +49,8 @@ export class EventAdviceService {
         private readonly weightAnalysis: WeightAnalysisService,
         private readonly alertCtrl: AlertController,
         private readonly timeService: TimeService,
-        private readonly preference: PreferenceService
+        private readonly preference: PreferenceService,
+        private readonly documentsService: DocumentsService
     ) {
 
         effect(() => {
@@ -207,7 +209,7 @@ export class EventAdviceService {
 
         this.preference.setGoal('GOAL_REACHED', false);
 
-        this.alert(
+        this.sharedAlert(
             this.translateService.instant('ALERTS.GOAL_REACHED.TITLE'),
             this.translateService.instant('ALERTS.GOAL_REACHED.MESSAGE')
         );
@@ -246,6 +248,19 @@ export class EventAdviceService {
             message,
             cssClass: `small-alert alert-${alertMode}`,
             buttons: [{ text: this.translateService.instant('KEY_WORDS.OK'), role: 'cancel', handler: () => setTimeout(() => this.alerted.set(false), 2000) }],
+        });
+        await alertModal.present();
+    }
+
+    private async sharedAlert(header: string, message: string): Promise<void> {
+        const alertModal = await this.alertCtrl.create({
+            header,
+            message,
+            cssClass: `small-alert`,
+            buttons: [
+                { text: this.translateService.instant('KEY_WORDS.OK'), role: 'cancel' },
+                { text: this.translateService.instant('KEY_WORDS.SHARE'), role: 'destructive', handler: () => this.documentsService.shareImage('Alerta', this.translateService.instant('ALERTS.GOAL_REACHED.SHARED_MESSAGE')) }
+            ],
         });
         await alertModal.present();
     }

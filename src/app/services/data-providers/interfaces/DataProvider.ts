@@ -15,5 +15,6 @@ export interface DataProvider {
     getUser(): Promise<User | undefined>;
 
     exportDataCSV(csv: string): Promise<void>;
+    shareImage(image: Blob, title?: string, text?: string): Promise<void>;
 }
 

@@ -22,7 +22,8 @@
         "OPTIONAL": "Opcional",
         "FEMALE": "Femenino",
         "MALE": "Masculino",
-        "OTHER": "Otro"
+        "OTHER": "Otro",
+        "SHARE": "Compartir"
     },
     "INITIAL_MODAL": {
         "PAGE1": {
@@ -72,6 +73,7 @@
     "TAB1": {
         "PROGRESSION": "Progresión",
         "STARTING_WEIGHT": "Peso inicial",
+        "CURRENT_WEIGHT": "Peso actual",
         "GOAL_WIEGHT": "Peso objetivo",
         "NO_GOAL_SELECTED": "No hay meta",
         "NO_DEADLINE": "Sin fecha límite",
@@ -201,7 +203,12 @@
         },
         "GOAL_REACHED": {
             "TITLE": "¡Enhorabuena! 🎉",
-            "MESSAGE": "Has alcanzado tu objetivo de peso. ¡Sigue así!"
+            "MESSAGE": "Has alcanzado tu objetivo de peso. ¡Sigue así!",
+            "SHARED_MESSAGE": "He alcanzado mi objetivo de peso y estoy muy contento. ¡Sigue mi ejemplo y alcanza el tuyo también con la app Vita Weight!",
+            "SHARED_IMAGE":{
+                "TITLE": "¡Objetivo alcanzado!",
+                "MESSAGE": "He perdido"
+            }
         },
         "GOAL_NOT_REACHED": {
             "TITLE": "¡Objetivo no alcanzado aún! 🚫",

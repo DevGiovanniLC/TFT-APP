@@ -64,4 +64,8 @@ export class DataProviderService {
     exportDataCSV(csv: string): Promise<void> {
         return this.dataProvider.exportDataCSV(csv);
     }
+
+    shareImage(image: Blob, title?: string, text?: string): Promise<void> {
+        return this.dataProvider.shareImage(image, title, text);
+    }
 }

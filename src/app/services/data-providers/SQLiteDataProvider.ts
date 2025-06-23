@@ -193,4 +193,38 @@ export default class SQLiteDataProvider implements DataProvider {
         });
         await Share.share({ url: uri });
     }
+
+    async shareImage(image: Blob, title?: string, text?: string): Promise<void> {
+        const fileName = `dibujo-${Date.now()}.png`;
+        const base64 = await blobToBase64(image as Blob);
+
+        await Filesystem.writeFile({
+            path: fileName,
+            data: base64,
+                directory: Directory.Cache,
+        });
+
+        const { uri: fileUri } = await Filesystem.getUri({
+            path: fileName,
+            directory: Directory.Cache,
+        });
+
+        /* 5. Compartir 📨 */
+        await Share.share({
+            title: title ?? ' ',
+            text: text ?? ' ',
+            url: fileUri,
+            dialogTitle: 'Compartir con…',
+        });
+    }
+}
+
+
+function blobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject('Error leyendo blob');
+        reader.onload = () => resolve(reader.result as string);
+        reader.readAsDataURL(blob); // <-- ¡necesario para base64!
+    });
 }

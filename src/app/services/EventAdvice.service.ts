@@ -189,6 +189,7 @@ export class EventAdviceService {
     private checkGoalRecheable(monthsPaceLoss: number, weeksPaceLoss: number): boolean {
         if (
             (monthsPaceLoss < 4 && weeksPaceLoss < 1) ||
+            (Number.isNaN(monthsPaceLoss) || Number.isNaN(weeksPaceLoss)) ||
             !(this.userConfig.eventTriggered === UserConfigEvent.CHANGED)
         ) return false;
 

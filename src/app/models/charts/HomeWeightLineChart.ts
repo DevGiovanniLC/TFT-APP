@@ -18,7 +18,10 @@ export default class HomeWeightLineChart {
     private readonly goal?: Goal;
 
     private readonly viewTrend: boolean;
+    private readonly viewSmoothedData: boolean;
+
     private readonly trendData: point[];
+    private readonly smoothedData: Weight[];
 
     private readonly translateService: TranslateService;
 
@@ -30,25 +33,26 @@ export default class HomeWeightLineChart {
         goal: Signal<Goal | undefined>
     ) {
         this.translateService = translateService;
-
-        this.chartMode = chartMode();
         this.weights = weights();
+        this.chartMode = chartMode();
         this.goal = goal();
 
         this.viewTrend = this.chartMode === 'viewGoal' && this.weights.length > 1;
+        this.viewSmoothedData = this.chartMode === 'viewGoal' || this.chartMode === 'total';
 
+        this.smoothedData = this.viewSmoothedData ? analysisService.loess(this.weights) : this.weights;
         this.trendData = this.viewTrend ? analysisService.getTrendData(this.weights) : [];
     }
 
     getData(): ChartData<'line'> {
-        const { weights, chartMode, viewTrend, trendData } = this;
-        const isCompact = (chartMode === 'viewGoal' || chartMode === 'total') && weights.length > 1;
+        const { smoothedData, chartMode, viewTrend, trendData } = this;
+        const isCompact = (chartMode === 'viewGoal' || chartMode === 'total') && smoothedData.length > 1;
         return {
-            labels: weights.map((w) => new Date(w.date).getTime()),
+            labels: smoothedData.map((w) => new Date(w.date).getTime()),
             datasets: [
                 {
                     label: `${this.translateService.instant('KEY_WORDS.WEIGHT')} (kg)`,
-                    data: weights.map((w) => w.weight),
+                    data: smoothedData.map((w) => w.weight),
                     fill: false,
                     borderColor: '#00BD7E',
                     tension: 0.1,
@@ -115,7 +119,7 @@ export default class HomeWeightLineChart {
         const maxWeight = Math.max(...weights.map((w) => w.weight));
         const marginY =
             (goalWeight ? Math.max(maxWeight, goalWeight) - Math.min(minWeight, goalWeight) : maxWeight - minWeight) *
-                0.2 || 1;
+            0.2 || 1;
 
         const dates = weights.map((w) => new Date(w.date).getTime());
         const minDate = Math.min(...dates) - TimeService.MS_PER_DAY;
@@ -143,9 +147,9 @@ export default class HomeWeightLineChart {
                 },
                 legend: {
                     display: viewTrend && trendData.length > 1,
-                    onClick: () => {},
+                    onClick: () => { },
                     position: 'top',
-                        labels: {
+                    labels: {
                         font: { size: 14 },
                         padding: 10,
                         boxWidth: 32.5,

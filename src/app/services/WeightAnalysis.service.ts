@@ -67,7 +67,7 @@ export class WeightAnalysisService {
 
 
     // Suaviza la serie de pesos usando LOESS (regresión local).
-    loess(data: Weight[], bandwidthRatio: number = 0.4): Weight[] {
+    loess(data: Weight[], bandwidthRatio: number = 0.2): Weight[] {
         const n = data.length;
         if (n < 3) return data;
 
@@ -123,9 +123,6 @@ export class WeightAnalysisService {
 
     // Calcula el gradiente de la tendencia ponderada exponencialmente.
     private calculateWeightedTrend(weights: Weight[], refDate: number, alpha: number = 1): { slope: number; intercept: number } {
-        const MS_PER_MONTH = TimeService.MS_PER_MONTH;
-        const now = refDate;
-
         if (weights.length < 2) return { slope: NaN, intercept: NaN };
 
         let sumW = 0, sumWX = 0, sumWY = 0;
@@ -135,8 +132,8 @@ export class WeightAnalysisService {
         const timeWeights = weights.map(w => {
             const xi = TimeService.getTime(w.date);
             const yi = w.weight;
-            const daysAgo = (now - xi) / MS_PER_MONTH;
-            const wi = Math.exp(alpha * -daysAgo);  // Más peso a los más recientes
+            const monthsAgo = (refDate - xi) / TimeService.MS_PER_MONTH;
+            const wi = Math.exp(alpha * -monthsAgo);  // Más peso a los más recientes
             return { xi, yi, wi };
         });
 

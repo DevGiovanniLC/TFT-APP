@@ -1,4 +1,4 @@
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, effect, Injectable } from '@angular/core';
 import { UserConfigService } from './UserConfig.service';
 import { WeightTrackerService } from './WeightTracker.service';
 import { WeightAnalysisService } from './WeightAnalysis.service';
@@ -39,7 +39,14 @@ export class EventAdviceService {
     /** Histórico de registros de peso para comparaciones */
     private readonly history: Weight[] = [];
 
-    private readonly alerted = signal(false);
+    launchedAlerts = {
+        BMI: false,
+        GOAL: false,
+        WEIGHT: {
+            NOT_REGISTERED: false,
+            DUPLICATED: false,
+        }
+    }
 
     constructor(
         private readonly translateService: TranslateService,
@@ -52,16 +59,21 @@ export class EventAdviceService {
         private readonly preference: PreferenceService,
         private readonly documentsService: DocumentsService
     ) {
-
+        preference.initialize();
         effect(() => {
-            if (
-                this.checkBMI(this.bmi()) ||
-                this.checkGoal(this.lastWeight(), this.goal()) ||
-                this.checkLastWeight(this.lastWeight()) ||
-                true
-            ) return this.resetEvents();
+            this.checking();
         })
     }
+
+    private checking() {
+        if (
+            this.checkBMI(this.bmi()) ||
+            this.checkGoal(this.lastWeight(), this.goal()) ||
+            this.checkLastWeight(this.lastWeight()) ||
+            true
+        ) return this.resetEvents();
+    }
+
 
     private resetEvents(): void {
 
@@ -73,7 +85,6 @@ export class EventAdviceService {
         this.userConfig.eventTriggered = UserConfigEvent.NONE;
         this.weightTracker.eventTriggered = WeightTrackerEvent.NONE;
     }
-
 
 
     private checkBMI(bmi?: number | null): boolean {
@@ -142,14 +153,12 @@ export class EventAdviceService {
     // LAST WEIGHT CHECKS
     private checkLastWeightNotRegistered(lastWeight: Weight): boolean {
         if (
-            this.alerted() ||
+            this.launchedAlerts.WEIGHT.NOT_REGISTERED ||
             !this.weightTracker.isLastEvent(WeightTrackerEvent.NONE) ||
-            !this.preference.getWeight('WEIGHT_NOT_REGISTERED') ||
             this.timeService.weekDifference(lastWeight.date, this.timeService.now()) < 1
         ) return false;
 
-        this.preference.setWeight('WEIGHT_NOT_REGISTERED', false);
-        this.alerted.set(true);
+        this.launchedAlerts.WEIGHT.NOT_REGISTERED = true;
 
         setTimeout(
             () =>
@@ -165,8 +174,8 @@ export class EventAdviceService {
 
     private checkLastWeightDuplicated(lastWeight: Weight, prev: Weight): boolean {
         if (
+            this.launchedAlerts.WEIGHT.DUPLICATED ||
             !this.weightTracker.isLastEvent(WeightTrackerEvent.ADD) ||
-            !this.preference.getWeight('WEIGHT_DUPLICATED') ||
             !this.timeService.isSameDay(lastWeight.date, prev.date) ||
             lastWeight.id === prev.id
         ) {
@@ -174,7 +183,7 @@ export class EventAdviceService {
             return false;
         }
 
-        this.preference.setWeight('WEIGHT_DUPLICATED', false);
+        this.launchedAlerts.WEIGHT.DUPLICATED = true;
 
         this.alert(
             this.translateService.instant('ALERTS.WEIGHT_REGISTERED.TITLE'),
@@ -248,7 +257,7 @@ export class EventAdviceService {
             header,
             message,
             cssClass: `small-alert alert-${alertMode}`,
-            buttons: [{ text: this.translateService.instant('KEY_WORDS.OK'), role: 'cancel', handler: () => setTimeout(() => this.alerted.set(false), 2000) }],
+            buttons: [{ text: this.translateService.instant('KEY_WORDS.OK'), role: 'cancel' }],
         });
         await alertModal.present();
     }

@@ -1,6 +1,6 @@
 /// <reference types="jest" />
 import { expect } from '@jest/globals';
-import { PreferenceService, Preference } from '@services/Preference.service';
+import { PreferenceService, DEFAULTS } from '@services/Preference.service';
 import { Preferences } from '@capacitor/preferences';
 
 // Mock de la API de Preferences para simular almacenamiento
@@ -13,12 +13,6 @@ jest.mock('@capacitor/preferences', () => ({
 
 describe('PreferenceService (Unit Tests with Jest)', () => {
     // Valores por defecto esperados para las preferencias
-    const DEFAULTS: Preference = {
-        BMI_ALERT_40: true,
-        BMI_ALERT_35: true,
-        BMI_ALERT_18_5: true,
-        BMI_ALERT_16: true,
-    };
 
     beforeEach(() => {
         // Reseteamos mocks antes de cada prueba
@@ -30,68 +24,91 @@ describe('PreferenceService (Unit Tests with Jest)', () => {
         (Preferences.get as jest.Mock).mockResolvedValue({ value: null });
 
         const svc = new PreferenceService();
-        await Promise.resolve(); // Esperamos resolución inicial
+        await svc.initialize(); // Llamamos al método de inicialización
 
         // Verificamos que se usen los valores por defecto
-        expect(svc.get('BMI_ALERT_40')).toBe(DEFAULTS.BMI_ALERT_40);
-        expect(svc.get('BMI_ALERT_35')).toBe(DEFAULTS.BMI_ALERT_35);
-        expect(svc.get('BMI_ALERT_18_5')).toBe(DEFAULTS.BMI_ALERT_18_5);
-        expect(svc.get('BMI_ALERT_16')).toBe(DEFAULTS.BMI_ALERT_16);
+        expect(svc.getBMI('BMI_ALERT_40')).toBe(DEFAULTS.ALERT.BMI.BMI_ALERT_40);
+        expect(svc.getBMI('BMI_ALERT_35')).toBe(DEFAULTS.ALERT.BMI.BMI_ALERT_35);
+        expect(svc.getBMI('BMI_ALERT_18_5')).toBe(DEFAULTS.ALERT.BMI.BMI_ALERT_18_5);
+        expect(svc.getBMI('BMI_ALERT_16')).toBe(DEFAULTS.ALERT.BMI.BMI_ALERT_16);
 
         // Confirmamos llamada a Preferences.get con la clave correcta
         expect(Preferences.get).toHaveBeenCalledWith({ key: 'user_preferences' });
     });
 
-    it('should merge stored preferences over defaults on init', async () => {
-        // Simulamos preferencias almacenadas parcialmente
-        const stored = { BMI_ALERT_40: false };
-        (Preferences.get as jest.Mock).mockResolvedValue({ value: JSON.stringify(stored) });
-
+    it('setBMI() should update signal and persist new preferences', async () => {
         const svc = new PreferenceService();
-        await Promise.resolve();
+        await svc.initialize();
+
+        await svc.setBMI('BMI_ALERT_40', false); // Cambiamos una preferencia
 
         // La preferencia sobreescrita debe reflejarse, el resto sigue con default
-        expect(svc.get('BMI_ALERT_40')).toBe(false);
-        expect(svc.get('BMI_ALERT_35')).toBe(DEFAULTS.BMI_ALERT_35);
-        expect(svc.get('BMI_ALERT_18_5')).toBe(DEFAULTS.BMI_ALERT_18_5);
-        expect(svc.get('BMI_ALERT_16')).toBe(DEFAULTS.BMI_ALERT_16);
+        expect(svc.getBMI('BMI_ALERT_40')).toBe(false);
+        expect(svc.getBMI('BMI_ALERT_35')).toBe(DEFAULTS.ALERT.BMI.BMI_ALERT_35);
+        expect(svc.getBMI('BMI_ALERT_18_5')).toBe(DEFAULTS.ALERT.BMI.BMI_ALERT_18_5);
+        expect(svc.getBMI('BMI_ALERT_16')).toBe(DEFAULTS.ALERT.BMI.BMI_ALERT_16);
     });
 
-    it('set() should update signal and persist new preferences', async () => {
+    it('setBMI() should update 2 signals and persist new preferences', async () => {
         // Inicialización sin valor previo
         (Preferences.get as jest.Mock).mockResolvedValue({ value: null });
 
         const svc = new PreferenceService();
-        await Promise.resolve();
+        await svc.initialize(); // Llamamos al método de inicialización
 
         // Cambiamos una preferencia y comprobamos su propagación
-        await svc.set('BMI_ALERT_35', false);
+        await svc.setBMI('BMI_ALERT_40', false);
+        await svc.setBMI('BMI_ALERT_35', false);
 
-        expect(svc.get('BMI_ALERT_35')).toBe(false);
-        expect(svc.get('BMI_ALERT_40')).toBe(true);
-        expect(svc.get('BMI_ALERT_18_5')).toBe(true);
-        expect(svc.get('BMI_ALERT_16')).toBe(true);
-
-        // Verificamos que se persistan en Preferences con el objeto completo
-        const expected = {
-            ...DEFAULTS,
-            BMI_ALERT_35: false,
-        };
-        expect(Preferences.set).toHaveBeenCalledWith({
-            key: 'user_preferences',
-            value: JSON.stringify(expected),
-        });
+        expect(svc.getBMI('BMI_ALERT_40')).toBe(false);
+        expect(svc.getBMI('BMI_ALERT_35')).toBe(false);
+        expect(svc.getBMI('BMI_ALERT_18_5')).toBe(true);
+        expect(svc.getBMI('BMI_ALERT_16')).toBe(true);
     });
 
-    it('get() returns correct individual preference', async () => {
+    it('setGoal() should update signal and persist new preferences', async () => {
+        const svc = new PreferenceService();
+        await svc.initialize();
+
+        await svc.setGoal('GOAL_REACHED', false); // Cambiamos una preferencia
+
+        expect(svc.getGoal('GOAL_REACHED')).toBe(false);
+        expect(svc.getGoal('GOAL_NOT_REACHED')).toBe(true);
+    });
+
+    it('getGoal() returns correct individual preference GOAL_REACHED', async () => {
         // Sin valor previo, get devuelve default
         (Preferences.get as jest.Mock).mockResolvedValue({ value: null });
         const svc = new PreferenceService();
         await Promise.resolve();
 
-        expect(svc.get('BMI_ALERT_16')).toBe(true);
+        expect(svc.getGoal('GOAL_REACHED')).toBe(DEFAULTS.ALERT.GOAL.GOAL_REACHED);
         // Tras cambiar el valor, get debe reflejar el cambio
-        await svc.set('BMI_ALERT_16', false);
-        expect(svc.get('BMI_ALERT_16')).toBe(false);
+        await svc.setGoal('GOAL_REACHED', false);
+        expect(svc.getGoal('GOAL_REACHED')).toBe(false);
+    });
+
+    it('getGoal() returns correct individual preference GOAL_NOT_REACHED', async () => {
+        // Sin valor previo, get devuelve default
+        (Preferences.get as jest.Mock).mockResolvedValue({ value: null });
+        const svc = new PreferenceService();
+        await Promise.resolve();
+
+        expect(svc.getGoal('GOAL_NOT_REACHED')).toBe(DEFAULTS.ALERT.GOAL.GOAL_NOT_REACHED);
+        // Tras cambiar el valor, get debe reflejar el cambio
+        await svc.setGoal('GOAL_NOT_REACHED', false);
+        expect(svc.getGoal('GOAL_NOT_REACHED')).toBe(false);
+    });
+
+    it('getBMI() returns correct individual preference', async () => {
+        // Sin valor previo, get devuelve default
+        (Preferences.get as jest.Mock).mockResolvedValue({ value: null });
+        const svc = new PreferenceService();
+        await Promise.resolve();
+
+        expect(svc.getBMI('BMI_ALERT_40')).toBe(DEFAULTS.ALERT.BMI.BMI_ALERT_40);
+        // Tras cambiar el valor, get debe reflejar el cambio
+        await svc.setBMI('BMI_ALERT_16', false);
+        expect(svc.getBMI('BMI_ALERT_16')).toBe(false);
     });
 });

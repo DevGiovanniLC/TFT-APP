@@ -9,11 +9,10 @@ export type Preference = {
     ALERT: {
         BMI: Record<BMIPreferenceKey, boolean>;
         GOAL: Record<GoalPreferenceKey, any>;
-        WEIGHT: Record<WeightPreferenceKey, boolean>;
     }
 };
 
-const DEFAULTS: Preference = {
+export const DEFAULTS: Preference = {
     ALERT: {
         BMI: {
             BMI_ALERT_40: true,
@@ -24,10 +23,6 @@ const DEFAULTS: Preference = {
         GOAL: {
             GOAL_REACHED: true,
             GOAL_NOT_REACHED: true,
-        },
-        WEIGHT: {
-            WEIGHT_NOT_REGISTERED: true,
-            WEIGHT_DUPLICATED: true,
         },
     },
 };
@@ -47,23 +42,17 @@ export class PreferenceService {
     readonly preferences = this._preferences.asReadonly();
     readonly inited = signal(false);
 
-    constructor() {
-        this.init();
-    }
+    constructor() { }
 
-    private init(): void {
-        Preferences.get({ key: this.STORAGE_KEY }).then(({ value }) => {
-            if (!value) return;
+    async initialize(): Promise<void> {
+        const value = (await Preferences.get({ key: this.STORAGE_KEY })).value
 
-            const storedPreferences = JSON.parse(value) as Preference;
+        if (!value) return;
+        const storedPreferences: Preference = JSON.parse(value);
+        this._preferences.set({ ...DEFAULTS, ...storedPreferences });
+        this.inited.set(true);
+    };
 
-            storedPreferences.ALERT.WEIGHT.WEIGHT_DUPLICATED = true;
-            storedPreferences.ALERT.WEIGHT.WEIGHT_NOT_REGISTERED = true;
-
-            this._preferences.set({ ...DEFAULTS, ...storedPreferences });
-            this.inited.set(true);
-        });
-    }
 
     async setBMI<K extends BMIPreferenceKey>(key: K, value: boolean, interval = 200): Promise<void> {
         const updated: Preference = {
@@ -74,20 +63,10 @@ export class PreferenceService {
             },
         };
 
-        return new Promise((resolve) => {
-            const check = async () => {
-                if (this.inited()) {
-                    this._preferences.set(updated);
-                    await Preferences.set({
-                        key: this.STORAGE_KEY,
-                        value: JSON.stringify(updated),
-                    });
-                    resolve();
-                } else {
-                    setTimeout(check, interval);
-                }
-            };
-            check();
+        this._preferences.set(updated);
+        await Preferences.set({
+            key: this.STORAGE_KEY,
+            value: JSON.stringify(updated),
         });
     }
 
@@ -100,50 +79,13 @@ export class PreferenceService {
             },
         };
 
-        return new Promise((resolve) => {
-            const check = async () => {
-                if (this.inited()) {
-                    this._preferences.set(updated);
-                    await Preferences.set({
-                        key: this.STORAGE_KEY,
-                        value: JSON.stringify(updated),
-                    });
-                    resolve();
-                } else {
-                    setTimeout(check, interval);
-                }
-            };
-            check();
+        this._preferences.set(updated);
+        await Preferences.set({
+            key: this.STORAGE_KEY,
+            value: JSON.stringify(updated),
         });
     }
 
-    async setWeight<K extends WeightPreferenceKey>(key: K, value: boolean, interval = 200): Promise<void> {
-
-        const updated: Preference = {
-            ...this._preferences(),
-            ALERT: {
-                ...this._preferences().ALERT,
-                WEIGHT: { ...this._preferences().ALERT.WEIGHT, [key]: value },
-            },
-        };
-
-        return new Promise((resolve) => {
-            const check = async () => {
-                if (this.inited()) {
-                    this._preferences.set(updated);
-                    await Preferences.set({
-                        key: this.STORAGE_KEY,
-                        value: JSON.stringify(updated),
-                    });
-                    resolve();
-                } else {
-                    setTimeout(check, interval);
-                }
-            };
-            check();
-        });
-
-    }
 
     getBMI<K extends BMIPreferenceKey>(key: K): boolean {
         return this._preferences().ALERT.BMI[key];
@@ -153,7 +95,4 @@ export class PreferenceService {
         return this._preferences().ALERT.GOAL[key];
     }
 
-    getWeight<K extends WeightPreferenceKey>(key: K): boolean {
-        return this._preferences().ALERT.WEIGHT[key];
-    }
 }

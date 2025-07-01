@@ -80,7 +80,7 @@ describe('PreferenceService (Unit Tests with Jest)', () => {
         // Sin valor previo, get devuelve default
         (Preferences.get as jest.Mock).mockResolvedValue({ value: null });
         const svc = new PreferenceService();
-        await Promise.resolve();
+        await svc.initialize(); // Llamamos al método de inicialización
 
         expect(svc.getGoal('GOAL_REACHED')).toBe(DEFAULTS.ALERT.GOAL.GOAL_REACHED);
         // Tras cambiar el valor, get debe reflejar el cambio
@@ -92,7 +92,7 @@ describe('PreferenceService (Unit Tests with Jest)', () => {
         // Sin valor previo, get devuelve default
         (Preferences.get as jest.Mock).mockResolvedValue({ value: null });
         const svc = new PreferenceService();
-        await Promise.resolve();
+        await svc.initialize(); // Llamamos al método de inicialización
 
         expect(svc.getGoal('GOAL_NOT_REACHED')).toBe(DEFAULTS.ALERT.GOAL.GOAL_NOT_REACHED);
         // Tras cambiar el valor, get debe reflejar el cambio
@@ -104,7 +104,7 @@ describe('PreferenceService (Unit Tests with Jest)', () => {
         // Sin valor previo, get devuelve default
         (Preferences.get as jest.Mock).mockResolvedValue({ value: null });
         const svc = new PreferenceService();
-        await Promise.resolve();
+        await svc.initialize(); // Llamamos al método de inicialización
 
         expect(svc.getBMI('BMI_ALERT_40')).toBe(DEFAULTS.ALERT.BMI.BMI_ALERT_40);
         // Tras cambiar el valor, get debe reflejar el cambio

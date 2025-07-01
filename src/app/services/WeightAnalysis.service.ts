@@ -6,6 +6,11 @@ import { TimeService } from './Time.service';
     providedIn: 'root',
 })
 
+/**
+ * Servicio que realiza análisis de datos de peso.
+ * @export
+ * @class WeightAnalysisService
+ */
 export class WeightAnalysisService {
     constructor(private readonly timeService: TimeService) { }
 

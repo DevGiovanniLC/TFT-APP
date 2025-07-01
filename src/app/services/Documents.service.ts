@@ -7,6 +7,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { WeightTrackerService } from './WeightTracker.service';
 
 @Injectable({ providedIn: 'root' })
+/**
+ * Servicio que maneja la exportación de datos del usuario y pesos a CSV,
+ * así como la creación y compartición de imágenes de logros.
+ * @export
+ * @class DocumentsService
+ */
 export class DocumentsService {
 
     constructor(

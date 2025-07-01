@@ -18,7 +18,7 @@ import { DocumentsService } from './Documents.service';
 
 @Injectable({ providedIn: 'root' })
 /**
- * Servicio que supervisa eventos de salud (peso, BMI y objetivos)
+ * Servicio que supervisa eventos (peso, BMI y objetivos)
  * y muestra consejos/alertas al usuario mediante modales.
  * @export
  * @class EventAdviceService

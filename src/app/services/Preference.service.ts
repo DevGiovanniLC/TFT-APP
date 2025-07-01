@@ -29,7 +29,7 @@ export const DEFAULTS: Preference = {
 
 @Injectable({ providedIn: 'root' })
 /**
- * Servicio para gestionar las preferencias de alertas de BMI.
+ * Servicio para gestionar las preferencias.
  * - Carga valores por defecto o almacenados en Capacitor Preferences.
  * - Permite obtener y actualizar preferencias individuales.
  *
@@ -41,8 +41,6 @@ export class PreferenceService {
     private readonly _preferences = signal<Preference>(DEFAULTS);
     readonly preferences = this._preferences.asReadonly();
     readonly inited = signal(false);
-
-    constructor() { }
 
     async initialize(): Promise<void> {
         const value = (await Preferences.get({ key: this.STORAGE_KEY })).value

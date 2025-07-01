@@ -8,6 +8,11 @@ import { User } from '@models/types/User.type';
 import BMICategory from '@models/types/BMICategory';
 
 @Injectable({ providedIn: 'root' })
+/**
+ * Servicio que calcula el Índice de Masa Corporal (IMC) y categoriza el estado de salud del usuario.
+ * @export
+ * @class BMIService
+ */
 export class BMIService {
 
     BMI_CATEGORIES: BMICategory[] = [

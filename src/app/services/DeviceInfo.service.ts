@@ -6,6 +6,12 @@ import conf from '../conf';
 @Injectable({
     providedIn: 'root',
 })
+/**
+ * Servicio que gestiona la información del dispositivo, como el idioma.
+ * Inicializa el idioma basado en la configuración del dispositivo y lo establece en el servicio de traducción.
+ * @export
+ * @class DeviceInfoService
+ */
 export class DeviceInfoService {
     private language: string;
 

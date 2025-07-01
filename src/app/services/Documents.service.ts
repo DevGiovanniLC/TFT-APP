@@ -25,11 +25,20 @@ export class DocumentsService {
         const [user, weights] = await Promise.all([this.dataProvider.getUser(), this.dataProvider.getWeights()]);
         if (!user || !weights?.length) return;
 
-        const csv = this.buildCSV(user, weights);
+        const csv = this.createCSV(user, weights);
         this.dataProvider.exportDataCSV(csv);
     }
 
-    private buildCSV(user: User, weights: Weight[]): string {
+
+    // Método para compartir la imagen de logro
+    async shareImage(title: string, text: string): Promise<void> {
+        const image = new Blob([await this.createGoalReachedImage()], { type: 'image/png' });
+        return this.dataProvider.shareImage(image, title, text);
+    }
+
+
+    // Método para crear el CSV de los datos
+    private createCSV(user: User, weights: Weight[]): string {
         // Sección de datos de usuario
         const userCSV = Papa.unparse([
             {
@@ -57,28 +66,28 @@ export class DocumentsService {
     }
 
 
-
+    // Método para crear la imagen de logro
     private async createGoalReachedImage(): Promise<Blob> {
 
         const lostWeight = this.weightTracker.getLostWeight();
 
         const initialWeight = this.weightTracker.getInitialWeight();
 
-        const currentWeight = this.weightTracker.getCurrentWeight();
+        const currentWeight = this.weightTracker.getLastWeight();
 
         const canvas = document.createElement('canvas');
         canvas.width = 800;
         canvas.height = 800;
         const ctx = canvas.getContext('2d')!;
 
-        // 🌱 Fondo degradado de verde oscuro a verde claro
+        // Fondo degradado de verde oscuro a verde claro
         const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
         gradient.addColorStop(0, '#35a667');
         gradient.addColorStop(1, '#b9ffb9');
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // 📸 Imagen personalizada sobre el trofeo
+        // Imagen personalizada sobre el trofeo
         const img = new Image();
         img.src = 'assets/icons/app/icon-app.png';
 
@@ -132,13 +141,5 @@ export class DocumentsService {
         return await new Promise<Blob>((resolve) =>
             canvas.toBlob(blob => resolve(blob!), 'image/png', 1),
         );
-    }
-
-
-
-
-    async shareImage(title: string, text: string): Promise<void> {
-        const image = new Blob([await this.createGoalReachedImage()], { type: 'image/png' });
-        return this.dataProvider.shareImage(image, title, text);
     }
 }

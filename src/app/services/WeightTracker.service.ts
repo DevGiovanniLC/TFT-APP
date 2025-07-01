@@ -80,7 +80,7 @@ export class WeightTrackerService {
         return weights[weights.length - 1]?.weight ?? 0;
     }
 
-    getCurrentWeight(): number {
+    getLastWeight(): number {
         const weights = this.weightsSubject.getValue();
         return weights[0]?.weight ?? 0;
     }

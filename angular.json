@@ -95,6 +95,10 @@
                             "extractLicenses": true,
                             "namedChunks": false,
                             "aot": true,
+                            "allowedCommonJsDependencies": [
+                                "papaparse",
+                                "hammerjs"
+                            ],
                             "fileReplacements": [
                                 {
                                     "replace": "src/environments/environment.ts",

@@ -17,7 +17,7 @@
         "DELETE": "Delete",
         "NAME": "Name",
         "AGE": "Age",
-        "GENDER": "Gender",
+        "GENDER": "Sex",
         "HEIGHT": "Height",
         "OPTIONAL": "Optional",
         "FEMALE": "Female",
@@ -163,7 +163,7 @@
                 "NAME": "Enter your name",
                 "AGE": "Enter your age",
                 "HEIGHT": "Enter your height (cm)",
-                "GENDER": "Select your gender"
+                "GENDER": "Select your sex"
             }
         }
     },

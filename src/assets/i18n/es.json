@@ -17,7 +17,7 @@
         "DELETE": "Eliminar",
         "NAME": "Nombre",
         "AGE": "Edad",
-        "GENDER": "Género",
+        "GENDER": "Sexo",
         "HEIGHT": "Altura",
         "OPTIONAL": "Opcional",
         "FEMALE": "Femenino",
@@ -168,7 +168,7 @@
                 "NAME": "Ingresa tu nombre",
                 "AGE": "Ingresa tu edad",
                 "HEIGHT": "Ingresa tu altura (cm)",
-                "GENDER": "Elige tu género"
+                "GENDER": "Elige tu sexo"
             }
         }
     },

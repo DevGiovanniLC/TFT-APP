@@ -1,16 +1,16 @@
-<ion-content class="opacity-0 animate-fade-in">
-    <section class="h-full w-full flex flex-col items-center space-y-4">
-        <div class="w-full max-w-2xl pt-14 pb-4 my-10 flex flex-col items-center space-y-4">
-            @for (weight of reversedRegisters(); track weight.id) {
-            <app-item-register
-                class="w-full px-2"
-                [id]="weight.id ?? 0"
-                [weight]="weight"
-                [progress]="weight.progress"
+<ion-content #contentRef class="opacity-0 animate-fade-in" (ionScroll)="handleScroll()" scrollEvents="true">
+    <section class="h-full w-full flex flex-col items-center">
+        <div class="w-full max-w-2xl mt-24 pb-8 flex flex-col items-center space-y-4">
+            @for (weight of registers(); track weight.id) {
+            <app-item-register class="w-full px-2" [id]="weight.id ?? 0" [weight]="weight" [progress]="weight.progress"
                 (deleteWeight)="confirmDelete($event.id, $event.deleteCallback, $event.cancelCallback)"
-                (entryClick)="openWeightModal($event)"
-            />
+                (entryClick)="openWeightModal($event)" />
             }
         </div>
+        @if (isRefreshing()){
+            <div  class="w-full flex justify-center items-center pb-8 pt-2">
+                <ion-spinner ></ion-spinner>
+            </div>
+        }
     </section>
 </ion-content>

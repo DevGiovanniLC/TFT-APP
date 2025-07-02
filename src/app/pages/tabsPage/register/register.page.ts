@@ -1,35 +1,71 @@
-import { Component, computed, signal } from '@angular/core';
-import { IonContent, ModalController, AlertController } from '@ionic/angular/standalone';
+import { Component, computed, signal, ViewChild } from '@angular/core';
+import { IonContent, ModalController, AlertController, IonSpinner } from '@ionic/angular/standalone';
 import { ItemRegisterComponent } from './components/ItemRegister/ItemRegister.component';
 import { WeightTrackerService } from '@services/WeightTracker.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { WeightRegisterComponent } from '../../../components/modals/WeightRegisterModal/WeightRegisterModal.component';
 import { Weight } from '@models/types/Weight.type';
 import { TranslateService } from '@ngx-translate/core';
+import { ScrollDetail } from '@ionic/angular';
+
 
 @Component({
     selector: 'app-tab2',
     templateUrl: 'register.page.html',
-    imports: [IonContent, ItemRegisterComponent],
+    imports: [IonSpinner, IonContent, ItemRegisterComponent],
 })
 export class RegisterPage {
-    readonly registers = toSignal(this.weightTracker.weights$, { initialValue: [] });
+    readonly weights = toSignal(this.weightTracker.weights$, { initialValue: [] });
     readonly isPressingButton = signal(false);
+    @ViewChild('contentRef', { static: false }) contentRef!: IonContent;
+    readonly isRefreshing = signal(false);
+    readonly limit = signal(10);
 
-    readonly reversedRegisters = computed(() => {
-        return this.registers()?.map((curr, i) => {
-            const prev = this.registers()?.[i + 1];
-            const progress = Number((prev ? curr?.weight - prev?.weight : 0).toFixed(2));
+
+    readonly registers = computed(() => {
+        const weights = this.weights();
+        const limit = this.limit();
+        if (!weights) return [];
+
+        // Corta los pesos al límite especificado
+        const paginated = weights.slice(0, limit);
+
+        // Calcula progreso entre cada peso y el anterior inmediato
+        return paginated.map((curr, i) => {
+            const prev = weights[i + 1]; // Usa el índice global, no de `paginated`
+            const progress = Number((prev ? curr.weight - prev.weight : 0).toFixed(2));
             return { ...curr, progress };
         });
     });
+
 
     constructor(
         private readonly translateService: TranslateService,
         private readonly weightTracker: WeightTrackerService,
         private readonly modalCtrl: ModalController,
         private readonly alertCtrl: AlertController
-    ) {}
+    ) { }
+
+    async handleScroll() {
+        const el = await this.contentRef.getScrollElement();
+        const scrollTop = el.scrollTop;
+        const scrollHeight = el.scrollHeight;
+        const clientHeight = el.clientHeight;
+
+        const isNearBottom = scrollTop + clientHeight >= scrollHeight - 50;
+
+        if (isNearBottom && !this.isRefreshing() && this.registers().length < this.weights().length) {
+            this.loadMoreItems();
+        }
+    }
+
+    loadMoreItems() {
+        this.isRefreshing.set(true);
+        setTimeout(() => {
+            this.limit.update((limit) => limit + 10);
+            this.isRefreshing.set(false);
+        },1000);
+    }
 
     async confirmDelete(id: number, deleteCallback: () => void, cancelCallback: () => void) {
         if (this.isPressingButton()) return;
@@ -37,7 +73,7 @@ export class RegisterPage {
 
         let alert;
 
-        if (this.reversedRegisters()?.length === 1) {
+        if (this.registers()?.length === 1) {
             alert = await this.alertCtrl.create({
                 header: this.translateService.instant('TAB4.ALERT_DELETE_NOT_ALLOWED.TITLE'),
                 message: this.translateService.instant('TAB4.ALERT_DELETE_NOT_ALLOWED.MESSAGE'),

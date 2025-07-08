@@ -8,7 +8,7 @@ export type WeightPreferenceKey = 'WEIGHT_NOT_REGISTERED' | 'WEIGHT_DUPLICATED';
 export type Preference = {
     ALERT: {
         BMI: Record<BMIPreferenceKey, boolean>;
-        GOAL: Record<GoalPreferenceKey, any>;
+        GOAL: Record<GoalPreferenceKey, boolean>;
     }
 };
 
@@ -52,7 +52,7 @@ export class PreferenceService {
     };
 
 
-    async setBMI<K extends BMIPreferenceKey>(key: K, value: boolean, interval = 200): Promise<void> {
+    async setBMI<K extends BMIPreferenceKey>(key: K, value: boolean): Promise<void> {
         const updated: Preference = {
             ...this._preferences(),
             ALERT: {
@@ -68,7 +68,7 @@ export class PreferenceService {
         });
     }
 
-    async setGoal<K extends GoalPreferenceKey>(key: K, value: boolean, interval = 200): Promise<void> {
+    async setGoal<K extends GoalPreferenceKey>(key: K, value: boolean): Promise<void> {
         const updated: Preference = {
             ...this._preferences(),
             ALERT: {

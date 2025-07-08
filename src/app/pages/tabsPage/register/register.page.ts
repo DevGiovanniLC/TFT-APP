@@ -6,7 +6,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { WeightRegisterComponent } from '../../../components/modals/WeightRegisterModal/WeightRegisterModal.component';
 import { Weight } from '@models/types/Weight.type';
 import { TranslateService } from '@ngx-translate/core';
-import { ScrollDetail } from '@ionic/angular';
 
 
 @Component({

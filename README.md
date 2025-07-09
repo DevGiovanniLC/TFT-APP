@@ -42,7 +42,7 @@ Vita Weight es una aplicación de seguimiento y análisis de peso, orientada a t
 Permite al usuario registrar su peso diario, visualizar su historial de pesos, ver su índice de masa corporal, y obtener recomendaciones para lograr sus metas. 
 Con el objetivo de fomentar hábitos de vida saludables y sostenibles.
 <p align="center">
-  <a href="#"><img src="https://img.shields.io/badge/version-0.3.0-blue.svg" alt="version"/></a>
+  <a href="#"><img src="https://img.shields.io/badge/version-0.7.0-blue.svg" alt="version"/></a>
   <a href="#"><img src="https://img.shields.io/badge/build-passing-brightgreen.svg" alt="build"/></a>
 </p>
 
@@ -92,7 +92,7 @@ Con el objetivo de fomentar hábitos de vida saludables y sostenibles.
   
 ## Instalación
 
-Descargue la última versión de la aplicación para android desde la [página de descargas](https://github.com/DevGiovanniLC/TFT-APP/releases/tag/0.3.0)
+Descargue la última versión de la aplicación para android desde la [página de descargas](https://github.com/DevGiovanniLC/TFT-APP/releases/tag/0.7.0)
 
 <br>
 
